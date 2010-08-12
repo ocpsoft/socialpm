@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm"
+	xmlns:a="http://java.sun.com/jsf/composite/ajax">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+	<ui:param name="title" value="Home" />
+
+	<ui:define name="header-h2">
+		<h:outputText value="Welcome, #{loggedInUserBean.user.username}" />
+	</ui:define>
+
+	<ui:define name="content">
+		<ui:include src="homeTable.xhtml" />
+	</ui:define>
+	
+	<ui:define name="side-items">
+			<h:panelGroup rendered="#{loggedInUserBean.loggedIn and !empty homeBean.invitedProjects}">
+				<li>
+					<h3>Project Invitations</h3>
+					<div>
+						<h:form>
+							<ui:repeat value="#{homeBean.invitedProjects}" var="project">
+								<h:outputText
+									value="You have been invited to the project #{project.name}: " />
+								<h:commandLink immediate="true"
+									action="#{homeBean.doAcceptProjectInvite}">
+									<f:setPropertyActionListener value="#{project}"
+										target="#{homeBean.targetProject}" />
+									<h:outputText value="Accept" />
+								</h:commandLink>
+								<h:outputText value=" or " />
+								<h:commandLink immediate="true"
+									action="#{homeBean.doRejectProjectInvite}"
+									onclick="return confirm('Reject invite to project #{project.name}?')">
+									<f:setPropertyActionListener value="#{project}"
+										target="#{homeBean.targetProject}" />
+									<h:outputText value="Reject" />
+								</h:commandLink>
+								<br />
+							</ui:repeat>
+							<br />
+						</h:form>
+					</div>
+				</li>
+			</h:panelGroup>
+	</ui:define>
+
+	<ui:define name="side">
+	</ui:define>
+</ui:composition>
+</html>

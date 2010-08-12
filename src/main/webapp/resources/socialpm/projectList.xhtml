@@ -1,0 +1,90 @@
+<!--
+
+  This file is part of SocialPM: Agile Project Management Tools (SocialPM) 
+ 
+  Copyright (c)2010 Lincoln Baxter, III <lincoln@ocpsoft.com> (OcpSoft)
+  
+  If you are developing and distributing open source applications under 
+  the GPL Licence, then you are free to use SocialPM under the GPL 
+  License:
+ 
+  SocialPM is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  SocialPM is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with SocialPM.  If not, see <http://www.gnu.org/licenses/>.
+   
+  For OEMs, ISVs, and VARs who distribute SocialPM with their products, 
+  or host SocialPM online, OcpSoft provides flexible OEM commercial 
+  Licences:
+  
+  To purchase a License, contact OcpSoft (http://ocpsoft.com)
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+	<composite:attribute name="projects" required="true" type="Object" />
+	<composite:attribute name="forUser" required="false" type="Object" />
+</composite:interface>
+
+<composite:implementation>
+	<h:outputStylesheet name="socialpm/socialpm.css" />
+	<table width="100%">
+		<ui:repeat var="p" value="#{cc.attrs.projects}">
+			<tr>
+				<td align="left" >
+					<pretty:link mappingId="#{urlConstants.VIEW_PROJECT}">
+						<div class="p5 projectBlock box-bordered">
+							<strong><h:outputText value="#{p.name}" /></strong>
+							<h:outputText style="color: #222;" value=" - #{p.vision}" />
+							<br />
+							<i><h:outputText style="color: #222;" value="#{p.goals}" rendered="#{cc.attrs.showDetails != false}"/></i>
+						</div>
+						<f:param value="#{p.canonicalName}" />
+					</pretty:link>
+				</td>
+				<h:panelGroup rendered="#{cc.attrs.forUser == loggedInUserBean.user}">
+					<td align="center" width="150px"> 
+						<h:panelGroup layout="block" rendered="#{p.hasMember(cc.attrs.forUser)}" styleClass="p5 box-bordered">
+							Role: <span class="faded">#{p.getMembership(loggedInUserBean.user).role}</span>
+						</h:panelGroup>
+						<h:panelGroup layout="block" rendered="#{!p.hasMember(cc.attrs.forUser)}" styleClass="p5 box-bordered">
+							---
+						</h:panelGroup>
+					</td>
+					<td align="center">
+						<h:commandLink action="#{projectController.leaveProject(cc.attrs.forUser, p)}"
+						 	rendered="#{p.hasMember(cc.attrs.forUser)}"
+							onclick="return confirm('Really leave this project?');">
+							<div class="p5 projectBlock box-bordered">
+								Leave
+							</div>
+						</h:commandLink>
+						 <pretty:link mappingId="#{urlConstants.JOIN_PROJECT}" rendered="#{!p.hasMember(cc.attrs.forUser)}">
+							<f:param value="#{p.canonicalName}" />
+							<div class="p5 projectBlock box-bordered">
+								Join
+							</div>
+						</pretty:link>
+					</td>
+				</h:panelGroup>
+			</tr>
+		</ui:repeat>
+	</table>
+</composite:implementation>
+
+</html>

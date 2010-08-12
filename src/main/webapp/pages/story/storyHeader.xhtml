@@ -1,0 +1,29 @@
+<!DOCTYPE html
+      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
+
+<ui:composition>
+		<li> 
+			<h:form>
+				<h:panelGroup rendered="#{currentStoryBean.story.open and authorizationBean.isMember}">
+					<f:ajax execute="@this" render="@all">
+						<h:commandLink action="#{storyController.close(currentStoryBean.story)}">
+							<h:outputText value="Close" />
+						</h:commandLink>
+					</f:ajax>
+				</h:panelGroup>
+				<h:commandLink action="#{storyController.reopen(currentStoryBean.story)}"
+					rendered="#{!currentStoryBean.story.open and authorizationBean.isMember}">
+					<f:ajax execute="@this" render="@all"/>
+					<h:outputText value="Reopen" />
+				</h:commandLink>
+			</h:form>
+		</li>
+</ui:composition>
+</html>

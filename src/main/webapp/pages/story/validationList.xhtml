@@ -1,0 +1,38 @@
+<!DOCTYPE html
+      PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://java.sun.com/jsf/composite/ajax"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:spm="http://java.sun.com/jsf/composite/socialpm"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
+
+<ui:composition>
+	<h:form>
+		<div class="content box-bordered p5 w67" style="margin: 0 auto 0 auto; margin-bottom: 20px;">
+			<h:panelGroup display="block" styleClass="p5 fr" 
+				rendered="#{viewStoryBean.story.status ne 'CLOSED' and authorizationBean.isMember}">
+				<h:commandLink value="+ Add a validation" action="#{storyController.addValidation(currentStoryBean.story)}">
+					<f:ajax execute="@this" render="@form" />
+				</h:commandLink>
+			</h:panelGroup>
+			
+			<h4 class="p5">Validation</h4>
+			
+			<h:panelGroup rendered="#{empty currentStoryBean.story.validations}">
+				<div class="m5">This story has no validation criteria. That could be a problem later...</div>
+			</h:panelGroup>
+			
+			<ui:repeat var="v" value="#{currentStoryBean.story.validations}">
+				<spm:validationBlock story="#{currentStoryBean.story}" validation="#{v}" styleClass="m5t" >
+				</spm:validationBlock>
+			</ui:repeat>
+			
+		</div>	
+	</h:form>
+</ui:composition>
+</html>

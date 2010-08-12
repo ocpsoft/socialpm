@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:a="http://java.sun.com/jsf/composite/ajax"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+	<ui:param name="title"
+		value="#{currentProjectBean.project.name}: Story #{currentStoryBean.story.number}" />
+		
+	<ui:define name="header">
+		<h2>&#171; Story #{currentStoryBean.story.number}</h2>
+	</ui:define>
+	
+	<ui:define name="header-ul"> 
+		<ui:include src="storyHeader.xhtml" />
+	</ui:define>
+	
+	<ui:define name="content">
+		<h:outputStylesheet name="ocpcommon/ocpcommon.css" target="head" />  
+		
+		<ui:include src="description.xhtml" />
+		
+		<div class="box-shaded box-bordered" style="margin: 20px; padding: 20px 0 20px 0 ;">
+			<ui:include src="validationList.xhtml" />
+			<ui:include src="taskList.xhtml" />
+		</div>
+		<div class="clearing"></div>
+		
+		<ui:include src="comments.xhtml" />
+		
+	</ui:define>
+	
+
+	<ui:define name="side-items">
+		<ui:include src="storyDetails.xhtml">
+			<ui:param name="editable" value="#{viewStoryBean.story.status != 'CLOSED' and authorizationBean.isMember}" />
+		</ui:include>
+		
+	</ui:define>
+</ui:composition>
+</html>

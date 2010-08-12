@@ -1,0 +1,57 @@
+<!--
+
+  This file is part of SocialPM: Agile Project Management Tools (SocialPM) 
+ 
+  Copyright (c)2010 Lincoln Baxter, III <lincoln@ocpsoft.com> (OcpSoft)
+  
+  If you are developing and distributing open source applications under 
+  the GPL Licence, then you are free to use SocialPM under the GPL 
+  License:
+ 
+  SocialPM is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  SocialPM is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with SocialPM.  If not, see <http://www.gnu.org/licenses/>.
+   
+  For OEMs, ISVs, and VARs who distribute SocialPM with their products, 
+  or host SocialPM online, OcpSoft provides flexible OEM commercial 
+  Licences:
+  
+  To purchase a License, contact OcpSoft (http://ocpsoft.com)
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces" xml:lang="en" lang="en">
+<ui:composition>
+
+	<center>
+	<h4><pretty:link mappingId="#{urlConstants.BROWSE_PROJECTS}"
+		rendered="#{browseProjectsBean.currentPage gt 1}">
+		<f:param name="page" value="#{browseProjectsBean.currentPage - 1}" />
+			prev
+		</pretty:link> <ui:repeat value="#{browseProjectsBean.pages}" var="page">
+			... <pretty:link mappingId="#{urlConstants.BROWSE_PROJECTS}" rendered="#{browseProjectsBean.currentPage ne page}">
+			<f:param name="page" value="#{page}" />
+			#{page}
+		</pretty:link>
+		<h:outputText value="#{page}" rendered="#{browseProjectsBean.currentPage == page}" />
+	</ui:repeat> ... <pretty:link mappingId="#{urlConstants.BROWSE_PROJECTS}"
+		rendered="#{browseProjectsBean.currentPage lt browseProjectsBean.pages.size()}">
+		<f:param name="page" value="#{browseProjectsBean.currentPage + 1}" />
+			next
+		</pretty:link></h4>
+	</center>
+
+</ui:composition>
+</html>

@@ -1,0 +1,90 @@
+<!--
+
+  This file is part of SocialPM: Agile Project Management Tools (SocialPM) 
+ 
+  Copyright (c)2010 Lincoln Baxter, III <lincoln@ocpsoft.com> (OcpSoft)
+  
+  If you are developing and distributing open source applications under 
+  the GPL Licence, then you are free to use SocialPM under the GPL 
+  License:
+ 
+  SocialPM is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  SocialPM is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with SocialPM.  If not, see <http://www.gnu.org/licenses/>.
+   
+  For OEMs, ISVs, and VARs who distribute SocialPM with their products, 
+  or host SocialPM online, OcpSoft provides flexible OEM commercial 
+  Licences:
+  
+  To purchase a License, contact OcpSoft (http://ocpsoft.com)
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://java.sun.com/jsf/composite/ajax"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:spm="http://java.sun.com/jsf/composite/socialpm"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+	<composite:attribute name="styleClass" required="false" />
+	<composite:attribute name="story" required="true" type="Object"  />
+	<composite:attribute name="validation" required="true" type="Object" />
+	<composite:facet name="description" />
+</composite:interface>
+
+<composite:implementation>
+	<h:panelGroup id="criteriaList" layout="block" styleClass="p5l p5r box-bordered #{cc.attrs.styleClass}" style="background-color: #{cc.attrs.validation.accepted ? '#efefef' : '#eef'};">
+	<table width="100%">
+		<tbody>
+			<tr>
+				<td width="1%" align="left" style="border-right: solid 1px #ddd; padding-right: 5px;">
+					<h:commandLink id="acceptValidation" title="Not accepted" styleClass="m5t"
+					immediate="true" rendered="#{!cc.attrs.validation.accepted}" disabled="#{!authorizationBean.isMember || cc.attrs.story.status == 'CLOSED'}"
+					action="#{validationController.accept(cc.attrs.story, cc.attrs.validation)}">
+						<h:graphicImage height="15" width="15" library="images" name="stock/thumbs_down.gif" style="position: relative; top: 2px; right: 1px;" />
+						<f:ajax execute="@this" render="@form" />
+					</h:commandLink>
+					<h:commandLink id="rejectValidation" title="Accepted" styleClass="m5t"
+					immediate="true" rendered="#{cc.attrs.validation.accepted}" disabled="#{!authorizationBean.isMember || cc.attrs.story.status == 'CLOSED'}"
+					action="#{validationController.reject(cc.attrs.story, cc.attrs.validation)}">
+						<h:graphicImage height="15" width="15" library="images" name="stock/thumbs_up.gif" style="position: relative; top: 2px; right: 1px;" />
+						<f:ajax execute="@this" render="@form" />
+					</h:commandLink>
+				</td>
+				<td>
+					<a:editText value="${cc.attrs.validation.text}" rendered="#{!cc.attrs.validation.accepted and authorizationBean.isMember and cc.attrs.story.status != 'CLOSED'}">
+						<f:actionListener for="submit" action="#{validationController.saveValidationText(cc.attrs.story, cc.attrs.validation)}" />
+					</a:editText>
+					<h:outputText value="${cc.attrs.validation.text}" rendered="#{cc.attrs.validation.accepted || !authorizationBean.isMember || cc.attrs.story.status == 'CLOSED'}"/>
+				</td>
+				<td width="1%" align="right" style="border-left: solid 1px #ddd; padding-left: 5px;">
+					<h:commandLink id="removeValidation" title="remove" styleClass="m5t" 
+					rendered="#{!cc.attrs.validation.accepted and authorizationBean.isMember and cc.attrs.story.status != 'CLOSED'}"
+					immediate="true" onclick="return confirm('Really delete this validation?');"
+					action="#{storyController.removeValidation(cc.attrs.validation)}">
+						<h:graphicImage height="20" width="20"  library="images" name="stock/trashcan_full.png" />
+						<f:ajax execute="@this" render="@form" />
+					</h:commandLink> 
+					<h:panelGroup rendered="#{cc.attrs.validation.accepted}" style="color: #999;">
+						Accepted by: <spm:userLink user="#{cc.attrs.validation.acceptedBy}" />
+					</h:panelGroup>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</h:panelGroup>
+</composite:implementation>
+
+</html>

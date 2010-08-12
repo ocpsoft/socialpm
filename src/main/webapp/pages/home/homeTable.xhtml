@@ -1,0 +1,30 @@
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:spm="http://java.sun.com/jsf/composite/socialpm"
+	xmlns:a="http://java.sun.com/jsf/composite/ajax">
+
+<ui:composition>
+	<h:panelGroup layout="block" styleClass="box-bordered m5 p5" rendered="#{empty homeTasksBean.stories}">
+		You do not have any tasks - go find some!
+	</h:panelGroup>
+	<h:form id="myTasks">
+		<div>
+			<ui:repeat value="#{homeTasksBean.stories}" var="story">
+				<spm:storyBlock story="#{story}">
+					<ui:repeat value="#{story.tasks}" var="task">
+						<spm:taskBlock story="#{story}" task="#{task}" styleClass="m5t" 
+						rendered="#{task.status != 'DONE' and task.assignee != null and task.assignee == loggedInUserBean.user}" />
+					</ui:repeat>
+				</spm:storyBlock>
+			</ui:repeat>
+			<div class="clearing"></div>
+		</div>
+	</h:form>
+	<ocp:separator />
+
+</ui:composition>
+</html>

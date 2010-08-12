@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm"
+	xmlns:a="http://java.sun.com/jsf/composite/ajax">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+
+	<ui:param name="title" value="Start a new project" />
+
+	<ui:define name="header">
+		<h2>Create a Project</h2>
+
+		<ul>
+			<li><pretty:link mappingId="#{urlConstants.HOME}">
+					&#171; Go back to My Home
+				</pretty:link></li>
+		</ul>
+	</ui:define>
+
+	<ui:define name="content">
+		<h3></h3>
+		<br />
+		<h:form id="createprojectform">
+			<ocp:formFix />
+
+			<f:validateBean>
+				<div class="box-shaded">
+				<div class="box-bordered inside m5 p15">
+				
+					<h:panelGroup id="inputName" layout="block" class="fl">
+						<label for="name">Name:<ocp:message id="nameError" for="name" /> </label>
+						<br />
+						<h:inputText id="name" value="#{createProjectBean.project.name}"
+							required="true" tabindex="1">
+							<f:validator validatorId="projectNameAvailabilityValidator" />
+							<f:ajax execute="name" render="inputName canonicalName" />
+						</h:inputText>
+					</h:panelGroup>
+					
+					<h:panelGroup id="canonicalName" layout="block" class="fl faded m5l p5l">
+						<label for="canonicalName"> Permanent link: </label>
+						<br />
+						<pretty:urlbuffer mappingId="#{urlConstants.VIEW_PROJECT}" var="pn">
+							<f:param value="#{createProjectBean.project.canonicalName eq null ? '...' : createProjectBean.project.canonicalName}" />
+						</pretty:urlbuffer>
+						
+						<h:outputText style="position: relative; top: 3px;" value="#{request.scheme}://#{request.serverName}#{request.serverPort != 80 ? ':' : ''}#{request.serverPort != 80 ? request.localPort : ''}#{requestScope.pn}" />
+					</h:panelGroup>
+					
+					<div class="clearing"></div>
+				
+				</div>
+				</div>
+				
+
+				<div class="box-shaded m15t">
+				<div class="box-bordered inside m5 p15">
+					<label for="vision">Vision:<ocp:message for="vision" /> </label>
+					<br />
+					<h:inputText id="vision" value="#{createProjectBean.project.vision}"
+						required="false" tabindex="2" />
+	
+					<br />
+					<br />
+					<label for="goals">Goals:<ocp:message for="goals" /> </label>
+					<br />
+					<h:inputTextarea id="goals"
+						value="#{createProjectBean.project.goals}" rows="2" cols="50"
+						required="false" tabindex="3" />
+	
+					<br />
+					<br />
+					<label for="objectives">Objectives:<ocp:message
+						for="objectives" /> </label>
+					<br />
+					<h:inputTextarea id="objectives"
+						value="#{createProjectBean.project.objectives}" rows="2" cols="50"
+						required="false" tabindex="4" />
+				</div>
+				</div>
+			</f:validateBean>
+
+			<div class="box-shaded m15t">
+			<div class="box-bordered inside m5 p15">
+				<h:commandButton id="submit" action="#{createProjectBean.doCreate}"
+					value="Create" tabindex="5" />
+	
+				<h:commandButton id="cancel" styleClass="faded"
+					action="#{createProjectBean.doCancel}" value="Cancel"
+					immediate="true" tabindex="6">
+				</h:commandButton>
+			</div>
+			</div>
+			<br />
+		</h:form>
+		<script type="text/javascript">
+	$(document).ready(function() {
+		$('#createprojectform\\:name').focus();
+	});
+</script>
+	</ui:define>
+</ui:composition>
+</html>

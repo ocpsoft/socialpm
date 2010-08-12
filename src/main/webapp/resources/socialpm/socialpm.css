@@ -1,0 +1,59 @@
+.projectBlock {
+}
+
+.projectBlock:hover {
+	background-color: #ccefcc;
+}
+
+.storyCard {
+	background-color: #FFFFaa;
+}
+
+.storyBlock {
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	background-color: #FFFFaa;
+	display: block;
+	float: left;
+	font-size: .88em;
+	letter-spacing: .06em;
+	margin: 5px;
+	overflow: hidden;
+	text-decoration: none;
+	text-align: justify;
+	width: 275px;
+	padding: 3px;
+}
+
+.storyBlock a:hover {
+	background-color: #ccefcc;
+}
+
+.storyBlock_closed {
+	background-color: #ddd;
+}
+
+.taskBlock_NOT_STARTED {
+	background: #eef;
+}
+
+.taskBlock_IN_PROGRESS {
+	background: #eef;
+	background-image: url('#{request.contextPath}/images/stock/circle_blue_18.png');
+	background-repeat: no-repeat;
+	background-position: 99% 6%;
+}
+
+.taskBlock_IMPEDED {
+	background: #fee;
+	background-image: url('../../images/stock/circle_red_18.png');
+	background-repeat: no-repeat;
+	background-position: 99% 6%;
+}
+
+.taskBlock_DONE {
+	background: #efefef;
+	background-image: url('../../images/stock/circle_green_18.png');
+	background-repeat: no-repeat;
+	background-position: 99% 6%;
+}

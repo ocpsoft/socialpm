@@ -1,0 +1,81 @@
+<!--
+
+  This file is part of SocialPM: Agile Project Management Tools (SocialPM) 
+ 
+  Copyright (c)2010 Lincoln Baxter, III <lincoln@ocpsoft.com> (OcpSoft)
+  
+  If you are developing and distributing open source applications under 
+  the GPL Licence, then you are free to use SocialPM under the GPL 
+  License:
+ 
+  SocialPM is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  SocialPM is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with SocialPM.  If not, see <http://www.gnu.org/licenses/>.
+   
+  For OEMs, ISVs, and VARs who distribute SocialPM with their products, 
+  or host SocialPM online, OcpSoft provides flexible OEM commercial 
+  Licences:
+  
+  To purchase a License, contact OcpSoft (http://ocpsoft.com)
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:spm="http://java.sun.com/jsf/composite/socialpm">
+
+<composite:interface>
+	<composite:attribute name="story" required="true" type="Object" />
+	<composite:attribute name="comment" required="true" type="Object" />
+</composite:interface>
+
+<composite:implementation>
+
+<div class="m5t w67 center box-shaded">
+	<div class="m5">
+		<div class="fl" style="width: 15%">
+			<div style="font-weight: bold;">
+				<spm:userLink user="#{cc.attrs.comment.author}" /> said: <br/>
+			</div>
+		</div>
+		<div class="fl m5b" style="width: 64%; border-left: solid 1px #ddd; border-right: solid 1px #ddd; ">
+			<div class="m5l m5r" style="overflow: hidden;">
+				<h:outputText value="#{cc.attrs.comment.text}" escape="false">
+					<f:converter for="output" converterId="webLinkConverter"/>
+				</h:outputText>
+			</div>
+		</div>
+		<div class="fr" style="width: 20%; text-align: right">
+			<div class="fr">
+				<h:commandLink styleClass="block" title="Delete this comment" 
+				action="#{storyController.removeComment(cc.attrs.comment)}"
+				onclick="return confirm('Really delete this comment?');"
+				rendered="#{authorizationBean.isAdmin || cc.attrs.comment.author eq loggedInUserBean.user}">
+					<f:ajax execute="@this" render="@form" />
+					<h:graphicImage height="20" width="20"  url="/images/stock/trashcan_full.png" />
+				</h:commandLink>
+			</div>
+			<div class="fr p5r">
+				<h:outputText value="#{cc.attrs.comment.createdOn}">
+					<f:converter converterId="prettyTimeConverter" />
+				</h:outputText>
+			</div>
+		</div>
+	</div>
+</div>
+
+</composite:implementation>
+
+</html>

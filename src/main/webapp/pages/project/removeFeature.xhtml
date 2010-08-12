@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+
+	<ui:param name="title" value="{currentProjectBean.project.name} &#187; Remove Feature" />
+
+	<ui:define name="header">
+		<h2> &#171; Manage Features</h2>
+	</ui:define>
+
+	<ui:define name="side-items">
+		<li>
+			<h:form>
+				<h3>Rename It?</h3>
+				<div>
+					<h:outputText value="Would you like to rename this feature instead?" />
+					<ocp:separator />
+					<label for="name"><h:outputText value="New name:" /><ocp:message
+						for="name" /><br />
+					</label>
+					<h:inputText id="name" value="#{removeFeatureBean.newName}">
+						<f:validator binding="#{manageFeaturesBean.nameValidator}" />
+					</h:inputText>
+					<h:commandButton action="#{removeFeatureBean.rename}" value="Rename" />
+				</div>
+			</h:form>
+		</li>
+	</ui:define>
+
+	<ui:define name="content">
+		<h3>#{removeFeatureBean.oldFeature.name} - Select a feature to absorb the unrooted stories.</h3>
+		<h:form id="form">
+			<div class="box-bordered p5 m5">
+				<ocp:formFix />
+				<ul>
+					<ui:repeat value="#{removeFeatureBean.features}" var="feature">
+						<h:panelGroup rendered="#{feature != removeFeatureBean.oldFeature}">
+							<li><h:commandLink action="#{removeFeatureBean.reassign}"
+								value="#{feature.name}">
+								<f:param name="target" value="#{feature.name}" />
+							</h:commandLink></li>
+						</h:panelGroup>
+					</ui:repeat>
+				</ul>
+			</div>
+			<ocp:separator />
+			<h:commandButton action="#{removeFeatureBean.cancel}" value="Cancel" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

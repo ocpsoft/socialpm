@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:a="http://java.sun.com/jsf/composite/ajax"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm">
+
+<ui:composition>
+	<li>
+		<h3>Details</h3>
+
+		<div>
+			<h:form>
+				<h:panelGroup layout="block" rendered="${editable}" >
+					<table cellspacing="10">
+						<tbody>
+							<tr>
+								<td width="100" align="right"><label for="feature">Feature:</label>
+								</td>
+								<td><h:selectOneMenu style="width: 135px;"
+									id="feature" value="#{editStoryBean.feature}" tabindex="3" required="true">
+									<f:selectItems value="#{editStoryBean.features}" var="f" itemLabel="#{f.name}" itemValue="#{f.name}" />
+								</h:selectOneMenu></td>
+							</tr>
+							<tr>
+								<td align="right"><label for="status">Status:</label></td>
+								<td><h:outputText value="#{viewStoryBean.story.status.value}" /></td>
+							</tr>
+							<tr>
+								<td align="right"><label for="burner">Front Burner:</label></td>
+								<td><h:selectOneRadio
+									id="frontburner" tabindex="4" value="#{viewStoryBean.story.burner}">
+										<f:selectItems value="#{editStoryBean.burners}" />
+									</h:selectOneRadio></td>
+							</tr>
+							<tr>
+								<td align="right"><label for="storypoints">Story Points:</label></td>
+								<td>
+									<h:selectOneMenu id="storypoints" tabindex="5" value="#{editStoryBean.story.storyPoints}"
+										required="true" >
+										<f:selectItems value="#{editStoryBean.pointsOptions}" />
+									</h:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td align="right"><label for="businessvalue">Bus. Value:</label></td>
+								<td>
+									<h:selectOneMenu id="businessvalue" tabindex="6" value="#{editStoryBean.story.businessValue}" required="true">
+										<f:selectItems value="#{editStoryBean.pointsOptions}" />
+									</h:selectOneMenu>
+								</td>
+							</tr>
+							<tr>
+								<td align="right"><label for="priority">Priority:</label></td>
+								<td><h:outputText value="#{viewStoryBean.story.priority}" />
+								<pretty:link mappingId="#{urlConstants.BACKLOG}">
+									<f:param value="#{viewStoryBean.story.project.canonicalName}" />
+									<f:param name="number" value="#{viewStoryBean.story.number}" />
+																View Backlog to Edit
+								</pretty:link></td>
+							</tr>
+							<tr>
+								<td align="right"><label for="iteration">Iteration:</label></td>
+								<td><h:selectOneMenu autocomplete="off" style="width: 135px;"
+									id="iteration" value="#{currentStoryBean.story.iteration.id}" tabindex="7">
+									<f:selectItems var="i" itemLabel="#{i.title}" itemValue="#{i.id}"
+										value="#{currentProjectBean.project.iterations}"
+										itemDisabled="#{i.ended and currentStoryBean.story.iteration != i}" />
+								</h:selectOneMenu></td>
+							</tr>
+							<tr>
+								<td align="right"><label for="milestone">Milestone:</label></td>
+								<td>
+									<h:selectOneMenu id="milestone" value="#{currentStoryBean.story.milestone.id}"
+									 tabindex="8" autocomplete="off" style="width: 135px;">
+										<f:selectItem noSelectionOption="true" itemLabel="---" itemValue="-1"/>
+										<f:selectItems var="m" itemLabel="#{m.name}" itemValue="#{m.id}"
+											value="#{currentProjectBean.project.upcomingMilestones}" />
+								</h:selectOneMenu></td>
+							</tr>
+						</tbody>
+					</table>
+					
+					<ocp:separator />
+					
+					<div class="fr">
+						<h:commandButton id="submit" action="#{editStoryBean.doSave}" value="Save" tabindex="9">
+							<f:ajax execute="@form" />
+						</h:commandButton>
+						<h:commandButton id="reset" styleClass="faded" action="pretty:" value="Reset" immediate="true" tabindex="9" />
+					</div>
+				</h:panelGroup>
+			
+				<h:panelGroup layout="block" rendered="#{!editable}" >
+					<table cellspacing="10">
+						<tbody>
+							<tr>
+								<td width="100" align="right"><label for="feature">Feature:</label> </td>
+								<td><h:outputText value="#{viewStoryBean.story.feature.name}"/> </td>
+							</tr>
+							<tr>
+								<td align="right"><label for="status">Status:</label></td>
+								<td><h:outputText value="#{viewStoryBean.story.status.value}" /></td>
+							</tr>
+							<tr>
+								<td align="right"><label for="burner">Front Burner:</label></td>
+								<td><h:outputText value="#{viewStoryBean.story.burner}" /> </td>
+							</tr>
+							<tr>
+								<td align="right"><label for="storypoints">Story Points:</label></td>
+								<td><h:outputText value="#{viewStoryBean.story.storyPoints.value}"/></td>
+							</tr>
+							<tr>
+								<td align="right"><label for="storypoints">Bus. Value:</label></td>
+								<td><h:outputText value="#{viewStoryBean.story.businessValue.value}"/></td>
+							</tr>
+							<tr>
+								<td align="right"><label for="priority">Priority:</label></td>
+								<td><h:outputText value="#{viewStoryBean.story.priority}" /></td>
+							</tr>
+							<tr>
+								<td align="right"><label for="iteration">Iteration:</label></td>
+								<td><h:outputText value="#{viewStoryBean.story.iteration.title}"/></td>
+							</tr>
+							<tr>
+								<td align="right"><label for="iteration">Milestone:</label></td>
+								<td><h:outputText value="#{viewStoryBean.story.milestone.name}"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</h:panelGroup>
+			</h:form>
+			<div class="clearing"></div>
+		</div>
+	</li>
+</ui:composition>
+</html>

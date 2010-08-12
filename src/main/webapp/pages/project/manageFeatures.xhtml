@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+
+	<ui:param name="title"
+		value="#{currentProjectBean.project.name} &#187; Features" />
+
+	<ui:define name="header">
+		<h2>&#171; Manage Features</h2>
+	</ui:define>
+
+	<ui:define name="side-items">
+		<li>
+			<h:form id="addFeature">
+				<h3>Add a Feature</h3>
+				<div>
+					<label for="feature"><h:outputText value="Name:" /><ocp:message
+						for="feature" /> </label>
+					<br />
+					<h:inputText id="feature" value="#{manageFeaturesBean.name}"
+						required="true" tabindex="2">
+						<f:validator binding="#{manageFeaturesBean.nameValidator}" />
+					</h:inputText>
+					<h:commandButton id="submit" action="#{manageFeaturesBean.create}"
+						value="Add" tabindex="3" />
+				</div>
+				
+				<script type="text/javascript">
+					$(document).ready(function() {
+						$('#addFeature:feature').focus();
+					});
+				</script>
+			</h:form>		
+		</li>
+	</ui:define>
+
+	<ui:define name="content">
+	
+		<h:form id="managefeatureform">
+			<ocp:formFix />
+
+			<h:dataTable id="features" var="feature" width="100%"
+				value="#{manageFeaturesBean.features}" styleClass="tbl m5t"
+				rowClasses="odd, even">
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Feature" />
+					</f:facet>
+					<pretty:link mappingId="#{urlConstants.BACKLOG}">
+						<f:param value="#{currentProjectBean.project.name}" />
+						<f:param name="feature" value="${feature.name}" />
+						<h:outputText value="${feature.name}" />
+					</pretty:link>
+				</h:column>
+				<h:column width="20%">
+					<f:facet name="header">
+						<h:outputText value="Actions" />
+					</f:facet>
+					<h:commandLink immediate="true"
+						onclick="return confirm('Are you sure you want to remove feature ${feature.name} ?')"
+						rendered="${feature.name != 'Unclassified'}"
+						action="#{manageFeaturesBean.remove(feature)}" value="Remove" />
+				</h:column>
+				<h:panelGroup rendered="${feature.name == 'Unclassified'}">
+					&nbsp;
+				</h:panelGroup>
+			</h:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

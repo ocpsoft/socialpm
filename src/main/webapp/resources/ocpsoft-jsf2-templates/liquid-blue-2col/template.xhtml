@@ -1,0 +1,96 @@
+<f:view xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpsoft-jsf2-templates">
+	
+	<ui:remove>
+	<!-- 
+	  Copyright (c)2010 Lincoln Baxter, III <lincoln@ocpsoft.com>
+	  
+	  Licensed under the Apache License, Version 2.0 (the "License"); 
+	  you may not use this file except in compliance with the License. 
+	  You may obtain a copy of the License at 
+	  
+	  http://www.apache.org/licenses/LICENSE-2.0 
+	  
+	  Unless required by applicable law or agreed to in writing, software 
+	  distributed under the License is distributed on an "AS IS" BASIS, 
+	  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+	  See the License for the specific language governing permissions and 
+	  limitations under the License. 
+	-->
+	</ui:remove>
+
+	<h:outputText value='&lt;?xml version="1.0" encoding="UTF-8"?&gt;'
+		escape="false" />
+	<h:outputText
+		value='&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;'
+		escape="false" />
+
+	<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+	<h:head>
+		<title>${sitename}&#160;&#187;&#160;${title}</title>
+	
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Cache-Control" content="no-cache" />
+		<meta http-equiv="Cache-Control" content="must-revalidate" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="Expires" content="Mon, 1 Aug 1999 10:00:00 GMT" />
+
+
+		<h:outputScript name="scripts/jquery.min.js"
+			library="ocpsoft-jsf2-templates" />
+		<h:outputScript name="scripts/jquery.corners.min.js"
+			library="ocpsoft-jsf2-templates" />
+		<h:outputScript name="scripts/jquery.callout.min.js"
+			library="ocpsoft-jsf2-templates" />
+		<h:outputScript name="scripts/jquery.hoverIntent.min.js"
+			library="ocpsoft-jsf2-templates" />
+		<h:outputScript name="liquid-blue-2col/init.js"
+			library="ocpsoft-jsf2-templates" />
+		<h:outputStylesheet
+			name="ocpsoft-jsf2-templates/liquid-blue-2col/main.css" />
+
+		<ui:insert name="head"></ui:insert>
+	</h:head>
+
+	<h:body>
+		<table id="container" class="layout" width="100%">
+			<tr>
+				<td>
+				<div id="headerbar"><ui:insert name="menubar"></ui:insert></div>
+
+				<table id="content" width="100%">
+					<tr valign="top">
+						<td><div>
+							<div id="subheader">
+							<h2><ui:insert name="header-h2"></ui:insert></h2>
+							<ul>
+								<ui:insert name="header-ul">
+								</ui:insert>
+							</ul>
+							</div>
+							<div id="messages"><ui:insert name="messages"></ui:insert></div>
+							<div id="main"><ui:insert name="content"></ui:insert></div>
+							</div>
+						</td>
+						<td id="side" style="overflow: hidden;">
+							<ul>
+								<ui:insert name="side-ul"></ui:insert>
+							</ul>
+						</td>
+					</tr>
+				</table>
+
+				<div id="footer"><ui:insert name="footer"></ui:insert></div>
+				<ui:remove>
+					<ui:debug hotkey="D" rendered="#{facesContext.externalContext.getInitParameter('javax.faces.PROJECT_STAGE') == 'Development'}"/>
+				</ui:remove>
+				</td>
+			</tr>
+		</table>
+	</h:body>
+
+	</html>
+</f:view>

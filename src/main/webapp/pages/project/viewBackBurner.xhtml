@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm"
+	xmlns:a="http://java.sun.com/jsf/composite/ajax">
+
+	<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+
+		<ui:param name="title" value="#{currentProjectBean.project.name} &#187; Back-burner" />
+
+		<ui:define name="header">  <h2>&#171; Back Burner</h2> </ui:define>
+
+		<ui:define name="content">
+			<h3>View and move stories to the Front Burner</h3>
+			<div class="box-bordered m5t">
+				<h:outputStylesheet name="ocpcommon/ocpcommon.css" target="head" />
+				<h:form>
+					<h:dataTable id="stories" binding="#{backBurnerBean.storyTable}"
+						var="story" value="#{backBurnerBean.backShelfStories}" width="100%"
+						styleClass="tbl" rowClasses="odd, even">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Id" />
+							</f:facet>
+							<h:outputText value="#{story.number}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Priority" />
+							</f:facet>
+							<h:outputText value="#{story.priority}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Description" />
+							</f:facet>
+							<pretty:link mappingId="#{urlConstants.VIEW_STORY}">
+								<f:param value="#{backBurnerBean.project.name}" />
+								<f:param value="#{story.number}" />
+								<h:outputText value="#{story.description}" />
+							</pretty:link>
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Status" />
+							</f:facet>
+							<h:outputText value="#{story.status}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Feature" />
+							</f:facet>
+							<h:outputText value="#{story.feature.name}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Front Burner" />
+							</f:facet>
+	
+							<h:commandLink id="frontburner"
+								action="#{backBurnerBean.moveToFrontburner}"
+								title="Move Story #{story.number} to front burner">
+								<h:graphicImage height="15" width="15" url="/images/stock/add.gif" />
+							</h:commandLink>
+	
+						</h:column>
+					</h:dataTable>
+				</h:form>
+				</div>
+		</ui:define>
+</ui:composition>
+</html>

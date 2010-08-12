@@ -1,0 +1,113 @@
+<!--
+
+  This file is part of SocialPM: Agile Project Management Tools (SocialPM) 
+ 
+  Copyright (c)2010 Lincoln Baxter, III <lincoln@ocpsoft.com> (OcpSoft)
+  
+  If you are developing and distributing open source applications under 
+  the GPL Licence, then you are free to use SocialPM under the GPL 
+  License:
+ 
+  SocialPM is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  SocialPM is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with SocialPM.  If not, see <http://www.gnu.org/licenses/>.
+   
+  For OEMs, ISVs, and VARs who distribute SocialPM with their products, 
+  or host SocialPM online, OcpSoft provides flexible OEM commercial 
+  Licences:
+  
+  To purchase a License, contact OcpSoft (http://ocpsoft.com)
+
+-->
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:tmpl="http://java.sun.com/jsf/composite/ocpsoft-jsf2-templates/liquid-blue-2col"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition>
+		<h1><pretty:link style="color: white;" mappingId="#{urlConstants.HOME}">${sitename}</pretty:link></h1>
+		<ul class="fl">
+			<h:panelGroup rendered="#{loggedInUserBean.loggedIn}">
+				<li>
+					<tmpl:megaMenu>
+						<f:facet name="content">
+							<h:panelGroup rendered="#{empty loggedInUserBean.projects}">
+								<pretty:link mappingId="#{urlConstants.BROWSE_PROJECTS}">
+									<h:outputText value="Find Projects" />
+								</pretty:link>
+							</h:panelGroup> 
+							<h:panelGroup rendered="#{!empty loggedInUserBean.projects}">
+								<ui:repeat var="p" value="#{loggedInUserBean.projects}">
+									<pretty:link mappingId="#{urlConstants.VIEW_PROJECT}" styleClass="block p5">
+										<f:param value="${p.canonicalName}" />
+										<h:outputText value="${p.name}" />
+									</pretty:link>
+								</ui:repeat>
+							</h:panelGroup>
+						</f:facet>
+						<pretty:link mappingId="#{urlConstants.USER_PROJECTS}">
+							<h:outputText value="my projects" />
+						</pretty:link>
+					</tmpl:megaMenu>
+				</li>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{!empty currentProjectBean.exceptionSafeProject and authorizationBean.isMember}">
+				<li>
+					<pretty:link mappingId="#{urlConstants.CREATE_STORY}">
+						<f:param value="#{currentProjectBean.exceptionSafeProject.canonicalName}" />
+						<h:outputText value="add a story" />
+					</pretty:link>
+				</li>
+
+				<li>
+					<ui:include src="manageProjectMenu.xhtml" />
+				</li>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{empty currentProjectBean.exceptionSafeProject or !authorizationBean.isMember}">
+				<li>
+					<pretty:link mappingId="#{urlConstants.BROWSE_PROJECTS}">
+						<h:outputText value="browse" />
+					</pretty:link>
+				</li>
+			</h:panelGroup>
+		</ul>
+		
+		
+		<ul class="fr">
+			<h:panelGroup rendered="#{loggedInUserBean.loggedIn == 'false'}">
+				<li><pretty:link mappingId="#{urlConstants.REGISTER}">register</pretty:link></li>
+			</h:panelGroup>
+			<li><pretty:link mappingId="#{urlConstants.CREATE_PROJECT}">new project</pretty:link></li>
+			<h:panelGroup rendered="#{loggedInUserBean.loggedIn == 'false'}">
+				<li><pretty:link mappingId="#{urlConstants.LOGIN}">log in</pretty:link></li>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{loggedInUserBean.loggedIn == 'true'}">
+				<li>
+					<pretty:link mappingId="#{urlConstants.LOGOUT}">
+						log out [#{loggedInUserBean.user.username}]
+					</pretty:link> 
+				</li>
+				<li>
+					 	<pretty:link mappingId="#{urlConstants.USER_PROFILE}">
+							<f:param value="#{loggedInUserBean.user.username}" />
+							<h:outputText value="profile" />
+						</pretty:link>
+				</li>
+			</h:panelGroup>
+		</ul>
+</ui:composition>
+</html>

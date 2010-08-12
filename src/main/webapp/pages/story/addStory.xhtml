@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:spm="http://java.sun.com/jsf/composite/socialpm"
+	xmlns:a="http://java.sun.com/jsf/composite/ajax">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+
+	<ui:param name="title"
+		value="#{currentProjectBean.project.name} &#187; Add a Story" />
+
+	<ui:define name="header-h2">
+		#{currentProjectBean.project.name} &#187; Add a Story
+	</ui:define>
+
+	<ui:define name="side-items">
+		<li>
+		<h3>What is a Story?</h3>
+		<div>
+		<p>Think of a Story as a first person account of a customer's
+		wishes. Your customer is explaining what they want.</p>
+
+		<h5>A typical description:</h5>
+		<blockquote>As a [user] I want to [add a new story] so I
+		can [get some new functionality into the system].</blockquote>
+		<br />
+		<h5>A generic validation:</h5>
+		<blockquote>The user is able to enter a description,
+		validation criteria, and specify story details: (see story #24 for
+		specific details)</blockquote>
+		</div>
+		</li>
+	</ui:define>
+
+	<ui:define name="content">
+		<h:form id="createstoryform">
+			<f:validateBean>
+				<div class="m5b p5 box-bordered box-shaded">
+				<div class="fl" style="width: 50%">
+				
+					<label for="desc">Description:<ocp:message for="desc" /><br /> </label> 
+					<h:inputTextarea id="desc"
+						value="#{createStoryBean.story.description}" rows="4" style="width: 99%"
+						required="true" tabindex="1" />
+					
+				</div>
+
+				<h:panelGroup id="vcPanel" layout="block" class="fl m5l"
+					style="width: 45%">
+					<label for="desc">Validation Criteria:<ocp:message for="validationCriteria" /><br /> </label>
+					<h:inputTextarea id="validationCriteria"
+						value="#{createStoryBean.validation}" rows="4" required="false"
+						style="width: 99%" tabindex="2" />
+					<h:commandButton id="addValidation" tabindex="3"
+						action="#{createStoryBean.addValidation}"
+						value="Add Another Validation">
+						<f:ajax execute="vcPanel criteriaList"
+							render="vcPanel criteriaList" />
+					</h:commandButton>
+				</h:panelGroup>
+
+				<div class="clearing"></div>
+
+				<h:panelGroup layout="block" id="criteriaList" styleClass="p5 fl"
+					style="margin-left: 15px; margin-right: 15px;">
+					<h:panelGroup layout="block"
+						rendered="#{not empty createStoryBean.story.validations}">
+						<label>Validation Criteria: </label>
+						<span class="faded">Duplicates will be ignored...</span>
+						<ocp:separator />
+					</h:panelGroup>
+					<ui:repeat var="v" value="#{createStoryBean.story.validations}"
+						varStatus="row">
+						<div class="p5 m5 box-bordered fl"
+							style="background-color: #efe; width: 350px;"><input
+							type="hidden" name="savedValidation" value="${v.text}" />
+						<table>
+							<tbody>
+								<tr>
+									<td style="border-right: solid 1px #ddd; padding-right: 5px;"><h:commandLink
+										id="removeValidation" title="remove" styleClass="m5t"
+										immediate="true"
+										action="#{createStoryBean.removeValidation(v)}">
+										<h:graphicImage height="20" width="20"
+											library="images" name="stock/trashcan_full.png"
+											style="position: relative; top: 2px;" />
+										<f:ajax execute="@this @form" render="@form" />
+									</h:commandLink></td>
+									<td>
+										<h:outputText styleClass="m5l" value="#{v.text}" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						</div>
+					</ui:repeat>
+				</h:panelGroup></div>
+
+				<div class="clearing"></div>
+
+				<div class="m5b p5 box-bordered"><label for="feature">Feature:<ocp:message
+					for="feature" /><br />
+				</label> <h:selectOneMenu id="feature" value="#{createStoryBean.feature}"
+					tabindex="4" required="true">
+					<f:selectItems var="feature"
+						value="#{createStoryBean.project.features}"
+						itemLabel="${feature.name}" itemValue="${feature.name}" />
+				</h:selectOneMenu> <br />
+				<br />
+
+				<label for="iteration">Iteration:<ocp:message
+					for="iteration" /><br />
+				</label> <h:selectOneMenu id="iteration"
+					value="#{createStoryBean.iteration}" tabindex="5">
+					<f:selectItems var="iteration" itemLabel="#{iteration.title}"
+						itemValue="#{iteration.title}"
+						value="#{createStoryBean.iterations}" />
+				</h:selectOneMenu> <br />
+				<br />
+
+
+				<label for="points">Story Points:<ocp:message for="points" /><br />
+				</label> <h:selectOneMenu id="points" tabindex="6"
+					value="#{createStoryBean.story.storyPoints}" required="true">
+					<f:selectItems var="point" value="#{createStoryBean.sizeOptions}"
+						itemLabel="#{point}" itemValue="#{point}" />
+				</h:selectOneMenu> <br />
+				<br />
+
+				<label for="value">Business Value:<ocp:message for="value" /><br />
+				</label> <h:selectOneMenu id="value" tabindex="6"
+					value="#{createStoryBean.story.businessValue}" required="true">
+					<f:selectItems var="point" value="#{createStoryBean.sizeOptions}"
+						itemLabel="#{point}" itemValue="#{point}" />
+				</h:selectOneMenu> <br />
+				<br />
+
+				<label for="frontburner">Front Burner?<ocp:message
+					for="frontburner" /><br />
+				</label> <h:selectBooleanCheckbox id="frontburner" tabindex="7"
+					selected="true" value="#{createStoryBean.frontBurner}" /></div>
+			</f:validateBean>
+
+			<div class="m5b p5 box-bordered"><h:commandButton id="submit"
+				action="#{createStoryBean.doCreate}" value="create" tabindex="8" />
+			<h:commandButton id="cancel" styleClass="faded"
+				action="#{createStoryBean.doCancel}" value="Cancel" immediate="true"
+				tabindex="9" /></div>
+		</h:form>
+		<script type="text/javascript">
+	$(document).ready(function() {
+		$('#createstoryform\\:desc').focus();
+	});
+</script>
+	</ui:define>
+</ui:composition>
+</html>

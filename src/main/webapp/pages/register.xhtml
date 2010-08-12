@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"      
+   xmlns:s="http://jboss.org/seam/faces"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon">
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+
+	<ui:param name="title" value="Register" />
+
+	<ui:define name="header-h2">Register</ui:define>
+	<ui:define name="header-ul"></ui:define>
+
+	<ui:define name="side-ul">
+		<ui:include src="/WEB-INF/view/elements/content/howItWorks.xhtml" />
+	</ui:define>
+
+<ui:define name="content">
+
+	<h4>Select a username and password</h4>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {
+		$('#username').focus();
+	});
+	</script>
+	<h:form id="registerForm" prependId="false">
+
+		<h:panelGroup id="usernameError">
+			<label for="username"><h:outputText
+				value="Username: " /> <ocp:message
+				for="username" /><br />
+			</label>
+		</h:panelGroup>
+		<h:inputText id="username" value="#{registerBean.username}"
+			required="true">
+			<f:validator validatorId="usernameValidator" />
+			<f:validator validatorId="usernameAvailabilityValidator" />
+			<f:ajax execute="username" render="username usernameError" />
+		</h:inputText>
+		<br />
+		<br />
+	
+		<h:panelGroup id="emailError">
+			<label for="email"><h:outputText
+				value="Email: " /> <ocp:message for="email" /><br />
+			</label>
+		</h:panelGroup>
+		<h:inputText id="email" value="#{registerBean.email}" required="true">
+			<f:validator validatorId="emailValidator" />
+			<f:validator validatorId="emailAvailabilityValidator" />
+			<f:ajax execute="email" render="email emailError" />
+		</h:inputText>
+		<br />
+		<br />
+	
+		<h:panelGroup id="passwordError">
+			<label for="password"><h:outputText
+				value="Password: " /> <ocp:message
+				for="password" /><br />
+			</label>
+		</h:panelGroup>
+		<h:inputSecret id="password" value="#{registerBean.password}">
+			<f:ajax execute="@this" render="passwordError" />
+			<f:validator validatorId="passwordValidator" />
+		</h:inputSecret>
+		<br />
+		<br />
+	
+	
+		<h:panelGroup id="passwordConfirmError">
+			<label for="passwordConfirm"><h:outputText
+				value="Password again: " /><ocp:message
+				for="passwordConfirm" /><br />
+			</label>
+		</h:panelGroup>
+		<h:inputSecret id="passwordConfirm" 
+			value="#{registerBean.passwordConfirm}">
+			<f:ajax execute="password @this validatePasswords" render=":TPLmessages:TPLmessages passwordError passwordConfirmError" />
+		</h:inputSecret>
+		
+		<br />
+		<br />
+		<h:selectBooleanCheckbox id="legal" required="true"
+			value="#{registerBean.legal}">
+			<f:validator validatorId="checkboxRequiredValidator" />
+		</h:selectBooleanCheckbox>
+		<label for="legal">I am at least 13 years of age AND <pretty:link target="_blank" mappingId="terms">I agree to the Terms and Conditions</pretty:link>
+		</label>
+		<label><ocp:message id="legalError" for="legal" /></label>
+		<ocp:separator />
+	
+		<h:commandButton type="submit" id="submitRegister" action="#{registerBean.doRegister}"
+			value="Create my account" />
+			
+		<s:validateForm id="validatePasswords"  validatorId="passwordConfirm" fields="password1=password password2=passwordConfirm"/>
+	</h:form>
+		
+	</ui:define>
+
+</ui:composition>
+</html>
