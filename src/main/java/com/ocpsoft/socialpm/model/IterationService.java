@@ -39,12 +39,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import com.ocpsoft.data.PersistenceUtil;
+import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.model.project.DailyStatsChain;
-import com.ocpsoft.util.Dates;
+import com.ocpsoft.socialpm.util.Dates;
 
 @Stateful
 public class IterationService extends PersistenceUtil

@@ -56,8 +56,8 @@ import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.ocpsoft.data.PersistentObject;
-import com.ocpsoft.exceptions.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.Feature;
 import com.ocpsoft.socialpm.domain.project.Milestone;
 import com.ocpsoft.socialpm.domain.project.Points;

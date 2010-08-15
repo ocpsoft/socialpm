@@ -38,8 +38,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import com.ocpsoft.data.PersistenceUtil;
-import com.ocpsoft.exceptions.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Milestone;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.stories.Story;

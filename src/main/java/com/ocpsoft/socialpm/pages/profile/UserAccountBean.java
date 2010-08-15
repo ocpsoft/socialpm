@@ -37,17 +37,18 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.ocpsoft.socialpm.constants.UrlConstants;
+import org.jboss.seam.international.status.Messages;
+
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.domain.user.UserProfile;
-import com.ocpsoft.socialpm.pages.PageBean;
+import com.ocpsoft.socialpm.faces.validator.EmailAvailabilityValidator;
+import com.ocpsoft.socialpm.model.UserService;
 import com.ocpsoft.socialpm.security.LoggedIn;
-import com.ocpsoft.socialpm.security.LoggedInUserBean;
-import com.ocpsoft.socialpm.validator.EmailAvailabilityValidator;
+import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 @Named
 @RequestScoped
-public class UserAccountBean extends PageBean
+public class UserAccountBean
 {
    private static final long serialVersionUID = 884744038366427415L;
 
@@ -56,7 +57,10 @@ public class UserAccountBean extends PageBean
    private User user;
 
    @Inject
-   private LoggedInUserBean liub;
+   private Messages messages;
+
+   @Inject
+   private UserService us;
 
    private String oldPassword;
    private String newPassword;
@@ -70,14 +74,14 @@ public class UserAccountBean extends PageBean
       {
          us.updatePassword(user, oldPassword, newPassword);
       }
-      facesUtils.addInfoMessage("Your changes have been saved.");
+      messages.info("Your changes have been saved.");
 
-      return facesUtils.beautify(UrlConstants.USER_PROFILE);
+      return UrlConstants.USER_PROFILE;
    }
 
    public String cancel()
    {
-      return facesUtils.beautify(UrlConstants.USER_PROFILE);
+      return UrlConstants.USER_PROFILE;
    }
 
    public void validateNewEmail(final FacesContext context, final UIComponent component, final Object value) throws ValidatorException

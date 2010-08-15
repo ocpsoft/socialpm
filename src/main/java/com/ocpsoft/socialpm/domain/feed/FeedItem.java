@@ -36,23 +36,18 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
-import com.ocpsoft.data.PersistentObject;
+import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.user.User;
 
-@XmlRootElement
 @Entity
 @Table(name = "activity_feed")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING, length = 15)
 @DiscriminatorValue("basic")
-@NamedQueries( { @NamedQuery(name = "feedItem.byUser", query = "from FeedItem where user = ? order by createdOn"), @NamedQuery(name = "feedItem.byProject", query = "from FeedItem where project = ? order by createdOn") })
 public class FeedItem extends PersistentObject<FeedItem>
 {
    private static final long serialVersionUID = 7038341222060982180L;

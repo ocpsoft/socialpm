@@ -36,11 +36,6 @@
    <rewrite match=".*/" trailingSlash="remove"/>
 
 	<!-- Content Pages -->
-	<url-mapping id="terms">
-		<pattern value="/terms" />
-		<view-id> /faces/pages/terms.xhtml </view-id>
-	</url-mapping>
-
 	<!-- Admin Pages -->
 	<url-mapping id="admin">
 		<pattern value="/admin" />
@@ -59,61 +54,9 @@
 	<!-- End Exception Mappings -->
 
 
-	<url-mapping id="addStory">
-		<pattern value="/project/#{paramsBean.projectName}/newstory" />
-		<view-id> /faces/pages/story/addStory.xhtml </view-id>
-		<action>#{authorizationBean.assertProjectMember}</action>
-		<action onPostback="false">#{createStoryBean.load}</action>
-	</url-mapping>
-	<url-mapping id="backBurner">
-		<pattern value="/project/#{paramsBean.projectName}/backburner" />
-		<view-id> /faces/pages/project/viewBackBurner.xhtml </view-id>
-		<action>#{authorizationBean.assertProjectMember}</action>
-		<action>#{backBurnerBean.load}</action>
-	</url-mapping>
-	<url-mapping id="backlog">
-		<pattern value="/project/#{paramsBean.projectName}/backlog" />
-		<query-param name="number">#{backlogBean.storyNumber}</query-param>
-		<query-param name="desc">#{backlogBean.descriptionFilter}</query-param>
-		<query-param name="status">#{backlogBean.statusFilter}</query-param>
-		<query-param name="feature">#{backlogBean.featureFilter}</query-param>
-		<query-param name="iteration">#{backlogBean.iterationFilter}</query-param>
-		<query-param name="milestone">#{backlogBean.milestoneFilter}</query-param>
-		<query-param name="impeded">#{backlogBean.impededFilter}</query-param>
-		<view-id> /faces/pages/project/backlog.xhtml </view-id>
-		<action>#{authorizationBean.assertProjectMember}</action>
-		<action>#{backlogBean.load}</action>
-	</url-mapping>
-	<url-mapping id="browseProjects">
-		<pattern value="/browse" />
-		<query-param name="page">#{browseProjectsBean.currentPage}</query-param>
-		<view-id> /faces/pages/search/browseProjects.xhtml </view-id>
-		<action>#{browseProjectsBean.load}</action>
-	</url-mapping>
-	<url-mapping id="createProject">
-		<pattern value="/newproject" />
-		<view-id> /faces/pages/project/createProject.xhtml </view-id>
-        <action>#{authorizationBean.assertLoggedIn}</action>
-		<action>#{createProjectBean.load}</action>
-	</url-mapping>
-	<url-mapping id="editStory">
-		<pattern value="/project/#{paramsBean.projectName}/s#{paramsBean.storyNumber}/edit" />
-		<view-id> /faces/pages/story/viewStory.xhtml </view-id>
-		<action>#{authorizationBean.assertProjectMember}</action>
-		<action>#{viewStoryBean.load} </action>
-		<action>#{viewStoryBean.setEditable} </action>
-	</url-mapping>
 	<url-mapping id="home">
 		<pattern value="/" />
-		<view-id> #{homeBean.getView} </view-id>
-		<action>#{homeBean.load}</action>
-		<action>#{homeTasksBean.load}</action>
-	</url-mapping>
-	<url-mapping id="joinProject">
-		<pattern value="/project/#{paramsBean.projectName}/join" />
-		<view-id> /faces/pages/project/viewProject.xhtml </view-id>
-        <action>#{authorizationBean.assertLoggedIn}</action>
-		<action> #{currentProjectBean.requestMembership} </action>
+		<view-id> /faces/pages/home/loggedOffHome.xhtml </view-id>
 	</url-mapping>
 	<url-mapping id="login">
 		<pattern value="/login" />
@@ -124,42 +67,6 @@
 		<view-id> /faces/pages/login.xhtml </view-id>
         <action>#{loginBean.doLogout}</action>
 	</url-mapping>
-	<url-mapping id="manageFeatures">
-		<pattern value="/project/#{paramsBean.projectName}/features" />
-		<view-id> /faces/pages/project/manageFeatures.xhtml </view-id>
-		<action>#{authorizationBean.assertProjectMember}</action>
-		<action>#{manageFeaturesBean.load}</action>
-	</url-mapping>
-	<url-mapping id="manageIterations">
-		<pattern value="/project/#{paramsBean.projectName}/iterations" />
-		<query-param name="iteration">#{paramsBean.id}</query-param>
-		<view-id> /faces/pages/project/manageIterations.xhtml </view-id>
-		<action>#{authorizationBean.assertProjectMember}</action>
-		<action>#{manageIterationsBean.load}</action>
-	</url-mapping>
-	<url-mapping id="manageMilestones">
-		<pattern value="/project/#{paramsBean.projectName}/milestones" />
-		<view-id> /faces/pages/project/manageMilestones.xhtml </view-id>
-		<action>#{authorizationBean.assertProjectMember}</action>
-	</url-mapping>
-	<url-mapping id="manageUsers">
-		<pattern value="/project/#{paramsBean.projectName}/users" />
-		<view-id> /faces/pages/project/manageUsers.xhtml </view-id>
-		<action>#{authorizationBean.assertProjectMember}</action>
-		<action>#{manageUsersBean.load}</action>
-	</url-mapping>
-	<url-mapping id="recover">
-		<pattern value="/recover" />
-		<view-id> /faces/pages/recover.xhtml </view-id>
-	</url-mapping>
-	<url-mapping id="removeFeature">
-		<pattern value="/project/#{paramsBean.projectName}/features/remove" />
-		<query-param name="f">#{paramsBean.feature}</query-param>
-		<query-param name="target">#{removeFeatureBean.newName}</query-param>
-		<view-id> /faces/pages/project/removeFeature.xhtml </view-id>
-		<action>#{authorizationBean.assertProjectMember}</action>
-		<action>#{removeFeatureBean.load}</action>
-	</url-mapping>
 	<url-mapping id="register">
 		<pattern value="/register" />
 		<view-id> /faces/pages/register.xhtml </view-id>
@@ -167,43 +74,9 @@
 	<url-mapping id="userAccount">
 		<pattern value="/account" />
 		<view-id> /faces/pages/profile/userAccount.xhtml </view-id>
-        <action>#{authorizationBean.assertLoggedIn}</action>
 	</url-mapping>
 	<url-mapping id="userProfile">
 		<pattern value="/users/#{paramsBean.userName}" />
 		<view-id> /faces/pages/profile/userProfile.xhtml </view-id>
-		<action>#{userProfileBean.load}</action>
-	</url-mapping>
-	<url-mapping id="userProjects">
-		<pattern value="/myprojects" />
-		<view-id> /faces/pages/profile/userProjects.xhtml </view-id>
-        <action>#{authorizationBean.assertLoggedIn}</action>
-	</url-mapping>
-	<url-mapping id="verify">
-		<pattern value="/verify/#{accountVerifyBean.code}" />
-		<view-id> /faces/pages/register.xhtml </view-id>
-		<action>#{accountVerifyBean.processVerification}</action>
-	</url-mapping>
-	<url-mapping id="viewIteration">
-		<pattern value="/project/#{paramsBean.projectName}/iterations/#{paramsBean.iterationName}" />
-		<view-id>/faces/pages/project/viewProject.xhtml</view-id>
-		<action>#{authorizationBean.assertProjectMember}</action>
-		<action>#{viewProjectBean.load}</action>
-	</url-mapping>
-	<url-mapping id="viewProject">
-		<pattern value="/project/#{paramsBean.projectName}" />
-		<view-id>/faces/pages/project/viewProject.xhtml</view-id>
-		<action>#{viewProjectBean.load}</action>
-	</url-mapping>
-	<url-mapping id="viewStory">
-		<pattern value="/project/#{paramsBean.projectName}/story-#{paramsBean.storyNumber}" />
-		<view-id> /faces/pages/story/viewStory.xhtml </view-id>
-		<action>#{viewStoryBean.load} </action>
-	</url-mapping>
-	<url-mapping id="viewStoryHistory">
-		<pattern value="/project/#{paramsBean.projectName}/story-#{paramsBean.storyNumber}/history" />
-		<view-id> /faces/pages/story/viewStoryHistory.xhtml </view-id>
-        <action>#{authorizationBean.assertLoggedIn}</action>
-		<action>#{viewStoryBean.load} </action>
 	</url-mapping>
 </pretty-config>

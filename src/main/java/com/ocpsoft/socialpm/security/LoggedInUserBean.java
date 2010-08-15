@@ -32,14 +32,11 @@ package com.ocpsoft.socialpm.security;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Default;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
@@ -47,30 +44,34 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
-import com.ocpsoft.exceptions.NoSuchObjectException;
+import org.jboss.seam.international.status.Messages;
+
 import com.ocpsoft.pretty.PrettyContext;
-import com.ocpsoft.socialpm.constants.UrlConstants;
-import com.ocpsoft.socialpm.domain.project.Project;
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.domain.user.UserPasswordMatchTester;
 import com.ocpsoft.socialpm.domain.user.UserProfile;
-import com.ocpsoft.socialpm.pages.params.PageAware;
+import com.ocpsoft.socialpm.model.UserService;
 import com.ocpsoft.socialpm.security.events.LoginEvent;
 import com.ocpsoft.socialpm.security.events.LoginFailedEvent;
 import com.ocpsoft.socialpm.security.events.LoginRedirectPage;
 import com.ocpsoft.socialpm.security.events.LoginSuccessfulEvent;
 import com.ocpsoft.socialpm.security.events.LogoutEvent;
+import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 @Named
 @RequestScoped
-public class LoggedInUserBean extends PageAware implements Serializable
+public class LoggedInUserBean implements Serializable
 {
    private static final long serialVersionUID = -1373930544088844699L;
 
    private static final String GUEST_USERNAME = "guest";
-   private List<Project> projects;
-   private List<Project> invitedProjects;
    private UserProfile profile;
+
+   @Inject
+   private UserService us;
+   @Inject
+   private Messages messages;
 
    @Inject
    private Event<LoginFailedEvent> loginFailed;
@@ -102,8 +103,6 @@ public class LoggedInUserBean extends PageAware implements Serializable
          catch (NoSuchObjectException e)
          {
             messages.error("Database not initialized.");
-            navHandler.handleNavigation(FacesContext.getCurrentInstance(), PrettyContext.getCurrentInstance()
-                     .getCurrentViewId(), facesUtils.beautify(UrlConstants.ADMIN));
          }
       }
    }
@@ -113,8 +112,7 @@ public class LoggedInUserBean extends PageAware implements Serializable
       if (event.isRedirect())
       {
          PrettyContext prettyContext = PrettyContext.getCurrentInstance();
-         redirect.setPage(prettyContext.getContextPath() + prettyContext.getRequestURL() + ""
-                  + prettyContext.getRequestQueryString());
+         redirect.setPage(prettyContext.getContextPath() + prettyContext.getRequestURL() + "" + prettyContext.getRequestQueryString());
       }
       try
       {
@@ -141,8 +139,7 @@ public class LoggedInUserBean extends PageAware implements Serializable
    {
       messages.error("Sorry to bug you, but the username or password was incorrect; would you try again?");
       FacesContext context = FacesContext.getCurrentInstance();
-      navHandler.handleNavigation(context, PrettyContext.getCurrentInstance().getCurrentViewId(),
-               facesUtils.beautify(UrlConstants.LOGIN));
+      navHandler.handleNavigation(context, PrettyContext.getCurrentInstance().getCurrentViewId(), UrlConstants.LOGIN);
    }
 
    public void loginSucceeded(@Observes final LoginSuccessfulEvent event)
@@ -163,8 +160,7 @@ public class LoggedInUserBean extends PageAware implements Serializable
       }
       else
       {
-         navHandler.handleNavigation(context, PrettyContext.getCurrentInstance().getCurrentViewId(),
-                  facesUtils.beautify(UrlConstants.HOME));
+         navHandler.handleNavigation(context, PrettyContext.getCurrentInstance().getCurrentViewId(), UrlConstants.HOME);
       }
    }
 
@@ -173,49 +169,7 @@ public class LoggedInUserBean extends PageAware implements Serializable
       FacesContext context = FacesContext.getCurrentInstance();
       setUser(null);
       ((HttpSession) context.getExternalContext().getSession(true)).invalidate();
-      navHandler.handleNavigation(context, PrettyContext.getCurrentInstance().getCurrentViewId(),
-               facesUtils.beautify(UrlConstants.HOME));
-   }
-
-   @Produces
-   @Default
-   @LoggedIn
-   public List<Project> getProjects()
-   {
-      if ((projects == null))
-      {
-         projects = new ArrayList<Project>();
-         invitedProjects = new ArrayList<Project>();
-         if (isLoggedIn())
-         {
-            List<Project> projectList = us.getUserProjects(getLoggedInUser().getId());
-            for (Project project : projectList)
-            {
-               if (project.getMembership(getLoggedInUser()).isActive())
-               {
-                  projects.add(project);
-               }
-               if (project.getMembership(getLoggedInUser()).isInvited())
-               {
-                  invitedProjects.add(project);
-               }
-            }
-         }
-         else
-         {
-            projects = new ArrayList<Project>();
-         }
-      }
-      return projects;
-   }
-
-   @Produces
-   @LoggedIn
-   @Pending
-   public List<Project> getInvitedProjects()
-   {
-      getProjects();
-      return invitedProjects;
+      navHandler.handleNavigation(context, PrettyContext.getCurrentInstance().getCurrentViewId(), UrlConstants.HOME);
    }
 
    public boolean isLoggedIn()

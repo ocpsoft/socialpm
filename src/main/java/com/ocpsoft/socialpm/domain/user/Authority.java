@@ -31,104 +31,55 @@
 package com.ocpsoft.socialpm.domain.user;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
-import org.hibernate.annotations.NaturalId;
 
-import com.ocpsoft.data.PersistentObject;
-import com.ocpsoft.util.Strings;
+import com.ocpsoft.socialpm.domain.PersistentObject;
 
 @Entity
 @Table(name = "authorities")
-@NamedQueries( { @NamedQuery(name = "authority.byUserId", query = "from Authority a where a.user.id = ?") })
-public class Authority extends PersistentObject<Authority> implements Comparable<Authority>
+@DiscriminatorValue("basic")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING, length = 32)
+public class Authority extends PersistentObject<Authority>
 {
-   private static final String DELIM = "_";
-
    private static final long serialVersionUID = 5317479113915801691L;
 
-   @Index(name = "authUserIndex1")
-   @NaturalId
-   @ManyToOne
-   @JoinColumn(nullable = false, updatable = false)
-   private User user;
-
    @Index(name = "authAuthIndex1")
-   @NaturalId
-   @Column(nullable = false, updatable = false, length = 64)
-   private String authority;
+   @Column(updatable = false, length = 64)
+   private String key;
 
    public Authority()
    {
    }
 
-   public Authority(final String authority)
+   public Authority(String key)
    {
-      this.authority = authority;
+      this.key = key;
    }
 
-   /**
-    * Create a new Authority named from a set of strings -- does not assign a
-    * User. E.g.: strings of "foo", "bar" would return an authority named
-    * "foo_bar"
-    * 
-    * @param strings
-    * @return
-    */
-   private static Authority fromStrings(final String... strings)
+   public String getAuthority()
    {
-      return new Authority(Strings.join(DELIM, strings));
+      return key;
    }
 
-   public static Authority fromRole(final Role role)
+   public void setAuthority(final String authority)
    {
-      return fromStrings("ROLE", role.toString());
-   }
-
-   public static Authority fromRole(final User user, final Role role)
-   {
-      Authority auth = fromStrings("ROLE", role.toString());
-      auth.setUser(user);
-      return auth;
-   }
-
-   /**
-    * Disassemble an Authority name into its set of delimited strings. See
-    * inverse {@link Authority.fromStrings}
-    * 
-    * @param authority
-    * @return
-    */
-   public static String[] toStrings(final Authority authority)
-   {
-      return authority.getAuthority().split(DELIM);
-   }
-
-   @Override
-   public int compareTo(final Authority rhs)
-   {
-      if (authority instanceof String)
-      {
-         return authority.compareTo(rhs.getAuthority());
-      }
-      else if (!(rhs.getAuthority() instanceof String))
-      {
-         return 0;
-      }
-      return -1;
+      this.key = authority;
    }
 
    @Override
    public int hashCode()
    {
       final int prime = 31;
-      int result = prime * (authority == null ? 0 : authority.hashCode());
+      int result = prime * (key == null ? 0 : key.hashCode());
       return result;
    }
 
@@ -144,50 +95,17 @@ public class Authority extends PersistentObject<Authority> implements Comparable
          return false;
       }
       Authority other = (Authority) obj;
-      if (authority == null)
+      if (key == null)
       {
-         if (other.authority != null)
+         if (other.key != null)
          {
             return false;
          }
       }
-      else if (!authority.equals(other.authority))
-      {
-         return false;
-      }
-      if (user == null)
-      {
-         if (other.user != null)
-         {
-            return false;
-         }
-      }
-      else if (!user.equals(other.user))
+      else if (!key.equals(other.key))
       {
          return false;
       }
       return true;
-   }
-
-   public User getUser()
-   {
-      return user;
-   }
-
-   public Authority setUser(final User user)
-   {
-      this.user = user;
-      return this;
-   }
-
-   public String getAuthority()
-   {
-      return authority;
-   }
-
-   public Authority setAuthority(final String authority)
-   {
-      this.authority = authority;
-      return this;
    }
 }

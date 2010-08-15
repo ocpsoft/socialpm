@@ -43,7 +43,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Index;
 
-import com.ocpsoft.data.PersistentObject;
+import com.ocpsoft.socialpm.domain.PersistentObject;
 
 @Entity
 @Table(name = "iteration_statistics", uniqueConstraints = { @UniqueConstraint(columnNames = { "iteration_id", "date" }) })

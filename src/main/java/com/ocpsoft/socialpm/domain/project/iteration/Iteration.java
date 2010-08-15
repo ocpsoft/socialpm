@@ -51,13 +51,13 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Formula;
 
-import com.ocpsoft.data.PersistentObject;
-import com.ocpsoft.exceptions.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.StoryBurner;
 import com.ocpsoft.socialpm.model.project.StatsCalculator;
-import com.ocpsoft.util.Dates;
+import com.ocpsoft.socialpm.util.Dates;
 
 @Entity
 @Table(name = "iterations")

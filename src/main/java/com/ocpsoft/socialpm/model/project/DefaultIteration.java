@@ -30,10 +30,10 @@
 
 package com.ocpsoft.socialpm.model.project;
 
-import com.ocpsoft.exceptions.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.iteration.IterationStatistics;
-import com.ocpsoft.util.Dates;
+import com.ocpsoft.socialpm.util.Dates;
 
 public class DefaultIteration implements DailyStatsUpdater
 {

@@ -51,9 +51,9 @@ import org.hibernate.annotations.Index;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.ocpsoft.data.PersistentObject;
+import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.user.User;
-import com.ocpsoft.util.Dates;
+import com.ocpsoft.socialpm.util.Dates;
 
 @Entity
 @Table(name = "tasks")

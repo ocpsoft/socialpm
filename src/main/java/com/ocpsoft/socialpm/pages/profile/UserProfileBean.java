@@ -30,42 +30,52 @@
 
 package com.ocpsoft.socialpm.pages.profile;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.ocpsoft.exceptions.NoSuchObjectException;
-import com.ocpsoft.socialpm.constants.ApplicationConfig;
-import com.ocpsoft.socialpm.constants.UrlConstants;
+import org.jboss.seam.international.status.Messages;
+
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.user.User;
-import com.ocpsoft.socialpm.pages.PageBean;
+import com.ocpsoft.socialpm.model.UserService;
+import com.ocpsoft.socialpm.pages.params.Current;
 import com.ocpsoft.socialpm.security.LoggedIn;
+import com.ocpsoft.socialpm.web.constants.ApplicationConfig;
+import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 @Named
 @RequestScoped
-public class UserProfileBean extends PageBean
+public class UserProfileBean
 {
    private static final long serialVersionUID = 884744038366427415L;
+
+   @Inject
+   @Current
+   private User user;
 
    @Inject
    @LoggedIn
    private User loggedInUser;
 
    @Inject
-   private User user;
+   private UserService us;
+
+   @Inject
+   private Messages messages;
 
    private boolean editMode = false;
 
+   @PostConstruct
    public String load()
    {
       try
       {
-         if (ApplicationConfig.GUEST_ACCOUNT_NAME.equals(params.getUserName()))
+         if (ApplicationConfig.GUEST_ACCOUNT_NAME.equals(user.getUsername()))
          {
             throw new NoSuchObjectException();
          }
-
-         user = currentUserBean.getUser();
 
          if (user.equals(loggedInUser))
          {
@@ -75,7 +85,7 @@ public class UserProfileBean extends PageBean
       catch (NoSuchObjectException e)
       {
          // TODO this needs to redirect to the invite users screen
-         facesUtils.addWarningMessage("That user does not exist.");
+         messages.warn("That user does not exist.");
       }
       return null;
 
@@ -84,8 +94,8 @@ public class UserProfileBean extends PageBean
    public String save()
    {
       us.save(user);
-      facesUtils.addInfoMessage("Your changes have been saved.");
-      return facesUtils.beautify(UrlConstants.REFRESH);
+      messages.info("Your changes have been saved.");
+      return UrlConstants.REFRESH;
    }
 
    public boolean isEditMode()

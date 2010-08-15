@@ -41,13 +41,14 @@ import org.jboss.seam.faces.event.qualifier.Before;
 import org.jboss.seam.faces.event.qualifier.RestoreView;
 import org.jboss.seam.international.status.Messages;
 
-import com.ocpsoft.exceptions.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.user.Authority;
 import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.auth.Role;
 import com.ocpsoft.socialpm.model.ProjectService;
 import com.ocpsoft.socialpm.model.UserService;
-import com.ocpsoft.socialpm.security.Role;
+import com.ocpsoft.socialpm.web.constants.ApplicationConfig;
 
 @Named
 @Stateful
@@ -101,20 +102,18 @@ public class AdminBean
       if (!isDatabaseInitialized())
       {
          User guest = new User();
-         guest.setUsername("guest");
+         guest.setUsername(ApplicationConfig.GUEST_ACCOUNT_NAME);
          guest.setPassword("#io349(&$$@");
-         guest.setEmail("guest@ocpsoft.com");
-         guest = us.registerUser(guest);
+         guest.setEmail(ApplicationConfig.GUEST_ACCOUNT_NAME + "@ocpsoft.com");
+         us.registerUser(guest);
          us.addAuthority(guest, new Authority(Role.GUEST.value()));
-         us.enableUser(guest);
 
          User lb = new User();
          lb.setUsername("lincoln");
          lb.setPassword("lincoln");
          lb.setEmail("lincoln@ocpsoft.com");
-         lb = us.registerUser(lb);
+         us.registerUser(lb);
          us.addAuthority(lb, new Authority(Role.ADMIN.value()));
-         us.enableUser(lb);
 
          Project project = new Project();
          project.setName("Demo Project");
@@ -134,9 +133,8 @@ public class AdminBean
          user.setEmail("demo@ocpsoft.com");
          user.setUsername("demo");
          user.setPassword("demo");
-         user = us.registerUser(user);
+         us.registerUser(user);
          us.addAuthority(user, new Authority(Role.MEMBER.value()));
-         us.enableUser(user);
          messages.info("Database Successfully Initialized.");
       }
    }

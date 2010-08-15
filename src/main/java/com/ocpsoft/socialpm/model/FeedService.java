@@ -37,7 +37,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
-import com.ocpsoft.data.PersistenceUtil;
+import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.feed.FeedItem;
 
 @Stateful

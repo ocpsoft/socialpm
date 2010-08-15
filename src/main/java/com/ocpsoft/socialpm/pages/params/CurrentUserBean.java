@@ -30,25 +30,29 @@
 
 package com.ocpsoft.socialpm.pages.params;
 
-import java.util.List;
-
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.model.UserService;
 
 @Named
 @Stateful
 @ConversationScoped
-public class CurrentUserBean extends PageAware
+public class CurrentUserBean
 {
    private static final long serialVersionUID = 1435319852707529833L;
 
    private User user;
-   private List<Project> projects;
+
+   @Inject
+   private ParamsBean params;
+
+   @Inject
+   private UserService us;
 
    @Produces
    @Current
@@ -59,16 +63,5 @@ public class CurrentUserBean extends PageAware
          user = us.getUserByName(params.getUserName());
       }
       return user;
-   }
-
-   @Produces
-   @Current
-   public List<Project> getProjects()
-   {
-      if ((projects == null) && (params.getUserName() != null))
-      {
-         projects = us.getUserProjects(user.getId());
-      }
-      return projects;
    }
 }

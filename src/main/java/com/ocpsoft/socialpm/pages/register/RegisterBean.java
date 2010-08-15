@@ -41,13 +41,13 @@ import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.socialpm.domain.user.Authority;
 import com.ocpsoft.socialpm.domain.user.User;
-import com.ocpsoft.socialpm.pages.PageBean;
-import com.ocpsoft.socialpm.security.Role;
+import com.ocpsoft.socialpm.domain.user.auth.Role;
+import com.ocpsoft.socialpm.model.UserService;
 import com.ocpsoft.socialpm.security.events.LoginEvent;
 
 @Named
 @RequestScoped
-public class RegisterBean extends PageBean
+public class RegisterBean
 {
    private static final long serialVersionUID = 7676741843727916104L;
 
@@ -61,6 +61,9 @@ public class RegisterBean extends PageBean
    private Messages messages;
 
    @Inject
+   private UserService us;
+
+   @Inject
    private Event<LoginEvent> event;
 
    public void doRegister() throws IOException
@@ -69,9 +72,10 @@ public class RegisterBean extends PageBean
       u.setUsername(username);
       u.setPassword(password);
       u.setEmail(email);
-      u = us.registerUser(u);
+      String registrationKey = us.registerUser(u);
       us.addAuthority(u, new Authority(Role.MEMBER.value()));
-      us.enableUser(u);
+      us.verifyUser(registrationKey);
+      us.enableAccount(u, password);
       messages.info("Thank you for registering! Please enjoy!");
 
       LoginEvent login = new LoginEvent();

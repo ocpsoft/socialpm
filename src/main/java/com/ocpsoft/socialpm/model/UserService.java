@@ -34,23 +34,24 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateful;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.Query;
 
-import com.ocpsoft.data.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
+import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.user.Authority;
-import com.ocpsoft.socialpm.domain.user.Role;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.domain.user.UserPasswordMatchTester;
 import com.ocpsoft.socialpm.domain.user.UserProfile;
 import com.ocpsoft.socialpm.domain.user.UserSetCredentialsVisitor;
-import com.ocpsoft.util.Assert;
-import com.ocpsoft.util.StringValidations;
+import com.ocpsoft.socialpm.domain.user.auth.Role;
+import com.ocpsoft.socialpm.domain.user.auth.UserEnabled;
+import com.ocpsoft.socialpm.domain.user.auth.UserRole;
+import com.ocpsoft.socialpm.domain.user.auth.UserVerified;
+import com.ocpsoft.socialpm.util.Assert;
+import com.ocpsoft.socialpm.util.RandomGenerator;
+import com.ocpsoft.socialpm.util.StringValidations;
 
 @Stateful
 public class UserService extends PersistenceUtil implements Serializable
@@ -58,23 +59,22 @@ public class UserService extends PersistenceUtil implements Serializable
    private static final long serialVersionUID = 2988513095024795683L;
 
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
-   private EntityManager entityManager;
+   private EntityManager em;
 
    @Override
    protected EntityManager getEntityManager()
    {
-      return entityManager;
+      return em;
    }
-
-   @Inject
-   private UserPasswordMatchTester passwordTester;
-
-   @Inject
-   private UserSetCredentialsVisitor credentialsVisitor;
 
    public List<User> getUsers(final int limit, final int offset)
    {
       return findAll(User.class);
+   }
+
+   public void save(User user)
+   {
+      super.save(user);
    }
 
    public User getUserById(final long id)
@@ -92,92 +92,75 @@ public class UserService extends PersistenceUtil implements Serializable
       return findUniqueByNamedQuery("user.byEmail", email);
    }
 
-   public List<Project> getUserProjects(final long id)
+   /**
+    * Take a user object with populated username and plaintext password.
+    * Register that user, and return the pending registration key with which the
+    * user must be verified.
+    */
+   public String registerUser(final User user)
    {
-      return findByNamedQuery("membership.projectsByUserId", id);
-   }
+      Assert.isTrue(StringValidations.isAlphanumeric(user.getUsername()) && StringValidations.minLength(4, user.getUsername()) && StringValidations.maxLength(15, user.getUsername()));
+      Assert.isTrue(StringValidations.isPassword(user.getPassword()));
+      Assert.isTrue(StringValidations.isEmailAddress(user.getEmail()));
 
-   public List<Story> getStoriesWithOpenTasksFor(final User user)
-   {
-      return findByNamedQuery("Story.withTasksFor", user, TaskStatus.DONE);
-   }
-
-   public User registerUser(final User user)
-   {
-      String username = user.getUsername();
-      String password = user.getPassword();
-      String email = user.getEmail();
-
-      Assert.isTrue(StringValidations.isAlphanumeric(username) && StringValidations.minLength(4, username) && StringValidations.maxLength(15, username));
-      Assert.isTrue(StringValidations.isPassword(password));
-      Assert.isTrue(StringValidations.isEmailAddress(email));
-
-      User newUser = new User();
-
-      credentialsVisitor.setUsername(username);
-      credentialsVisitor.setPassword(password);
-      newUser.accept(credentialsVisitor);
-      newUser.setEmail(email);
-      Authority role = Authority.fromRole(newUser, Role.GUEST);
-      newUser.getAuthorities().add(role);
+      user.accept(new UserSetCredentialsVisitor(user.getUsername(), user.getPassword()));
+      user.getAuthorities().add(new UserRole(Role.GUEST));
+      user.getAuthorities().add(new UserEnabled());
 
       UserProfile profile = new UserProfile();
+      user.setProfile(profile);
+      profile.setUser(user);
 
-      create(newUser);
+      user.setRegistrationKey(RandomGenerator.makeString());
 
-      profile.setUser(newUser);
-      create(profile);
-
-      return newUser;
+      create(user);
+      return user.getRegistrationKey();
    }
 
-   public User enableUser(final User user)
+   public void enableAccount(final User user, String password)
    {
-      user.setAccountExpired(false);
-      user.setAccountLocked(false);
-      user.setCredentialsExpired(false);
-      user.setEnabled(true);
+      if (!user.isEnabled() && passwordIs(user, password))
+      {
+         user.getAuthorities().add(new UserEnabled());
+      }
       save(user);
+   }
+
+   public User verifyUser(String key)
+   {
+      Query query = em.createQuery("from User where registrationKey=:key");
+      query.setParameter("key", key);
+
+      User user = (User) query.getSingleResult();
+      user.getAuthorities().add(new UserVerified());
+      save(user);
+
       return user;
    }
 
-   public List<Authority> getAuthorities(final long id)
+   public void disableAccount(User user)
    {
-      return findByNamedQuery("authority.byUserId", id);
+      user.getAuthorities().remove(new UserEnabled());
+      save(user);
    }
 
    public void addAuthority(final User user, final Authority authority)
    {
-      Authority auth = new Authority();
-      auth.setUser(user).setAuthority(authority.getAuthority());
-      user.getAuthorities().add(auth);
+      user.getAuthorities().add(authority);
       save(user);
-   }
-
-   public UserProfile getProfile(final long userId)
-   {
-      UserProfile p = findUniqueByNamedQuery("userProfile.byUserId", userId);
-      return p;
-   }
-
-   public void saveProfile(final UserProfile profile)
-   {
-      save(profile);
    }
 
    public boolean passwordIs(final User user, final String password)
    {
       refresh(user);
-      return passwordTester.passwordMatches(user, password);
+      return new UserPasswordMatchTester().passwordMatches(user, password);
    }
 
    public boolean updatePassword(User user, final String oldPassword, final String newPassword)
    {
-      if (passwordTester.passwordMatches(user, oldPassword))
+      if (new UserPasswordMatchTester().passwordMatches(user, oldPassword))
       {
-         credentialsVisitor.setUsername(user.getUsername());
-         credentialsVisitor.setPassword(newPassword);
-         user.accept(credentialsVisitor);
+         user.accept(new UserSetCredentialsVisitor(user.getUsername(), newPassword));
          save(user);
          return true;
       }

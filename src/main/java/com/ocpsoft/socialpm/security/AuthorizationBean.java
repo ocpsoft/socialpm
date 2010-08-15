@@ -34,27 +34,21 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jboss.seam.international.status.Messages;
+
 import com.ocpsoft.pretty.PrettyContext;
-import com.ocpsoft.socialpm.constants.UrlConstants;
-import com.ocpsoft.socialpm.faces.FacesUtils;
 import com.ocpsoft.socialpm.security.events.LoginRedirectPage;
+import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 @Named
 @RequestScoped
 public class AuthorizationBean
 {
-   private static final String ACCESS_DENIED_MEMBER = "Access denied: You must be an member of this project.";
-   private static final String ACCESS_DENIED_ADMIN = "Access denied: You must be an administrator of this project.";
-   private static final String ACCESS_DENIED_OWNER = "Access denied: You must be an owner of this project.";
-
-   @Inject
-   private AuthorizationService authService;
-
    @Inject
    private LoginRedirectPage redirect;
 
    @Inject
-   private FacesUtils facesUtils;
+   Messages messages;
 
    @Inject
    private LoggedInUserBean liub;
@@ -64,88 +58,10 @@ public class AuthorizationBean
       if (!liub.isLoggedIn())
       {
          PrettyContext prettyContext = PrettyContext.getCurrentInstance();
-         redirect.setPage(prettyContext.getContextPath() + prettyContext.getRequestURL() + ""
-                  + prettyContext.getRequestQueryString());
-         facesUtils.addInfoMessage("You requested a page that requires you to be logged in.");
-         return facesUtils.beautify(UrlConstants.LOGIN);
+         redirect.setPage(prettyContext.getContextPath() + prettyContext.getRequestURL() + "" + prettyContext.getRequestQueryString());
+         messages.info("You requested a page that requires you to be logged in.");
+         return UrlConstants.LOGIN;
       }
       return null;
-   }
-
-   /**
-    * PrettyFaces action method for security permission checks at the page level
-    * 
-    * @return null if permission granted, PrettyFaces navigation string if permission denied
-    */
-   public String assertProjectMember()
-   {
-      String result = assertLoggedIn();
-      if (result == null)
-      {
-         if (!getIsMember())
-         {
-            facesUtils.addErrorMessage(ACCESS_DENIED_MEMBER);
-            result = facesUtils.beautify(UrlConstants.VIEW_PROJECT);
-         }
-      }
-      return result;
-   }
-
-   /**
-    * PrettyFaces action method for security permission checks at the page level
-    * 
-    * @return null if permission granted, PrettyFaces navigation string if permission denied
-    */
-   public String assertProjectOwner()
-   {
-      String result = assertLoggedIn();
-      if (result == null)
-      {
-         if (!getIsOwner())
-         {
-            facesUtils.addErrorMessage(ACCESS_DENIED_OWNER);
-            result = facesUtils.beautify(UrlConstants.VIEW_PROJECT);
-         }
-      }
-      return result;
-   }
-
-   /**
-    * PrettyFaces action method for security permission checks at the page level
-    * 
-    * @return null if permission granted, PrettyFaces navigation string if permission denied
-    */
-   public String assertProjectAdmin()
-   {
-      String result = assertLoggedIn();
-      if (result == null)
-      {
-         if (!getIsAdmin())
-         {
-            facesUtils.addErrorMessage(ACCESS_DENIED_ADMIN);
-            result = facesUtils.beautify(UrlConstants.VIEW_PROJECT);
-         }
-      }
-      return result;
-   }
-
-   public boolean getIsAdmin()
-   {
-      return authService.isAdmin();
-   }
-
-   public boolean getIsMember()
-   {
-      return authService.isMember();
-   }
-
-   public boolean getIsOwner()
-   {
-      return authService.isOwner();
-   }
-
-   public boolean isInRole(final String role)
-   {
-      return authService.isInRole(role);
    }
 }

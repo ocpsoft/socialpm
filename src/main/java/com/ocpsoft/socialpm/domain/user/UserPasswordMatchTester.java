@@ -34,8 +34,8 @@ import java.io.Serializable;
 
 import javax.inject.Named;
 
-import com.ocpsoft.security.MD5PasswordEncryptor;
-import com.ocpsoft.security.PasswordEncryptor;
+import com.ocpsoft.socialpm.util.crypt.MD5PasswordEncryptor;
+import com.ocpsoft.socialpm.util.crypt.PasswordEncryptor;
 
 /**
  * Encodes the password using username a random salt.

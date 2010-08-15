@@ -32,24 +32,21 @@ package com.ocpsoft.socialpm.domain.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
 
-import com.ocpsoft.data.PersistentObject;
+import com.ocpsoft.socialpm.domain.PersistentObject;
 
 @Entity
 @Table(name = "user_profiles")
-@NamedQueries({ @NamedQuery(name = "userProfile.byUserId", query = "from UserProfile prof where prof.user.id = ?") })
 public class UserProfile extends PersistentObject<UserProfile>
 {
    private static final long serialVersionUID = 1894975986966495155L;
 
+   @OneToOne
    @Index(name = "userProfileUserIndex")
-   @OneToOne(optional = false)
    private User user;
 
    @Column

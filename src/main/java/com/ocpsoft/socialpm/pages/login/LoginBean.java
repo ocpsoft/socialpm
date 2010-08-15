@@ -38,14 +38,13 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.ocpsoft.socialpm.constants.UrlConstants;
-import com.ocpsoft.socialpm.pages.PageBean;
 import com.ocpsoft.socialpm.security.events.LoginEvent;
 import com.ocpsoft.socialpm.security.events.LogoutEvent;
+import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 @Named
 @RequestScoped
-public class LoginBean extends PageBean
+public class LoginBean
 {
    private static final long serialVersionUID = 5708843885887988131L;
    private String username = "";
@@ -65,7 +64,7 @@ public class LoginBean extends PageBean
 
    public String doCancel() throws IOException
    {
-      return facesUtils.beautify(UrlConstants.HOME);
+      return UrlConstants.HOME;
    }
 
    public void doLogin()

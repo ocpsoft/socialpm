@@ -97,15 +97,10 @@
 						</tr>
 					</tbody>
 				</table>
-				<ocp:separator />
 				<h:commandButton value="Save" action="#{userProfileBean.save}"
 					rendered="#{userProfileBean.editMode}" />
 			</f:validateBean></div>
 			</div>
-
-			<h3 class="m15t">Projects:</h3>
-			<socialpm:projectList projects="#{currentUserBean.projects}"
-				forUser="#{currentUserBean.user}" />
 
 		</h:form>
 	</ui:define>

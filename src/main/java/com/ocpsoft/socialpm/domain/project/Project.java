@@ -49,12 +49,12 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
-import com.ocpsoft.data.PersistentObject;
-import com.ocpsoft.exceptions.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.user.User;
-import com.ocpsoft.util.Strings;
+import com.ocpsoft.socialpm.util.Strings;
 
 @Entity
 @Table(name = "projects")

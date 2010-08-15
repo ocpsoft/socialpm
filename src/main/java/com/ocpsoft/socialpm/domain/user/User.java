@@ -37,6 +37,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -47,74 +48,67 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
+import org.jboss.weld.extensions.core.Veto;
 
-import com.ocpsoft.data.PersistentObject;
-import com.ocpsoft.pattern.Visitor;
+import com.ocpsoft.socialpm.domain.PersistentObject;
+import com.ocpsoft.socialpm.domain.user.auth.UserAccountLocked;
+import com.ocpsoft.socialpm.domain.user.auth.UserEnabled;
+import com.ocpsoft.socialpm.domain.user.auth.UserVerified;
+import com.ocpsoft.socialpm.util.pattern.Visitor;
 
+@Veto
 @Entity
 @Table(name = "users")
-@NamedQueries({ @NamedQuery(name = "user.byEmail", query = "from User where email = ?"), @NamedQuery(name = "user.byName", query = "from User where username = ?") })
+@NamedQueries({
+      @NamedQuery(name = "user.byEmail", query = "from User where email = ?"),
+      @NamedQuery(name = "user.byName", query = "from User where username = ?") })
 public class User extends PersistentObject<User>
 {
    @Transient
    private static final long serialVersionUID = 7655987424212407525L;
 
-   @Column(nullable = false, unique = true, length = 36)
    @Index(name = "userNameIndex")
+   @Column(nullable = false, unique = true, length = 36)
    private String username;
 
    @Column(nullable = false, length = 64)
    private String password;
 
-   @Column(nullable = false, length = 128, unique = true)
    @Index(name = "userEmailIndex")
+   @Column(nullable = false, length = 128, unique = true)
    private String email;
-
-   @Column(nullable = false)
-   private boolean enabled = false;
-
-   @Column(nullable = false)
-   private boolean accountLocked = true;
-
-   @Column(nullable = false)
-   private boolean accountExpired = true;
-
-   @Column(nullable = false)
-   private boolean credentialsExpired = true;
 
    @OneToOne(cascade = CascadeType.ALL)
    private UserProfile profile;
 
+   @Index(name = "userRegKeyIndex")
+   @Column(nullable = false, length = 64, unique = true)
+   private String registrationKey;
+
    @Fetch(FetchMode.SUBSELECT)
-   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+   @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
+   @JoinTable(name = "user_authorities")
    private final Set<Authority> authorities = new HashSet<Authority>();
+
+   public boolean isAccountLocked()
+   {
+      return authorities.contains(new UserAccountLocked());
+   }
+
+   public boolean isEnabled()
+   {
+      return authorities.contains(new UserEnabled());
+   }
+
+   public boolean isVerified()
+   {
+      return authorities.contains(new UserVerified());
+   }
 
    @Override
    public String toString()
    {
       return username;
-   }
-
-   public String getUsername()
-   {
-      return username;
-   }
-
-   public User setUsername(final String username)
-   {
-      this.username = username;
-      return this;
-   }
-
-   public String getPassword()
-   {
-      return password;
-   }
-
-   public User setPassword(final String password)
-   {
-      this.password = password;
-      return this;
    }
 
    public void accept(final Visitor<User> visitor)
@@ -161,59 +155,34 @@ public class User extends PersistentObject<User>
       return true;
    }
 
+   public String getUsername()
+   {
+      return username;
+   }
+
+   public void setUsername(final String username)
+   {
+      this.username = username;
+   }
+
+   public String getPassword()
+   {
+      return password;
+   }
+
+   public void setPassword(final String password)
+   {
+      this.password = password;
+   }
+
    public String getEmail()
    {
       return email;
    }
 
-   public User setEmail(final String address)
+   public void setEmail(final String address)
    {
       email = address;
-      return this;
-   }
-
-   public boolean isEnabled()
-   {
-      return enabled;
-   }
-
-   public User setEnabled(final boolean enabled)
-   {
-      this.enabled = enabled;
-      return this;
-   }
-
-   public boolean isAccountLocked()
-   {
-      return accountLocked;
-   }
-
-   public User setAccountLocked(final boolean accountLocked)
-   {
-      this.accountLocked = accountLocked;
-      return this;
-   }
-
-   public boolean isAccountExpired()
-   {
-      return accountExpired;
-   }
-
-   public User setAccountExpired(final boolean accountExpired)
-   {
-      this.accountExpired = accountExpired;
-      return this;
-   }
-
-   public boolean isCredentialsExpired()
-   {
-      return credentialsExpired;
-   }
-
-   public User setCredentialsExpired(final boolean credentialsExpired)
-   {
-      this.credentialsExpired = credentialsExpired;
-      return this;
    }
 
    public Set<Authority> getAuthorities()
@@ -229,5 +198,15 @@ public class User extends PersistentObject<User>
    public void setProfile(UserProfile profile)
    {
       this.profile = profile;
+   }
+
+   public String getRegistrationKey()
+   {
+      return registrationKey;
+   }
+
+   public void setRegistrationKey(String registrationKey)
+   {
+      this.registrationKey = registrationKey;
    }
 }

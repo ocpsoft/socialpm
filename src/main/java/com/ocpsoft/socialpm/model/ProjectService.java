@@ -40,8 +40,7 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.PersistenceException;
 import javax.persistence.Query;
 
-import com.ocpsoft.data.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.feed.ProjectCreated;
+import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Feature;
 import com.ocpsoft.socialpm.domain.project.MemberRole;
 import com.ocpsoft.socialpm.domain.project.Membership;
@@ -54,7 +53,7 @@ import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
 import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
 import com.ocpsoft.socialpm.domain.user.User;
-import com.ocpsoft.util.Strings;
+import com.ocpsoft.socialpm.util.Strings;
 
 @Stateful
 public class ProjectService extends PersistenceUtil
@@ -120,7 +119,6 @@ public class ProjectService extends PersistenceUtil
       addMembership(project, new Membership(project, owner, MemberRole.OWNER));
 
       this.save(project);
-      this.create(new ProjectCreated(project, owner));
    }
 
    private void addMembership(final Project project, final Membership membership)
@@ -192,9 +190,7 @@ public class ProjectService extends PersistenceUtil
       query.setParameter("project", project);
       List<Task> tasks = query.getResultList();
 
-      query = getEntityManager().createQuery(
-               "UPDATE Task t SET t.assignee = null WHERE t.assignee = :user "
-                        + "AND t.status <> :status AND t IN (:list)");
+      query = getEntityManager().createQuery("UPDATE Task t SET t.assignee = null WHERE t.assignee = :user " + "AND t.status <> :status AND t IN (:list)");
       query.setParameter("user", user);
       query.setParameter("status", TaskStatus.DONE);
       query.setParameter("list", tasks);
@@ -219,8 +215,8 @@ public class ProjectService extends PersistenceUtil
       story.setStatus(StoryStatus.OPEN);
 
       /*
-       * For some reason, these operations must take place in the following order, otherwise iterations are not added to
-       * the history collection.
+       * For some reason, these operations must take place in the following
+       * order, otherwise iterations are not added to the history collection.
        */
       iteration.getStories().add(story);
       story.setIteration(iteration);
@@ -273,8 +269,7 @@ public class ProjectService extends PersistenceUtil
    {
       assert from.getProject().equals(to.getProject());
 
-      Query query = getEntityManager()
-               .createQuery("update Story set feature = :newFeature where feature = :oldFeature");
+      Query query = getEntityManager().createQuery("update Story set feature = :newFeature where feature = :oldFeature");
       query.setParameter("newFeature", to);
       query.setParameter("oldFeature", from);
       int updated = query.executeUpdate();

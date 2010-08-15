@@ -38,11 +38,11 @@
    <!-- Filter Config -->
    <filter>
       <filter-name>ResponseTimeLoggingFilter</filter-name>
-      <filter-class>com.ocpsoft.servlet.filter.ResponseTimeLoggingFilter</filter-class>
+      <filter-class>com.ocpsoft.socialpm.web.filter.ResponseTimeLoggingFilter</filter-class>
    </filter>
    <filter>
       <filter-name>ExceptionFilter</filter-name>
-      <filter-class>com.ocpsoft.socialpm.faces.filter.ExceptionFilter</filter-class>
+      <filter-class>com.ocpsoft.socialpm.web.filter.ExceptionFilter</filter-class>
    </filter>
 
    <filter-mapping>
@@ -59,7 +59,7 @@
    <!-- Begin ResponseHeader Config -->
    <filter>
       <filter-name>ResponseHeaderFilter</filter-name>
-      <filter-class>com.ocpsoft.servlet.filter.ResponseHeaderFilter</filter-class>
+      <filter-class>com.ocpsoft.socialpm.web.filter.ResponseHeaderFilter</filter-class>
       <init-param>
          <param-name>Cache-Control</param-name>
          <param-value>max-age=3600</param-value>

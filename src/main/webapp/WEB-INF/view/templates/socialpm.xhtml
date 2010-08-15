@@ -33,9 +33,6 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
-	xmlns:pretty="http://ocpsoft.com/prettyfaces"
-	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm"
 	xmlns:tmpl="http://java.sun.com/jsf/composite/ocpsoft-jsf2-templates/liquid-blue-2col"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
@@ -54,47 +51,21 @@
 		<a href="#">privacy</a>
 		<a href="#{applicationConfig.blogUrl}"> blog</a>
 		<a href="#"> about</a>
-		<pretty:link mappingId="terms"> terms</pretty:link>
+		<h:link outcome="terms"> terms</h:link>
 		<a href="http://ocpsoft.com"> [&copy; ocpsoft.com]</a>
-		<ocp:analytics siteId="#{applicationConfig.analyticsId}" rendered="#{applicationConfig.analyticsEnabled}"/>
 	</ui:define> 
 	
-	<ui:define name="messages"> <ocp:messages id="TPLmessages" globalOnly="true" /> </ui:define> 
+	<ui:define name="messages">  </ui:define> 
 
 	<ui:define name="menubar">
 		<ui:include src="/WEB-INF/view/elements/mainMenu.xhtml" />
 	</ui:define>
 	
 	<ui:define name="header-h2">
-		<ui:include src="/WEB-INF/view/elements/projectHeader.xhtml" />
 		<ui:insert name="header"></ui:insert>
 	</ui:define>
 
 	<ui:define name="side-ul">
-	
-		<h:panelGroup rendered="#{currentProjectBean.valued}">
-			<li>
-				<div class="fl">
-					<h:form>
-						<label for="gotostory">View story: <ocp:message for="gotostory" /><br/> </label>
-						<h:inputText id="gotostory" value="#{paramsBean.storyNumber}" size="2" required="true">
-							<f:validator validatorId="integerValidator" />
-						</h:inputText>
-						<h:commandButton value="Go" action="pretty:viewStory" />
-					</h:form>
-				</div>
-				<div class="fl">
-					<pretty:urlbuffer mappingId="#{urlConstants.BACKLOG}" var="searchUrl">
-						<f:param value="#{paramsBean.projectName}"/>
-					</pretty:urlbuffer>
-					<form action="#{requestScope.searchUrl}" method="get">
-						<label for="desc">Search stories:<br/> </label>
-						<input type="text" size="18" name="desc" ></input>
-					</form>
-				</div>
-				<div class="clearing"></div>
-			</li>
-		</h:panelGroup>
 		
 		<h:panelGroup rendered="#{!loggedInUserBean.loggedIn}">
 			<ui:include src="/WEB-INF/view/elements/login/loginSidebar.xhtml">
@@ -103,36 +74,6 @@
 		</h:panelGroup>
 		
 		<ui:insert name="side-items"></ui:insert>
-		
-		<h:panelGroup rendered="#{loggedInUserBean.loggedIn}">
-			<h:panelGroup rendered="#{!currentProjectBean.valued}">
-			<li>
-				<h3>My Projects</h3>
-				<div>
-					<h:panelGroup rendered="#{empty loggedInUserBean.projects}">
-						You are not a member of any projects.
-						<pretty:link mappingId="#{urlConstants.CREATE_PROJECT}">
-							Start a new project
-						</pretty:link>, or 
-						<pretty:link mappingId="#{urlConstants.BROWSE_PROJECTS}">
-							find one.
-						</pretty:link>
-					</h:panelGroup>
-					<socialpm:projectList projects="#{loggedInUserBean.projects}" showDetails="false" />
-				</div>
-			</li>
-			</h:panelGroup>
-			<h:panelGroup rendered="#{showLiveFeed != 'false' and 'false'}">
-			<li>
-				<h3>Live Feed</h3>
-				<div>
-					<ul style="list-style: none; margin: 0; padding: 5px;">
-						<li><h:outputText binding="#{feedBean.notifications}" /></li>
-					</ul>
-				</div>
-			</li>
-			</h:panelGroup>
-		</h:panelGroup>
 	</ui:define>
 
 </ui:composition>

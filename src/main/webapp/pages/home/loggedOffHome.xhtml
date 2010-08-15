@@ -3,76 +3,16 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ch="http://java.sun.com/jsf/composite/charts"
-	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
-	xmlns:pretty="http://ocpsoft.com/prettyfaces"
-	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm"
-	xmlns:a="http://java.sun.com/jsf/composite/ajax">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
-	<ui:param name="title" value="Agile / Scrum Online Project Management Tools" />
+	<ui:param name="title" value="SocialPM" />
 
-	<ui:define name="header-h2">Agile Project Management</ui:define>
+	<ui:define name="header-h2"></ui:define>
 	<ui:define name="header-ul">
-		<li><a href="http://ocpsoft.com">by ocpsoft</a></li>
 	</ui:define>
 
 	<ui:define name="content">
-		<table width="100%">
-			<tr>
-				<td width="50%">
-				<center> <h:graphicImage library="images" name="promo/ss_macbook.png" /></center>
-				</td>
-				<td width="50%">
-				<center><pretty:link mappingId="#{urlConstants.REGISTER}"
-					style="padding: 20px; font-size: 2.5em;" styleClass="plain">
-					<h:graphicImage library="images" name="/promo/signup.png" />
-				</pretty:link><br />
-				Simple to use, free to sign up.<br />
-				<br />
-				<pretty:link mappingId="#{urlConstants.LOGIN}">
-							Member sign-in
-						</pretty:link></center>
-				</td>
-			</tr>
-		</table>
-
-		<br />
-
-		<table width="100%">
-			<tr valign="top">
-				<td width="50%">
-				<h4>Core features:</h4>
-				<ul class="p5 bullets box-shaded m5">
-					<li class="p5 m5">Burn-down charts</li>
-					<li class="p5 m5">Story validation criteria and tasks</li>
-					<li class="p5 m5">Story features (epics)</li>
-					<li class="p5 m5">Story points and business value</li>
-					<li class="p5 m5">Sprints</li>
-					<li class="p5 m5">Sprint back-burner</li>
-					<li class="p5 m5">Milestones</li>
-					<li class="p5 m5">Product backlog with priorities</li>
-				</ul>
-				</td>
-				<td width="50%">
-				<h4>Social:</h4>
-				<ul class="p5 bullets box-shaded m5">
-					<li class="p5 m5">Fully online, collaborative workspace for
-					teams</li>
-					<li class="p5 m5">Real-time progress and status</li>
-					<li class="p5 m5">Story comments and discussion</li>
-					<li class="p5 m5">Personal and project story-boards</li>
-				</ul>
-				<h4>Easy to use:</h4>
-				<ul class="p5t p5r p5l bullets box-shaded m5t m5r m5l">
-					<li class="p5 m5">Project backlog search with filtering</li>
-					<li class="p5 m5">Direct bookmarks to any project/story</li>
-					<li class="p5 m5">Visual representation of progress</li>
-				</ul>
-				</td>
-			</tr>
-		</table>
 	</ui:define>
 
 	<ui:define name="side-items">
