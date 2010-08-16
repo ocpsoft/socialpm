@@ -1,4 +1,7 @@
 *.classpath
 *.project
 *.settings
-*/target/*
+*bin/*
+*target/*
+*.jsfdia
+*.swp

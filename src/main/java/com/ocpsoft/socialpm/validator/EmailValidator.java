@@ -37,7 +37,7 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
-import com.ocpsoft.util.StringValidations;
+import com.ocpsoft.socialpm.util.StringValidations;
 
 @FacesValidator("emailValidator")
 public class EmailValidator implements Validator
