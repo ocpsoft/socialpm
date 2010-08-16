@@ -42,11 +42,9 @@ import org.jboss.seam.faces.event.qualifier.RestoreView;
 import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.socialpm.domain.NoSuchObjectException;
-import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.user.Authority;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.domain.user.auth.Role;
-import com.ocpsoft.socialpm.model.ProjectService;
 import com.ocpsoft.socialpm.model.UserService;
 import com.ocpsoft.socialpm.web.constants.ApplicationConfig;
 
@@ -58,9 +56,6 @@ public class AdminBean
    private static final long serialVersionUID = -3048415131574106297L;
 
    private boolean initialized = false;
-
-   @Inject
-   private ProjectService ps;
 
    @Inject
    private UserService us;
@@ -97,7 +92,7 @@ public class AdminBean
       return initialized;
    }
 
-   public void setupApp(@Observes @Before @RestoreView PhaseEvent event)
+   public void setupApp(@Observes @Before @RestoreView final PhaseEvent event)
    {
       if (!isDatabaseInitialized())
       {
@@ -114,20 +109,6 @@ public class AdminBean
          lb.setEmail("lincoln@ocpsoft.com");
          us.registerUser(lb);
          us.addAuthority(lb, new Authority(Role.ADMIN.value()));
-
-         Project project = new Project();
-         project.setName("Demo Project");
-         project.setVision("Be visionary");
-         ps.createProject(lb, project);
-
-         // Story s = new Story();
-         // s.setDescription("This is a sample story.");
-         // s.setFeature(project.getFeature("Unclassified"));
-         // s.setStoryPoints(Points.S8);
-         // s.setBurner(StoryBurner.FRONT);
-         // ps.addStory(project, project.getDefaultIteration(), s);
-         // ss.addValidation(s, new
-         // ValidationCriteria("Sample validation criteria"));
 
          User user = new User();
          user.setEmail("demo@ocpsoft.com");

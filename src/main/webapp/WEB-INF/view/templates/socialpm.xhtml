@@ -33,6 +33,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:tmpl="http://java.sun.com/jsf/composite/ocpsoft-jsf2-templates/liquid-blue-2col"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
@@ -51,11 +52,11 @@
 		<a href="#">privacy</a>
 		<a href="#{applicationConfig.blogUrl}"> blog</a>
 		<a href="#"> about</a>
-		<h:link outcome="terms"> terms</h:link>
+		<a href="#"> terms</a>		
 		<a href="http://ocpsoft.com"> [&copy; ocpsoft.com]</a>
 	</ui:define> 
 	
-	<ui:define name="messages">  </ui:define> 
+	<ui:define name="messages"> <ocp:messages id="TPLmessages"/> </ui:define> 
 
 	<ui:define name="menubar">
 		<ui:include src="/WEB-INF/view/elements/mainMenu.xhtml" />

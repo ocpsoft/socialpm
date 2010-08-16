@@ -67,6 +67,10 @@
 		<view-id> /faces/pages/login.xhtml </view-id>
         <action>#{loginBean.doLogout}</action>
 	</url-mapping>
+   <url-mapping id="recover">
+      <pattern value="/recover" />
+      <view-id> /faces/pages/register.xhtml </view-id>
+   </url-mapping>
 	<url-mapping id="register">
 		<pattern value="/register" />
 		<view-id> /faces/pages/register.xhtml </view-id>

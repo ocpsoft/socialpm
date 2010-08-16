@@ -5,9 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
-	xmlns:pretty="http://ocpsoft.com/prettyfaces"
-	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm"
-	xmlns:a="http://java.sun.com/jsf/composite/ajax">
+	xmlns:pretty="http://ocpsoft.com/prettyfaces">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
 	<ui:param name="title"
@@ -22,7 +20,7 @@
 	</ui:define>
 
 	<ui:define name="header-ul">
-		<li><pretty:link mappingId="#{urlConstants.USER_ACCOUNT}" rendered="#{userProfileBean.editMode}">
+		<li><pretty:link mappingId="pretty:userAccount" rendered="#{userProfileBean.editMode}">
 				Change email &amp; password
 			</pretty:link></li>
 	</ui:define>
@@ -46,7 +44,7 @@
 								<f:convertDateTime />
 							</h:outputText> <span class="faded"> -- <h:outputText
 								value="#{userProfileBean.user.createdOn}">
-								<f:converter converterId="prettyTimeConverter" />
+								<f:converter converterId="com.ocpsoft.PrettyTimeConverter" />
 							</h:outputText></span></td>
 						</tr>
 						<tr>
@@ -55,7 +53,7 @@
 								rendered="#{userProfileBean.editMode or !userProfileBean.user.profile.emailSecret}" />
 							- <pretty:link
 								rendered="#{userProfileBean.editMode or !userProfileBean.user.profile.emailSecret}"
-								mappingId="#{urlConstants.USER_ACCOUNT}">
+								mappingId="userAccount">
 								change
 							</pretty:link></td>
 						</tr>

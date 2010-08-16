@@ -34,12 +34,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateful;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
-import javax.persistence.Query;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
+import com.ocpsoft.socialpm.domain.feed.UserRegistered;
 import com.ocpsoft.socialpm.domain.user.Authority;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.domain.user.UserPasswordMatchTester;
@@ -61,6 +62,9 @@ public class UserService extends PersistenceUtil implements Serializable
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager em;
 
+   @Inject
+   private FeedService fs;
+
    @Override
    protected EntityManager getEntityManager()
    {
@@ -72,7 +76,7 @@ public class UserService extends PersistenceUtil implements Serializable
       return findAll(User.class);
    }
 
-   public void save(User user)
+   public void save(final User user)
    {
       super.save(user);
    }
@@ -93,13 +97,14 @@ public class UserService extends PersistenceUtil implements Serializable
    }
 
    /**
-    * Take a user object with populated username and plaintext password.
-    * Register that user, and return the pending registration key with which the
-    * user must be verified.
+    * Take a user object with populated username and plaintext password. Register that user, and return the pending
+    * registration key with which the user must be verified.
     */
    public String registerUser(final User user)
    {
-      Assert.isTrue(StringValidations.isAlphanumeric(user.getUsername()) && StringValidations.minLength(4, user.getUsername()) && StringValidations.maxLength(15, user.getUsername()));
+      Assert.isTrue(StringValidations.isAlphanumeric(user.getUsername())
+               && StringValidations.minLength(4, user.getUsername())
+               && StringValidations.maxLength(15, user.getUsername()));
       Assert.isTrue(StringValidations.isPassword(user.getPassword()));
       Assert.isTrue(StringValidations.isEmailAddress(user.getEmail()));
 
@@ -114,10 +119,12 @@ public class UserService extends PersistenceUtil implements Serializable
       user.setRegistrationKey(RandomGenerator.makeString());
 
       create(user);
+
+      fs.addEvent(new UserRegistered(user));
       return user.getRegistrationKey();
    }
 
-   public void enableAccount(final User user, String password)
+   public void enableAccount(final User user, final String password)
    {
       if (!user.isEnabled() && passwordIs(user, password))
       {
@@ -126,19 +133,16 @@ public class UserService extends PersistenceUtil implements Serializable
       save(user);
    }
 
-   public User verifyUser(String key)
+   public User verifyUser(final String key)
    {
-      Query query = em.createQuery("from User where registrationKey=:key");
-      query.setParameter("key", key);
-
-      User user = (User) query.getSingleResult();
+      User user = findUniqueByNamedQuery("user.byRegKey", key);
       user.getAuthorities().add(new UserVerified());
       save(user);
 
       return user;
    }
 
-   public void disableAccount(User user)
+   public void disableAccount(final User user)
    {
       user.getAuthorities().remove(new UserEnabled());
       save(user);
@@ -156,7 +160,7 @@ public class UserService extends PersistenceUtil implements Serializable
       return new UserPasswordMatchTester().passwordMatches(user, password);
    }
 
-   public boolean updatePassword(User user, final String oldPassword, final String newPassword)
+   public boolean updatePassword(final User user, final String oldPassword, final String newPassword)
    {
       if (new UserPasswordMatchTester().passwordMatches(user, oldPassword))
       {

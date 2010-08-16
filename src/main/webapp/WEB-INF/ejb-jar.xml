@@ -9,11 +9,11 @@
          <rollback>true</rollback>
       </application-exception>
       <application-exception>
-         <exception-class>com.ocpsoft.socialpm.exceptions.DataException</exception-class>
+         <exception-class>com.ocpsoft.socialpm.domain.DataException</exception-class>
          <rollback>false</rollback>
       </application-exception>
       <application-exception>
-         <exception-class>com.ocpsoft.socialpm.exceptions.NoSuchObjectException</exception-class>
+         <exception-class>com.ocpsoft.socialpm.domain.NoSuchObjectException</exception-class>
          <rollback>false</rollback>
       </application-exception>
    </assembly-descriptor>

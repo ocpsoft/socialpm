@@ -81,10 +81,12 @@ public class UserAccountBean
 
    public String cancel()
    {
+      messages.info("Changes to your private stuff have been discarded.");
       return UrlConstants.USER_PROFILE;
    }
 
-   public void validateNewEmail(final FacesContext context, final UIComponent component, final Object value) throws ValidatorException
+   public void validateNewEmail(final FacesContext context, final UIComponent component, final Object value)
+            throws ValidatorException
    {
       if (!user.getEmail().equals(value))
       {

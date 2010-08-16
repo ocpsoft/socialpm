@@ -30,15 +30,18 @@
 
 package com.ocpsoft.socialpm.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateful;
+import javax.enterprise.event.Observes;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.feed.FeedItem;
+import com.ocpsoft.socialpm.domain.feed.FeedEvent;
+import com.ocpsoft.socialpm.domain.user.User;
 
 @Stateful
 public class FeedService extends PersistenceUtil
@@ -54,19 +57,19 @@ public class FeedService extends PersistenceUtil
       return entityManager;
    }
 
-   public List<FeedItem> list(final int limit, final int offset)
+   public void addEvent(@Observes final FeedEvent event)
    {
-      return this.findAll(FeedItem.class);
+      event.setCreatedOn(new Date());
+      save(event);
    }
 
-   public List<FeedItem> listByUser(final Long id, final int limit, final int offset)
+   public List<FeedEvent> list(final int limit, final int offset)
    {
-      return this.findByNamedQuery("feedItem.byUser", id);
+      return this.findAll(FeedEvent.class);
    }
 
-   public List<FeedItem> listByProject(final Long id, final int limit, final int offset)
+   public List<FeedEvent> listByUser(final User user, final int limit, final int offset)
    {
-      return this.findByNamedQuery("feedItem.byProject", id);
+      return this.findByNamedQuery("feedItem.byUser", user);
    }
-
 }

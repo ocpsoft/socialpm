@@ -12,12 +12,12 @@
 		<jta-data-source>java:/DefaultDS</jta-data-source> 
 		<jta-data-source> jdbc/__default </jta-data-source> 
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-       -->
+       --> 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<!-- Properties for Hibernate (default provider for JBoss AS) -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect"/>
-            <property name="hibernate.ejb.interceptor" value="com.ocpsoft.data.TimestampInterceptor" />
+            <property name="hibernate.ejb.interceptor" value="com.ocpsoft.socialpm.domain.TimestampInterceptor" />
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
 			<property name="hibernate.show_sql" value="true"/>
 			<!-- Only format when you need to debug, because it slows things down -->

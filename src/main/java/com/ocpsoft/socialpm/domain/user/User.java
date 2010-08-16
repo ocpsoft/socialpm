@@ -60,8 +60,9 @@ import com.ocpsoft.socialpm.util.pattern.Visitor;
 @Entity
 @Table(name = "users")
 @NamedQueries({
-      @NamedQuery(name = "user.byEmail", query = "from User where email = ?"),
-      @NamedQuery(name = "user.byName", query = "from User where username = ?") })
+         @NamedQuery(name = "user.byEmail", query = "from User where email = ?"),
+         @NamedQuery(name = "user.byRegKey", query = "from User where registrationKey = ?"),
+         @NamedQuery(name = "user.byName", query = "from User where username = ?") })
 public class User extends PersistentObject<User>
 {
    @Transient
@@ -195,7 +196,7 @@ public class User extends PersistentObject<User>
       return profile;
    }
 
-   public void setProfile(UserProfile profile)
+   public void setProfile(final UserProfile profile)
    {
       this.profile = profile;
    }
@@ -205,7 +206,7 @@ public class User extends PersistentObject<User>
       return registrationKey;
    }
 
-   public void setRegistrationKey(String registrationKey)
+   public void setRegistrationKey(final String registrationKey)
    {
       this.registrationKey = registrationKey;
    }

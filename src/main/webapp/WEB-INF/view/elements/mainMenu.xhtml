@@ -36,26 +36,26 @@
 	xmlns:tmpl="http://java.sun.com/jsf/composite/ocpsoft-jsf2-templates/liquid-blue-2col"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition>
-		<h1><pretty:link style="color: white;" mappingId="#{urlConstants.HOME}">${sitename}</pretty:link></h1>
+		<h1><pretty:link style="color: white;" mappingId="home">${sitename}</pretty:link></h1>
 
 		<ul class="fl">
 		</ul>
 		
 		<ul class="fr">
 			<h:panelGroup rendered="#{loggedInUserBean.loggedIn == 'false'}">
-				<li><pretty:link mappingId="#{urlConstants.REGISTER}">register</pretty:link></li>
+				<li><pretty:link mappingId="register">register</pretty:link></li>
 			</h:panelGroup>
 			<h:panelGroup rendered="#{loggedInUserBean.loggedIn == 'false'}">
-				<li><pretty:link mappingId="#{urlConstants.LOGIN}">log in</pretty:link></li>
+				<li><pretty:link mappingId="login">log in</pretty:link></li>
 			</h:panelGroup>
 			<h:panelGroup rendered="#{loggedInUserBean.loggedIn == 'true'}">
 				<li>
-					<pretty:link mappingId="#{urlConstants.LOGOUT}">
+					<pretty:link mappingId="logout">
 						log out [#{loggedInUserBean.user.username}]
 					</pretty:link> 
 				</li>
 				<li>
-					 	<pretty:link mappingId="#{urlConstants.USER_PROFILE}">
+					 	<pretty:link mappingId="userProfile">
 							<f:param value="#{loggedInUserBean.user.username}" />
 							<h:outputText value="profile" />
 						</pretty:link>

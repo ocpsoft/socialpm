@@ -37,7 +37,7 @@ import com.ocpsoft.socialpm.domain.user.User;
 
 @Entity
 @DiscriminatorValue("userregistered")
-public class UserRegistered extends FeedItem
+public class UserRegistered extends FeedEvent
 {
     private static final long serialVersionUID = -281646598510177402L;
 

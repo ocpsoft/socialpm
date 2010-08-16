@@ -39,8 +39,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Index;
-
 import com.ocpsoft.socialpm.domain.PersistentObject;
 
 @Entity
@@ -52,15 +50,14 @@ public class Authority extends PersistentObject<Authority>
 {
    private static final long serialVersionUID = 5317479113915801691L;
 
-   @Index(name = "authAuthIndex1")
-   @Column(updatable = false, length = 64)
+   @Column(name = "custom_auth_key", updatable = false, length = 64)
    private String key;
 
    public Authority()
    {
    }
 
-   public Authority(String key)
+   public Authority(final String key)
    {
       this.key = key;
    }

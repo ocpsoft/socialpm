@@ -6,9 +6,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:pretty="http://ocpsoft.com/prettyfaces"
-	xmlns:socialpm="http://java.sun.com/jsf/composite/socialpm"
-   xmlns:s="http://jboss.org/seam/faces"
-	xmlns:a="http://java.sun.com/jsf/composite/ajax">
+	xmlns:s="http://jboss.org/seam/faces">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
 	<ui:param name="title"
@@ -20,7 +18,7 @@
 	</ui:define>
 
 	<ui:define name="header-ul">
-		<li><pretty:link mappingId="#{urlConstants.USER_PROFILE}">
+		<li><pretty:link mappingId="userProfile">
 			<f:param value="#{loggedInUserBean.user.username}" />
 				Back to profile
 			</pretty:link></li>
@@ -47,7 +45,7 @@
 				<h:inputSecret id="password" required="false"
 					value="#{userAccountBean.newPassword}">
 					<f:validator validatorId="passwordValidator" />
-                    <f:ajax execute="@this" render="passwordError" />
+					<f:ajax execute="@this" render="passwordError" />
 				</h:inputSecret>
 				<br />
 				<br />
@@ -58,14 +56,16 @@
 				<br />
 				<h:inputSecret id="passwordConfirm" required="false"
 					validator="#{userAccountBean.validatePasswordsMatch}">
-					<f:validator validatorId="passwordValidator" />    
-                    <f:ajax execute="password @this validatePasswords" render=":TPLmessages:TPLmessages passwordError passwordConfirmError" />
+					<f:validator validatorId="passwordValidator" />
+					<f:ajax execute="password @this validatePasswords"
+						render=":TPLmessages passwordError passwordConfirmError" />
 				</h:inputSecret>
 				<br />
-				<br /> 
-                
-                <s:validateForm id="validatePasswords"  validatorId="passwordConfirm" fields="password1=password password2=passwordConfirm"/>
-                
+				<br />
+
+				<s:validateForm id="validatePasswords" validatorId="passwordConfirm"
+					fields="password1=password password2=passwordConfirm" />
+
 
 				<label for="oldpassword"><h:outputText
 					value="Old Password *: " /> <ocp:message id="oldPasswordError"
@@ -75,13 +75,14 @@
 					value="#{userAccountBean.oldPassword}">
 					<f:validator validatorId="currentUserPasswordValidator" />
 				</h:inputSecret>
-               
+
 				<ocp:separator />
 				<span class="faded">* required</span>
 				<br />
 				<br />
 				<h:commandButton value="Save" action="#{userAccountBean.save}" />
-				<h:commandButton immediate="true" value="Cancel" action="#{userAccountBean.cancel}" />
+				<h:commandButton immediate="true" value="Cancel"
+					action="#{userAccountBean.cancel}" />
 			</f:validateBean>
 		</h:form>
 	</ui:define>
