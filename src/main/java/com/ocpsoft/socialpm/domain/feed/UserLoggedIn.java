@@ -28,57 +28,26 @@
  * details, contact OcpSoft (http://ocpsoft.com)
  */
 
-package com.ocpsoft.socialpm.model;
+package com.ocpsoft.socialpm.domain.feed;
 
-import java.util.Date;
-import java.util.List;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 
-import javax.ejb.Stateful;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.TypedQuery;
-
-import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.feed.FeedEvent;
 import com.ocpsoft.socialpm.domain.user.User;
 
-@Stateful
-public class FeedService extends PersistenceUtil
+@Entity
+@DiscriminatorValue("userloggedin")
+public class UserLoggedIn extends FeedEvent
 {
-   private static final long serialVersionUID = 5716926734835352145L;
+   private static final long serialVersionUID = -281646598510177402L;
 
-   @PersistenceContext(type = PersistenceContextType.EXTENDED)
-   private EntityManager entityManager;
-
-   @Override
-   protected EntityManager getEntityManager()
+   @SuppressWarnings("unused")
+   private UserLoggedIn()
    {
-      return entityManager;
    }
 
-   public void addEvent(final FeedEvent event)
+   public UserLoggedIn(final User u)
    {
-      event.setCreatedOn(new Date());
-      create(event);
-   }
-
-   public List<FeedEvent> list(final int limit, final int offset)
-   {
-      return this.findAll(FeedEvent.class);
-   }
-
-   public List<FeedEvent> listByUser(final User user, final int limit, final int offset)
-   {
-      TypedQuery<FeedEvent> query = entityManager.createNamedQuery("feedEvent.byUser", FeedEvent.class)
-               .setParameter(1, user)
-               .setFirstResult(offset);
-
-      if (limit > 0)
-      {
-         query.setMaxResults(limit);
-      }
-
-      return query.getResultList();
+      setUser(u);
    }
 }

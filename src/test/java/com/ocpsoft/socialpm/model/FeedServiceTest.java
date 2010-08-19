@@ -32,7 +32,6 @@ package com.ocpsoft.socialpm.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -52,6 +51,7 @@ import org.junit.runner.RunWith;
 
 import com.ocpsoft.socialpm.domain.DomainRoot;
 import com.ocpsoft.socialpm.domain.feed.FeedEvent;
+import com.ocpsoft.socialpm.domain.feed.UserLoggedIn;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.util.UtilRoot;
 
@@ -60,7 +60,7 @@ import com.ocpsoft.socialpm.util.UtilRoot;
  */
 @RunWith(Arquillian.class)
 @Run(RunModeType.IN_CONTAINER)
-public class UserServiceTest
+public class FeedServiceTest
 {
 
    @Deployment
@@ -79,79 +79,52 @@ public class UserServiceTest
    @Inject
    private FeedService fs;
 
-   private static final String PASSWORD = "testpass";
-   private static int count = 0;
+   MockUserGenerator gen = new MockUserGenerator();
+
    private User user;
 
    @Before
    public void incrementUser()
    {
-      this.user = new User();
-      user.setUsername("test" + count);
-      user.setPassword(PASSWORD);
-      user.setEmail("test" + count + "@ocpsoft.com");
-      count++;
+      this.user = gen.generateUser();
    }
 
-   @Test
-   public void testCanCreateNewUser() throws Exception
+   @Before
+   public void setup()
    {
-      String key = us.registerUser(user);
-
-      assertTrue(user.getProfile().isPersistent());
-      assertTrue(user.isEnabled());
-      assertFalse(user.isVerified());
-      assertFalse(user.isAccountLocked());
-      assertNotNull(user.getRegistrationKey());
-      assertNotNull(key);
+      if (user == null)
+      {
+         user = new User();
+         user.setUsername("fstestuser");
+         user.setPassword("fstestpass");
+         user.setEmail("fstest@email.com");
+      }
    }
 
    @Test
-   public void testCanVerifyNewUser() throws Exception
-   {
-      String key = us.registerUser(user);
-      assertFalse(user.isVerified());
-
-      User verified = us.verifyUser(key);
-      assertTrue(verified.isVerified());
-   }
-
-   @Test
-   public void testDisablingUser() throws Exception
+   public void testCanPersistFeedEvents() throws Exception
    {
       us.registerUser(user);
-      us.disableAccount(user);
-
-      User u = us.getUserByName(user.getUsername());
-      assertFalse(u.isEnabled());
+      FeedEvent e = new FeedEvent(user);
+      assertFalse(e.isPersistent());
+      fs.addEvent(e);
+      assertTrue(e.isPersistent());
    }
 
    @Test
-   public void testReEnablingUser() throws Exception
+   public void testCanRetrieveUsersEvents() throws Exception
    {
       us.registerUser(user);
-      us.disableAccount(user);
-      assertFalse(user.isEnabled());
+      FeedEvent fe = new FeedEvent(user);
+      fs.addEvent(fe);
+      UserLoggedIn ule = new UserLoggedIn(user);
+      fs.addEvent(ule);
 
-      us.enableAccount(user, PASSWORD);
-      User u = us.getUserByName(user.getUsername());
-      assertTrue(u.isEnabled());
-   }
-
-   @Test
-   public void testPasswordIs() throws Exception
-   {
-      us.registerUser(user);
-      assertTrue(us.passwordIs(user, PASSWORD));
-      assertFalse(us.passwordIs(user, "nottherightpass"));
-   }
-
-   @Test
-   public void testRegisterUserFiresFeedEvent() throws Exception
-   {
-      us.registerUser(user);
-      List<FeedEvent> events = fs.listByUser(user, 0, 0);
-      assertEquals(1, events.size());
-      assertEquals(user, events.get(0).getUser());
+      List<FeedEvent> list = fs.listByUser(user, 0, 0);
+      assertEquals(3, list.size());
+      for (FeedEvent feedEvent : list)
+      {
+         assertEquals(user, feedEvent.getUser());
+      }
    }
 }

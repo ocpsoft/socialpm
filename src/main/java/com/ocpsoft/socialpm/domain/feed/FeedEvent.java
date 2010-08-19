@@ -36,6 +36,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -44,9 +46,10 @@ import com.ocpsoft.socialpm.domain.user.User;
 
 @Entity
 @Table(name = "activity_feed")
-@DiscriminatorValue("basic")
+@DiscriminatorValue("userevent")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING, length = 15)
+@NamedQueries({ @NamedQuery(name = "feedEvent.byUser", query = "from FeedEvent where user = ?") })
 public class FeedEvent extends PersistentObject<FeedEvent>
 {
    private static final long serialVersionUID = 7038341222060982180L;
@@ -68,9 +71,8 @@ public class FeedEvent extends PersistentObject<FeedEvent>
       return user;
    }
 
-   public FeedEvent setUser(final User user)
+   public void setUser(final User user)
    {
       this.user = user;
-      return this;
    }
 }
