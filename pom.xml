@@ -20,6 +20,13 @@
          </snapshots>
       </repository>
       <repository>
+         <id>jboss-public-repository-group</id>
+         <name>JBoss Public Maven Repository Group</name>
+         <url>https://repository.jboss.org/nexus/content/groups/public/
+         </url>
+         <layout>default</layout>
+      </repository>
+      <repository>
          <id>jboss</id>
          <name>JBoss Legacy Repo</name>
          <url>http://repository.jboss.org/maven2/</url>
@@ -38,14 +45,14 @@
    </repositories>
 
    <properties>
-      <arquillian.version>1.0.0.Alpha3</arquillian.version>
+      <arquillian.version>1.0.0.Alpha4</arquillian.version>
       <cdi.version>1.0-SP1</cdi.version>
       <hibernate.version>3.5.2-Final</hibernate.version>
       <javaee.spec.version>1.0.0.Beta7</javaee.spec.version>
       <jbossas.server.manager.version>1.0.3.GA</jbossas.server.manager.version>
       <jbossas.client.version>6.0.0.20100721-M4</jbossas.client.version>
       <junit.version>4.8.1</junit.version>
-      <prettyfaces.version>3.0.2-SNAPSHOT</prettyfaces.version>
+      <prettyfaces.version>3.1.1-SNAPSHOT</prettyfaces.version>
       <seam.faces.version>3.0.0.Alpha3</seam.faces.version>
       <slf4j.version>1.5.10</slf4j.version>
    </properties>

@@ -36,6 +36,7 @@ public class MockUserGenerator
 
    public User generateUser()
    {
+      user = new User();
       user.setUsername("test" + count);
       user.setPassword(PASSWORD);
       user.setEmail("test" + count + "@ocpsoft.com");

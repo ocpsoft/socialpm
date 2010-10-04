@@ -7,12 +7,12 @@
 	
 	<persistence-unit name="socialpm">
 	    <provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source> jdbc/socialpm-mysql </jta-data-source> 
+		<jta-data-source>jdbc/socialpm-mysql</jta-data-source> 
       <!-- 
 		<jta-data-source>java:/DefaultDS</jta-data-source> 
 		<jta-data-source> jdbc/__default </jta-data-source> 
 			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
-       --> 
+       -->  
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 		<properties>
 			<!-- Properties for Hibernate (default provider for JBoss AS) -->

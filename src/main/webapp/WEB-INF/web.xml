@@ -81,5 +81,4 @@
       <filter-name>ResponseHeaderFilter</filter-name>
       <url-pattern>*.ico</url-pattern>
    </filter-mapping>
-
 </web-app>
