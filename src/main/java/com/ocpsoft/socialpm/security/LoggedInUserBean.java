@@ -112,7 +112,8 @@ public class LoggedInUserBean implements Serializable
       if (event.isRedirect())
       {
          PrettyContext prettyContext = PrettyContext.getCurrentInstance();
-         redirect.setPage(prettyContext.getContextPath() + prettyContext.getRequestURL() + "" + prettyContext.getRequestQueryString());
+         redirect.setPage(prettyContext.getContextPath() + prettyContext.getRequestURL() + ""
+                  + prettyContext.getRequestQueryString());
       }
       try
       {

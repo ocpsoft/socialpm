@@ -12,8 +12,6 @@
    <jbm:profileName>default</jbm:profileName>
    <jbm:bindAddress>localhost</jbm:bindAddress>
    <jbm:httpPort>8080</jbm:httpPort>
-   <jbm:jbossHome>/home/lb3/Development/jboss6</jbm:jbossHome>
-   <jbm:javaHome>/usr/lib/jvm/java-6-sun</jbm:javaHome>
    <jbm:javaVmArguments>-Xmx512m -XX:MaxPermSize=128m</jbm:javaVmArguments>
  </jbm:container> 
  

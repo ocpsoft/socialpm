@@ -52,6 +52,7 @@ import org.junit.runner.RunWith;
 import com.ocpsoft.socialpm.domain.DomainRoot;
 import com.ocpsoft.socialpm.domain.feed.FeedEvent;
 import com.ocpsoft.socialpm.domain.feed.UserLoggedIn;
+import com.ocpsoft.socialpm.domain.feed.UserRegistered;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.util.UtilRoot;
 
@@ -126,5 +127,8 @@ public class FeedServiceTest
       {
          assertEquals(user, feedEvent.getUser());
       }
+      assertTrue(list.contains(new UserRegistered(user)));
+      assertTrue(list.contains(new FeedEvent(user)));
+      assertTrue(list.contains(new UserLoggedIn(user)));
    }
 }
