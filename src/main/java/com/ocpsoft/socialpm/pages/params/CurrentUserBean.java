@@ -30,6 +30,8 @@
 
 package com.ocpsoft.socialpm.pages.params;
 
+import java.io.Serializable;
+
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
@@ -42,7 +44,7 @@ import com.ocpsoft.socialpm.model.UserService;
 @Named
 @Stateful
 @ConversationScoped
-public class CurrentUserBean
+public class CurrentUserBean implements Serializable
 {
    private static final long serialVersionUID = 1435319852707529833L;
 
