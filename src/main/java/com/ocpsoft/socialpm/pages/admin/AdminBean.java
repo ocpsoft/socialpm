@@ -30,6 +30,8 @@
 
 package com.ocpsoft.socialpm.pages.admin;
 
+import java.io.Serializable;
+
 import javax.ejb.Stateful;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
@@ -51,7 +53,7 @@ import com.ocpsoft.socialpm.web.constants.ApplicationConfig;
 @Named
 @Stateful
 @ApplicationScoped
-public class AdminBean
+public class AdminBean implements Serializable
 {
    private static final long serialVersionUID = -3048415131574106297L;
 
@@ -86,8 +88,7 @@ public class AdminBean
             initialized = true;
          }
          catch (NoSuchObjectException e)
-         {
-         }
+         {}
       }
       return initialized;
    }
