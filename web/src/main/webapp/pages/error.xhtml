@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+
+	<ui:param name="title" value="Internal Server Error" />
+
+	<ui:define name="header-h2"> Oops! </ui:define>
+
+	<ui:define name="content">
+		<h3>We're sorry :( Sometimes things go wrong. Click <ocp:link
+			value="#{urlConstants.HOME}"> here</ocp:link> to return to the home
+		page.</h3>
+		<p>If you think this is a real problem, please <a href="http://code.google.com/p/ocpsoft-tools/issues/entry" target="_blank">report it</a>!</p>
+		
+		<h:panelGroup rendered="#{facesContext.externalContext.getInitParameter('javax.faces.PROJECT_STAGE') == 'Development'}">
+			<br />
+			<br />
+			
+			<h3>Exception Message</h3>
+			<p>#{requestScope.EXCEPTION_FILTER_KEY} <br />
+			<ui:repeat var="line"
+				value="#{requestScope.EXCEPTION_FILTER_KEY.stackTrace}">
+				<h:outputText value="#{line}" />
+				<br />
+			</ui:repeat></p>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>
+</html>
