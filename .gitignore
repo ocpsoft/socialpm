@@ -3,6 +3,7 @@
 *.settings
 *bin/*
 *target/*
+*/target/*
 *.jsfdia
 *.swp
 transaction.log
