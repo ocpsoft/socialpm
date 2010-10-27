@@ -33,7 +33,7 @@ public abstract class PersistentObject<E extends PersistentObject<?>> implements
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    @Column(name = "id", updatable = false, nullable = false)
-   private long id = 0;
+   private Long id = null;
 
    @Version
    @Column(name = "version")
@@ -64,20 +64,20 @@ public abstract class PersistentObject<E extends PersistentObject<?>> implements
       return Boolean.valueOf(String.valueOf(value));
    }
 
-   public long getId()
+   public Long getId()
    {
       return id;
    }
 
    public boolean isPersistent()
    {
-      return getId() > 0;
+      return getId() != null;
    }
 
    @SuppressWarnings("unchecked")
-   public E setId(final long id)
+   public E setId(final Long id)
    {
-      if (this.id != 0)
+      if (this.id != null)
       {
          throw new PersistenceException("Cannot alter immutable ID of persistent object with id: " + id);
       }
