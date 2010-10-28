@@ -6,4 +6,5 @@
 */target/*
 *.jsfdia
 *.swp
-transaction.log
+*transaction.log
+*/data/*
