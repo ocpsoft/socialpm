@@ -17,6 +17,11 @@
    <dependencies>
       <dependency>
          <groupId>com.ocpsoft</groupId>
+         <artifactId>socialpm-database</artifactId>
+      </dependency>
+   
+      <dependency>
+         <groupId>com.ocpsoft</groupId>
          <artifactId>prettyfaces-jsf2</artifactId>
       </dependency>
       <dependency>
@@ -45,16 +50,6 @@
          <artifactId>jboss-javaee-6.0</artifactId>
          <type>pom</type>
          <scope>provided</scope>
-      </dependency>
-
-      <!-- Utility Dependencies -->
-      <dependency>
-         <groupId>commons-lang</groupId>
-         <artifactId>commons-lang</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>commons-codec</groupId>
-         <artifactId>commons-codec</artifactId>
       </dependency>
 
       <!-- Test Dependencies -->

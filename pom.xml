@@ -7,7 +7,7 @@
    <version>1.0.0-SNAPSHOT</version>
    <packaging>pom</packaging>
 
-   <name>OcpSoft SocialPM - Parent</name>
+   <name>SocialPM - Parent</name>
    <url>http://ocpsoft.com/scrumshark/</url>
 
    <prerequisites>
@@ -15,11 +15,13 @@
    </prerequisites>
 
    <modules>
+      <module>database</module>
       <module>web</module>
-      <module>web-tests</module>
    </modules>
 
    <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
       <arquillian.version>1.0.0.Alpha3</arquillian.version>
       <cdi.version>1.0-SP1</cdi.version>
       <hibernate.version>3.5.2-Final</hibernate.version>
@@ -30,12 +32,18 @@
       <junit.version>4.8.1</junit.version>
       <prettyfaces.version>3.1.1-SNAPSHOT</prettyfaces.version>
       <prettytime.version>1.0.6</prettytime.version>
+      <weldx.version>1.0.0.Beta1</weldx.version>
       <seam.faces.version>3.0.0-SNAPSHOT</seam.faces.version>
       <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
    </properties>
 
    <dependencyManagement>
       <dependencies>
+         <dependency>
+            <groupId>com.ocpsoft</groupId>
+            <artifactId>socialpm-database</artifactId>
+            <version>${project.version}</version>
+         </dependency>
          <dependency>
             <groupId>com.ocpsoft</groupId>
             <artifactId>socialpm-web</artifactId>
@@ -58,6 +66,11 @@
             <artifactId>seam-faces</artifactId>
             <version>${seam.faces.version}</version>
          </dependency>
+         <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-extensions</artifactId>
+            <version>${weldx.version}</version>
+         </dependency>
 
          <dependency>
             <groupId>org.jboss.logging</groupId>
@@ -70,6 +83,18 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
             <scope>provided</scope>
+         </dependency>
+
+         <dependency>
+            <groupId>javax.enterprise</groupId>
+            <artifactId>cdi-api</artifactId>
+            <version>1.0-SP1</version>
+            <scope>provided</scope>
+         </dependency>
+         <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>1.0.0.GA</version>
          </dependency>
 
          <dependency>
