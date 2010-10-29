@@ -71,15 +71,18 @@ public class UserProfileBean
    {
       try
       {
-         if (ApplicationConfig.GUEST_ACCOUNT_NAME.equals(user.getUsername()))
+         if (user != null)
          {
-            throw new NoSuchObjectException();
-         }
+            if (ApplicationConfig.GUEST_ACCOUNT_NAME.equals(user.getUsername()))
+            {
+               throw new NoSuchObjectException();
+            }
 
-         if (user.equals(auth.getUser()))
-         {
-            editMode = true;
-            user = auth.getUser();
+            if (user.equals(auth.getUser()))
+            {
+               editMode = true;
+               user = auth.getUser();
+            }
          }
       }
       catch (NoSuchObjectException e)

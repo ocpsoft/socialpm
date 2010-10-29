@@ -48,38 +48,72 @@ public class FeedBean
    @Inject
    private FeedService fs;
 
-   public List<String> getStreamFor(final User u)
+   public List<String> getPublicStreamFor(final User u)
    {
       List<String> result = new ArrayList<String>();
 
-      for (FeedEvent e : fs.list(10, 0))
+      for (FeedEvent e : fs.listByUser(u, 10, 0))
       {
-         PrettyContext context = PrettyContext.getCurrentInstance();
-         String contextRoot = context.getContextPath();
-         String temp = "<a href=\"" + contextRoot + new PrettyURLBuilder().build(
-                  context.
-                           getConfig().getMappingById("userProfile"),
-                           e.getUser().getUsername()) + "\">"
-                           + e.getUser().getUsername() + "</a> ";
-
-         if (e instanceof UserRegistered)
-         {
-            temp += "signed up ";
-         }
-         else if (e instanceof UserLoggedIn)
-         {
-            temp += "logged in ";
-         }
-         else if (e instanceof FeedEvent)
-         {
-            temp += "did something eventful ";
-         }
-
-         temp += "about " + new PrettyTime().format(e.getCreatedOn()) + ".";
+         String temp = generateHTML(e);
 
          result.add(temp);
       }
 
       return result;
+   }
+
+   public List<String> getPrivateStreamFor(final User u)
+   {
+      List<String> result = new ArrayList<String>();
+
+      for (FeedEvent e : fs.listByUser(u, 10, 0))
+      {
+         String temp = generateHTML(e);
+
+         result.add(temp);
+      }
+
+      return result;
+   }
+
+   public List<String> getSocialStream(final User u)
+   {
+      List<String> result = new ArrayList<String>();
+
+      for (FeedEvent e : fs.list(10, 0))
+      {
+         String temp = generateHTML(e);
+
+         result.add(temp);
+      }
+
+      return result;
+   }
+
+   private String generateHTML(final FeedEvent e)
+   {
+      PrettyContext context = PrettyContext.getCurrentInstance();
+      String contextRoot = context.getContextPath();
+      String temp = "<a href=\"" + contextRoot + new PrettyURLBuilder().build(
+               context.
+                        getConfig().getMappingById("userProfile"),
+                        e.getUser().getUsername()) + "\">"
+                        + e.getUser().getUsername() + "</a> ";
+
+      if (e instanceof UserRegistered)
+      {
+         temp += "signed up ";
+      }
+      else if (e instanceof UserLoggedIn)
+      {
+         temp += "logged in ";
+      }
+      else if (e instanceof FeedEvent)
+      {
+         temp += "did something eventful ";
+      }
+
+      temp += "about " + new PrettyTime().format(e.getCreatedOn()) + ".";
+      return temp;
    }
 }

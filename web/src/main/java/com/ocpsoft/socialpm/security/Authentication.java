@@ -199,7 +199,14 @@ public class Authentication implements Serializable
 
    public void setUser(final User user)
    {
-      loggedInUser.setUsername(user.getUsername());
+      if (user == null)
+      {
+         loggedInUser.setUsername(null);
+      }
+      else
+      {
+         loggedInUser.setUsername(user.getUsername());
+      }
    }
 
    private User getLoggedInUser()

@@ -26,12 +26,22 @@
 	</ui:define>
 
 	<ui:define name="side-items">
+		<div class="box-shaded">
+			<div class="box-shaded p5">
+				<ul class="bullets">
+				<ui:repeat var="event" value="#{userProfileBean.editMode ? feedBean.getPrivateStreamFor(userProfileBean.user) : feedBean.getPublicStreamFor(userProfileBean.user)}">
+					<li> <h:outputText id="event" value="#{event}" escape="false" /> </li>
+				</ui:repeat>
+				</ul>
+			</div>
+		</div>
 	</ui:define>
 
 	<ui:define name="content">
 		<h:form id="profileform">
 			<div class="box-shaded">
-			<div class="box-bordered m5 inside p5"><f:validateBean>
+			<div class="box-bordered m5 inside p5">
+			<f:validateBean>
 				<table cellspacing="10">
 					<tbody>
 						<tr valign="top">
@@ -39,6 +49,10 @@
 							<td width="300"><h:outputText value="#{userProfileBean.user.username}" /></td>
 							<td rowspan="7" width="100">
 								<o:gravatar user="#{userProfileBean.user}" size="100" updatable="#{userProfileBean.editMode}"/>
+								<h:panelGroup style="text-align: center;" 
+									rendered="#{userProfileBean.editMode}">
+									<center class="faded">Change your avatar at <h:outputLink value="http://gravatar.com/emails">gravatar.com</h:outputLink></center>
+								</h:panelGroup>
 							</td>
 						</tr>
 						<tr>
@@ -95,10 +109,14 @@
 								rendered="#{userProfileBean.editMode}"
 								value="#{userProfileBean.user.profile.bio}" /></td>
 						</tr>
+						<tr>
+							<td colspan="3" align="right">
+								<h:commandButton value="Save" action="#{userProfileBean.save}"
+									rendered="#{userProfileBean.editMode}" />
+							</td>
+						</tr>
 					</tbody>
 				</table>
-				<h:commandButton value="Save" action="#{userProfileBean.save}"
-					rendered="#{userProfileBean.editMode}" />
 			</f:validateBean></div>
 			</div>
 
