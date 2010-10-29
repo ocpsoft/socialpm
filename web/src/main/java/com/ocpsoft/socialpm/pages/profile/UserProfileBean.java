@@ -30,14 +30,12 @@
 
 package com.ocpsoft.socialpm.pages.profile;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jboss.seam.international.status.Messages;
 
-import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.model.UserService;
 import com.ocpsoft.socialpm.pages.params.Current;
@@ -66,32 +64,26 @@ public class UserProfileBean
 
    private boolean editMode = false;
 
-   @PostConstruct
    public String load()
    {
-      try
+      if (user != null)
       {
-         if (user != null)
+         if (ApplicationConfig.GUEST_ACCOUNT_NAME.equals(user.getUsername()))
          {
-            if (ApplicationConfig.GUEST_ACCOUNT_NAME.equals(user.getUsername()))
-            {
-               throw new NoSuchObjectException();
-            }
-
-            if (user.equals(auth.getUser()))
-            {
-               editMode = true;
-               user = auth.getUser();
-            }
+            messages.warn("Oops! We couldn't find that user...");
+         }
+         else if (user.equals(auth.getUser()))
+         {
+            editMode = true;
+            user = auth.getUser();
          }
       }
-      catch (NoSuchObjectException e)
+      else
       {
-         // TODO this needs to redirect to the invite users screen
-         messages.warn("That user does not exist.");
+         messages.warn("Oops! We couldn't find that user...");
       }
-      return null;
 
+      return null;
    }
 
    public String save()

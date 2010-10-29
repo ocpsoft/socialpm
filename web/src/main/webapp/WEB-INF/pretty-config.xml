@@ -34,7 +34,7 @@
                                    		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-2.0.4.xsd">
 
    <rewrite match=".*/" trailingSlash="remove"/>
-
+   
 	<!-- Content Pages -->
 	<!-- Admin Pages -->
 	<url-mapping id="admin">
@@ -75,8 +75,13 @@
 		<pattern value="/account" />
 		<view-id> /faces/pages/profile/userAccount.xhtml </view-id>
 	</url-mapping>
-	<url-mapping id="userProfile">
-		<pattern value="/users/#{paramsBean.userName}" />
-		<view-id> /faces/pages/profile/userProfile.xhtml </view-id>
-	</url-mapping>
+   
+   
+
+   <url-mapping id="userProfile">
+      <pattern value="/#{ /(?!(admin|404|error|login|logout|recover|register|account))[^/]+/ paramsBean.userName}" />
+      <view-id> /faces/pages/profile/userProfile.xhtml </view-id>
+      <action>#{userProfileBean.load}</action>
+   </url-mapping>
+   
 </pretty-config>

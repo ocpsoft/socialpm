@@ -42,7 +42,7 @@
 	<h:outputLink value="http://gravatar.com/emails/" 
 		title="Change your avatar at gravatar.com &#160;&#187;&#160;" 
 		target="_blank"
-		rendered="#{cc.attrs.updatable}">
+		rendered="#{cc.attrs.updatable and cc.attrs.user != null}">
 		<h:graphicImage value="#{gravatars.getURLFor(cc.attrs.user.email, (cc.attrs.size eq '' ? 80 : cc.attrs.size))}" 
 			height="#{cc.attrs.size}" 
 			width="#{cc.attrs.size}" 
@@ -57,7 +57,7 @@
 			style="padding: 2px; 
 			border-solid: #ccc; 
 			background-color: #eee;" 
-			rendered="#{!cc.attrs.updatable}"/>
+			rendered="#{!cc.attrs.updatable and cc.attrs.user != null}"/>
 </composite:implementation>
 
 </html>

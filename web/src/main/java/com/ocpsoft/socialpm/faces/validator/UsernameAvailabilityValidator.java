@@ -30,6 +30,8 @@
 
 package com.ocpsoft.socialpm.faces.validator;
 
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -38,6 +40,8 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
+import com.ocpsoft.pretty.PrettyContext;
+import com.ocpsoft.pretty.faces.config.mapping.UrlMapping;
 import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.model.UserService;
 
@@ -48,13 +52,25 @@ public class UsernameAvailabilityValidator implements Validator
    UserService us;
 
    @Override
-   public void validate(final FacesContext context, final UIComponent component, final Object value) throws ValidatorException
+   public void validate(final FacesContext context, final UIComponent component, final Object value)
+            throws ValidatorException
    {
+      FacesMessage msg = new FacesMessage("Sorry, that username is unavailable.");
       String field = value.toString();
+
+      // TODO put a design pattern around this validator - support multiple providers for bad name checks
+      List<UrlMapping> mappings = PrettyContext.getCurrentInstance().getConfig().getMappings();
+      for (UrlMapping m : mappings)
+      {
+         if (m.getPattern().equals("/" + field))
+         {
+            throw new ValidatorException(msg);
+         }
+      }
+
       try
       {
          us.getUserByName(field);
-         FacesMessage msg = new FacesMessage("Sorry, that username is already taken. Try again.");
          throw new ValidatorException(msg);
       }
       catch (NoSuchObjectException e)

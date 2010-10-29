@@ -34,10 +34,12 @@ import java.io.Serializable;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.model.UserService;
 
@@ -57,12 +59,20 @@ public class CurrentUserBean implements Serializable
    private UserService us;
 
    @Produces
+   @RequestScoped
    @Current
    public User getUser()
    {
       if ((user == null) && (params.getUserName() != null))
       {
-         user = us.getUserByName(params.getUserName());
+         try
+         {
+            user = us.getUserByName(params.getUserName());
+         }
+         catch (NoSuchObjectException e)
+         {
+            user = null;
+         }
       }
       return user;
    }

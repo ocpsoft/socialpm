@@ -38,7 +38,7 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="profileform">
+		<h:form id="profileform" rendered="#{userProfileBean.user != null}">
 			<div class="box-shaded">
 			<div class="box-bordered m5 inside p5">
 			<f:validateBean>
@@ -56,7 +56,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td width="155" align="right"><label for="joined">Joined:</label></td>
+							<td width="155" align="right"><label for="joined">Member since:</label></td>
 							<td colspan="2"><h:outputText value="#{userProfileBean.user.createdOn}">
 								<f:convertDateTime />
 							</h:outputText> <span class="faded"> -- <h:outputText
