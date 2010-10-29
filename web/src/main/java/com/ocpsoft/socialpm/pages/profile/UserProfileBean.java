@@ -41,7 +41,7 @@ import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.model.UserService;
 import com.ocpsoft.socialpm.pages.params.Current;
-import com.ocpsoft.socialpm.security.LoggedIn;
+import com.ocpsoft.socialpm.security.Authentication;
 import com.ocpsoft.socialpm.web.constants.ApplicationConfig;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
@@ -56,8 +56,7 @@ public class UserProfileBean
    private User user;
 
    @Inject
-   @LoggedIn
-   private User loggedInUser;
+   private Authentication auth;
 
    @Inject
    private UserService us;
@@ -77,9 +76,10 @@ public class UserProfileBean
             throw new NoSuchObjectException();
          }
 
-         if (user.equals(loggedInUser))
+         if (user.equals(auth.getUser()))
          {
             editMode = true;
+            user.equals(auth.getUser());
          }
       }
       catch (NoSuchObjectException e)

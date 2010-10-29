@@ -88,7 +88,8 @@ public class AdminBean implements Serializable
             initialized = true;
          }
          catch (NoSuchObjectException e)
-         {}
+         {
+         }
       }
       return initialized;
    }

@@ -38,22 +38,21 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
-import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.model.UserService;
-import com.ocpsoft.socialpm.security.LoggedIn;
+import com.ocpsoft.socialpm.security.Authentication;
 
 @FacesValidator("currentUserPasswordValidator")
 public class CurrentUserPasswordValidator implements Validator
 {
    @Inject
-   @LoggedIn
-   User user;
+   Authentication authentication;
 
    @Inject
    UserService us;
 
    @Override
-   public void validate(final FacesContext context, final UIComponent component, final Object value) throws ValidatorException
+   public void validate(final FacesContext context, final UIComponent component, final Object value)
+            throws ValidatorException
    {
       String password = "";
       if (value != null)
@@ -61,7 +60,7 @@ public class CurrentUserPasswordValidator implements Validator
          password = value.toString();
       }
 
-      boolean passwordMatches = us.passwordIs(user, password);
+      boolean passwordMatches = us.passwordIs(authentication.getUser(), password);
       if (password.isEmpty() || !passwordMatches)
       {
          FacesMessage msg = new FacesMessage("Passwords do not match");

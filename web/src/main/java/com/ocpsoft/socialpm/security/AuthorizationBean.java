@@ -51,7 +51,7 @@ public class AuthorizationBean
    Messages messages;
 
    @Inject
-   private LoggedInUserBean liub;
+   private Authentication liub;
 
    public String assertLoggedIn()
    {

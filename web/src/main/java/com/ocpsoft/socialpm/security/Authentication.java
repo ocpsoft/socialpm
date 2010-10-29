@@ -30,7 +30,6 @@
 
 package com.ocpsoft.socialpm.security;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
@@ -48,6 +47,7 @@ import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.pretty.PrettyContext;
 import com.ocpsoft.socialpm.domain.NoSuchObjectException;
+import com.ocpsoft.socialpm.domain.feed.UserLoggedIn;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.domain.user.UserPasswordMatchTester;
 import com.ocpsoft.socialpm.domain.user.UserProfile;
@@ -61,7 +61,7 @@ import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 @Named
 @RequestScoped
-public class LoggedInUserBean implements Serializable
+public class Authentication implements Serializable
 {
    private static final long serialVersionUID = -1373930544088844699L;
 
@@ -74,10 +74,6 @@ public class LoggedInUserBean implements Serializable
    private Messages messages;
 
    @Inject
-   private Event<LoginFailedEvent> loginFailed;
-   @Inject
-   private Event<LoginSuccessfulEvent> loginSuccess;
-   @Inject
    private LoginRedirectPage redirect;
    @Inject
    private LoggedInUser loggedInUser;
@@ -86,7 +82,7 @@ public class LoggedInUserBean implements Serializable
 
    private final User GUEST = new User();
 
-   public LoggedInUserBean()
+   public Authentication()
    {
       GUEST.setUsername(GUEST_USERNAME);
    }
@@ -107,7 +103,8 @@ public class LoggedInUserBean implements Serializable
       }
    }
 
-   public void login(@Observes final LoginEvent event)
+   public void login(@Observes final LoginEvent event, final Event<LoginFailedEvent> loginFailed,
+            final Event<LoginSuccessfulEvent> loginSuccess)
    {
       if (event.isRedirect())
       {
@@ -143,25 +140,25 @@ public class LoggedInUserBean implements Serializable
       navHandler.handleNavigation(context, PrettyContext.getCurrentInstance().getCurrentViewId(), UrlConstants.LOGIN);
    }
 
-   public void loginSucceeded(@Observes final LoginSuccessfulEvent event)
+   public void loginSucceeded(@Observes final LoginSuccessfulEvent event, final Event<UserLoggedIn> userLoggedIn)
    {
+      userLoggedIn.fire(new UserLoggedIn(event.getUser()));
+
       messages.info("Hey {0}, great to see you again!").textParams(event.getUser().getUsername());
       FacesContext context = FacesContext.getCurrentInstance();
-      if (redirect.getPage() != null)
+      PrettyContext prettyContext = PrettyContext.getCurrentInstance();
+      String page = redirect.getPage();
+      if (page != null)
       {
-         try
-         {
-            context.getExternalContext().redirect(redirect.getPage());
-            context.responseComplete();
-         }
-         catch (IOException e)
-         {
-            throw new RuntimeException(e);
-         }
+         navHandler.handleNavigation(context,
+                  context.getViewRoot().getViewId(),
+                  "pretty:" + prettyContext.getCurrentMapping().getId());
       }
       else
       {
-         navHandler.handleNavigation(context, PrettyContext.getCurrentInstance().getCurrentViewId(), UrlConstants.HOME);
+         navHandler.handleNavigation(context,
+                  prettyContext.getCurrentViewId(),
+                  UrlConstants.HOME);
       }
    }
 
@@ -179,6 +176,7 @@ public class LoggedInUserBean implements Serializable
    }
 
    @Produces
+   @RequestScoped
    @LoggedIn
    public User getUser()
    {
@@ -186,6 +184,7 @@ public class LoggedInUserBean implements Serializable
    }
 
    @Produces
+   @RequestScoped
    @LoggedIn
    public UserProfile getProfile()
    {

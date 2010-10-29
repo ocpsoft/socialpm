@@ -20,6 +20,11 @@
    </properties>
 
    <dependencies>
+      <dependency>
+         <groupId>com.ocpsoft</groupId>
+         <artifactId>ocpsoft-pretty-time</artifactId>
+         <version>${prettytime.version}</version>
+      </dependency>
 
       <dependency>
          <groupId>org.jboss.logging</groupId>
@@ -86,14 +91,8 @@
                <version>3.2-SNAPSHOT</version>
                <scope>provided</scope>
             </dependency>
-	        <!--     
-	        <dependency>
-	           <groupId>org.apache.openjpa</groupId>
-	           <artifactId>openjpa</artifactId>
-	           <version>${openjpa.version}</version>
-	           <scope>provided</scope>
-	        </dependency>
-            -->
+            <!-- <dependency> <groupId>org.apache.openjpa</groupId> <artifactId>openjpa</artifactId> 
+               <version>${openjpa.version}</version> <scope>provided</scope> </dependency> -->
             <dependency>
                <groupId>javax.inject</groupId>
                <artifactId>javax.inject</artifactId>
@@ -111,15 +110,9 @@
                </testResource>
             </testResources>
             <plugins>
-            <!-- 
-               <plugin>
-                  <groupId>org.apache.maven.plugins</groupId>
-                  <artifactId>maven-surefire-plugin</artifactId>
-                  <configuration>
-                     <argLine>-javaagent:${settings.localRepository}/org/apache/openjpa/openjpa/${openjpa.version}/openjpa-${openjpa.version}.jar</argLine>
-                  </configuration>
-               </plugin>
-             -->
+               <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> 
+                  <artifactId>maven-surefire-plugin</artifactId> <configuration> <argLine>-javaagent:${settings.localRepository}/org/apache/openjpa/openjpa/${openjpa.version}/openjpa-${openjpa.version}.jar</argLine> 
+                  </configuration> </plugin> -->
                <plugin>
                   <groupId>org.codehaus.mojo</groupId>
                   <artifactId>build-helper-maven-plugin</artifactId>

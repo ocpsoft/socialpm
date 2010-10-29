@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:o="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:t="http://java.sun.com/jsf/composite/ocpsoft-jsf2-templates/liquid-blue-2col"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+	<ui:param name="title" value="Dashboard" />
+
+	<ui:define name="header-h2">
+		<h:outputText value="#{authentication.user.username} ( #{! empty authentication.profile.fullName ? authentication.profile.fullName : 'hi!' } )" />
+	</ui:define>
+	<ui:define name="header-ul">
+		<li> 
+			<pretty:link mappingId="home">
+				Home
+			</pretty:link>
+		</li>
+	</ui:define>
+
+	<ui:define name="content">
+	<o:gravatar user="#{authentication.user}" size="60" updatable="true" />
+	</ui:define>
+
+	<ui:define name="side-items">
+		<div class="box-shaded p5">
+		<ul class="bullets">
+		<ui:repeat var="event" value="#{feedBean.getStreamFor(authentication.user)}">
+			<li> <h:outputText id="event" value="#{event}" escape="false" /> </li>
+		</ui:repeat>
+		</ul>
+		</div>
+	</ui:define>
+
+</ui:composition>
+</html>

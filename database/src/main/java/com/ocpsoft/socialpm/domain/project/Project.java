@@ -58,7 +58,10 @@ import com.ocpsoft.socialpm.util.Strings;
 
 @Entity
 @Table(name = "projects")
-@NamedQueries({ @NamedQuery(name = "project.byName", query = "from Project where name = ?"), @NamedQuery(name = "project.byCanonicalName", query = "from Project where canonicalName = ?"), @NamedQuery(name = "project.count", query = "select count(*) from Project"), @NamedQuery(name = "project.list", query = "from Project p order by p.canonicalName asc") })
+@NamedQueries({ @NamedQuery(name = "project.byName", query = "from Project where name = ?"),
+         @NamedQuery(name = "project.byCanonicalName", query = "from Project where canonicalName = ?"),
+         @NamedQuery(name = "project.count", query = "select count(*) from Project"),
+         @NamedQuery(name = "project.list", query = "from Project p order by p.canonicalName asc") })
 public class Project extends PersistentObject<Project>
 {
    private static final long serialVersionUID = 719438791700341079L;
@@ -412,6 +415,7 @@ public class Project extends PersistentObject<Project>
    public void setName(final String name)
    {
       this.name = name;
+      this.canonicalName = Strings.canonicalize(name);
    }
 
    public String getVision()
@@ -490,7 +494,7 @@ public class Project extends PersistentObject<Project>
 
    public String getCanonicalName()
    {
-      return canonicalName == null ? Strings.canonicalize(name) : canonicalName;
+      return canonicalName;
    }
 
    public void setCanonicalName(final String canonicalName)

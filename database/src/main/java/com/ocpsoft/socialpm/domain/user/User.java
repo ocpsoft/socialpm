@@ -53,6 +53,7 @@ import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.user.auth.UserAccountLocked;
 import com.ocpsoft.socialpm.domain.user.auth.UserEnabled;
 import com.ocpsoft.socialpm.domain.user.auth.UserVerified;
+import com.ocpsoft.socialpm.util.Strings;
 import com.ocpsoft.socialpm.util.pattern.Visitor;
 
 @Entity
@@ -60,15 +61,20 @@ import com.ocpsoft.socialpm.util.pattern.Visitor;
 @NamedQueries({
          @NamedQuery(name = "user.byEmail", query = "from User where email = ?"),
          @NamedQuery(name = "user.byRegKey", query = "from User where registrationKey = ?"),
-         @NamedQuery(name = "user.byName", query = "from User where username = ?") })
+         @NamedQuery(name = "user.byName", query = "from User where username = ?"),
+         @NamedQuery(name = "user.byCanonicalName", query = "from User where canonicalUsername = ?") })
 public class User extends PersistentObject<User>
 {
    @Transient
    private static final long serialVersionUID = 7655987424212407525L;
 
    @Index(name = "userNameIndex")
-   @Column(nullable = false, unique = true, length = 36)
+   @Column(nullable = false, unique = true, updatable = false, length = 36)
    private String username;
+
+   @Index(name = "canonicalUsernameIndex")
+   @Column(nullable = false, unique = true, updatable = false, length = 36)
+   private String canonicalUsername;
 
    @Column(nullable = false, length = 64)
    private String password;
@@ -154,6 +160,16 @@ public class User extends PersistentObject<User>
       return true;
    }
 
+   public String getCanonicalUsername()
+   {
+      return canonicalUsername;
+   }
+
+   public void setCanonicalUsername(final String canonicalUsername)
+   {
+      this.canonicalUsername = canonicalUsername;
+   }
+
    public String getUsername()
    {
       return username;
@@ -162,6 +178,7 @@ public class User extends PersistentObject<User>
    public void setUsername(final String username)
    {
       this.username = username;
+      this.canonicalUsername = Strings.canonicalize(username);
    }
 
    public String getPassword()

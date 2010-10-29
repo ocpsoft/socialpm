@@ -54,10 +54,6 @@
 	<!-- End Exception Mappings -->
 
 
-	<url-mapping id="home">
-		<pattern value="/" />
-		<view-id> /faces/pages/home/loggedOffHome.xhtml </view-id>
-	</url-mapping>
 	<url-mapping id="login">
 		<pattern value="/login" />
 		<view-id> /faces/pages/login.xhtml </view-id>

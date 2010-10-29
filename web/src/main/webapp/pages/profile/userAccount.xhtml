@@ -19,7 +19,7 @@
 
 	<ui:define name="header-ul">
 		<li><pretty:link mappingId="userProfile">
-			<f:param value="#{loggedInUserBean.user.username}" />
+			<f:param value="#{authentication.user.username}" />
 				Back to profile
 			</pretty:link></li>
 	</ui:define>

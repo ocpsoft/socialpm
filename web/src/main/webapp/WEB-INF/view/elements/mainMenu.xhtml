@@ -42,21 +42,21 @@
 		</ul>
 		
 		<ul class="fr">
-			<h:panelGroup rendered="#{loggedInUserBean.loggedIn == 'false'}">
+			<h:panelGroup rendered="#{authentication.loggedIn == 'false'}">
 				<li><pretty:link mappingId="register">register</pretty:link></li>
 			</h:panelGroup>
-			<h:panelGroup rendered="#{loggedInUserBean.loggedIn == 'false'}">
+			<h:panelGroup rendered="#{authentication.loggedIn == 'false'}">
 				<li><pretty:link mappingId="login">log in</pretty:link></li>
 			</h:panelGroup>
-			<h:panelGroup rendered="#{loggedInUserBean.loggedIn == 'true'}">
+			<h:panelGroup rendered="#{authentication.loggedIn == 'true'}">
 				<li>
 					<pretty:link mappingId="logout">
-						log out [#{loggedInUserBean.user.username}]
+						log out [#{authentication.user.username}]
 					</pretty:link> 
 				</li>
 				<li>
 					 	<pretty:link mappingId="userProfile">
-							<f:param value="#{loggedInUserBean.user.username}" />
+							<f:param value="#{authentication.user.username}" />
 							<h:outputText value="profile" />
 						</pretty:link>
 				</li>

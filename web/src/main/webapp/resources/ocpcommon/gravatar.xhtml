@@ -29,25 +29,35 @@
 
 -->
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
-	<composite:attribute name="forId" required="false" type="String" />
-	<composite:attribute name="styleClass" required="false" type="String" />
 </composite:interface>
 
 <composite:implementation>
-	<h:outputStylesheet name="ocpcommon/ocpcommon.css" />
+	<h:outputLink value="http://gravatar.com/emails/" 
+		title="Change your avatar at gravatar.com &#160;&#187;&#160;" 
+		target="_blank"
+		rendered="#{cc.attrs.updatable}">
+		<h:graphicImage value="#{gravatars.getURLFor(cc.attrs.user.email, (cc.attrs.size eq '' ? 80 : cc.attrs.size))}" 
+			height="#{cc.attrs.size}" 
+			width="#{cc.attrs.size}" 
+			style="padding: 2px; 
+			border-solid: #ccc; 
+			background-color: #eee;" />
+	</h:outputLink>
 	
-	<h:panelGroup rendered="#{empty cc.attrs.styleClass}">
-		<h:message for="#{cc.attrs.forId}"
-			showSummary="true" showDetail="false"
-			style="color: red; font-weight: bold;" />
-	</h:panelGroup>
+	<h:graphicImage value="#{gravatars.getURLFor(cc.attrs.user.email, (cc.attrs.size eq '' ? 80 : cc.attrs.size))}" 
+			height="#{cc.attrs.size}" 
+			width="#{cc.attrs.size}" 
+			style="padding: 2px; 
+			border-solid: #ccc; 
+			background-color: #eee;" 
+			rendered="#{!cc.attrs.updatable}"/>
 </composite:implementation>
 
 </html>

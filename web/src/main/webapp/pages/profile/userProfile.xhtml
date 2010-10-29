@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:o="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:pretty="http://ocpsoft.com/prettyfaces">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
@@ -34,13 +34,16 @@
 			<div class="box-bordered m5 inside p5"><f:validateBean>
 				<table cellspacing="10">
 					<tbody>
-						<tr>
+						<tr valign="top">
 							<td width="155" align="right"><label for="username">Username:</label></td>
-							<td><h:outputText value="#{userProfileBean.user.username}" /></td>
+							<td width="300"><h:outputText value="#{userProfileBean.user.username}" /></td>
+							<td rowspan="7" width="100">
+								<o:gravatar user="#{userProfileBean.user}" size="100" updatable="#{userProfileBean.editMode}"/>
+							</td>
 						</tr>
 						<tr>
 							<td width="155" align="right"><label for="joined">Joined:</label></td>
-							<td><h:outputText value="#{userProfileBean.user.createdOn}">
+							<td colspan="2"><h:outputText value="#{userProfileBean.user.createdOn}">
 								<f:convertDateTime />
 							</h:outputText> <span class="faded"> -- <h:outputText
 								value="#{userProfileBean.user.createdOn}">
@@ -49,7 +52,7 @@
 						</tr>
 						<tr>
 							<td align="right"><label for="email">Email:</label></td>
-							<td><h:outputText value="#{userProfileBean.user.email}"
+							<td colspan="2"><h:outputText value="#{userProfileBean.user.email}"
 								rendered="#{userProfileBean.editMode or !userProfileBean.user.profile.emailSecret}" />
 							- <pretty:link
 								rendered="#{userProfileBean.editMode or !userProfileBean.user.profile.emailSecret}"
@@ -61,7 +64,7 @@
 							<tr>
 								<td align="right"><label for="emailPrivate">Keep
 								email private?</label></td>
-								<td><h:selectOneRadio required="true" id="emailPrivate"
+								<td colspan="2"><h:selectOneRadio required="true" id="emailPrivate"
 									value="#{userProfileBean.user.profile.emailSecret}">
 									<f:selectItem itemValue="true" itemLabel="yes" />
 									<f:selectItem itemValue="false" itemLabel="no" />
@@ -70,28 +73,27 @@
 						</f:subview>
 						<tr>
 							<td align="right"><label for="fullname">Full Name:</label></td>
-							<td><h:outputText rendered="#{!userProfileBean.editMode}"
+							<td colspan="2"><h:outputText rendered="#{!userProfileBean.editMode}"
 								value="#{userProfileBean.user.profile.fullName}" /> <h:inputText
 								id="fullname" rendered="#{userProfileBean.editMode}"
 								value="#{userProfileBean.user.profile.fullName}">
 								<f:validator validatorId="safeTextValidator" />
-							</h:inputText><ocp:message for="fullname" /></td>
+							</h:inputText></td>
 						</tr>
 						<tr>
 							<td align="right"><label for="employer">Employer:</label></td>
-							<td><h:outputText rendered="#{!userProfileBean.editMode}"
+							<td colspan="2"><h:outputText rendered="#{!userProfileBean.editMode}"
 								value="#{userProfileBean.user.profile.employer}" /> <h:inputText
 								id="employer" rendered="#{userProfileBean.editMode}"
-								value="#{userProfileBean.user.profile.employer}" /><ocp:message
-								for="employer" /></td>
+								value="#{userProfileBean.user.profile.employer}" /></td>
 						</tr>
 						<tr valign="top">
 							<td align="right"><label for="bio">Bio:</label></td>
-							<td><h:outputText rendered="#{!userProfileBean.editMode}"
+							<td colspan="2"><h:outputText rendered="#{!userProfileBean.editMode}"
 								value="#{userProfileBean.user.profile.bio}" /> <h:inputTextarea
 								id="bio" rows="6" cols="50"
 								rendered="#{userProfileBean.editMode}"
-								value="#{userProfileBean.user.profile.bio}" /><ocp:message for="bio" /></td>
+								value="#{userProfileBean.user.profile.bio}" /></td>
 						</tr>
 					</tbody>
 				</table>

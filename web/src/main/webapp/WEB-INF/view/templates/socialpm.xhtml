@@ -68,7 +68,7 @@
 
 	<ui:define name="side-ul">
 		
-		<h:panelGroup rendered="#{!loggedInUserBean.loggedIn}">
+		<h:panelGroup rendered="#{!authentication.loggedIn}">
 			<ui:include src="/WEB-INF/view/elements/login/loginSidebar.xhtml">
 				<ui:param name="redirect" value="true" />
 			</ui:include>

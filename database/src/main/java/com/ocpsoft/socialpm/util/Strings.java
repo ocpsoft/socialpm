@@ -54,7 +54,7 @@ public class Strings
 
    public static String canonicalize(final String name)
    {
-      String result = "";
+      String result = null;
       if (name != null)
       {
          result = name.toLowerCase().replace(' ', '-').replaceAll("[^a-z0-9-]*", "").replaceAll("-+", "-");

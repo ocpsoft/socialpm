@@ -44,12 +44,14 @@ import javax.persistence.Table;
 import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.user.User;
 
-@Entity
+@Entity(name = "FeedEvent")
 @Table(name = "activity_feed")
 @DiscriminatorValue("userevent")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING, length = 15)
-@NamedQueries({ @NamedQuery(name = "feedEvent.byUser", query = "from FeedEvent where user = ?") })
+@NamedQueries({
+         @NamedQuery(name = "feedEvent.byUser", query = "from FeedEvent where user = ? order by createdOn desc"),
+         @NamedQuery(name = "feedEvent.all", query = "from FeedEvent order by createdOn desc") })
 public class FeedEvent extends PersistentObject<FeedEvent>
 {
    private static final long serialVersionUID = 7038341222060982180L;

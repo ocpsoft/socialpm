@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateful;
+import javax.enterprise.event.Observes;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -58,7 +59,7 @@ public class FeedService extends PersistenceUtil implements Serializable
       return entityManager;
    }
 
-   public void addEvent(final FeedEvent event)
+   public void addEvent(@Observes final FeedEvent event)
    {
       event.setCreatedOn(new Date());
       create(event);
@@ -66,7 +67,15 @@ public class FeedService extends PersistenceUtil implements Serializable
 
    public List<FeedEvent> list(final int limit, final int offset)
    {
-      return this.findAll(FeedEvent.class);
+      TypedQuery<FeedEvent> query = entityManager.createNamedQuery("feedEvent.all", FeedEvent.class)
+               .setFirstResult(offset);
+
+      if (limit > 0)
+      {
+         query.setMaxResults(limit);
+      }
+
+      return query.getResultList();
    }
 
    public List<FeedEvent> listByUser(final User user, final int limit, final int offset)
