@@ -28,6 +28,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.feed.UserRegistered;
 import com.ocpsoft.socialpm.domain.user.Authority;
@@ -68,19 +69,20 @@ public class UserService extends PersistenceUtil implements Serializable
    public void save(final User user)
    {
       super.save(user);
+      em.flush();
    }
 
-   public User getUserById(final long id)
+   public User getUserById(final long id) throws NoSuchObjectException
    {
       return findById(User.class, id);
    }
 
-   public User getUserByName(final String name)
+   public User getUserByName(final String name) throws NoSuchObjectException
    {
       return findUniqueByNamedQuery("user.byName", name);
    }
 
-   public User getUserByEmail(final String email)
+   public User getUserByEmail(final String email) throws NoSuchObjectException
    {
       return findUniqueByNamedQuery("user.byEmail", email);
    }

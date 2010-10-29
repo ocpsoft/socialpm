@@ -33,8 +33,6 @@ import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 
-import com.ocpsoft.socialpm.domain.user.User;
-
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
@@ -44,15 +42,15 @@ public class LoggedInUser implements Serializable
 {
    private static final long serialVersionUID = -8514533251860397135L;
 
-   private User user;
+   private String username;
 
-   public User getUser()
+   public String getUsername()
    {
-      return user;
+      return username;
    }
 
-   public void setUser(final User user)
+   public void setUsername(final String username)
    {
-      this.user = user;
+      this.username = username;
    }
 }

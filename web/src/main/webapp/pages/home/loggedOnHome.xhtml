@@ -12,7 +12,9 @@
 	<ui:param name="title" value="Dashboard" />
 
 	<ui:define name="header-h2">
-		<h:outputText value="#{authentication.user.username} ( #{! empty authentication.profile.fullName ? authentication.profile.fullName : 'hi!' } )" />
+		<h:outputText value="#{authentication.user.username}" />
+		<h:outputText styleClass="faded" value=" ( #{authentication.profile.fullName} )" rendered="#{authentication.profile.fullName != ''}"/>
+		
 	</ui:define>
 	<ui:define name="header-ul">
 		<li> 

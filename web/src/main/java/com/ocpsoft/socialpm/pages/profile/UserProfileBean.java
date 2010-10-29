@@ -79,7 +79,7 @@ public class UserProfileBean
          if (user.equals(auth.getUser()))
          {
             editMode = true;
-            user.equals(auth.getUser());
+            user = auth.getUser();
          }
       }
       catch (NoSuchObjectException e)

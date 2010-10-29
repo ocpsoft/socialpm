@@ -47,7 +47,7 @@ public class SafeTextValidator implements Validator
             throws ValidatorException
    {
       String field = value.toString();
-      if (!StringValidations.isAlphanumericSpaceUnderscore(field))
+      if (!StringValidations.isPunctuatedText(field))
       {
          FacesMessage msg = new FacesMessage("I don't like that...");
          throw new ValidatorException(msg);

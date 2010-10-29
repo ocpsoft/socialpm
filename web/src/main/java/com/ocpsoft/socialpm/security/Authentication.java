@@ -82,6 +82,8 @@ public class Authentication implements Serializable
 
    private final User GUEST = new User();
 
+   private User user;
+
    public Authentication()
    {
       GUEST.setUsername(GUEST_USERNAME);
@@ -197,11 +199,24 @@ public class Authentication implements Serializable
 
    public void setUser(final User user)
    {
-      loggedInUser.setUser(user);
+      loggedInUser.setUsername(user.getUsername());
    }
 
    private User getLoggedInUser()
    {
-      return loggedInUser.getUser();
+      if ((user == null)
+               || ((loggedInUser.getUsername() != null) && (user != null) && !loggedInUser.getUsername().equals(
+                        user.getUsername())))
+      {
+         try
+         {
+            user = us.getUserByName(loggedInUser.getUsername());
+         }
+         catch (NoSuchObjectException e)
+         {
+            user = GUEST;
+         }
+      }
+      return user;
    }
 }
