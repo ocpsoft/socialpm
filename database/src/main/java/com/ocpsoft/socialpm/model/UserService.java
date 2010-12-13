@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.enterprise.context.ConversationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
@@ -45,6 +46,7 @@ import com.ocpsoft.socialpm.util.RandomGenerator;
 import com.ocpsoft.socialpm.util.StringValidations;
 
 @Stateful
+@ConversationScoped
 public class UserService extends PersistenceUtil implements Serializable
 {
    private static final long serialVersionUID = 2988513095024795683L;

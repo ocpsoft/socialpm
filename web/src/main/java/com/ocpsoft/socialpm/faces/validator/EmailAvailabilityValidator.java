@@ -30,6 +30,7 @@
 
 package com.ocpsoft.socialpm.faces.validator;
 
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -41,6 +42,7 @@ import javax.inject.Inject;
 import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.model.UserService;
 
+@RequestScoped
 @FacesValidator("emailAvailabilityValidator")
 public class EmailAvailabilityValidator implements Validator
 {
@@ -48,7 +50,8 @@ public class EmailAvailabilityValidator implements Validator
    UserService us;
 
    @Override
-   public void validate(final FacesContext context, final UIComponent component, final Object value) throws ValidatorException
+   public void validate(final FacesContext context, final UIComponent component, final Object value)
+            throws ValidatorException
    {
       String field = value.toString();
       try

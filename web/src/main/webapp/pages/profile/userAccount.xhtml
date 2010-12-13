@@ -28,62 +28,50 @@
 	</ui:define>
 
 	<ui:define name="content">
+
 		<h:form id="accountform">
-			<f:validateBean>
-				<label for="email">Email:<ocp:message for="email" /> </label>
-				<br />
-				<h:inputText id="email" value="#{userAccountBean.user.email}"
+			<ocp:container id="email" label="Email:">
+				<h:inputText id="input" value="#{userAccountBean.user.email}"
 					validator="#{userAccountBean.validateNewEmail}">
 					<f:validator validatorId="emailValidator" />
+					<f:ajax render="email:label" />
 				</h:inputText>
-				<br />
-				<br />
+			</ocp:container>
+			<br />
+			<br />
 
-				<label for="password"><h:outputText value="New Password: " />
-				<ocp:message id="passwordError" for="password" /> </label>
-				<br />
-				<h:inputSecret id="password" required="false"
-					value="#{userAccountBean.newPassword}">
+			<ocp:container id="password" label="New Password:" >
+				<h:inputSecret id="input" required="false" value="#{userAccountBean.newPassword}">
 					<f:validator validatorId="passwordValidator" />
-					<f:ajax execute="@this" render="passwordError" />
 				</h:inputSecret>
-				<br />
-				<br />
+			</ocp:container>
+			<br />
+			<br />
 
-				<label for="passwordConfirm"><h:outputText
-					value="New Password Again: " /><ocp:message
-					id="passwordConfirmError" for="passwordConfirm" /> </label>
-				<br />
-				<h:inputSecret id="passwordConfirm" required="false"
-					validator="#{userAccountBean.validatePasswordsMatch}">
+			<ocp:container id="passwordConfirm" label="New Password Again:">
+				<h:inputSecret id="input" required="false">
 					<f:validator validatorId="passwordValidator" />
-					<f:ajax execute="password @this validatePasswords"
-						render=":TPLmessages passwordError passwordConfirmError" />
 				</h:inputSecret>
-				<br />
-				<br />
+			</ocp:container>
+			<br />
+			<br />
 
-				<s:validateForm id="validatePasswords" validatorId="passwordConfirm"
-					fields="password1=password password2=passwordConfirm" />
+			<s:validateForm id="validatePasswords" validatorId="passwordConfirm" 
+				fields="password1=password:input password2=passwordConfirm:input" />
 
-
-				<label for="oldpassword"><h:outputText
-					value="Old Password *: " /> <ocp:message id="oldPasswordError"
-					for="oldpassword" /> </label>
-				<br />
-				<h:inputSecret id="oldpassword" required="true" autocomplete="off"
-					value="#{userAccountBean.oldPassword}">
+			<ocp:container id="oldPassword" label="Old Password:">
+				<h:inputSecret id="input" required="true" autocomplete="off"
+					value="#{userAccountBean.oldPassword}" requiredMessage="required">
 					<f:validator validatorId="currentUserPasswordValidator" />
 				</h:inputSecret>
-
-				<ocp:separator />
-				<span class="faded">* required</span>
-				<br />
-				<br />
-				<h:commandButton value="Save" action="#{userAccountBean.save}" />
-				<h:commandButton immediate="true" value="Cancel"
-					action="#{userAccountBean.cancel}" />
-			</f:validateBean>
+			</ocp:container>
+			<br/>
+			<span class="faded">* required</span>
+			<br />
+			<br />
+			<h:commandButton value="Save" action="#{userAccountBean.save}" />
+			<h:commandButton immediate="true" value="Cancel"
+				action="#{userAccountBean.cancel}" />
 		</h:form>
 	</ui:define>
 </ui:composition>

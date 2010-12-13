@@ -30,6 +30,7 @@
 
 package com.ocpsoft.socialpm.faces.validator;
 
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -41,14 +42,15 @@ import javax.inject.Inject;
 import com.ocpsoft.socialpm.model.UserService;
 import com.ocpsoft.socialpm.security.Authentication;
 
+@RequestScoped
 @FacesValidator("currentUserPasswordValidator")
 public class CurrentUserPasswordValidator implements Validator
 {
    @Inject
-   Authentication authentication;
+   private Authentication authentication;
 
    @Inject
-   UserService us;
+   private UserService us;
 
    @Override
    public void validate(final FacesContext context, final UIComponent component, final Object value)

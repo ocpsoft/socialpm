@@ -33,14 +33,27 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:composite="http://java.sun.com/jsf/composite">
+	xmlns:cc="http://java.sun.com/jsf/composite">
 
-<composite:interface>
-	<composite:insertChildren />
-</composite:interface>
+<cc:interface componentType="org.jboss.seam.faces.InputContainer" />
+<cc:implementation>
+	<h:outputLabel id="label" 
+		value="#{cc.attrs.label}" 
+		styleClass="#{cc.attrs.invalid ? 'invalid' : ''}">
+		<h:outputText styleClass="required" 
+			rendered="#{cc.attrs.required}"
+			value="*" />
+	</h:outputLabel>
+	<h:message id="message" 
+		showSummary="true" showDetail="false"
+		style="color: red; font-weight: bold;"
+		rendered="#{cc.attrs.invalid}" />
+		<br/>
+	<cc:insertChildren />
+</cc:implementation>
 
-<composite:implementation>
-	<composite:insertChildren/>
-</composite:implementation>
+
+
+
 
 </html>

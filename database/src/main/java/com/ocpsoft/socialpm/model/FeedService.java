@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateful;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.event.Observes;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -46,6 +47,7 @@ import com.ocpsoft.socialpm.domain.feed.FeedEvent;
 import com.ocpsoft.socialpm.domain.user.User;
 
 @Stateful
+@ConversationScoped
 public class FeedService extends PersistenceUtil implements Serializable
 {
    private static final long serialVersionUID = 5716926734835352145L;

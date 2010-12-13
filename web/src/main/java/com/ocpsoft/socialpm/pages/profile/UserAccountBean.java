@@ -33,7 +33,8 @@ import com.ocpsoft.socialpm.domain.user.UserProfile;
 import com.ocpsoft.socialpm.faces.validator.EmailAvailabilityValidator;
 import com.ocpsoft.socialpm.model.UserService;
 import com.ocpsoft.socialpm.pages.params.ParamsBean;
-import com.ocpsoft.socialpm.security.LoggedIn;
+import com.ocpsoft.socialpm.security.Authentication;
+import com.ocpsoft.socialpm.util.StringValidations;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 @Named
@@ -43,8 +44,7 @@ public class UserAccountBean
    private static final long serialVersionUID = 884744038366427415L;
 
    @Inject
-   @LoggedIn
-   private User user;
+   private Authentication auth;
 
    @Inject
    private Messages messages;
@@ -57,12 +57,11 @@ public class UserAccountBean
    private String oldPassword;
    private String newPassword;
 
-   private final boolean updatePassword = false;
-
    public String save()
    {
+      User user = auth.getUser();
       us.save(user);
-      if (updatePassword)
+      if (StringValidations.isPassword(newPassword))
       {
          us.updatePassword(user, oldPassword, newPassword);
       }
@@ -74,14 +73,14 @@ public class UserAccountBean
    public String cancel()
    {
       messages.info("Changes to your private stuff have been discarded.");
-      params.setUserName(user.getUsername());
+      params.setUserName(auth.getUser().getUsername());
       return UrlConstants.USER_PROFILE;
    }
 
    public void validateNewEmail(final FacesContext context, final UIComponent component, final Object value)
             throws ValidatorException
    {
-      if (!user.getEmail().equals(value))
+      if (!auth.getUser().getEmail().equals(value))
       {
          new EmailAvailabilityValidator().validate(context, component, value);
       }
@@ -89,12 +88,12 @@ public class UserAccountBean
 
    public UserProfile getProfile()
    {
-      return user.getProfile();
+      return auth.getProfile();
    }
 
    public void setProfile(final UserProfile profile)
    {
-      user.setProfile(profile);
+      auth.getUser().setProfile(profile);
    }
 
    public String getNewPassword()
@@ -109,12 +108,12 @@ public class UserAccountBean
 
    public User getUser()
    {
-      return user;
+      return auth.getUser();
    }
 
    public void setUser(final User user)
    {
-      this.user = user;
+      this.auth.setUser(user);
    }
 
    public String getOldPassword()

@@ -36,7 +36,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Produces;
 import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -81,8 +80,6 @@ public class Authentication implements Serializable
    private NavigationHandler navHandler;
 
    private final User GUEST = new User();
-
-   private User user;
 
    public Authentication()
    {
@@ -177,17 +174,11 @@ public class Authentication implements Serializable
       return (getLoggedInUser() != null) && !GUEST.equals(getLoggedInUser());
    }
 
-   @Produces
-   @RequestScoped
-   @LoggedIn
    public User getUser()
    {
       return getLoggedInUser();
    }
 
-   @Produces
-   @RequestScoped
-   @LoggedIn
    public UserProfile getProfile()
    {
       if (profile == null)
@@ -211,19 +202,13 @@ public class Authentication implements Serializable
 
    private User getLoggedInUser()
    {
-      if ((user == null)
-               || ((loggedInUser.getUsername() != null) && (user != null) && !loggedInUser.getUsername().equals(
-                        user.getUsername())))
+      try
       {
-         try
-         {
-            user = us.getUserByName(loggedInUser.getUsername());
-         }
-         catch (NoSuchObjectException e)
-         {
-            user = GUEST;
-         }
+         return us.getUserByName(loggedInUser.getUsername());
       }
-      return user;
+      catch (NoSuchObjectException e)
+      {
+         return GUEST;
+      }
    }
 }
