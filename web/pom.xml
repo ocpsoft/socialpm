@@ -6,7 +6,7 @@
       <groupId>com.ocpsoft</groupId>
       <artifactId>socialpm-parent</artifactId>
       <version>1.0.0-SNAPSHOT</version>
-	  <relativePath>../pom.xml</relativePath>
+      <relativePath>../pom.xml</relativePath>
    </parent>
 
    <artifactId>socialpm-web</artifactId>
@@ -14,12 +14,16 @@
 
    <name>SocialPM - Web</name>
 
+   <properties>
+      <seam.version>3.0.0.Final</seam.version>
+   </properties>
+
    <dependencies>
       <dependency>
          <groupId>com.ocpsoft</groupId>
          <artifactId>socialpm-database</artifactId>
       </dependency>
-   
+
       <dependency>
          <groupId>com.ocpsoft</groupId>
          <artifactId>prettyfaces-jsf2</artifactId>
@@ -28,21 +32,18 @@
          <groupId>com.ocpsoft</groupId>
          <artifactId>ocpsoft-pretty-time</artifactId>
       </dependency>
+
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces</artifactId>
       </dependency>
-
       <dependency>
-         <groupId>org.jboss.logging</groupId>
-         <artifactId>jboss-logging</artifactId>
-         <scope>provided</scope>
+         <groupId>org.jboss.seam.security</groupId>
+         <artifactId>seam-security</artifactId>
       </dependency>
-
       <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-entitymanager</artifactId>
-         <scope>provided</scope>
+         <groupId>org.jboss.seam.security</groupId>
+         <artifactId>seam-security-external</artifactId>
       </dependency>
 
       <dependency>
@@ -53,11 +54,6 @@
       </dependency>
 
       <!-- Test Dependencies -->
-      <dependency>
-         <groupId>org.jboss.arquillian</groupId>
-         <artifactId>arquillian-junit</artifactId>
-         <scope>test</scope>
-      </dependency>
       <dependency>
          <groupId>junit</groupId>
          <artifactId>junit</artifactId>
@@ -74,25 +70,10 @@
             <enabled>true</enabled>
          </snapshots>
       </repository>
-      <repository>
-         <id>jboss</id>
-         <name>JBoss Legacy Repo</name>
-         <url>http://repository.jboss.org/maven2/</url>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
-      </repository>
-      <repository>
-         <id>java.net2</id>
-         <name>Repository hosting the jee6 artifacts</name>
-         <url>http://download.java.net/maven/2</url>
-         <snapshots>
-            <enabled>false</enabled>
-         </snapshots>
-      </repository>
    </repositories>
 
    <build>
+      <finalName>socialpm</finalName>
       <plugins>
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -112,20 +93,6 @@
                <failOnMissingWebXml>false</failOnMissingWebXml>
             </configuration>
          </plugin>
-         <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>jboss-maven-plugin</artifactId>
-            <version>1.4.1</version>
-            <configuration>
-               <jbossHome>${env.JBOSS_HOME}</jbossHome>
-               <hostName> localhost </hostName>
-               <port>1090</port>
-               <fileNames>
-                  <fileName>target/socialpm.war</fileName>
-               </fileNames>
-            </configuration>
-         </plugin>
       </plugins>
-      <finalName>socialpm</finalName>
    </build>
 </project>

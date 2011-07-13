@@ -20,10 +20,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import com.ocpsoft.pretty.PrettyContext;
+import com.ocpsoft.shade.org.apache.commons.logging.Log;
+import com.ocpsoft.shade.org.apache.commons.logging.LogFactory;
 import com.ocpsoft.socialpm.util.Timer;
 
 public class ResponseTimeLoggingFilter implements Filter
@@ -31,7 +30,8 @@ public class ResponseTimeLoggingFilter implements Filter
    Log log = LogFactory.getLog(ResponseTimeLoggingFilter.class);
 
    @Override
-   public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException, ServletException
+   public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+            throws IOException, ServletException
    {
       Timer timer = Timer.getTimer();
       timer.start();
@@ -41,11 +41,13 @@ public class ResponseTimeLoggingFilter implements Filter
       PrettyContext context = PrettyContext.getCurrentInstance((HttpServletRequest) request);
       if (context != null)
       {
-         this.log.info("Reponse completed in: " + time / 1000.0 + " - " + context.getRequestURL() + context.getRequestQueryString());
+         this.log.info("Reponse completed in: " + time / 1000.0 + " - " + context.getRequestURL()
+                  + context.getRequestQueryString());
       }
       else
       {
-         this.log.info("Reponse completed in: " + time / 1000.0 + " - " + ((HttpServletRequest) request).getRequestURL());
+         this.log.info("Reponse completed in: " + time / 1000.0 + " - "
+                  + ((HttpServletRequest) request).getRequestURL());
       }
    }
 

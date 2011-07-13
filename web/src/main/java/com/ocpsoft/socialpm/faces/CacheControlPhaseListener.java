@@ -26,7 +26,7 @@
  * 
  * Optionally, customers may choose a Commercial License. For additional 
  * details, contact OcpSoft (http://ocpsoft.com)
- */ 
+ */
 
 package com.ocpsoft.socialpm.faces;
 
@@ -36,34 +36,35 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.ocpsoft.shade.org.apache.commons.logging.Log;
+import com.ocpsoft.shade.org.apache.commons.logging.LogFactory;
 
 public class CacheControlPhaseListener implements PhaseListener
 {
-    private static final long serialVersionUID = 3470377662512577653L;
-    private static final Log log = LogFactory.getLog(CacheControlPhaseListener.class);
+   private static final long serialVersionUID = 3470377662512577653L;
+   private static final Log log = LogFactory.getLog(CacheControlPhaseListener.class);
 
-    public CacheControlPhaseListener()
-    {
-        log.info("CacheControlPhaseListener is ACTIVE");
-    }
+   public CacheControlPhaseListener()
+   {
+      log.info("CacheControlPhaseListener is ACTIVE");
+   }
 
-    public PhaseId getPhaseId()
-    {
-        return PhaseId.RENDER_RESPONSE;
-    }
+   public PhaseId getPhaseId()
+   {
+      return PhaseId.RENDER_RESPONSE;
+   }
 
-    public void afterPhase(final PhaseEvent event)
-    {}
+   public void afterPhase(final PhaseEvent event)
+   {
+   }
 
-    public void beforePhase(final PhaseEvent event)
-    {
-        HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
+   public void beforePhase(final PhaseEvent event)
+   {
+      HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
                 .getResponse();
-        response.addHeader("Pragma", "no-cache");
-        response.addHeader("Cache-Control", "no-cache");
-        response.addHeader("Cache-Control", "must-revalidate");
-        response.addHeader("Expires", "Mon, 1 Aug 1999 10:00:00 GMT");
-    }
+      response.addHeader("Pragma", "no-cache");
+      response.addHeader("Cache-Control", "no-cache");
+      response.addHeader("Cache-Control", "must-revalidate");
+      response.addHeader("Expires", "Mon, 1 Aug 1999 10:00:00 GMT");
+   }
 }

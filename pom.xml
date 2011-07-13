@@ -22,19 +22,11 @@
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-      <arquillian.version>1.0.0.Alpha3</arquillian.version>
-      <cdi.version>1.0-SP1</cdi.version>
-      <hibernate.version>3.5.2-Final</hibernate.version>
-      <javaee.spec.version>1.0.0.Beta7</javaee.spec.version>
-      <jbossas.server.manager.version>1.0.3.GA</jbossas.server.manager.version>
-      <jbossas.client.version>6.0.0.20100721-M4</jbossas.client.version>
-      <jboss.logging.version>3.0.0.Beta4</jboss.logging.version>
+      <javaee.spec.version>1.0.0.Final</javaee.spec.version>
       <junit.version>4.8.1</junit.version>
-      <prettyfaces.version>3.1.1-SNAPSHOT</prettyfaces.version>
+      <prettyfaces.version>3.2.1</prettyfaces.version>
       <prettytime.version>1.0.6</prettytime.version>
-      <weldx.version>1.0.0.Beta1</weldx.version>
-      <seam.faces.version>3.0.0-SNAPSHOT</seam.faces.version>
-      <seam.persistence.version>3.0.0-SNAPSHOT</seam.persistence.version>
+      <seam.version>3.0.0.Final</seam.version>
    </properties>
 
    <dependencyManagement>
@@ -62,35 +54,13 @@
          </dependency>
 
          <dependency>
-            <groupId>org.jboss.seam.faces</groupId>
-            <artifactId>seam-faces</artifactId>
-            <version>${seam.faces.version}</version>
+            <groupId>org.jboss.seam</groupId>
+            <artifactId>seam-bom</artifactId>
+            <version>${seam.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
          </dependency>
-         <dependency>
-            <groupId>org.jboss.weld</groupId>
-            <artifactId>weld-extensions</artifactId>
-            <version>${weldx.version}</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-            <version>${jboss.logging.version}</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-            <scope>provided</scope>
-         </dependency>
-
-         <dependency>
-            <groupId>javax.enterprise</groupId>
-            <artifactId>cdi-api</artifactId>
-            <version>1.0-SP1</version>
-            <scope>provided</scope>
-         </dependency>
+         
          <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
@@ -102,15 +72,6 @@
             <artifactId>jboss-javaee-6.0</artifactId>
             <version>${javaee.spec.version}</version>
             <type>pom</type>
-            <scope>provided</scope>
-         </dependency>
-
-         <!-- Test Dependencies -->
-         <dependency>
-            <groupId>org.jboss.arquillian</groupId>
-            <artifactId>arquillian-junit</artifactId>
-            <version>${arquillian.version}</version>
-            <scope>test</scope>
          </dependency>
 
          <!-- Utility Dependencies -->
@@ -142,14 +103,6 @@
          <url>http://ocpsoft.com/repository/</url>
          <snapshots>
             <enabled>true</enabled>
-         </snapshots>
-      </repository>
-      <repository>
-         <id>jboss</id>
-         <name>JBoss Legacy Repo</name>
-         <url>http://repository.jboss.org/maven2/</url>
-         <snapshots>
-            <enabled>false</enabled>
          </snapshots>
       </repository>
    </repositories>
@@ -200,8 +153,8 @@
    </profiles>
 
    <scm>
-      <connection>scm:git:git://github.com/lincolnthree/ocpsoft-socialpm.git</connection>
-      <developerConnection>scm:git:git://github.com/lincolnthree/ocpsoft-socialpm.git</developerConnection>
-      <url>http://github.com/lincolnthree/ocpsoft-socialpm</url>
+      <connection>scm:git:git://github.com/ocpsoft/socialpm.git</connection>
+      <developerConnection>scm:git:git://github.com/ocpsoft/socialpm.git</developerConnection>
+      <url>http://github.com/ocpsoft/socialpm</url>
    </scm>
 </project>

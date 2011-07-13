@@ -39,8 +39,6 @@ import java.util.List;
 import javax.ejb.EJB;
 
 import org.jboss.arquillian.api.Deployment;
-import org.jboss.arquillian.api.Run;
-import org.jboss.arquillian.api.RunModeType;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.ArchivePaths;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
@@ -60,7 +58,6 @@ import com.ocpsoft.socialpm.domain.user.User;
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 @RunWith(Arquillian.class)
-@Run(RunModeType.IN_CONTAINER)
 public class FeedServiceTest
 {
 
@@ -69,8 +66,8 @@ public class FeedServiceTest
    {
       return ShrinkWrap.create(JavaArchive.class, "test.jar")
                .addPackages(true, DeploymentRoot.class.getPackage())
-               .addManifestResource(new ByteArrayAsset("".getBytes()), ArchivePaths.create("beans.xml"))
-               .addManifestResource("test-persistence.xml", ArchivePaths.create("persistence.xml"));
+               .addAsManifestResource(new ByteArrayAsset("".getBytes()), ArchivePaths.create("beans.xml"))
+               .addAsManifestResource("test-persistence.xml", ArchivePaths.create("persistence.xml"));
    }
 
    @EJB
