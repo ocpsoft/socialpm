@@ -2,6 +2,5 @@
 
 Useful and a pleasure to use:
 
-* Intuitive agile project management tool for distributed teams
-* Allows individual choice for user-level task-management systems.
-* Integrates extensibly with Issue Trackers and Source Control Systems
+* Standalone intuitive agile project management tool for distributed teams
+* Provides workflow and lifecycle callback hooks for integration with task management systems and issue trackers
