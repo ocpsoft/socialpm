@@ -8,9 +8,14 @@
       <groupId>com.ocpsoft</groupId>
       <version>1.0.0-SNAPSHOT</version>
    </parent>
-   <artifactId>socialpm-database</artifactId>
-   <name>SocialPM - Database</name>
+   <artifactId>socialpm-tests</artifactId>
+   <name>SocialPM - Tests</name>
    <dependencies>
+      <dependency>
+         <groupId>com.ocpsoft</groupId>
+         <artifactId>socialpm-database</artifactId>
+         <scope>compile</scope>
+      </dependency>
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-entitymanager</artifactId>
@@ -40,6 +45,12 @@
          <artifactId>junit</artifactId>
          <scope>test</scope>
       </dependency>
+      <dependency>
+         <groupId>org.jboss.arquillian</groupId>
+         <artifactId>arquillian-junit</artifactId>
+         <version>1.0.0.Alpha5</version>
+         <scope>test</scope>
+      </dependency>
    </dependencies>
    <build>
       <plugins>
@@ -54,4 +65,32 @@
          </plugin>
       </plugins>
    </build>
+   <profiles>
+      <profile>
+         <id>jbossas-remote-6</id>
+         <activation>
+            <activeByDefault>true</activeByDefault>
+         </activation>
+         <dependencies>
+            <dependency>
+               <groupId>javassist</groupId>
+               <artifactId>javassist</artifactId>
+               <version>3.12.1.GA</version>
+            </dependency>
+            <dependency>
+               <groupId>org.jboss.arquillian.container</groupId>
+               <artifactId>arquillian-jbossas-remote-6</artifactId>
+               <version>1.0.0.Alpha5</version>
+               <scope>test</scope>
+            </dependency>
+            <dependency>
+               <groupId>org.jboss.jbossas</groupId>
+               <artifactId>jboss-as-profileservice-client</artifactId>
+               <version>6.0.0.Final</version>
+               <type>pom</type>
+               <scope>test</scope>
+            </dependency>
+         </dependencies>
+      </profile>
+   </profiles>
 </project>
