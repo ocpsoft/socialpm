@@ -17,6 +17,7 @@
    <modules>
       <module>database</module>
       <module>web</module>
+      <module>tests</module>
    </modules>
 
    <properties>
