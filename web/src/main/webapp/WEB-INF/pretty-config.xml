@@ -28,60 +28,28 @@
   To purchase a License, contact OcpSoft (http://ocpsoft.com)
 
 -->
-<pretty-config xmlns="http://ocpsoft.com/prettyfaces/2.0.4" 
+<pretty-config xmlns="http://ocpsoft.com/prettyfaces/3.3.0" 
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-               xsi:schemaLocation="http://ocpsoft.com/prettyfaces/2.0.4
-                                   		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-2.0.4.xsd">
+               xsi:schemaLocation="http://ocpsoft.com/prettyfaces/3.3.0
+                                   		http://ocpsoft.com/xml/ns/prettyfaces/ocpsoft-pretty-faces-3.3.0.xsd">
 
    <rewrite match=".*/" trailingSlash="remove"/>
    
 	<!-- Content Pages -->
-	<!-- Admin Pages -->
-	<url-mapping id="admin">
-		<pattern value="/admin" />
-		<view-id> /faces/pages/admin.xhtml </view-id>
-	</url-mapping>
+   <url-mapping id="home">
+      <pattern value="/"></pattern>
+      <view-id value="/pages/home.xhtml"></view-id>
+   </url-mapping>
 
 	<!-- Begin Exception Mappings -->
 	<url-mapping id="404">
 		<pattern value="/404" />
-		<view-id> /faces/pages/404.xhtml </view-id>
+		<view-id value="/pages/404.xhtml" />
 	</url-mapping>
 	<url-mapping id="error">
 		<pattern value="/error" />
-		<view-id> /faces/pages/error.xhtml </view-id>
+		<view-id value="/pages/error.xhtml" />
 	</url-mapping>
 	<!-- End Exception Mappings -->
 
-
-	<url-mapping id="login">
-		<pattern value="/login" />
-		<view-id> /faces/pages/login.xhtml </view-id>
-	</url-mapping>
-	<url-mapping id="logout">
-		<pattern value="/logout" />
-		<view-id> /faces/pages/login.xhtml </view-id>
-        <action>#{loginBean.doLogout}</action>
-	</url-mapping>
-   <url-mapping id="recover">
-      <pattern value="/recover" />
-      <view-id> /faces/pages/register.xhtml </view-id>
-   </url-mapping>
-	<url-mapping id="register">
-		<pattern value="/register" />
-		<view-id> /faces/pages/register.xhtml </view-id>
-	</url-mapping>
-	<url-mapping id="userAccount">
-		<pattern value="/account" />
-		<view-id> /faces/pages/profile/userAccount.xhtml </view-id>
-	</url-mapping>
-   
-   
-
-   <url-mapping id="userProfile">
-      <pattern value="/#{ /(?!(admin|404|error|login|logout|recover|register|account))[^/]+/ paramsBean.userName}" />
-      <view-id> /faces/pages/profile/userProfile.xhtml </view-id>
-      <action>#{userProfileBean.load}</action>
-   </url-mapping>
-   
 </pretty-config>
