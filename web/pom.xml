@@ -37,13 +37,10 @@
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces</artifactId>
       </dependency>
+      
       <dependency>
-         <groupId>org.jboss.seam.security</groupId>
-         <artifactId>seam-security</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam.security</groupId>
-         <artifactId>seam-security-external</artifactId>
+         <groupId>joda-time</groupId>
+         <artifactId>joda-time</artifactId>
       </dependency>
 
       <dependency>
