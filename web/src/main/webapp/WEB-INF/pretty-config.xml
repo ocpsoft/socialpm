@@ -40,6 +40,18 @@
       <pattern value="/"></pattern>
       <view-id value="/pages/home.xhtml"></view-id>
    </url-mapping>
+   
+   <url-mapping id="project-view">
+      <pattern value="/p/#{projects.current.name}"></pattern>
+      <view-id value="/pages/project/view.xhtml"></view-id>
+      <action>#{projects.loadCurrent}</action>
+   </url-mapping>
+   
+   <url-mapping id="project-create">
+      <pattern value="/new-project"></pattern>
+      <view-id value="/pages/project/create.xhtml"></view-id>
+   </url-mapping>
+   
 
 	<!-- Begin Exception Mappings -->
 	<url-mapping id="404">

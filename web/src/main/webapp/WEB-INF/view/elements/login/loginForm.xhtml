@@ -32,6 +32,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:tpl="http://java.sun.com/jsf/composite/ocpsoft-jsf2-templates/liquid-blue-2col"
 	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
 <ui:composition>
@@ -62,7 +63,7 @@
 				value="#{loginBean.rememberMe}" />
 			<br />
 
-			<ocp:separator />
+			<tpl:separator />
 			<h:commandButton type="submit" id="login"
 				action="#{loginBean.doLogin}" value="Login" />
 

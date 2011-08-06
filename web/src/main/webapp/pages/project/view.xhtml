@@ -3,18 +3,26 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon">
-	
+	xmlns:pretty="http://ocpsoft.com/prettyfaces"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+	<ui:param name="title" value="View Project" />
 
-	<ui:param name="title" value="Recover lost password" />
+	<ui:define name="header-h2">
+		#{projects.current.name}
+	</ui:define>
 
-	<ui:define name="header">Recover lost password
+	<ui:define name="header-ul">
+		#{projects.current.vision}
 	</ui:define>
 
 	<ui:define name="content">
-	Try to remember, as hard as you can. This page will be working again in a few days, sorry!
+		#{projects.current.name}
+	</ui:define>
+
+	<ui:define name="side-items">
+		#{projects.current.name}
 	</ui:define>
 
 </ui:composition>

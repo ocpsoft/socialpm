@@ -24,8 +24,8 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <javaee.spec.version>1.0.0.Final</javaee.spec.version>
       <junit.version>4.8.1</junit.version>
-      <prettyfaces.version>3.2.1</prettyfaces.version>
-      <prettytime.version>1.0.6</prettytime.version>
+      <prettyfaces.version>3.3.0</prettyfaces.version>
+      <prettytime.version>1.0.7</prettytime.version>
       <seam.version>3.0.0.Final</seam.version>
    </properties>
 

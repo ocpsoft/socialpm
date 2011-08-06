@@ -110,6 +110,11 @@ ul {
 	background: transparent url(#{resource['ocpsoft-jsf2-templates/liquid-blue-2col:images/icons/asterisk-orange.png']}) no-repeat
 		center left;
 }
+			
+.separator {
+	margin: 5px;
+	border-top: solid 2px #ddd;
+}
 
 table {
 	padding: 0;

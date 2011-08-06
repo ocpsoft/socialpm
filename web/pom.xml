@@ -36,6 +36,7 @@
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces</artifactId>
+         <version>3.0.1.Final</version>
       </dependency>
       
       <dependency>

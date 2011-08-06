@@ -24,13 +24,8 @@ import javax.inject.Named;
 @Named
 public class UrlConstants
 {
-   public static final String ADMIN = "pretty:admin";
    public static final String HOME = "pretty:home";
-   public static final String LOGIN = "pretty:login";
-   public static final String LOGOUT = "pretty:logout";
-   public static final String REGISTER = "pretty:register";
-   public static final String USER_ACCOUNT = "pretty:userAccount";
-   public static final String USER_PROFILE = "pretty:userProfile";
-   public static final String USER_PROJECTS = "pretty:userProjects";
+   public static final String PROJECT_VIEW = "pretty:project-view";
+   public static final String PROJECT_CREATE = "pretty:project-create";
    public static final String REFRESH = "pretty:";
 }

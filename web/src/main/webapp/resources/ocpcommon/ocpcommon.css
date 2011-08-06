@@ -21,11 +21,6 @@ div.tasks {
 	border: solid 1px #ddd;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
-}			
-
-.separator {
-	margin: 5px;
-	border-top: solid 2px #ddd;
 }
 
 /******************************

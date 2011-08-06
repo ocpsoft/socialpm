@@ -8,30 +8,33 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
-	<ui:param name="title" value="SocialPM" />
+	<ui:param name="title" value="New Project" />
 
 	<ui:define name="header-h2">
+		New Project
 	</ui:define>
-	
+
 	<ui:define name="header-ul">
-		<li> 
-			<pretty:link mappingId="home" rendered="true">
-				Home
-			</pretty:link>
-		</li>
+		What is a project, anyway?
 	</ui:define>
 
 	<ui:define name="content">
-		
-		<ul>
-		<ui:repeat var="project" value="#{projects.all}">
-			<li><h:link value="#{project.name}" outcome="pretty:viewProject" /></li>	
-		</ui:repeat>
-		</ul>
-		
+		<h:form>
+			<label for="name">Name:<br/></label>
+			<h:inputText id="name" value="#{projects.current.name}" />
+			<p/>
+			<label for="vision">Vision:<br/></label>
+			<h:inputText id="vision" value="#{projects.current.vision}" />
+			
+			<o:separator />
+			<h:commandButton action="pretty:home" value="Cancel" styleClass="faded" />
+			<h:commandButton action="#{projects.create}" value="Ok, let's go!" />
+			
+		</h:form>
 	</ui:define>
 
 	<ui:define name="side-items">
+		#{projects.current.name}
 	</ui:define>
 
 </ui:composition>
