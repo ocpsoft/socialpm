@@ -23,9 +23,13 @@
 
 	<ui:define name="content">
 		
+		<h3>Projects</h3>
 		<ul>
 		<ui:repeat var="project" value="#{projects.all}">
-			<li><h:link value="#{project.name}" outcome="pretty:viewProject" /></li>	
+			<li><pretty:link mappingId="pretty:project-view">
+				<h:outputText value="#{project.name}" />
+				<f:param value="#{project.name}" />
+			</pretty:link></li>	
 		</ui:repeat>
 		</ul>
 		

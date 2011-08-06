@@ -19,69 +19,51 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.ocpsoft.socialpm.project;
+package com.ocpsoft.socialpm.domain.project;
 
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
+import javax.ejb.Stateful;
+import javax.enterprise.context.ConversationScoped;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
-import org.jboss.seam.international.status.Messages;
-
-import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.project.ProjectService;
-import com.ocpsoft.socialpm.web.constants.UrlConstants;
+import com.ocpsoft.socialpm.domain.PersistenceUtil;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-@Named
-@RequestScoped
-public class Projects
+@Stateful
+@ConversationScoped
+public class ProjectService extends PersistenceUtil
 {
-   @Inject
-   private Messages messages;
+   private static final long serialVersionUID = 1403645951285144409L;
 
-   @Inject
-   private ProjectService ps;
+   @PersistenceContext(type = PersistenceContextType.EXTENDED)
+   private EntityManager em;
 
-   private Project current = new Project();
-
-   public String loadCurrent()
+   @Override
+   protected EntityManager getEntityManager()
    {
-      if ((current != null) && (current.getName() != null))
-      {
-         current = ps.findByName(current.getName());
-         return null;
-      }
-      else
-      {
-         messages.error("Oops! We couldn't find that project.");
-         return UrlConstants.HOME;
-      }
+      return em;
    }
 
-   public String create()
+   public Project create(final Project p)
    {
-      ps.create(current);
-      return UrlConstants.PROJECT_VIEW;
+      save(p);
+      return p;
    }
 
-   public List<Project> getAll()
+   public Project findByName(final String name)
    {
-      return ps.findAll();
+      return findUniqueByNamedQuery("project.byName", name);
    }
 
-   public Project getCurrent()
+   public List<Project> findAll()
    {
-      return current;
-   }
-
-   public void setCurrent(final Project current)
-   {
-      this.current = current;
+      return findAll(Project.class);
    }
 
 }
