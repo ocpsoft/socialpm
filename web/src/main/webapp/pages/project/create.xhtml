@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:pretty="http://ocpsoft.com/prettyfaces"
-	xmlns:o="http://java.sun.com/jsf/composite/ocpsoft-jsf2-templates/liquid-blue-2col"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
@@ -26,7 +26,7 @@
 			<label for="vision">Vision:<br/></label>
 			<h:inputText id="vision" value="#{projects.current.vision}" />
 			
-			<o:separator />
+			<ocp:separator />
 			<h:commandButton action="pretty:home" value="Cancel" styleClass="faded" />
 			<h:commandButton action="#{projects.create}" value="Ok, let's go!" />
 			

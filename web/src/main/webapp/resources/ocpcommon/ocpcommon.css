@@ -1,6 +1,15 @@
 @CHARSET "UTF-8";
 
 /*******************
+	General Style
+********************/
+
+.separator {
+	margin: 5px;
+	border-top: solid 2px #ddd;
+}
+
+/*******************
 	Story Page
 ********************/
 .storyheader {
