@@ -157,4 +157,11 @@
       <developerConnection>scm:git:git://github.com/ocpsoft/socialpm.git</developerConnection>
       <url>http://github.com/ocpsoft/socialpm</url>
    </scm>
+   
+   <distributionManagement>
+      <repository>
+         <id>ocpsoft.ftp.public</id>
+         <url>ftp://ocpsoft.com/ocpsoft.com/repository</url>
+      </repository>
+   </distributionManagement>
 </project>
