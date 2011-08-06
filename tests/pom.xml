@@ -10,6 +10,23 @@
    </parent>
    <artifactId>socialpm-tests</artifactId>
    <name>SocialPM - Tests</name>
+
+   <repositories>
+      <repository>
+         <id>jboss-deprecated-repository-group</id>
+         <name>JBoss Deprecated Maven Repository Group</name>
+         <url>https://repository.jboss.org/nexus/content/repositories/deprecated/</url>
+         <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+         </releases>
+         <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+         </snapshots>
+      </repository>
+   </repositories>
+
    <dependencies>
       <dependency>
          <groupId>com.ocpsoft</groupId>
@@ -29,7 +46,7 @@
          <type>pom</type>
          <scope>compile</scope>
       </dependency>
-      
+
       <dependency>
          <groupId>commons-lang</groupId>
          <artifactId>commons-lang</artifactId>
@@ -38,7 +55,7 @@
          <groupId>commons-codec</groupId>
          <artifactId>commons-codec</artifactId>
       </dependency>
-      
+
       <!-- Test Dependencies -->
       <dependency>
          <groupId>junit</groupId>
