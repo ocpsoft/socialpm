@@ -40,7 +40,7 @@ import com.ocpsoft.rewrite.servlet.config.parameters.binding.El;
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-public class RewriteConfigurationProvider extends HttpConfigurationProvider
+public class URLRewriteConfiguration extends HttpConfigurationProvider
 {
    @Override
    public Configuration getConfiguration(final ServletContext context)
@@ -72,7 +72,8 @@ public class RewriteConfigurationProvider extends HttpConfigurationProvider
                         Direction.isInbound()
                                  .and(DispatchType.isRequest())
                                  .and(Path.matches(".*\\.xhtml"))
-                                 .andNot(Path.matches(".*javax\\.faces\\.resource.*")))
+                                 .andNot(Path.matches(".*javax\\.faces\\.resource.*"))
+                                 .andNot(Path.matches("/rfRes/.*")))
                .perform(Forward.to("/404"));
    }
 

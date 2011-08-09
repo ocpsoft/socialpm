@@ -24,8 +24,8 @@ import javax.inject.Named;
 @Named
 public class UrlConstants
 {
-   public static final String HOME = "pretty:home";
-   public static final String PROJECT_VIEW = "pretty:project-view";
-   public static final String PROJECT_CREATE = "pretty:project-create";
-   public static final String REFRESH = "pretty:";
+   public static final String HOME = "/pages/home.xhtml?faces-redirect=true";
+   public static final String PROJECT_VIEW = "/pages/project/view.xhtml?faces-redirect=true";
+   public static final String PROJECT_CREATE = "/pages/project/create.xhtml?faces-redirect=true";
+   public static final String REFRESH = "?faces-redirect=true";
 }

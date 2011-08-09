@@ -21,9 +21,10 @@
  */
 package com.ocpsoft.socialpm.project;
 
+import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -31,7 +32,6 @@ import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.ProjectService;
-import com.ocpsoft.socialpm.domain.project.Story;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 /**
@@ -39,9 +39,11 @@ import com.ocpsoft.socialpm.web.constants.UrlConstants;
  * 
  */
 @Named
-@RequestScoped
-public class Projects
+@ConversationScoped
+public class Projects implements Serializable
 {
+   private static final long serialVersionUID = -5792291552146633049L;
+
    @Inject
    private Messages messages;
 
@@ -52,22 +54,19 @@ public class Projects
 
    public String loadCurrent()
    {
-      if ((current != null) && (current.getName() != null))
-      {
-         current = ps.findByName(current.getName());
-         return null;
-      }
-      else
+      getCurrent();
+      if ((current == null) || (current.getName() == null))
       {
          messages.error("Oops! We couldn't find that project.");
          return UrlConstants.HOME;
       }
+      return null;
    }
 
    public String create()
    {
       ps.create(current);
-      return UrlConstants.PROJECT_VIEW;
+      return UrlConstants.PROJECT_VIEW + "&project=" + current.getName();
    }
 
    public List<Project> getAll()
@@ -77,6 +76,16 @@ public class Projects
 
    public Project getCurrent()
    {
+      if ((current != null) && (current.getName() != null))
+      {
+         try
+         {
+            current = ps.findByName(current.getName());
+         }
+         catch (Exception e)
+         {
+         }
+      }
       return current;
    }
 

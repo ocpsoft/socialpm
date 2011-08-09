@@ -26,8 +26,8 @@
 			<h:inputText id="vision" value="#{projects.current.vision}" />
 			
 			<ocp:separator />
-			<h:commandButton action="/pages/home.xhtml?faces-redirect=true" value="Cancel" styleClass="faded" />
-			<h:commandButton action="#{projects.create}" value="Ok, let's go!" />
+			<h:commandButton action="#{projects.create}" value="Ok, let's go!" styleClass="fl"/>
+			<h:commandButton action="/pages/home.xhtml?faces-redirect=true" value="Cancel" styleClass="fr faded" />
 			
 		</h:form>
 	</ui:define>
