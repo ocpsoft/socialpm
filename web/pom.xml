@@ -17,6 +17,18 @@
    <properties>
       <seam.version>3.0.0.Final</seam.version>
    </properties>
+   
+   <dependencyManagement>
+      <dependencies>
+         <dependency>
+            <groupId>org.richfaces</groupId>
+            <artifactId>richfaces-bom</artifactId>
+            <version>4.0.0.Final</version>
+            <type>pom</type>
+            <scope>import</scope>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
 
    <dependencies>
       <dependency>
@@ -36,7 +48,7 @@
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces</artifactId>
-         <version>3.0.1.Final</version>
+         <version>3.0.2.Final</version>
       </dependency>
       
       <dependency>
@@ -49,6 +61,18 @@
          <artifactId>jboss-javaee-6.0</artifactId>
          <type>pom</type>
          <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+         <groupId>org.richfaces.ui</groupId>
+         <artifactId>richfaces-components-ui</artifactId>
+         <version>4.0.0.Final</version>
+      </dependency>
+      
+      <dependency>
+         <groupId>org.richfaces.core</groupId>
+         <artifactId>richfaces-core-impl</artifactId>
+         <version>4.0.0.Final</version>
       </dependency>
 
       <!-- Test Dependencies -->

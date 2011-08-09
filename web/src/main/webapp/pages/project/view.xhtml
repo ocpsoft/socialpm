@@ -4,7 +4,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:pretty="http://ocpsoft.com/prettyfaces"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
 	<ui:param name="title" value="View Project" />
@@ -18,7 +20,51 @@
 	</ui:define>
 
 	<ui:define name="content">
-		#{projects.current.name}
+		<p>
+			Project Name: #{projects.current.name}
+		</p>
+		<h:form id="mainForm">
+		<h:dataTable value="#{projects.current.stories}" var="story">
+			<f:facet name="header">
+				Stories
+				<h:commandLink value="Add Story">
+					<rich:componentControl target="storyPopup" operation="show" />
+				</h:commandLink>
+			</f:facet>
+			<h:column>
+				<f:facet name="header">ID</f:facet>
+					#{story.id}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Title</f:facet>
+					#{story.title}
+			</h:column>
+			<f:facet name="footer" rendered="#{empty projects.current.stories}">
+				None
+			</f:facet>
+		</h:dataTable>
+		</h:form>
+		<rich:popupPanel id="storyPopup" modal="true" resizeable="true" onmaskclick="#{rich:component('storyPopup')}.hide()">
+			<f:facet name="header">
+				<h:outputText value="Add a story" />
+			</f:facet>
+			<f:facet name="controls">
+				<h:outputLink value="#" onclick="#{rich:component('storyPopup')}.hide(); return false;">
+                   X
+               </h:outputLink>
+			</f:facet>
+			<h:form id="popupForm">
+				<h:panelGrid columns="3">
+					<h:outputLabel for="newStory" value="Name: " />
+					<h:inputText id="newStory" value="#{stories.current.title}" />
+					<h:message for="newStory" />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<a4j:commandButton value="Save" action="#{stories.create()}" render=":mainForm" execute="popupForm"/>
+					<h:button value="Cancel" onclick="#{rich:component('storyPopup')}.hide(); return false;"/>
+				</h:panelGrid>
+			</h:form>
+		</rich:popupPanel>
 	</ui:define>
 
 	<ui:define name="side-items">
