@@ -3,7 +3,6 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pretty="http://ocpsoft.com/prettyfaces"
 	xmlns:o="http://java.sun.com/jsf/composite/ocpsoft-jsf2-templates/liquid-blue-2col"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
@@ -15,9 +14,7 @@
 	
 	<ui:define name="header-ul">
 		<li> 
-			<pretty:link mappingId="home" rendered="true">
-				Home
-			</pretty:link>
+			<h:link outcome="/pages/home" rendered="true" value="Home" />
 		</li>
 	</ui:define>
 
@@ -26,10 +23,9 @@
 		<h3>Projects</h3>
 		<ul>
 		<ui:repeat var="project" value="#{projects.all}">
-			<li><pretty:link mappingId="pretty:project-view">
-				<h:outputText value="#{project.name}" />
-				<f:param value="#{project.name}" />
-			</pretty:link></li>	
+			<li><h:link outcome="/pages/project/view" value="#{project.name}">
+				<f:param name="project" value="#{project.name}" />
+			</h:link></li>	
 		</ui:repeat>
 		</ul>
 		
