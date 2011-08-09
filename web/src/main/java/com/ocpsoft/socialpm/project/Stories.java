@@ -27,62 +27,65 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jboss.logging.Logger;
 import org.jboss.seam.international.status.Messages;
 
-import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.project.ProjectService;
 import com.ocpsoft.socialpm.domain.project.Story;
+import com.ocpsoft.socialpm.domain.project.StoryService;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 /**
- * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
+ * @author <a href="mailto:bleathem@gmail.com">Brian Leathem</a>
  * 
  */
 @Named
 @RequestScoped
-public class Projects
+public class Stories
 {
    @Inject
    private Messages messages;
+   
+   @Inject
+   private Projects projects;
 
    @Inject
-   private ProjectService ps;
+   private StoryService ss;
 
-   private Project current = new Project();
+   @Inject
+   private transient Logger log;
+
+   private Story current = new Story();
 
    public String loadCurrent()
    {
-      if ((current != null) && (current.getName() != null))
+      if ((current != null) && (current.getId() != null))
       {
-         current = ps.findByName(current.getName());
+         current = ss.findById(current.getId());
          return null;
       }
       else
       {
-         messages.error("Oops! We couldn't find that project.");
+         messages.error("Oops! We couldn't find that Story.");
          return UrlConstants.HOME;
       }
    }
 
    public String create()
    {
-      ps.create(current);
+      log.info("Creating a Story");
+      projects.getCurrent().getStories().add(current);
+      current.setProject(projects.getCurrent());
+      ss.create(current);
       return UrlConstants.PROJECT_VIEW;
    }
 
-   public List<Project> getAll()
-   {
-      return ps.findAll();
-   }
-
-   public Project getCurrent()
+   public Story getCurrent()
    {
       return current;
    }
 
-   public void setCurrent(final Project current)
+   public void setCurrent(final Story current)
    {
       this.current = current;
    }
-
 }
