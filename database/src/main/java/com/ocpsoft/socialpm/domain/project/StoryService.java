@@ -1,4 +1,5 @@
 package com.ocpsoft.socialpm.domain.project;
+
 /*
  * JBoss, Home of Professional Open Source
  * Copyright 2011, Red Hat, Inc., and individual contributors
@@ -20,9 +21,6 @@ package com.ocpsoft.socialpm.domain.project;
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-
-
-import java.util.List;
 
 import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
@@ -53,12 +51,12 @@ public class StoryService extends PersistenceUtil
 
    public Story create(final Story p)
    {
-      create(p);
+      super.create(p);
       return p;
    }
 
-    public Story findById(Long id) 
-    {
-        return em.find(Story.class, id);
-    }
+   public Story findById(Long id)
+   {
+      return em.find(Story.class, id);
+   }
 }
