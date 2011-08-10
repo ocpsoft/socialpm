@@ -36,13 +36,12 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ocpsoft.shade.org.apache.commons.logging.Log;
-import com.ocpsoft.shade.org.apache.commons.logging.LogFactory;
+import org.jboss.logging.Logger;
 
 public class CacheControlPhaseListener implements PhaseListener
 {
    private static final long serialVersionUID = 3470377662512577653L;
-   private static final Log log = LogFactory.getLog(CacheControlPhaseListener.class);
+   private static final Logger log = Logger.getLogger(CacheControlPhaseListener.class);
 
    public CacheControlPhaseListener()
    {
@@ -55,13 +54,12 @@ public class CacheControlPhaseListener implements PhaseListener
    }
 
    public void afterPhase(final PhaseEvent event)
-   {
-   }
+   {}
 
    public void beforePhase(final PhaseEvent event)
    {
       HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext()
-                .getResponse();
+               .getResponse();
       response.addHeader("Pragma", "no-cache");
       response.addHeader("Cache-Control", "no-cache");
       response.addHeader("Cache-Control", "must-revalidate");

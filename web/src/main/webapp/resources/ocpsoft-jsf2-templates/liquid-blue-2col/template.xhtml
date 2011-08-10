@@ -85,7 +85,7 @@
 
 				<div id="footer"><ui:insert name="footer"></ui:insert></div>
 				<ui:remove>
-					<ui:debug hotkey="D" rendered="#{facesContext.externalContext.getInitParameter('javax.faces.PROJECT_STAGE') == 'Development'}"/>
+					<ui:debug hotkey="D" rendered="#{applicationConfig.debugMode}"/>
 				</ui:remove>
 				</td>
 			</tr>

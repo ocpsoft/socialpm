@@ -30,6 +30,8 @@
 
 package com.ocpsoft.socialpm.web.constants;
 
+import javax.faces.application.ProjectStage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 @Named
@@ -80,5 +82,10 @@ public class ApplicationConfig
    public void setAnalyticsId(final String analyticsId)
    {
       this.analyticsId = analyticsId;
+   }
+
+   public boolean isDebugMode()
+   {
+      return ProjectStage.Development.equals(FacesContext.getCurrentInstance().getApplication().getProjectStage());
    }
 }

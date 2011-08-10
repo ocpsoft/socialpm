@@ -69,7 +69,7 @@
    </filter>
    <filter-mapping>
       <filter-name>ResponseHeaderFilter</filter-name>
-      <url-pattern>/faces/javax.faces.resource/*</url-pattern>
+      <url-pattern>/javax.faces.resource/*</url-pattern>
    </filter-mapping>
    <filter-mapping>
       <filter-name>ResponseHeaderFilter</filter-name>

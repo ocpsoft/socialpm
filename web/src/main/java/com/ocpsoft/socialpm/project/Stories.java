@@ -21,9 +21,9 @@
  */
 package com.ocpsoft.socialpm.project;
 
-import java.util.List;
+import java.io.Serializable;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -39,12 +39,14 @@ import com.ocpsoft.socialpm.web.constants.UrlConstants;
  * 
  */
 @Named
-@RequestScoped
-public class Stories
+@ConversationScoped
+public class Stories implements Serializable
 {
+   private static final long serialVersionUID = -6828711689148386870L;
+
    @Inject
    private Messages messages;
-   
+
    @Inject
    private Projects projects;
 
@@ -76,7 +78,7 @@ public class Stories
       current.setProject(projects.getCurrent());
       projects.getCurrent().getStories().add(current);
       ss.create(current);
-      return UrlConstants.PROJECT_VIEW;
+      return UrlConstants.PROJECT_VIEW + "&project=" + projects.getCurrent().getName();
    }
 
    public Story getCurrent()
