@@ -3,6 +3,7 @@ package com.ocpsoft.socialpm.domain.project;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -19,6 +20,7 @@ public class Story extends PersistentObject<Story>
 {
     private static final long serialVersionUID = 1L;
     @ManyToOne
+    @JoinColumn(name="project")
     private Project project;
     private String title;
     

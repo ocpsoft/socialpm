@@ -30,7 +30,7 @@ public class Project extends PersistentObject<Project>
 
    private String vision;
    
-   @OneToMany(fetch=FetchType.EAGER)
+   @OneToMany(fetch=FetchType.EAGER, mappedBy="project")
    private List<Story> stories;
 
    public String getName()

@@ -24,7 +24,7 @@
 			Project Name: #{projects.current.name}
 		</p>
 		<h:form id="mainForm">
-		<h:dataTable value="#{projects.current.stories}" var="story">
+		<h:dataTable id="stories" value="#{projects.current.stories}" var="story">
 			<f:facet name="header">
 				Stories
 				<h:commandLink value="Add Story">
@@ -39,8 +39,10 @@
 				<f:facet name="header">Title</f:facet>
 					#{story.title}
 			</h:column>
-			<f:facet name="footer" rendered="#{empty projects.current.stories}">
-				None
+			<f:facet name="footer">
+				<h:panelGroup rendered="#{empty projects.current.stories}">
+					This project does not yet have any stories!
+				</h:panelGroup>
 			</f:facet>
 		</h:dataTable>
 		</h:form>
@@ -60,7 +62,7 @@
 					<h:message for="newStory" />
 				</h:panelGrid>
 				<h:panelGrid columns="2">
-					<a4j:commandButton value="Save" action="#{stories.create()}" render=":mainForm" execute="popupForm"/>
+					<h:commandButton value="Save" action="#{stories.create()}"/>
 					<h:button value="Cancel" onclick="#{rich:component('storyPopup')}.hide(); return false;"/>
 				</h:panelGrid>
 			</h:form>

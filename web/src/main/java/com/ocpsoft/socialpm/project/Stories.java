@@ -73,8 +73,8 @@ public class Stories
    public String create()
    {
       log.info("Creating a Story");
-      projects.getCurrent().getStories().add(current);
       current.setProject(projects.getCurrent());
+      projects.getCurrent().getStories().add(current);
       ss.create(current);
       return UrlConstants.PROJECT_VIEW;
    }

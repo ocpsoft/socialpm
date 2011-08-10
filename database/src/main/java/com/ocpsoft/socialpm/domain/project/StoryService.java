@@ -53,7 +53,7 @@ public class StoryService extends PersistenceUtil
 
    public Story create(final Story p)
    {
-      save(p);
+      create(p);
       return p;
    }
 
