@@ -26,15 +26,15 @@ import javax.servlet.ServletContext;
 import com.ocpsoft.rewrite.config.Configuration;
 import com.ocpsoft.rewrite.config.ConfigurationBuilder;
 import com.ocpsoft.rewrite.config.Direction;
+import com.ocpsoft.rewrite.config.Invoke;
 import com.ocpsoft.rewrite.servlet.config.DispatchType;
 import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
-import com.ocpsoft.rewrite.servlet.config.Invoke;
 import com.ocpsoft.rewrite.servlet.config.Join;
 import com.ocpsoft.rewrite.servlet.config.Path;
 import com.ocpsoft.rewrite.servlet.config.Redirect;
 import com.ocpsoft.rewrite.servlet.config.Substitute;
-import com.ocpsoft.rewrite.servlet.config.parameters.binding.El;
+import com.ocpsoft.rewrite.servlet.config.bind.El;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -60,7 +60,7 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
 
                .add(Join.path("/p/{project}").to("/pages/project/view.xhtml")
                         .where("project").bindsTo(El.property("projects.current.name"))
-                        .and(Invoke.method(El.method("projects.loadCurrent"))))
+                        .and(Invoke.retrieveFrom(El.retrievalMethod("projects.loadCurrent"))))
 
                .add(Join.path("/new-project").to("/pages/project/create.xhtml"))
 
