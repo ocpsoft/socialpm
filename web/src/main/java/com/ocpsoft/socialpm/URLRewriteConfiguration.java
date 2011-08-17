@@ -23,18 +23,17 @@ package com.ocpsoft.socialpm;
 
 import javax.servlet.ServletContext;
 
+import com.ocpsoft.rewrite.bind.El;
 import com.ocpsoft.rewrite.config.Configuration;
 import com.ocpsoft.rewrite.config.ConfigurationBuilder;
 import com.ocpsoft.rewrite.config.Direction;
-import com.ocpsoft.rewrite.config.Invoke;
+import com.ocpsoft.rewrite.faces.config.PhaseAction;
 import com.ocpsoft.rewrite.servlet.config.DispatchType;
 import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import com.ocpsoft.rewrite.servlet.config.Join;
 import com.ocpsoft.rewrite.servlet.config.Path;
-import com.ocpsoft.rewrite.servlet.config.Redirect;
-import com.ocpsoft.rewrite.servlet.config.Substitute;
-import com.ocpsoft.rewrite.servlet.config.bind.El;
+import com.ocpsoft.rewrite.servlet.config.TrailingSlash;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -47,20 +46,19 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
    {
       return ConfigurationBuilder.begin()
 
-               // Rewrite
-               .defineRule()
-               .when(Direction.isInbound().and(Path.matches("/{path}/").where("path").matches(".*")))
-               .perform(Redirect.permanent("/{path}"))
-               .defineRule()
-               .when(Direction.isOutbound().and(Path.matches("/{path}/").where("path").matches(".*")))
-               .perform(Substitute.with("/{path}"))
+               .add(TrailingSlash.remove())
 
                // Application mappings
-               .add(Join.path("/").to("/pages/home.xhtml"))
+               .add(Join.path("/").to("/pages/home.xhtml").withId("home"))
 
-               .add(Join.path("/p/{project}").to("/pages/project/view.xhtml")
-                        .where("project").bindsTo(El.property("projects.current.name"))
-                        .and(Invoke.retrieveFrom(El.retrievalMethod("projects.loadCurrent"))))
+               // Load project data on any project page
+               .defineRule()
+               .when(Path.matches("/p/{project}.*").where("project").bindsTo(El.property("projects.current.name")))
+               .perform(PhaseAction.retrieveFrom(El.retrievalMethod("projects.loadCurrent")))
+
+               .add(Join.path("/p/{project}").to("/pages/project/view.xhtml").withInboundCorrection())
+
+               .add(Join.path("/p/{project}/backlog").to("/pages/project/backlog.xhtml"))
 
                .add(Join.path("/new-project").to("/pages/project/create.xhtml"))
 

@@ -377,6 +377,10 @@ select {
 	border-right: solid 1px #3583b0;
 }
 
+#siteName {
+	font-size: 16px;
+}
+
 /******************* Components *******************/
 .megaMenu>div>div {
 	display: none;

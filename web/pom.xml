@@ -58,11 +58,11 @@
          <version>3.0.2.Final</version>
       </dependency>
 
-      <dependency>
+<!--       <dependency>
          <groupId>org.jboss.seam.conversation</groupId>
          <artifactId>seam-conversation-weld</artifactId>
          <version>${version.seam-conversation}</version>
-      </dependency>
+      </dependency> -->
 
       <dependency>
          <groupId>joda-time</groupId>

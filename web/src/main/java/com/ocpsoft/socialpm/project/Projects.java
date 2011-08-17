@@ -24,7 +24,8 @@ package com.ocpsoft.socialpm.project;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -39,7 +40,7 @@ import com.ocpsoft.socialpm.web.constants.UrlConstants;
  * 
  */
 @Named
-@ConversationScoped
+@RequestScoped
 public class Projects implements Serializable
 {
    private static final long serialVersionUID = -5792291552146633049L;
@@ -48,14 +49,14 @@ public class Projects implements Serializable
    private Messages messages;
 
    @Inject
-   private ProjectService ps;
+   private Instance<ProjectService> ps;
 
    private Project current = new Project();
 
    public String loadCurrent()
    {
-      getCurrent();
-      if ((current == null) || (current.getName() == null))
+      Project current = getCurrent();
+      if ((current == null) || (current.getId() == null))
       {
          messages.error("Oops! We couldn't find that project.");
          return UrlConstants.HOME;
@@ -65,13 +66,13 @@ public class Projects implements Serializable
 
    public String create()
    {
-      ps.create(current);
+      ps.get().create(current);
       return UrlConstants.PROJECT_VIEW + "&project=" + current.getName();
    }
 
    public List<Project> getAll()
    {
-      return ps.findAll();
+      return ps.get().findAll();
    }
 
    public Project getCurrent()
@@ -80,11 +81,10 @@ public class Projects implements Serializable
       {
          try
          {
-            current = ps.findByName(current.getName());
+            current = ps.get().findByName(current.getName());
          }
          catch (Exception e)
-         {
-         }
+         {}
       }
       return current;
    }
@@ -92,6 +92,11 @@ public class Projects implements Serializable
    public void setCurrent(final Project current)
    {
       this.current = current;
+   }
+
+   public boolean isActive()
+   {
+      return this.current.getId() != null;
    }
 
 }

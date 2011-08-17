@@ -21,7 +21,8 @@ public class ResponseTimeLoggingFilter implements Filter
    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
             throws IOException, ServletException
    {
-      if (DispatcherType.REQUEST.equals(request.getDispatcherType()))
+      if (DispatcherType.REQUEST.equals(request.getDispatcherType())
+               && !((HttpServletRequest) request).getRequestURI().contains(".xhtml"))
       {
          Timer timer = Timer.getTimer().start();
          chain.doFilter(request, response);
