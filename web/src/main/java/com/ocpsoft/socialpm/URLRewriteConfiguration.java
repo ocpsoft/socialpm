@@ -31,9 +31,9 @@ import com.ocpsoft.rewrite.faces.config.PhaseAction;
 import com.ocpsoft.rewrite.servlet.config.DispatchType;
 import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
-import com.ocpsoft.rewrite.servlet.config.Join;
 import com.ocpsoft.rewrite.servlet.config.Path;
-import com.ocpsoft.rewrite.servlet.config.TrailingSlash;
+import com.ocpsoft.rewrite.servlet.config.rule.Join;
+import com.ocpsoft.rewrite.servlet.config.rule.TrailingSlash;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -57,8 +57,8 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("projects.loadCurrent")))
 
                .add(Join.path("/p/{project}").to("/pages/project/view.xhtml").withInboundCorrection())
-
                .add(Join.path("/p/{project}/backlog").to("/pages/project/backlog.xhtml"))
+               .add(Join.path("/p/{project}-{story}").to("/pages/story/view.xhtml"))
 
                .add(Join.path("/new-project").to("/pages/project/create.xhtml"))
 
