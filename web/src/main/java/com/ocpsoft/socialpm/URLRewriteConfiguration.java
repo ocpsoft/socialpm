@@ -46,25 +46,25 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
    {
       return ConfigurationBuilder.begin()
 
-               .add(TrailingSlash.remove())
+               .addRule(TrailingSlash.remove())
 
                // Application mappings
-               .add(Join.path("/").to("/pages/home.xhtml").withId("home"))
+               .addRule(Join.path("/").to("/pages/home.xhtml").withId("home"))
 
                // Load project data on any project page
                .defineRule()
                .when(Path.matches("/p/{project}.*").where("project").bindsTo(El.property("projects.current.name")))
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("projects.loadCurrent")))
 
-               .add(Join.path("/p/{project}").to("/pages/project/view.xhtml").withInboundCorrection())
-               .add(Join.path("/p/{project}/backlog").to("/pages/project/backlog.xhtml"))
-               .add(Join.path("/p/{project}-{story}").to("/pages/story/view.xhtml"))
+               .addRule(Join.path("/p/{project}").to("/pages/project/view.xhtml").withInboundCorrection())
+               .addRule(Join.path("/p/{project}/backlog").to("/pages/project/backlog.xhtml"))
+               .addRule(Join.path("/p/{project}-{story}").to("/pages/story/view.xhtml"))
 
-               .add(Join.path("/new-project").to("/pages/project/create.xhtml"))
+               .addRule(Join.path("/new-project").to("/pages/project/create.xhtml"))
 
                // 404 and Error
-               .add(Join.path("/404").to("/pages/404.xhtml"))
-               .add(Join.path("/error").to("/pages/error.xhtml"))
+               .addRule(Join.path("/404").to("/pages/404.xhtml"))
+               .addRule(Join.path("/error").to("/pages/error.xhtml"))
 
                .defineRule().when(
                         Direction.isInbound()
