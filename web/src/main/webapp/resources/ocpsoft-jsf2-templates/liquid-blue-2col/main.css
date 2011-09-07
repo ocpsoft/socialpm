@@ -22,9 +22,8 @@
 }
 
 html {
-	background: url(#{resource['ocpsoft-jsf2-templates/liquid-blue-2col:images/bodybg.jpg']});
 	overflow-y: scroll;
-	background-color: #aaa;
+	background-color: #fff;
 }
 
 img {
@@ -193,8 +192,7 @@ select {
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	margin-bottom: 7px;
-	background: #fafafa url(#{resource['ocpsoft-jsf2-templates/liquid-blue-2col:images/side-bg.png']}) repeat-y right 90px;
-	border: solid 1px #2350fd;
+	border: none;
 	padding: 10px;
 }
 
@@ -289,6 +287,8 @@ select {
 }
 
 #footer {
+	position: absolute;
+	bottom: 0px;
 	font-size: .75em;
 	text-align: center;
 	margin-bottom: 10px;
@@ -298,7 +298,7 @@ select {
 #footer a {
 	vertical-align: middle;
 	padding: 2px;
-	color: #efefef;
+	color: #444;
 }
 
 #footer a:HOVER {
@@ -319,12 +319,14 @@ select {
 
 #headerbar>h1 {
 	float: left;
-	font-size: 1.83em;
-	margin: 5px 14px;
+	margin: 9px 14px;
 	margin-left: 20px;
+	font-size: 1.83em;
+	color: #fafafa;
+	background: none;
 }
 
-#headerbar>h1,#headerbar>h1>a,#headerbar>h1>a:hover {
+#headerbar>h1>a,#headerbar>h1>a:hover {
 	color: #fafafa;
 	background: none;
 }
@@ -350,7 +352,7 @@ select {
 	font-size: 1.23em;
 	height: 25px;
 	padding: 0px 5px;
-	padding-top: 5px;
+	padding-top: 7px;
 	display: block;
 	padding-bottom: 0px;
 	text-align: center;
