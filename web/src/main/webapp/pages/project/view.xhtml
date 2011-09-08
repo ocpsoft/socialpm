@@ -10,48 +10,55 @@
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
 	<ui:param name="title" value="View Project" />
 
-	<ui:define name="header-h2">
+	<ui:define name="header">
 		#{projects.current.name}
 	</ui:define>
 
-	<ui:define name="header-ul">
+	<ui:define name="sub-header">
 		#{projects.current.vision}
 	</ui:define>
 
 	<ui:define name="content">
 		<h:form id="mainForm">
-		<h:dataTable width="100%" id="stories" value="#{projects.current.stories}" var="story">
-			<f:facet name="header">
-				<h2>Stories 
-				<h:commandLink styleClass="fr" value="Add Story">
-					<rich:componentControl target="storyPopup" operation="show" />
-				</h:commandLink></h2>
-			</f:facet>
-			<h:column>
-				<f:facet name="header">ID</f:facet>
+			<h:dataTable width="100%" id="stories"
+				value="#{projects.current.stories}" var="story">
+				<f:facet name="header">
+					<h3>
+						Stories <small class="right"> <h:commandLink
+								styleClass="fr" value="Add Story">
+								<rich:componentControl target="storyPopup" operation="show" />
+							</h:commandLink>
+						</small>
+					</h3>
+				</f:facet>
+				<h:column>
+					<f:facet name="header">ID</f:facet>
 					#{story.id}
 			</h:column>
-			<h:column>
-				<f:facet name="header">Story</f:facet>
+				<h:column>
+					<f:facet name="header">Story</f:facet>
 					#{story.text}
 			</h:column>
-			<f:facet name="footer">
-				<h:panelGroup rendered="#{empty projects.current.stories}">
+				<f:facet name="footer">
+					<h:panelGroup rendered="#{empty projects.current.stories}">
 					This project does not yet have any stories! 
 					<h:commandLink value="Add one now.">
-						<rich:componentControl target="storyPopup" operation="show" />
-					</h:commandLink>
-				</h:panelGroup>
-			</f:facet>
-		</h:dataTable>
+							<rich:componentControl target="storyPopup" operation="show" />
+						</h:commandLink>
+					</h:panelGroup>
+				</f:facet>
+			</h:dataTable>
 		</h:form>
-		<rich:popupPanel id="storyPopup" modal="true" resizeable="true" onmaskclick="#{rich:component('storyPopup')}.hide()">
+		<rich:popupPanel id="storyPopup" modal="true" resizeable="false"
+			onmaskclick="#{rich:component('storyPopup')}.hide()"
+			autosized="true">
 			<f:facet name="header">
 				<h:outputText value="Add a story" />
 			</f:facet>
 			<f:facet name="controls">
-				<h:outputLink value="#" onclick="#{rich:component('storyPopup')}.hide(); return false;">
-                   X
+				<h:outputLink value="#"
+					onclick="#{rich:component('storyPopup')}.hide(); return false;">
+                   Cancel
                </h:outputLink>
 			</f:facet>
 			<h:form id="popupForm">
@@ -61,8 +68,9 @@
 					<h:message for="newStory" />
 				</h:panelGrid>
 				<h:panelGrid columns="2">
-					<h:commandButton value="Save" action="#{stories.create}"/>
-					<h:button value="Cancel" onclick="#{rich:component('storyPopup')}.hide(); return false;"/>
+					<h:commandButton value="Save" action="#{stories.create}" />
+					<h:button value="Cancel"
+						onclick="#{rich:component('storyPopup')}.hide(); return false;" />
 				</h:panelGrid>
 			</h:form>
 		</rich:popupPanel>

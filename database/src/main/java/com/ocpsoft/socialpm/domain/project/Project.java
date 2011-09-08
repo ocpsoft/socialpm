@@ -19,19 +19,33 @@ import com.ocpsoft.socialpm.domain.PersistentObject;
  */
 @Entity
 @NamedQueries({
-         @NamedQuery(name = "project.byName", query = "from Project p where p.name = ?")
+         @NamedQuery(name = "project.byName", query = "from Project p where p.name = ?"),
+         @NamedQuery(name = "project.bySlug", query = "from Project p where p.slug = ?")
 })
 public class Project extends PersistentObject<Project>
 {
    private static final long serialVersionUID = -7146731072443151820L;
+
+   @Column(nullable = false, unique = true)
+   private String slug;
 
    @Column(nullable = false)
    private String name;
 
    private String vision;
 
-   @OneToMany(fetch=FetchType.EAGER, mappedBy="project")
+   @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
    private List<Story> stories = new ArrayList<Story>();
+
+   public String getSlug()
+   {
+      return slug;
+   }
+
+   public void setSlug(final String slug)
+   {
+      this.slug = slug;
+   }
 
    public String getName()
    {
@@ -58,7 +72,7 @@ public class Project extends PersistentObject<Project>
       return stories;
    }
 
-   public void setStories(List<Story> stories)
+   public void setStories(final List<Story> stories)
    {
       this.stories = stories;
    }

@@ -41,24 +41,33 @@ import com.ocpsoft.rewrite.servlet.config.rule.TrailingSlash;
  */
 public class URLRewriteConfiguration extends HttpConfigurationProvider
 {
+   private static final String PROJECT = "[A-Z0-9]+";
+
    @Override
    public Configuration getConfiguration(final ServletContext context)
    {
-      return ConfigurationBuilder.begin()
+      return ConfigurationBuilder
+               .begin()
 
                .addRule(TrailingSlash.remove())
 
                // Application mappings
                .addRule(Join.path("/").to("/pages/home.xhtml").withId("home"))
+               .addRule(Join.path("/bootstrap").to("/bootstrap.xhtml"))
+               .addRule(Join.path("/test").to("/test.xhtml"))
 
                // Load project data on any project page
                .defineRule()
-               .when(Path.matches("/p/{project}.*").where("project").bindsTo(El.property("projects.current.name")))
+               .when(Path.matches("/p/{project}.*").where("project").matches(PROJECT)
+                        .bindsTo(El.property("projects.current.slug")))
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("projects.loadCurrent")))
 
-               .addRule(Join.path("/p/{project}").to("/pages/project/view.xhtml").withInboundCorrection())
-               .addRule(Join.path("/p/{project}/backlog").to("/pages/project/backlog.xhtml"))
-               .addRule(Join.path("/p/{project}-{story}").to("/pages/story/view.xhtml"))
+               .addRule(Join.path("/p/{project}").where("project").matches(PROJECT).to("/pages/project/view.xhtml")
+                        .withInboundCorrection())
+               .addRule(Join.path("/p/{project}/backlog").where("project").matches(PROJECT)
+                        .to("/pages/project/backlog.xhtml"))
+               .addRule(Join.path("/p/{project}-{story}").where("project").matches(PROJECT)
+                        .to("/pages/story/view.xhtml"))
 
                .addRule(Join.path("/new-project").to("/pages/project/create.xhtml"))
 
@@ -69,7 +78,7 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                .defineRule().when(
                         Direction.isInbound()
                                  .and(DispatchType.isRequest())
-                                 .and(Path.matches(".*\\.xhtml"))
+                                 .and(Path.matches(".*"))
                                  .andNot(Path.matches(".*javax\\.faces\\.resource.*"))
                                  .andNot(Path.matches("/rfRes/.*")))
                .perform(Forward.to("/404"));

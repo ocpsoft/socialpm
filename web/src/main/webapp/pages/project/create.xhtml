@@ -3,33 +3,96 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
 	<ui:param name="title" value="New Project" />
 
-	<ui:define name="header-h2">
+	<ui:define name="header">
 		New Project
 	</ui:define>
 
-	<ui:define name="header-ul">
+	<ui:define name="sub-header">
 		What is a project, anyway?
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form>
-			<label for="name">Name:<br/></label>
-			<h:inputText id="name" value="#{projects.current.name}" />
-			<p/>
-			<label for="vision">Vision:<br/></label>
-			<h:inputText id="vision" value="#{projects.current.vision}" />
-			
-			<ocp:separator />
-			<h:commandButton action="#{projects.create}" value="Ok, let's go!" styleClass="fl"/>
-			<h:commandButton action="/pages/home.xhtml?faces-redirect=true" value="Cancel" styleClass="fr faded" />
-			
-		</h:form>
+
+		<div class="row">
+			<div class="span12 columns">
+
+				<h:form>
+					<fieldset>
+						<legend>Set up your new project</legend>
+					</fieldset>
+
+					<div class="clearfix">
+						<label for="slug">Slug</label>
+						<div class="input">
+							<h:inputText id="slug" value="#{projects.current.slug}"
+								styleClass="xLarge" style="text-transform: uppercase;" />
+						</div>
+					</div>
+
+					<div class="clearfix">
+						<label for="name">Name</label>
+						<div class="input">
+							<h:inputText id="name" value="#{projects.current.name}"
+								styleClass="xLarge" />
+						</div>
+					</div>
+
+					<div class="clearfix">
+						<label for="name">Vision</label>
+						<div class="input">
+							<h:inputText id="vision" value="#{projects.current.vision}"
+								styleClass="xLarge" />
+						</div>
+					</div>
+
+					<div class="actions">
+						<h:commandButton action="#{projects.create}" value="Ok, let's go!"
+							styleClass="btn primary" />
+						&nbsp;
+						<h:commandButton action="/pages/home.xhtml?faces-redirect=true"
+							value="Cancel" styleClass="btn" />
+					</div>
+				</h:form>
+			</div>
+
+			<div class="span4 columns">
+				<h4>What should I call it?</h4>
+				The project name should be something that you and all of your
+				partners will easily recognize and associate with. Try not to use
+				things like dates and general topics.
+				<h6>Good examples:</h6>
+				<ul>
+					<li>Acme Website Rewrite</li>
+					<li>ACME-252</li>
+				</ul>
+				<h6>Bad examples:</h6>
+				<ul>
+					<li>2011-08-01</li>
+					<li>Website Rewrite</li>
+				</ul>
+
+				<h4>What about the vision?</h4>
+				Vision statements should be both specific and measurable. Try to be
+				as clear and concise as possible.
+
+				<h6>Good examples:</h6>
+				<ul>
+					<li>Less expensive than our top five competitors.</li>
+					<li>No page more than three clicks away.</li>
+				</ul>
+				<h6>Bad examples:</h6>
+				<ul>
+					<li>Inexpensive.</li>
+					<li>Easy to access.</li>
+				</ul>
+			</div>
+		</div>
+
 	</ui:define>
 
 	<ui:define name="side-items">

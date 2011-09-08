@@ -34,20 +34,33 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition>
-		<h1><h:link style="color: white;" styleClass="siteName" outcome="/pages/home.xhtml" value="${sitename}" /></h1>
 
-		<ul class="fl">
-			<h:panelGroup>
-				<li><h:link outcome="/pages/project/create.xhtml" value="New Project" /></li>
-			</h:panelGroup>
-			<h:panelGroup rendered="#{projects.active}">
-				<li><h:link outcome="/pages/project/backlog.xhtml" value="Backlog" >
-					<f:param name="project" value="#{projects.current.name}" />
-				</h:link></li>
-			</h:panelGroup>
+	<li><h:link outcome="/pages/home.xhtml" value="Home" /></li>
+	<h:panelGroup>
+		<li><h:link outcome="/pages/project/create.xhtml"
+				value="New Project" />
+		</li>
+	</h:panelGroup>
+	<h:panelGroup rendered="#{projects.active}">
+		<li><h:link outcome="/pages/project/backlog.xhtml"
+				value="Backlog">
+				<f:param name="project" value="#{projects.current.name}" />
+			</h:link>
+		</li>
+	</h:panelGroup>
+
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle">Dropdown</a>
+		<ul class="dropdown-menu">
+			<li><a href="#">Secondary link</a></li>
+			<li><a href="#">Something else here</a>
+			</li>
+
+			<li class="divider"></li>
+			<li><a href="#">Another link</a>
+			</li>
 		</ul>
-		
-		<ul class="fr">
-		</ul>
+	</li>
+
 </ui:composition>
 </html>

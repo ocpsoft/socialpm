@@ -33,49 +33,50 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xml:lang="en" lang="en">
+	xmlns:ui="http://java.sun.com/jsf/facelets" lang="en">
 <ui:composition>
-		<h:form prependId="false">
-			<h:panelGroup rendered="#{redirect == 'true'}">
-				<input type="hidden" name="redirect" value="true" />
-			</h:panelGroup>
-			
-			<label for="username"><h:outputText value="Username:" /><ocp:message
-				for="username" /><br />
-			</label>
+
+	<h:form prependId="false" style="">
+		<h:panelGroup rendered="#{redirect == 'true'}">
+			<input type="hidden" name="redirect" value="true" />
+		</h:panelGroup>
+
+		<div class="clearfix">
+			<label for="username">Username</label>
 			<h:inputText id="username" value="#{loginBean.username}"
 				required="true" />
+			<ocp:message for="username" />
+		</div>
 
-			<br />
-			<br />
-			<label for="password"><h:outputText value="Password:" /><ocp:message
-				for="password" /><br />
-			</label>
-			<h:inputSecret id="password" value="#{loginBean.password}"
-				required="true" />
+		<br />
+		<br />
+		<label for="password"><h:outputText value="Password:" /> <ocp:message
+				for="password" /><br /> </label>
+		<h:inputSecret id="password" value="#{loginBean.password}"
+			required="true" />
 
-			<br />
-			<br />
-			<label for="remember_me"><h:outputText
-				value="Remember me" /> </label>
-			<h:selectBooleanCheckbox id="remember_me"
-				value="#{loginBean.rememberMe}" />
-			<br />
+		<br />
+		<br />
+		<label for="remember_me"><h:outputText value="Remember me" />
+		</label>
+		<h:selectBooleanCheckbox id="remember_me"
+			value="#{loginBean.rememberMe}" />
+		<br />
 
-			<ocp:separator />
+		<div class="clearfix">
 			<h:commandButton type="submit" id="login"
-				action="#{loginBean.doLogin}" value="Login" />
+				action="#{loginBean.doLogin}" value="Login" styleClass="btn primary" />
 
 			<h:panelGroup rendered="#{showCancel == 'true'}">
-				<h:commandButton type="submit" styleClass="faded" id="cancel"
+				<h:commandButton type="submit" styleClass="btn" id="cancel"
 					action="#{loginBean.doCancel}" value="Cancel" immediate="true" />
 			</h:panelGroup>
 			<br />
-			<br />
-			<h:link outcome="/pages/recover.xhtml" value="Lost password?"/>
-		</h:form>
-		
-		<script type="text/javascript">
+			<h:link outcome="/pages/recover.xhtml" value="Lost password?" />
+		</div>
+	</h:form>
+
+	<script type="text/javascript">
 			$(document).ready(function () {$('#j_username').focus();});
 		</script>
 </ui:composition>

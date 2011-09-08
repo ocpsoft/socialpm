@@ -34,11 +34,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
-	xmlns:tmpl="http://java.sun.com/jsf/composite/ocpsoft-jsf2-templates/liquid-blue-2col"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<ui:composition
-	template="/resources/ocpsoft-jsf2-templates/liquid-blue-2col/template.xhtml">
+<ui:composition template="template.xhtml">
 	
 	<ui:param name="sitename" value="#{applicationConfig.siteName}" />
 	
@@ -48,34 +46,19 @@
 		<ui:insert name="head-extras"></ui:insert>
 	</ui:define> 
 	
-	<ui:define name="footer"> 
-		<a href="#">privacy</a>
-		<a href="#{applicationConfig.blogUrl}"> blog</a>
-		<a href="#"> about</a>
-		<a href="#"> terms</a>		
-		<a href="http://ocpsoft.com"> [&copy; ocpsoft.com]</a>
-	</ui:define> 
-	
 	<ui:define name="messages"> <ocp:messages id="TPLmessages"/> </ui:define> 
 
-	<ui:define name="menubar">
+	<ui:define name="topnav-left">
 		<ui:include src="/WEB-INF/view/elements/mainMenu.xhtml" />
 	</ui:define>
 	
-	<ui:define name="header-h2">
-		<ui:insert name="header"></ui:insert>
-	</ui:define>
-
-	<ui:define name="side-ul">
-		
-		<h:panelGroup rendered="#{!authentication.loggedIn}">
-			<ui:include src="/WEB-INF/view/elements/login/loginSidebar.xhtml">
-				<ui:param name="redirect" value="true" />
-			</ui:include>
-		</h:panelGroup>
-		
-		<ui:insert name="side-items"></ui:insert>
-	</ui:define>
+	<ui:define name="footer"> 
+		<a href="#">privacy</a> | 
+		<a href="#{applicationConfig.blogUrl}"> blog</a> | 
+		<a href="#"> about</a> | 
+		<a href="#"> terms</a> | 	
+		<a href="http://ocpsoft.com"> [&copy; ocpsoft.com]</a>
+	</ui:define> 
 
 </ui:composition>
 

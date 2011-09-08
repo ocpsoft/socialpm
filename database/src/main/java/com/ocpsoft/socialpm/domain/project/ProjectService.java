@@ -61,6 +61,11 @@ public class ProjectService extends PersistenceUtil
       return findUniqueByNamedQuery("project.byName", name);
    }
 
+   public Project findBySlug(final String slug)
+   {
+      return findUniqueByNamedQuery("project.bySlug", slug);
+   }
+
    public List<Project> findAll()
    {
       return findAll(Project.class);

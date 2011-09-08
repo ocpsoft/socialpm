@@ -77,11 +77,11 @@ public class Projects implements Serializable
 
    public Project getCurrent()
    {
-      if ((current != null) && (current.getName() != null))
+      if ((current != null) && (current.getSlug() != null))
       {
          try
          {
-            current = ps.get().findByName(current.getName());
+            current = ps.get().findBySlug(current.getSlug());
          }
          catch (Exception e)
          {}
