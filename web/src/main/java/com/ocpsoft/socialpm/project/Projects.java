@@ -67,7 +67,7 @@ public class Projects implements Serializable
    public String create()
    {
       ps.get().create(current);
-      return UrlConstants.PROJECT_VIEW + "&project=" + current.getName();
+      return UrlConstants.PROJECT_VIEW + "&project=" + current.getSlug();
    }
 
    public List<Project> getAll()

@@ -22,7 +22,7 @@
 			<ui:repeat var="project" value="#{projects.all}">
 				<li><h:link outcome="/pages/project/view"
 						value="#{project.name}">
-						<f:param name="project" value="#{project.name}" />
+						<f:param name="project" value="#{project.slug}" />
 					</h:link>
 				</li>
 			</ui:repeat>

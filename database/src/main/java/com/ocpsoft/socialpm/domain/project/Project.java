@@ -45,6 +45,8 @@ public class Project extends PersistentObject<Project>
    public void setSlug(final String slug)
    {
       this.slug = slug;
+      if (this.slug != null)
+         this.slug = this.slug.toUpperCase();
    }
 
    public String getName()
