@@ -44,7 +44,7 @@
 	<h:panelGroup rendered="#{projects.active}">
 		<li><h:link outcome="/pages/project/backlog.xhtml"
 				value="Backlog">
-				<f:param name="project" value="#{projects.current.name}" />
+				<f:param name="project" value="#{projects.current.slug}" />
 			</h:link>
 		</li>
 	</h:panelGroup>
