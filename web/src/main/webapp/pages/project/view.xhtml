@@ -11,7 +11,7 @@
 	<ui:param name="title" value="View Project" />
 
 	<ui:define name="header">
-		#{projects.current.name}
+			#{projects.current.name}
 	</ui:define>
 
 	<ui:define name="sub-header">
@@ -27,8 +27,7 @@
 						Stories <small class="right"> <h:commandLink
 								styleClass="fr" value="Add Story">
 								<rich:componentControl target="storyPopup" operation="show" />
-							</h:commandLink>
-						</small>
+							</h:commandLink> </small>
 					</h3>
 				</f:facet>
 				<h:column>
@@ -50,8 +49,7 @@
 			</h:dataTable>
 		</h:form>
 		<rich:popupPanel id="storyPopup" modal="true" resizeable="false"
-			onmaskclick="#{rich:component('storyPopup')}.hide()"
-			autosized="true">
+			onmaskclick="#{rich:component('storyPopup')}.hide()" autosized="true">
 			<f:facet name="header">
 				<h:outputText value="Add a story" />
 			</f:facet>

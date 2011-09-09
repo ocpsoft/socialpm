@@ -49,7 +49,7 @@
 	<h:outputScript name="prettify.js" />
 	<h:outputScript name="jquery-min.js" />
 	<h:outputScript name="jquery-tableSorter-min.js" />
-	
+
 	<ui:remove>
 		<!-- 
 		<h:outputScript name="application.js" />
@@ -61,7 +61,7 @@
 	<ui:insert name="head"></ui:insert>
 </h:head>
 
-<h:body style="padding-top: 40px; padding-bottom: 108px;">
+<h:body>
 
 	<ui:insert name="topbar">
 		<div class="topbar">
@@ -83,11 +83,15 @@
 						<ui:insert name="topnav-right">
 							<li class="menu"><a href="#" class="menu">Dropdown</a>
 								<ul class="menu-dropdown">
-									<li><a href="#">Option 1</a></li>
-									<li><a href="#">Option 2</a></li>
+									<li><a href="#">Option 1</a>
+									</li>
+									<li><a href="#">Option 2</a>
+									</li>
 									<li class="divider"></li>
-									<li><a href="#">Option 3</a></li>
-								</ul></li>
+									<li><a href="#">Option 3</a>
+									</li>
+								</ul>
+							</li>
 						</ui:insert>
 					</ul>
 				</div>
@@ -95,29 +99,34 @@
 		</div>
 	</ui:insert>
 
-	<ocp:messages />
+	<div style="min-height: 100%;">
 
-	<section id="header">
-		<div class="container">
-			<div class="page-header ">
-				<h1>
-					<ui:insert name="header" />
-					<small class="right" style="margin-top: 15px;"><ui:insert
-							name="sub-header" /> </small>
-				</h1>
+		<div style="padding-top: 40px;"></div>
+		
+		<ocp:messages />
+
+		<section id="header">
+			<div class="container">
+				<div class="page-header ">
+					<h1>
+						<ui:insert name="header" />
+						<small class="right" style="margin-top: 15px;"><ui:insert
+								name="sub-header" /> </small>
+					</h1>
+				</div>
 			</div>
-		</div>
-	</section>
+		</section>
 
-	<div class="container" style="min-height: 200px;">
-		<div class="sidebar">
-			<ui:insert name="sidebar" />
-		</div>
+		<div class="container" style="padding-bottom: 150px;">
+			<div class="sidebar">
+				<ui:insert name="sidebar" />
+			</div>
 
-		<div class="content">
-			<ui:insert name="content" />
+			<div class="content">
+				<ui:insert name="content" />
+			</div>
+			<div style="clear: none;"></div>
 		</div>
-		<div class=" clearfix"></div>
 	</div>
 
 	<div id="footer">
@@ -132,6 +141,7 @@
 			</div>
 		</div>
 	</div>
+
 </h:body>
 	</html>
 
