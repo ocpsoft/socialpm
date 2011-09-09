@@ -3,6 +3,7 @@ $(document).ready(function(){
   // Dropdown example for topbar nav
   // ===============================
 
+	/* Clicking menus
   $("body").bind("click", function (e) {
     $('.dropdown-toggle, .menu').parent("li").removeClass("open");
   });
@@ -10,6 +11,17 @@ $(document).ready(function(){
     var $li = $(this).parent("li").toggleClass('open');
     return false;
   });
+  */
+
+	// Hoverin menus
+	$(".dropdown, .menu").hover(
+	  	function (e) { $(this).toggleClass('open'); }
+  	);
+
+  $('a').focus(function(){
+     $(this).blur();
+  });
+
 
   // add on logic
   // ============
