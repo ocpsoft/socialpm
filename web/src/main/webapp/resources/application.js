@@ -15,7 +15,8 @@ $(document).ready(function(){
 
 	// Hoverin menus
 	$(".dropdown, .menu").hover(
-	  	function (e) { $(this).toggleClass('open'); }
+	  	function (e) { $(this).toggleClass('open'); },
+	  	function (e) { $(this).removeClass('open'); }
   	);
 
   $('a').focus(function(){
