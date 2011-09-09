@@ -46,15 +46,10 @@
 	<h:outputStylesheet name="docs.css" />
 	<h:outputStylesheet name="prettify.css" />
 
-	<h:outputScript name="prettify.js" />
 	<h:outputScript name="jquery-min.js" />
 	<h:outputScript name="jquery-tableSorter-min.js" />
-
-	<ui:remove>
-		<!-- 
-		<h:outputScript name="application.js" />
-		 -->
-	</ui:remove>
+	<h:outputScript name="prettify.js" />
+	<h:outputScript name="application.js" />
 
 	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
@@ -81,7 +76,8 @@
 
 					<ul class="nav secondary-nav">
 						<ui:insert name="topnav-right">
-							<li class="menu"><a href="#" class="menu">Dropdown</a>
+							<li class="menu">
+								<a href="#" class="menu">Dropdown</a>
 								<ul class="menu-dropdown">
 									<li><a href="#">Option 1</a>
 									</li>
