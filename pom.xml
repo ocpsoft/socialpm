@@ -44,11 +44,6 @@
 
          <dependency>
             <groupId>com.ocpsoft</groupId>
-            <artifactId>prettyfaces-jsf2</artifactId>
-            <version>${prettyfaces.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.ocpsoft</groupId>
             <artifactId>ocpsoft-pretty-time</artifactId>
             <version>${prettytime.version}</version>
          </dependency>

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+	<ui:param name="title" value="New Project" />
+
+	<ui:define name="header">
+		#{projects.current.name} &raquo; New Story
+	</ui:define>
+
+	<ui:define name="sub-header">
+		Share yours.
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="row">
+			<div class="span12 columns">
+
+				<h:form>
+					<fieldset>
+						<legend>What do you need?</legend>
+					</fieldset>
+
+					<div class="clearfix">
+						<label for="name">Story</label>
+						<div class="input">
+							<h:inputTextarea id="name" value="#{stories.current.text}"
+								styleClass="xxLarge"/>
+							<span class="help-inline">
+								As a ____, I want ____, so I can ____.
+							</span>
+						</div>
+					</div>
+
+					<div class="actions">
+						<h:commandButton action="#{stories.create}" value="Ok, let's go!"
+							styleClass="btn primary" />
+						&nbsp;
+						<h:commandButton action="/pages/home.xhtml?faces-redirect=true"
+							value="Cancel" styleClass="btn" />
+					</div>
+				</h:form>
+			</div>
+
+			<div class="span4 columns">
+				<h4>What should I say?</h4>
+				A story description should provide three things: who needs it, what they need, and
+				what will be improved if their need were to be fulfilled. You should not talk about
+				implementation details or specifics here; we will worry about that later.
+				<h6>Good examples:</h6>
+				<ul>
+					<li>As a User, I want a story-writing walkthrough on the new-story page, so
+					that I can more easily learn how to describe stories.</li>
+					<li>As a Customer, I want a login form on each page, so that I can access my 
+					account from anywhere on the website.</li>
+				</ul>
+				<h6>Bad examples:</h6>
+				<ul>
+					<li>Put a story-writing guide on the new-story page.</li>
+					<li>There should be a login form on every page of the site.</li>
+					<li>Any description longer than your little finger...</li>
+				</ul>
+
+				<h4>Isn't this a bit brief?</h4>
+				Yes, buut... understanding who, what, and why are the key factors to
+				ensuring that all participants in the project understand the motivations and
+				benefits of each story.
+				<p>Implementation details will be covered later as we add tasks and validation
+				criteria.</p>
+			</div>
+		</div>
+
+	</ui:define>
+
+	<ui:define name="side-items">
+		#{projects.current.name}
+	</ui:define>
+
+</ui:composition>
+</html>

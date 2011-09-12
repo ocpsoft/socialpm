@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+	<ui:param name="title" value="New Project" />
+
+	<ui:define name="header">
+		#{projects.current.name} &raquo; Story #{stories.current.id} 
+	</ui:define>
+
+	<ui:define name="sub-header">
+		Share yours.
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="row">
+			<div class="span12 columns">
+					#{stories.current.text}
+			</div>
+
+			<div class="span4 columns">
+				<h4></h4>
+			</div>
+		</div>
+
+	</ui:define>
+
+	<ui:define name="side-items">
+		#{projects.current.name}
+	</ui:define>
+
+</ui:composition>
+</html>

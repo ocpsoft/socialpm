@@ -11,7 +11,7 @@
 	<ui:param name="title" value="View Project" />
 
 	<ui:define name="header">
-			#{projects.current.name}
+		#{projects.current.name}
 	</ui:define>
 
 	<ui:define name="sub-header">
@@ -24,10 +24,10 @@
 				value="#{projects.current.stories}" var="story">
 				<f:facet name="header">
 					<h3>
-						Stories <small class="right"> <h:commandLink
-								styleClass="fr" value="Add Story">
-								<rich:componentControl target="storyPopup" operation="show" />
-							</h:commandLink> </small>
+						Stories <small class="right"> 
+						<h:link outcome="/pages/story/create" value="Add new">
+							<f:param name="project" value="#{projects.current.slug}"/>
+						</h:link> </small>
 					</h3>
 				</f:facet>
 				<h:column>
@@ -41,37 +41,13 @@
 				<f:facet name="footer">
 					<h:panelGroup rendered="#{empty projects.current.stories}">
 					This project does not yet have any stories! 
-					<h:commandLink value="Add one now.">
-							<rich:componentControl target="storyPopup" operation="show" />
-						</h:commandLink>
+						<h:link outcome="/pages/story/create" value="Add one now">
+							<f:param name="project" value="#{projects.current.slug}"/>
+						</h:link>.
 					</h:panelGroup>
 				</f:facet>
 			</h:dataTable>
 		</h:form>
-		<rich:popupPanel id="storyPopup" modal="true" resizeable="false"
-			onmaskclick="#{rich:component('storyPopup')}.hide()" autosized="true">
-			<f:facet name="header">
-				<h:outputText value="Add a story" />
-			</f:facet>
-			<f:facet name="controls">
-				<h:outputLink value="#"
-					onclick="#{rich:component('storyPopup')}.hide(); return false;">
-                   Cancel
-               </h:outputLink>
-			</f:facet>
-			<h:form id="popupForm">
-				<h:panelGrid columns="3">
-					<h:outputLabel for="newStory" value="Story text: " />
-					<h:inputTextarea id="newStory" value="#{stories.current.text}" />
-					<h:message for="newStory" />
-				</h:panelGrid>
-				<h:panelGrid columns="2">
-					<h:commandButton value="Save" action="#{stories.create}" />
-					<h:button value="Cancel"
-						onclick="#{rich:component('storyPopup')}.hide(); return false;" />
-				</h:panelGrid>
-			</h:form>
-		</rich:popupPanel>
 	</ui:define>
 
 	<ui:define name="side-items">

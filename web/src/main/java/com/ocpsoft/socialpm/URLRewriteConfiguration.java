@@ -64,8 +64,12 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
 
                .addRule(Join.path("/p/{project}").where("project").matches(PROJECT).to("/pages/project/view.xhtml")
                         .withInboundCorrection())
-               .addRule(Join.path("/p/{project}/backlog").where("project").matches(PROJECT)
+               .addRule(Join.path("/p/{project}/issues").where("project").matches(PROJECT)
                         .to("/pages/project/backlog.xhtml"))
+
+               // Story pages
+               .addRule(Join.path("/p/{project}/new-issue").where("project").matches(PROJECT)
+                        .to("/pages/story/create.xhtml"))
                .addRule(Join.path("/p/{project}-{story}").where("project").matches(PROJECT)
                         .to("/pages/story/view.xhtml"))
 

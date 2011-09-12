@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Size;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
 
@@ -26,12 +27,14 @@ public class Project extends PersistentObject<Project>
 {
    private static final long serialVersionUID = -7146731072443151820L;
 
-   @Column(nullable = false, unique = true)
+   @Size(min = 3, max = 10)
+   @Column(length = 10, nullable = false, unique = true)
    private String slug;
 
-   @Column(nullable = false)
+   @Column(length = 64, nullable = false)
    private String name;
 
+   @Column(length = 256)
    private String vision;
 
    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
