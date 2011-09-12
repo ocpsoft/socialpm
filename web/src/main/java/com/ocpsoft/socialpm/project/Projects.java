@@ -32,7 +32,7 @@ import javax.inject.Named;
 import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.project.ProjectService;
+import com.ocpsoft.socialpm.model.project.ProjectService;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 /**

@@ -60,9 +60,9 @@ public abstract class PersistenceUtil implements Serializable
       return result;
    }
 
-   protected <T> T save(final T entity)
+   protected <T> void save(final T entity)
    {
-      return getEntityManager().merge(entity);
+      getEntityManager().merge(entity);
    }
 
    protected <T> void refresh(final T entity)

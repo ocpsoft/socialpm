@@ -30,8 +30,8 @@ import javax.inject.Named;
 import org.jboss.logging.Logger;
 import org.jboss.seam.international.status.Messages;
 
-import com.ocpsoft.socialpm.domain.project.Story;
-import com.ocpsoft.socialpm.domain.project.StoryService;
+import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.model.project.StoryService;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 /**

@@ -79,9 +79,9 @@ $(document).ready(function(){
             top: anchor.position.top + (anchor.height/2) - (twipsy.height/2)
           , left: anchor.position.left + anchor.width + 5
           }
-      }
+      };
 
-    $twipsy.css(offset[type])
+    $twipsy.css(offset[type]);
 
   });
 
