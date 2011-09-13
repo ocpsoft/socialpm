@@ -30,51 +30,53 @@
 
 package com.ocpsoft.socialpm.domain.feed;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.OneToOne;
 
-import com.ocpsoft.socialpm.domain.PersistentObject;
+import com.ocpsoft.socialpm.domain.user.User;
 
-@Entity(name = "FeedEvent")
-@Table(name = "activity_feed")
-@DiscriminatorValue("FEVENT")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING, length = 15)
+@Entity
+@DiscriminatorValue("UEVENT")
 @NamedQueries({
-         @NamedQuery(name = "feedEvent.all", query = "from FeedEvent order by createdOn desc")
+         @NamedQuery(name = "feedEvent.byUser", query = "from FeedEvent where user = :user order by createdOn desc"),
 })
-public class FeedEvent extends PersistentObject<FeedEvent>
+public class UserEvent extends FeedEvent
 {
    private static final long serialVersionUID = 7038341222060982180L;
 
-   protected FeedEvent()
-   {}
+   @OneToOne
+   private User user;
 
-   private String details;
-
-   public String getDetails()
+   public UserEvent(final User user)
    {
-      return details;
+      this.user = user;
    }
 
-   public void setDetails(final String details)
+   public User getUser()
    {
-      this.details = details;
+      return user;
+   }
+
+   public void setUser(final User user)
+   {
+      this.user = user;
+   }
+
+   @Override
+   public String toString()
+   {
+      return this.getClass().getSimpleName() + " [user=" + user + "]";
    }
 
    @Override
    public int hashCode()
    {
       final int prime = 31;
-      int result = 1;
-      result = (prime * result) + ((details == null) ? 0 : details.hashCode());
+      int result = super.hashCode();
+      result = (prime * result) + ((user == null) ? 0 : user.hashCode());
       return result;
    }
 
@@ -83,16 +85,16 @@ public class FeedEvent extends PersistentObject<FeedEvent>
    {
       if (this == obj)
          return true;
-      if (obj == null)
+      if (!super.equals(obj))
          return false;
       if (getClass() != obj.getClass())
          return false;
-      FeedEvent other = (FeedEvent) obj;
-      if (details == null) {
-         if (other.details != null)
+      UserEvent other = (UserEvent) obj;
+      if (user == null) {
+         if (other.user != null)
             return false;
       }
-      else if (!details.equals(other.details))
+      else if (!user.equals(other.user))
          return false;
       return true;
    }

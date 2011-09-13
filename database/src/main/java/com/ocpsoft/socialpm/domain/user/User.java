@@ -126,7 +126,7 @@ public class User extends PersistentObject<User>
    {
       final int prime = 31;
       int result = 1;
-      result = prime * result + ((username == null) ? 0 : username.hashCode());
+      result = (prime * result) + ((username == null) ? 0 : username.hashCode());
       return result;
    }
 

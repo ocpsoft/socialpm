@@ -37,7 +37,6 @@ import com.ocpsoft.rewrite.servlet.config.rule.TrailingSlash;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
- * 
  */
 public class URLRewriteConfiguration extends HttpConfigurationProvider
 {

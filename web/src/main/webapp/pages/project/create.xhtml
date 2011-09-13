@@ -30,7 +30,7 @@
 						<label for="name">Name</label>
 						<div class="input">
 							<h:inputText id="name" value="#{projects.current.name}"
-								styleClass="xLarge" />
+								styleClass="xLarge" required="true"/>
 							<span class="help-inline">Keep it clear, simple, but descriptive.</span>
 						</div>
 					</div>
@@ -39,7 +39,7 @@
 						<label for="slug">Key</label>
 						<div class="input">
 							<h:inputText id="slug" value="#{projects.current.slug}"
-								styleClass="xLarge" style="text-transform: uppercase;" />
+								styleClass="xLarge" style="text-transform: uppercase;"  required="true"/>
 							<span class="help-inline">3 - 10 numbers and/or letters used in links on the site.</span>
 						</div>
 					</div>

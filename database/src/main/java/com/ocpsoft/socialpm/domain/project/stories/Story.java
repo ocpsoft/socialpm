@@ -106,7 +106,7 @@ public class Story extends PersistentObject<Story>
    private Feature feature;
 
    @Column(nullable = false, length = 255)
-   private String description;
+   private String text;
 
    @Column(nullable = false)
    private Points storyPoints;
@@ -187,7 +187,6 @@ public class Story extends PersistentObject<Story>
       return false;
    }
 
-   // TODO test this
    public void add(final Task task)
    {
       if (!(tasks instanceof Set<?>))
@@ -215,14 +214,14 @@ public class Story extends PersistentObject<Story>
       this.tasks = tasks;
    }
 
-   public String getDescription()
+   public String getText()
    {
-      return description;
+      return text;
    }
 
-   public void setDescription(final String description)
+   public void setText(final String text)
    {
-      this.description = description;
+      this.text = text;
    }
 
    public boolean isImpeded()
@@ -352,7 +351,7 @@ public class Story extends PersistentObject<Story>
    {
       final int prime = 31;
       long result = getId() + 1;
-      result = prime * result + ((project == null) ? 0 : project.hashCode());
+      result = (prime * result) + ((project == null) ? 0 : project.hashCode());
       return (int) result;
    }
 

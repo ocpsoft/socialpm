@@ -35,19 +35,23 @@ import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateful;
-import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.event.Observes;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.feed.FeedEvent;
 import com.ocpsoft.socialpm.domain.user.User;
 
+@Path("/feeds")
 @Stateful
-@ConversationScoped
 public class FeedService extends PersistenceUtil implements Serializable
 {
    private static final long serialVersionUID = 5716926734835352145L;
@@ -67,7 +71,9 @@ public class FeedService extends PersistenceUtil implements Serializable
       create(event);
    }
 
-   public List<FeedEvent> list(final int limit, final int offset)
+   @GET
+   @Produces("application/xml")
+   public List<FeedEvent> list(@QueryParam("limit") final int limit, @QueryParam("offset") final int offset)
    {
       TypedQuery<FeedEvent> query = entityManager.createNamedQuery("feedEvent.all", FeedEvent.class)
                .setFirstResult(offset);
@@ -80,10 +86,15 @@ public class FeedService extends PersistenceUtil implements Serializable
       return query.getResultList();
    }
 
-   public List<FeedEvent> listByUser(final User user, final int limit, final int offset)
+   @GET
+   @Path("/users/{id}")
+   @Produces("application/xml")
+   public List<FeedEvent> listByUser(@PathParam("id") final Long id, @QueryParam("limit") final int limit,
+            @QueryParam("offset") final int offset)
    {
+      User user = findById(User.class, id);
       TypedQuery<FeedEvent> query = entityManager.createNamedQuery("feedEvent.byUser", FeedEvent.class)
-               .setParameter(1, user)
+               .setParameter("user", user)
                .setFirstResult(offset);
 
       if (limit > 0)
@@ -92,5 +103,14 @@ public class FeedService extends PersistenceUtil implements Serializable
       }
 
       return query.getResultList();
+   }
+
+   @GET
+   @Path("/projects/{id}")
+   @Produces("application/xml")
+   public List<FeedEvent> listByProject(@PathParam("id") final Long id, @QueryParam("limit") final int limit,
+            @QueryParam("offset") final int offset)
+   {
+      return findByNamedQuery("feedItem.byProject", id);
    }
 }

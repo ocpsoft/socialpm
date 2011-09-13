@@ -36,18 +36,13 @@ import javax.persistence.Entity;
 import com.ocpsoft.socialpm.domain.user.User;
 
 @Entity
-@DiscriminatorValue("userloggedin")
-public class UserLoggedIn extends FeedEvent
+@DiscriminatorValue("ULOGIN")
+public class UserLoggedIn extends UserEvent
 {
    private static final long serialVersionUID = -281646598510177402L;
 
-   @SuppressWarnings("unused")
-   private UserLoggedIn()
-   {
-   }
-
    public UserLoggedIn(final User u)
    {
-      setUser(u);
+      super(u);
    }
 }

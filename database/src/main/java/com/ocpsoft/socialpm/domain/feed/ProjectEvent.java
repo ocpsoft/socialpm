@@ -32,17 +32,34 @@ package com.ocpsoft.socialpm.domain.feed;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
+import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.user.User;
 
 @Entity
-@DiscriminatorValue("UREG")
-public class UserRegistered extends UserEvent
+@DiscriminatorValue("PCREATED")
+@NamedQueries({ @NamedQuery(name = "feedEvent.byProject", query = "from FeedEvent where project = ? order by createdOn") })
+public class ProjectEvent extends UserEvent
 {
    private static final long serialVersionUID = -281646598510177402L;
 
-   public UserRegistered(final User u)
+   private Project project;
+
+   public ProjectEvent(final User u, final Project project)
    {
       super(u);
+      setProject(project);
+   }
+
+   public Project getProject()
+   {
+      return project;
+   }
+
+   public void setProject(final Project project)
+   {
+      this.project = project;
    }
 }
