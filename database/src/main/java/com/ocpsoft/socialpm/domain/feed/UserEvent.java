@@ -41,7 +41,7 @@ import com.ocpsoft.socialpm.domain.user.User;
 @Entity
 @DiscriminatorValue("UEVENT")
 @NamedQueries({
-         @NamedQuery(name = "feedEvent.byUser", query = "from FeedEvent where user = :user order by createdOn desc"),
+         @NamedQuery(name = "feedEvent.byUser", query = "from FeedEvent where user = :user order by createdOn desc")
 })
 public class UserEvent extends FeedEvent
 {
