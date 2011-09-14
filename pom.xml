@@ -117,15 +117,6 @@
                <id>jboss-public-repository-group</id>
                <name>JBoss Public Maven Repository Group</name>
                <url>http://repository.jboss.org/nexus/content/groups/public</url>
-               <layout>default</layout>
-               <releases>
-                  <enabled>true</enabled>
-                  <updatePolicy>never</updatePolicy>
-               </releases>
-               <snapshots>
-                  <enabled>false</enabled>
-                  <updatePolicy>never</updatePolicy>
-               </snapshots>
             </repository>
          </repositories>
          <pluginRepositories>
@@ -133,15 +124,6 @@
                <id>jboss-public-repository-group</id>
                <name>JBoss Public Maven Repository Group</name>
                <url>http://repository.jboss.org/nexus/content/groups/public</url>
-               <layout>default</layout>
-               <releases>
-                  <enabled>true</enabled>
-                  <updatePolicy>never</updatePolicy>
-               </releases>
-               <snapshots>
-                  <enabled>true</enabled>
-                  <updatePolicy>never</updatePolicy>
-               </snapshots>
             </pluginRepository>
          </pluginRepositories>
       </profile>
