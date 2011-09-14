@@ -1,0 +1,16 @@
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:s="urn:java:ee" 
+   xmlns:plidm="urn:java:org.jboss.seam.security.management.picketlink"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
+
+   <plidm:JpaIdentityStoreConfiguration>
+      <s:replaces />
+      <plidm:identityClass>com.ocpsoft.socialpm.domain.security.IdentityObject</plidm:identityClass>
+      <plidm:credentialClass>com.ocpsoft.socialpm.domain.security.IdentityObjectCredential</plidm:credentialClass>
+      <plidm:relationshipClass>com.ocpsoft.socialpm.domain.security.IdentityObjectRelationship</plidm:relationshipClass>
+      <plidm:roleTypeClass>com.ocpsoft.socialpm.domain.security.IdentityRoleName</plidm:roleTypeClass>
+      <plidm:attributeClass>com.ocpsoft.socialpm.domain.security.IdentityObjectAttribute</plidm:attributeClass>
+   </plidm:JpaIdentityStoreConfiguration>
+
+</beans>

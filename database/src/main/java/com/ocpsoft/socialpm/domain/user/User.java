@@ -48,6 +48,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
+import org.jboss.seam.security.annotations.management.IdentityProperty;
+import org.jboss.seam.security.annotations.management.PropertyType;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.user.auth.UserAccountLocked;
@@ -68,6 +70,7 @@ public class User extends PersistentObject<User>
    @Transient
    private static final long serialVersionUID = 7655987424212407525L;
 
+   @IdentityProperty(value = PropertyType.NAME)
    @Index(name = "userNameIndex")
    @Column(nullable = false, unique = true, updatable = false, length = 36)
    private String username;
@@ -76,6 +79,7 @@ public class User extends PersistentObject<User>
    @Column(nullable = false, unique = true, updatable = false, length = 36)
    private String canonicalUsername;
 
+   @IdentityProperty(value = PropertyType.CREDENTIAL)
    @Column(nullable = false, length = 64)
    private String password;
 

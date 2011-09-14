@@ -27,7 +27,6 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.jboss.logging.Logger;
 import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.socialpm.domain.project.stories.Story;
@@ -53,9 +52,6 @@ public class Stories implements Serializable
    @Inject
    private StoryService ss;
 
-   @Inject
-   private transient Logger log;
-
    private Story current = new Story();
 
    public String loadCurrent()
@@ -74,7 +70,6 @@ public class Stories implements Serializable
 
    public String create()
    {
-      log.info("Creating a Story");
       current.setProject(projects.getCurrent());
       projects.getCurrent().getStories().add(current);
       ss.create(current);

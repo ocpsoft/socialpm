@@ -68,24 +68,30 @@
 						<ui:insert name="topnav-left" />
 					</ul>
 
-					<form action="">
-						<input type="text" placeholder="Search" />
-					</form>
-
 					<ul class="nav secondary-nav">
+					
 						<ui:insert name="topnav-right">
+						
+						<h:panelGroup rendered="#{!identity.loggedIn}">
+						<li>
+							<h:form id="login">
+								<h:inputText placeholder="username" value="#{credentials.username}" style="width: 100px;"/>
+								<h:inputSecret placeholder="password" value="#{credentials.password}" style="width: 100px;"/>
+								<h:commandButton action="#{identity.login}" value="Sign in"/>
+							</h:form>
+						</li>
+						</h:panelGroup>
+						<h:panelGroup rendered="#{identity.loggedIn}">
 							<li class="menu">
-								<a href="#" class="menu">Dropdown</a>
+								<a href="#" class="menu">#{credentials.username}</a>
 								<ul class="menu-dropdown">
-									<li><a href="#">Option 1</a>
-									</li>
-									<li><a href="#">Option 2</a>
-									</li>
+									<li><a href="#">Account</a></li>
+									<li><a href="#">Settings</a></li>
 									<li class="divider"></li>
-									<li><a href="#">Option 3</a>
-									</li>
+									<li><h:form id="logout"><a href="#"><h:commandLink id="logoutBtn" value="sign out" action="#{identity.logout()}"/></a></h:form></li>
 								</ul>
 							</li>
+                         </h:panelGroup>
 						</ui:insert>
 					</ul>
 				</div>
