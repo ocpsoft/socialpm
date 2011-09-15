@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:s="http://jboss.org/seam/faces"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+	<ui:param name="title" value="Sign up" />
+
+	<ui:define name="header">
+		Sign up
+	</ui:define>
+
+	<ui:define name="sub-header">
+		<h:button value="Sign in with an existing account" outcome="/pages/login" class="btn"/>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<div class="row">
+			<div class="span8 columns">
+
+				<h:form id="signup">
+					<fieldset>
+						<legend>Create your own account</legend>
+					</fieldset>
+					
+					<script type="text/javascript">
+						$(document).ready(function() {
+							$('#signup\\:username').attr("placeholder", "What should we call you?");
+							$('#signup\\:email').attr("placeholder", "Got email?");
+						});
+					</script>
+					
+					<style type="text/css">
+						#signup input[type=text], #signup input[type=password] {
+							width: 240px;
+						}
+					</style>
+
+					<div class="clearfix">
+						<label for="name">Username</label>
+						<div class="input">
+							<h:inputText id="username" value="#{registration.username}"
+								styleClass="xLarge" required="true"/>
+							<br/><span class="help-inline">Your username, <b>not</b> your company's username.</span>
+						</div>
+					</div>
+
+					<div class="clearfix">
+						<label for="email">Email Address</label>
+						<div class="input">
+							<h:inputText id="email" value="#{registration.email}"
+								styleClass="xLarge" />
+							<br/><span class="help-inline">We promise never to share your email address.</span>
+						</div>
+					</div>
+
+					<div class="clearfix">
+						<label for="password">Password</label>
+						<div class="input">
+							<h:inputSecret id="password" value="#{registration.password}"
+								styleClass="xLarge" style="text-transform: uppercase;"  required="true">
+								<f:ajax execute="password passwordConfirm passwordValidator" render=":messages"/>
+							</h:inputSecret>
+							<br/><span class="help-inline">Must be at least 8 characters long.</span>
+						</div>
+					</div>
+
+					<div class="clearfix">
+						<label for="passwordConfirm">Confirm Password</label>
+						<div class="input">
+							<h:inputSecret id="passwordConfirm" value="#{registration.passwordConfirm}"
+								styleClass="xLarge" style="text-transform: uppercase;"  required="true">
+								<f:ajax execute="password passwordConfirm passwordValidator" render=":messages"/>
+							</h:inputSecret>
+							<span class="help-inline"></span>
+						</div>
+					</div>
+					<br/>
+					
+					<div class="alert-message warning">
+						<p>By clicking "Create my account" below, you are agreeing to the 
+						<h:link value="Terms of Service" outcome="/pages/terms"/> and the 
+						<h:link value="Privacy Policy" outcome="/pages/privacy"/>.</p>
+					</div>
+					
+					<s:validateForm id="passwordValidator" validatorId="passwordConfirm" />
+
+					<div class="actions">
+						<h:commandButton action="#{registration.register}" value="Create my account"
+							styleClass="btn primary" />
+					</div>
+				</h:form>
+			</div>
+			
+			<div class="span6 columns offset1">
+				<h4>Sign up with your OpenID</h4>
+				<ul>
+					<li>Never lose your password.</li>
+					<li>One-click login.</li>
+				</ul>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>
+</html>

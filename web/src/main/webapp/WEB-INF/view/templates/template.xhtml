@@ -48,6 +48,8 @@
 	<h:outputScript name="jquery-1.6.3.js" />
 	<h:outputScript name="jquery-tableSorter-min.js" />
 	<h:outputScript name="application.js" />
+	
+	<link rel="shortcut icon" href="#{resource['favicon.ico']}" />
 
 	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
@@ -65,7 +67,40 @@
 					</h3>
 
 					<ul class="nav">
-						<ui:insert name="topnav-left" />
+	
+						<h:panelGroup rendered="#{!identity.loggedIn}">					
+							<li><h:link outcome="/pages/signup" value="sign up" /></li>
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{identity.loggedIn}">
+							<li><h:link outcome="/pages/home.xhtml" value="Home" /></li>
+							<h:panelGroup>
+								<li><h:link outcome="/pages/project/create.xhtml"
+										value="New Project" />
+								</li>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{projects.active}">
+								<li><h:link outcome="/pages/project/backlog.xhtml"
+										value="Backlog">
+										<f:param name="project" value="#{projects.current.slug}" />
+									</h:link>
+								</li>
+							</h:panelGroup>
+						
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle">Dropdown</a>
+								<ul class="dropdown-menu">
+									<li><a href="#">Secondary link</a></li>
+									<li><a href="#">Something else here</a>
+									</li>
+						
+									<li class="divider"></li>
+									<li><a href="#">Another link</a>
+									</li>
+								</ul>
+							</li>
+							<ui:insert name="topnav-left" />
+						</h:panelGroup>
 					</ul>
 
 					<ul class="nav secondary-nav">
@@ -73,10 +108,20 @@
 						<ui:insert name="topnav-right">
 						
 						<h:panelGroup rendered="#{!identity.loggedIn}">
+						<script type="text/javascript">
+							$(document).ready(function() {
+								$('#login\\:username').attr("placeholder", "username");
+								$('#login\\:password').attr("placeholder", "password");
+							});
+						</script>
+						
 						<li>
 							<h:form id="login">
-								<h:inputText placeholder="username" value="#{credentials.username}" style="width: 100px;"/>
-								<h:inputSecret placeholder="password" value="#{credentials.password}" style="width: 100px;"/>
+								<h:outputText value=" " />
+								<h:inputText id="username" value="#{credentials.username}" style="width: 100px;"/>
+								<h:outputText value=" " />
+								<h:inputSecret id="password" value="#{credentials.password}" style="width: 100px;"/>
+								<h:outputText value=" " />
 								<h:commandButton action="#{identity.login}" value="Sign in"/>
 							</h:form>
 						</li>
@@ -88,7 +133,7 @@
 									<li><a href="#">Account</a></li>
 									<li><a href="#">Settings</a></li>
 									<li class="divider"></li>
-									<li><h:form id="logout"><a href="#"><h:commandLink id="logoutBtn" value="sign out" action="#{identity.logout()}"/></a></h:form></li>
+									<li><h:form id="logout" style="width: 100%;"><h:commandLink id="logoutBtn" value="sign out" action="#{identity.logout()}"/></h:form></li>
 								</ul>
 							</li>
                          </h:panelGroup>
@@ -103,7 +148,7 @@
 
 		<div style="padding-top: 40px;"></div>
 		
-		<ocp:messages globalOnly="false" />
+		<ocp:messages id="messages" globalOnly="false" />
 
 		<section id="header">
 			<div class="container">

@@ -5,29 +5,68 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+	<ui:param name="title" value="Sign up" />
 
-	<ui:param name="title" value="Login" />
+	<ui:define name="header">
+		Sign in
+	</ui:define>
 
-	<ui:define name="header-h2">Access your account</ui:define>
-	<ui:define name="header-ul">
+	<ui:define name="sub-header">
+		Not too long now.
 	</ui:define>
 
 	<ui:define name="content">
-		<h4>Enter your username and password.</h4>
-		<br />
-		<ui:include src="/WEB-INF/view/elements/login/loginForm.xhtml">
-			<ui:param name="showCancel" value="true" />
-		</ui:include>
-		
-		<script type="text/javascript">
-	$(document).ready(function() {
-		$('#username').focus();
-	});
-</script>
-	</ui:define>
 
+		<div class="row">
+			<div class="span8 columns offset4">
+				<br/>
+				<h:form id="signin">
+					
+					<script type="text/javascript">
+						$(document).ready(function() {
+							$('#signin\\:username').attr("placeholder", "Who are you?").focus();
+						});
+					</script>
+					
+					<style type="text/css">
+						#signup input[type=text], #signup input[type=password] {
+							width: 240px;
+						}
+					</style>
 
-	<ui:define name="side-ul">
+					<div class="clearfix">
+						<label for="name">Username</label>
+						<div class="input">
+							<h:inputText id="username" value="#{credentials.username}"
+								styleClass="xLarge" required="true"/>
+							<br/><span class="help-inline"></span>
+						</div>
+					</div>
+
+					<div class="clearfix">
+						<label for="password">Password</label>
+						<div class="input">
+							<h:inputSecret id="password" value="#{credentials.password}"
+								styleClass="xLarge" style="text-transform: uppercase;"  required="true">
+							</h:inputSecret>
+							<br/><span class="help-inline"></span>
+						</div>
+					</div>
+
+					<div class="actions">
+						<h:commandButton action="#{identity.login}" value="Let me in"
+							styleClass="btn primary" />
+					</div>
+				</h:form>
+
+				<h4>Sign in with your OpenID</h4>
+				<ul>
+					<li>Inexpensive.</li>
+					<li>Easy to access.</li>
+				</ul>
+			</div>
+		</div>
+
 	</ui:define>
 
 </ui:composition>

@@ -6,30 +6,17 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
-	<ui:param name="title" value="Home" />
+
+	<ui:param name="title" value="Terms and Conditions" />
 
 	<ui:define name="header">
-		Home
+		Terms and Conditions
 	</ui:define>
 
 	<ui:define name="sub-header">
-		<h:link outcome="/pages/project/create" rendered="true" value="Start a new project" />
 	</ui:define>
 
 	<ui:define name="content">
-		<ul>
-			<ui:repeat var="project" value="#{projects.all}">
-				<li><h:link outcome="/pages/project/view"
-						value="#{project.name}">
-						<f:param name="project" value="#{project.slug}" />
-					</h:link>
-				</li>
-			</ui:repeat>
-		</ul>
-
-	</ui:define>
-
-	<ui:define name="side-items">
 	</ui:define>
 
 </ui:composition>

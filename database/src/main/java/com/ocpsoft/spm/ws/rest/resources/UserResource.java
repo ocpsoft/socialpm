@@ -38,7 +38,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -49,19 +48,13 @@ import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
-import com.ocpsoft.socialpm.domain.user.Authority;
 import com.ocpsoft.socialpm.domain.user.User;
 import com.ocpsoft.socialpm.domain.user.UserProfile;
-import com.ocpsoft.socialpm.domain.user.UserSetCredentialsVisitor;
-import com.ocpsoft.socialpm.util.Assert;
-import com.ocpsoft.socialpm.util.StringValidations;
 
 @Path("/users")
 @Stateful
 public class UserResource extends PersistenceUtil
 {
-   private UserSetCredentialsVisitor credentialsVisitor;
-
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager em;
 
@@ -120,72 +113,14 @@ public class UserResource extends PersistenceUtil
       return findByNamedQuery("Story.withTasksFor", user, TaskStatus.DONE);
    }
 
-   @POST
-   @Produces("application/xml")
-   @Consumes("application/xml")
-   public User registerUser(final User user)
-   {
-      String username = user.getUsername();
-      String password = user.getPassword();
-      String email = user.getEmail();
-
-      Assert.isTrue(StringValidations.isAlphanumeric(username) && StringValidations.minLength(4, username)
-               && StringValidations.maxLength(15, username));
-      Assert.isTrue(StringValidations.isPassword(password));
-      Assert.isTrue(StringValidations.isEmailAddress(email));
-
-      User newUser = new User();
-
-      credentialsVisitor.setUsername(username);
-      credentialsVisitor.setPassword(password);
-      newUser.accept(credentialsVisitor);
-      newUser.setEmail(email);
-      // Authority role = Authority.fromRole(newUser, Role.GUEST);
-      // newUser.getAuthorities().add(role);
-
-      UserProfile profile = new UserProfile();
-
-      create(newUser);
-
-      profile.setUser(newUser);
-      create(profile);
-
-      return newUser;
-   }
-
    @PUT
    @Path("/{id}/enable")
    @Produces("application/xml")
    public User enableUser(@PathParam("id") final long id)
    {
       User user = getUserById(id);
-      // user.setAccountExpired(false);
-      // user.setAccountLocked(false);
-      // user.setCredentialsExpired(false);
-      // user.setEnabled(true);
       save(user);
       return user;
-   }
-
-   @GET
-   @Path("/{id}/authorities")
-   @Produces("application/xml")
-   public List<Authority> getAuthorities(@PathParam("id") final long id)
-   {
-      return findByNamedQuery("authority.byUserId", id);
-   }
-
-   @POST
-   @Path("/{id}/authorities")
-   @Produces("application/xml")
-   @Consumes("application/xml")
-   public void addAuthority(@PathParam("id") final long id, final Authority authority)
-   {
-      User user = getUserById(id);
-
-      Authority auth = new Authority();
-      user.getAuthorities().add(auth);
-      save(user);
    }
 
    @GET

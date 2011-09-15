@@ -53,7 +53,6 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                // Application mappings
                .addRule(Join.path("/").to("/pages/home.xhtml").withId("home"))
                .addRule(Join.path("/bootstrap").to("/bootstrap.xhtml"))
-               .addRule(Join.path("/test").to("/test.xhtml"))
 
                // Load project data on any project page
                .defineRule()
@@ -61,8 +60,7 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                         .bindsTo(El.property("projects.current.slug")))
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("projects.loadCurrent")))
 
-               .addRule(Join.path("/p/{project}").where("project").matches(PROJECT).to("/pages/project/view.xhtml")
-                        .withInboundCorrection())
+               .addRule(Join.path("/p/{project}").where("project").matches(PROJECT).to("/pages/project/view.xhtml"))
                .addRule(Join.path("/p/{project}/issues").where("project").matches(PROJECT)
                         .to("/pages/project/backlog.xhtml"))
 
@@ -77,6 +75,8 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                // 404 and Error
                .addRule(Join.path("/404").to("/pages/404.xhtml"))
                .addRule(Join.path("/error").to("/pages/error.xhtml"))
+
+               .addRule(Join.path("/{page}").to("/pages/{page}.xhtml"))
 
                .defineRule().when(
                         Direction.isInbound()

@@ -23,6 +23,11 @@ section>.row {
 	margin-bottom: 10px;
 }
 
+#header div.container div.page-header h1 small input.btn {
+	position: relative;
+	bottom: 13px;
+} 
+
 #masthead,#footer {
 	background-color: #049cd9;
 	background-repeat: no-repeat;

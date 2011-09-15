@@ -32,15 +32,8 @@ import javax.persistence.PersistenceContextType;
 import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.feed.UserRegistered;
-import com.ocpsoft.socialpm.domain.user.Authority;
 import com.ocpsoft.socialpm.domain.user.User;
-import com.ocpsoft.socialpm.domain.user.UserPasswordMatchTester;
 import com.ocpsoft.socialpm.domain.user.UserProfile;
-import com.ocpsoft.socialpm.domain.user.UserSetCredentialsVisitor;
-import com.ocpsoft.socialpm.domain.user.auth.Role;
-import com.ocpsoft.socialpm.domain.user.auth.UserEnabled;
-import com.ocpsoft.socialpm.domain.user.auth.UserRole;
-import com.ocpsoft.socialpm.domain.user.auth.UserVerified;
 import com.ocpsoft.socialpm.util.Assert;
 import com.ocpsoft.socialpm.util.RandomGenerator;
 import com.ocpsoft.socialpm.util.StringValidations;
@@ -93,17 +86,13 @@ public class UserService extends PersistenceUtil implements Serializable
     * Take a user object with populated username and plaintext password. Register that user, and return the pending
     * registration key with which the user must be verified.
     */
-   public String registerUser(final User user)
+   public String registerUser(final User user, final String username, final String password)
    {
-      Assert.isTrue(StringValidations.isAlphanumeric(user.getUsername())
-               && StringValidations.minLength(4, user.getUsername())
-               && StringValidations.maxLength(15, user.getUsername()));
-      Assert.isTrue(StringValidations.isPassword(user.getPassword()));
+      Assert.isTrue(StringValidations.isAlphanumeric(username)
+               && StringValidations.minLength(4, username)
+               && StringValidations.maxLength(15, username));
+      Assert.isTrue(StringValidations.isPassword(username));
       Assert.isTrue(StringValidations.isEmailAddress(user.getEmail()));
-
-      user.accept(new UserSetCredentialsVisitor(user.getUsername(), user.getPassword()));
-      user.getAuthorities().add(new UserRole(Role.GUEST));
-      user.getAuthorities().add(new UserEnabled());
 
       UserProfile profile = new UserProfile();
       user.setProfile(profile);
@@ -115,53 +104,6 @@ public class UserService extends PersistenceUtil implements Serializable
 
       fs.addEvent(new UserRegistered(user));
       return user.getRegistrationKey();
-   }
-
-   public void enableAccount(final User user, final String password)
-   {
-      if (!user.isEnabled() && passwordIs(user, password))
-      {
-         user.getAuthorities().add(new UserEnabled());
-      }
-      save(user);
-   }
-
-   public User verifyUser(final String key)
-   {
-      User user = findUniqueByNamedQuery("user.byRegKey", key);
-      user.getAuthorities().add(new UserVerified());
-      save(user);
-
-      return user;
-   }
-
-   public void disableAccount(final User user)
-   {
-      user.getAuthorities().remove(new UserEnabled());
-      save(user);
-   }
-
-   public void addAuthority(final User user, final Authority authority)
-   {
-      user.getAuthorities().add(authority);
-      save(user);
-   }
-
-   public boolean passwordIs(final User user, final String password)
-   {
-      refresh(user);
-      return new UserPasswordMatchTester().passwordMatches(user, password);
-   }
-
-   public boolean updatePassword(final User user, final String oldPassword, final String newPassword)
-   {
-      if (new UserPasswordMatchTester().passwordMatches(user, oldPassword))
-      {
-         user.accept(new UserSetCredentialsVisitor(user.getUsername(), newPassword));
-         save(user);
-         return true;
-      }
-      return false;
    }
 
 }

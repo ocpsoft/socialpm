@@ -30,33 +30,19 @@
 
 package com.ocpsoft.socialpm.domain.user;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
-import org.jboss.seam.security.annotations.management.IdentityProperty;
-import org.jboss.seam.security.annotations.management.PropertyType;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
-import com.ocpsoft.socialpm.domain.user.auth.UserAccountLocked;
-import com.ocpsoft.socialpm.domain.user.auth.UserEnabled;
-import com.ocpsoft.socialpm.domain.user.auth.UserVerified;
-import com.ocpsoft.socialpm.util.Strings;
-import com.ocpsoft.socialpm.util.pattern.Visitor;
+import com.ocpsoft.socialpm.domain.security.IdentityObject;
 
 @Entity
 @Table(name = "users")
@@ -70,22 +56,12 @@ public class User extends PersistentObject<User>
    @Transient
    private static final long serialVersionUID = 7655987424212407525L;
 
-   @IdentityProperty(value = PropertyType.NAME)
-   @Index(name = "userNameIndex")
-   @Column(nullable = false, unique = true, updatable = false, length = 36)
-   private String username;
-
-   @Index(name = "canonicalUsernameIndex")
-   @Column(nullable = false, unique = true, updatable = false, length = 36)
-   private String canonicalUsername;
-
-   @IdentityProperty(value = PropertyType.CREDENTIAL)
-   @Column(nullable = false, length = 64)
-   private String password;
-
    @Index(name = "userEmailIndex")
    @Column(nullable = false, length = 128, unique = true)
    private String email;
+
+   @OneToOne(optional = false)
+   private IdentityObject identity;
 
    @OneToOne(cascade = CascadeType.ALL)
    private UserProfile profile;
@@ -93,107 +69,6 @@ public class User extends PersistentObject<User>
    @Index(name = "userRegKeyIndex")
    @Column(nullable = false, length = 64, unique = true)
    private String registrationKey;
-
-   @Fetch(FetchMode.SUBSELECT)
-   @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
-   @JoinTable(name = "user_authorities")
-   private final Set<Authority> authorities = new HashSet<Authority>();
-
-   public boolean isAccountLocked()
-   {
-      return authorities.contains(new UserAccountLocked());
-   }
-
-   public boolean isEnabled()
-   {
-      return authorities.contains(new UserEnabled());
-   }
-
-   public boolean isVerified()
-   {
-      return authorities.contains(new UserVerified());
-   }
-
-   @Override
-   public String toString()
-   {
-      return username;
-   }
-
-   public void accept(final Visitor<User> visitor)
-   {
-      visitor.visit(this);
-   }
-
-   @Override
-   public int hashCode()
-   {
-      final int prime = 31;
-      int result = 1;
-      result = (prime * result) + ((username == null) ? 0 : username.hashCode());
-      return result;
-   }
-
-   @Override
-   public boolean equals(final Object obj)
-   {
-      if (this == obj)
-      {
-         return true;
-      }
-      if (obj == null)
-      {
-         return false;
-      }
-      if (!(obj instanceof User))
-      {
-         return false;
-      }
-      User other = (User) obj;
-      if (username == null)
-      {
-         if (other.username != null)
-         {
-            return false;
-         }
-      }
-      else if (!username.equals(other.username))
-      {
-         return false;
-      }
-      return true;
-   }
-
-   public String getCanonicalUsername()
-   {
-      return canonicalUsername;
-   }
-
-   public void setCanonicalUsername(final String canonicalUsername)
-   {
-      this.canonicalUsername = canonicalUsername;
-   }
-
-   public String getUsername()
-   {
-      return username;
-   }
-
-   public void setUsername(final String username)
-   {
-      this.username = username;
-      this.canonicalUsername = Strings.canonicalize(username);
-   }
-
-   public String getPassword()
-   {
-      return password;
-   }
-
-   public void setPassword(final String password)
-   {
-      this.password = password;
-   }
 
    public String getEmail()
    {
@@ -203,11 +78,6 @@ public class User extends PersistentObject<User>
    public void setEmail(final String address)
    {
       email = address;
-   }
-
-   public Set<Authority> getAuthorities()
-   {
-      return authorities;
    }
 
    public UserProfile getProfile()
@@ -228,5 +98,15 @@ public class User extends PersistentObject<User>
    public void setRegistrationKey(final String registrationKey)
    {
       this.registrationKey = registrationKey;
+   }
+
+   public IdentityObject getIdentity()
+   {
+      return identity;
+   }
+
+   public void setIdentity(final IdentityObject identity)
+   {
+      this.identity = identity;
    }
 }
