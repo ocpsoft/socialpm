@@ -25,6 +25,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.external.openid.OpenIdAuthenticator;
 import org.picketlink.idm.api.AttributesManager;
 import org.picketlink.idm.api.IdentitySession;
 import org.picketlink.idm.api.PersistenceManager;
@@ -60,6 +62,27 @@ public class Registration
       // openIdAuthenticator.providerCode = "google";
       // identity.authenticatorName = "openIdAuthenticator"
       // identity.login()
+   }
+
+   @Inject
+   private OpenIdAuthenticator openIdAuthenticator;
+
+   @Inject
+   private Identity identity;
+
+   public String openRegister() throws IdentityException
+   {
+      // PersistenceManager identityManager = security.getPersistenceManager();
+      // User user = identityManager.createUser(username);
+      //
+      // AttributesManager attributesManager = security.getAttributesManager();
+      // attributesManager.updatePassword(user, password);
+      // attributesManager.addAttribute(user, "email", email);
+
+      openIdAuthenticator.setProviderCode("google");
+      identity.setAuthenticatorClass(OpenIdAuthenticator.class);
+      String result = identity.login();
+      return result;
    }
 
    public String getUsername()
