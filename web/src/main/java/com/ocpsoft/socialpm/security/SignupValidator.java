@@ -11,12 +11,9 @@ import org.jboss.seam.faces.validation.InputElement;
 import org.jboss.seam.faces.validation.ValidatorException;
 
 @RequestScoped
-@FacesValidator("passwordConfirm")
-public class PasswordConfirmValidator implements Validator
+@FacesValidator("signupValidator")
+public class SignupValidator implements Validator
 {
-   @Inject
-   private InputElement<String> password;
-
    @Inject
    private InputElement<String> passwordConfirm;
 
@@ -24,25 +21,10 @@ public class PasswordConfirmValidator implements Validator
    public void validate(final FacesContext context, final UIComponent comp, final Object values)
             throws ValidatorException
    {
-      String passwordValue = password.getValue();
-      String passwordConfirmValue = passwordConfirm.getValue();
-
-      boolean ignore = false;
-      if ((passwordValue == null) || "".equals(passwordValue))
-      {
-         password.getComponent().setValid(false);
-         ignore = true;
-      }
-
-      if ((passwordConfirmValue == null) || ("".equals(passwordConfirmValue)))
+      if ((passwordConfirm.getValue() == null) || "".equals(passwordConfirm.getValue()))
       {
          passwordConfirm.getComponent().setValid(false);
-         ignore = true;
-      }
-
-      if (!ignore && !passwordValue.equals(passwordConfirmValue))
-      {
-         throw new ValidatorException("Passwords do not match.");
+         throw new ValidatorException("Please confirm your password.");
       }
    }
 }

@@ -29,6 +29,7 @@
 					
 					<script type="text/javascript">
 						$(document).ready(function() {
+							$('#signup\\:username').attr("placeholder", "Who are you?").focus();
 							$('#signup\\:username').attr("placeholder", "What should we call you?");
 							$('#signup\\:email').attr("placeholder", "Got email?");
 						});
@@ -38,33 +39,51 @@
 						#signup input[type=text], #signup input[type=password] {
 							width: 240px;
 						}
+						
+						.validation-status {
+							position: relative;
+							bottom: -4px;
+							height: 18px;
+							width: 18px;
+							margin-left: 5px;
+						}
 					</style>
 
-					<div class="clearfix">
-						<label for="name">Username</label>
+					<h:panelGroup id="unm" layout="block" class="clearfix">
+						<label for="username">Username</label>
 						<div class="input">
-							<h:inputText id="username" value="#{registration.username}"
-								styleClass="xLarge" required="true"/>
+							<h:inputText id="username" value="#{registration.username}" styleClass="xLarge" required="true">
+								<f:ajax execute="@this" render="unm" />
+							</h:inputText>
+							<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.username != null}"
+								styleClass="validation-status" />
 							<br/><span class="help-inline">Your username, <b>not</b> your company's username.</span>
 						</div>
-					</div>
+					</h:panelGroup>
 
-					<div class="clearfix">
+					<h:panelGroup id="eml" layout="block" class="clearfix">
 						<label for="email">Email Address</label>
 						<div class="input">
-							<h:inputText id="email" value="#{registration.email}"
-								styleClass="xLarge" />
-							<br/><span class="help-inline">We promise never to share your email address.</span>
+							<h:inputText id="email" value="#{registration.email}" styleClass="xLarge" required="true">
+								<f:ajax execute="@this" render="eml"  />
+							</h:inputText>
+							<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.email != null}"
+								styleClass="validation-status" />
+							<br/><span class="help-inline">We promise <b>never</b> to share your email address.</span>
 						</div>
-					</div>
+					</h:panelGroup>
 
 					<div class="clearfix">
 						<label for="password">Password</label>
 						<div class="input">
 							<h:inputSecret id="password" value="#{registration.password}"
-								styleClass="xLarge" style="text-transform: uppercase;"  required="true">
-								<f:ajax execute="password passwordConfirm passwordValidator" render=":messages"/>
+								styleClass="xLarge" style="text-transform: uppercase;" required="true" requiredMessage="Password is required.">
+								<f:ajax execute="password passwordConfirm passwordValidator" render="pwg pwcg :messages:messages"/>
 							</h:inputSecret>
+							<h:panelGroup id="pwg">
+								<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.password != null}"
+									styleClass="validation-status"/>
+							</h:panelGroup>
 							<br/><span class="help-inline">Must be at least 8 characters long.</span>
 						</div>
 					</div>
@@ -73,9 +92,13 @@
 						<label for="passwordConfirm">Confirm Password</label>
 						<div class="input">
 							<h:inputSecret id="passwordConfirm" value="#{registration.passwordConfirm}"
-								styleClass="xLarge" style="text-transform: uppercase;"  required="true">
-								<f:ajax execute="password passwordConfirm passwordValidator" render=":messages"/>
+								styleClass="xLarge" style="text-transform: uppercase;">
+								<f:ajax execute="password passwordConfirm passwordValidator signupValidator" render="pwg pwcg :messages:messages"/>
 							</h:inputSecret>
+							<h:panelGroup id="pwcg">
+								<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.passwordConfirm != null}"
+									styleClass="validation-status"/>
+							</h:panelGroup>
 							<span class="help-inline"></span>
 						</div>
 					</div>
@@ -88,6 +111,7 @@
 					</div>
 					
 					<s:validateForm id="passwordValidator" validatorId="passwordConfirm" />
+					<s:validateForm id="signupValidator" validatorId="signupValidator" />
 
 					<div class="actions">
 						<h:commandButton action="#{registration.register}" value="Create my account"
