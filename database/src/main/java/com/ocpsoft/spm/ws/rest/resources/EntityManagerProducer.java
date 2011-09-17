@@ -23,26 +23,29 @@ package com.ocpsoft.spm.ws.rest.resources;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 
+import org.jboss.seam.solder.core.ExtensionManaged;
+
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@ConversationScoped
+@RequestScoped
 public class EntityManagerProducer implements Serializable
 {
    private static final long serialVersionUID = -5267593171036179836L;
 
+   @RequestScoped
    @PersistenceUnit
    private EntityManagerFactory emf;
 
    @Produces
-   @ConversationScoped
+   @ExtensionManaged
    public EntityManager create()
    {
       return emf.createEntityManager();

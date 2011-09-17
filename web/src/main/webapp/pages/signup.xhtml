@@ -125,31 +125,15 @@
 			</div>
 			
 			<div class="span7 columns offset1">
-				<h:form>
-					<div class="well">
-						<h4>Or sign up with your OpenID</h4>
-						<ul>
-							<li>Never lose your password.</li>
-							<li>One-click login.</li>
-						</ul>
-					
-						<h:commandLink action="#{registration.openRegister}" styleClass="openId">
-							<h:graphicImage value="#{resource['openid/google.png']}" />
-						</h:commandLink>
-						<h:commandLink action="#{registration.openRegister}" styleClass="openId">
-							<h:graphicImage value="#{resource['openid/yahoo.png']}" />
-						</h:commandLink>
-						<h:commandLink action="#{registration.openRegister}" styleClass="openId">
-							<h:graphicImage value="#{resource['openid/flickr.png']}" />
-						</h:commandLink>
-						<h:commandLink action="#{registration.openRegister}" styleClass="openId">
-							<h:graphicImage value="#{resource['openid/livejournal.png']}" />
-						</h:commandLink>
-						<h:commandLink action="#{registration.openRegister}" styleClass="openId">
-							<h:graphicImage value="#{resource['openid/wordpress.png']}" />
-						</h:commandLink>
-					</div>
-				</h:form>
+			
+				<div class="well">
+					<h4>Or sign up with your OpenID</h4>
+					<ul>
+						<li>Never lose your password.</li>
+						<li>One-click login.</li>
+					</ul>
+					<ui:include src="/WEB-INF/view/elements/openIdForm.xhtml" />
+				</div>
 			</div>
 		</div>
 

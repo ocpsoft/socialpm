@@ -16,9 +16,25 @@
 	</ui:define>
 
 	<ui:define name="content">
+		<style type="text/css">
+			.openId {
+				margin: 25px;
+			}
+		</style>
 
 		<div class="row">
 			<div class="span8 columns offset4">
+				<br/>
+				
+				
+	
+				<center><h4>Sign in with your account at:</h4></center>
+				<div class="well">
+					<ui:include src="/WEB-INF/view/elements/openIdForm.xhtml" />
+				</div>
+				
+				
+				<center><h4>Sign in with your Username and Password</h4></center>
 				<br/>
 				<h:form id="signin">
 					
@@ -58,12 +74,6 @@
 							styleClass="btn primary" />
 					</div>
 				</h:form>
-
-				<h4>Sign in with your OpenID</h4>
-				<ul>
-					<li>Inexpensive.</li>
-					<li>Easy to access.</li>
-				</ul>
 			</div>
 		</div>
 

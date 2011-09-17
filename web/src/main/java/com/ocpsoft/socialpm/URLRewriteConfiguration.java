@@ -83,6 +83,7 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                                  .and(DispatchType.isRequest())
                                  .and(Path.matches(".*"))
                                  .andNot(Path.matches(".*javax\\.faces\\.resource.*"))
+                                 .andNot(Path.matches("/openid/RP/.*"))
                                  .andNot(Path.matches("/rfRes/.*")))
                .perform(Forward.to("/404"));
    }
