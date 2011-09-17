@@ -78,8 +78,11 @@ public class ValidateDatabase
 
       IdentitySession session = identitySessionFactory.createIdentitySession("default", sessionOptions);
 
-      if (session.getPersistenceManager().findUser("shane") == null) {
-         User u = session.getPersistenceManager().createUser("shane");
+      /*
+       * Create our test user (me!)
+       */
+      if (session.getPersistenceManager().findUser("lincoln") == null) {
+         User u = session.getPersistenceManager().createUser("lincoln");
          session.getAttributesManager().updatePassword(u, "password");
       }
    }

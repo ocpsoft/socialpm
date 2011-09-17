@@ -77,6 +77,11 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                .addRule(Join.path("/error").to("/pages/error.xhtml"))
 
                .addRule(Join.path("/{page}").to("/pages/{page}.xhtml"))
+               //
+               // .defineRule()
+               // .when(Path.matches("/logout"))
+               // .perform(Invoke.binding(El.retrievalMethod("identity.logout")).and(
+               // Redirect.permanent(context.getContextPath())))
 
                .defineRule().when(
                         Direction.isInbound()

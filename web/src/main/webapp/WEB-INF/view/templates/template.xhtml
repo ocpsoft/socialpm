@@ -48,8 +48,6 @@
 	<h:outputScript name="jquery-1.6.3.js" />
 	<h:outputScript name="jquery-tableSorter-min.js" />
 	<h:outputScript name="application.js" />
-	
-	<link rel="shortcut icon" href="#{resource['favicon.ico']}" />
 
 	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
@@ -127,6 +125,7 @@
 						</li>
 						</h:panelGroup>
 						<h:panelGroup rendered="#{identity.loggedIn}">
+							<li><ocp:gravatar email="#{currentUser.email}" size="30"/></li>
 							<li class="menu">
 								<a href="#" class="menu">#{credentials.username}</a>
 								<ul class="menu-dropdown">

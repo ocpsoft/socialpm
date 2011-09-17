@@ -34,29 +34,35 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
-<composite:interface>
+<composite:interface shortDescription="Renders a gravatar for a given email address">
+	<composite:attribute name="size" default="80" />
+	<composite:attribute name="email" />
+	<composite:attribute name="style" />
+	<composite:attribute name="updatable" default="false"/>
 </composite:interface>
 
 <composite:implementation>
-	<h:outputLink value="http://gravatar.com/emails/" 
-		title="Change your avatar at gravatar.com &#160;&#187;&#160;" 
-		target="_blank"
-		rendered="#{cc.attrs.updatable and cc.attrs.user != null}">
-		<h:graphicImage value="#{gravatars.getURLFor(cc.attrs.user.email, (cc.attrs.size eq '' ? 80 : cc.attrs.size))}" 
-			height="#{cc.attrs.size}" 
-			width="#{cc.attrs.size}" 
-			style="padding: 2px; 
-			border-solid: #ccc; 
-			background-color: #eee;" />
-	</h:outputLink>
-	
-	<h:graphicImage value="#{gravatars.getURLFor(cc.attrs.user.email, (cc.attrs.size eq '' ? 80 : cc.attrs.size))}" 
-			height="#{cc.attrs.size}" 
-			width="#{cc.attrs.size}" 
-			style="padding: 2px; 
-			border-solid: #ccc; 
-			background-color: #eee;" 
-			rendered="#{!cc.attrs.updatable and cc.attrs.user != null}"/>
+	<h:panelGroup style="#{cc.attrs.style}">
+		<h:outputLink value="http://gravatar.com/emails/" 
+			title="Change your avatar at gravatar.com &#160;&#187;&#160;" 
+			target="_blank"
+			rendered="#{cc.attrs.updatable and cc.attrs.email != null}">
+			<h:graphicImage value="#{gravatars.getURLFor(cc.attrs.email, cc.attrs.size)}" 
+				height="#{cc.attrs.size}" 
+				width="#{cc.attrs.size}" 
+				style="padding: 2px; 
+				border-solid: #ccc; 
+				background-color: #eee;" />
+		</h:outputLink>
+		
+		<h:graphicImage value="#{gravatars.getURLFor(cc.attrs.email, cc.attrs.size)}" 
+				height="#{cc.attrs.size}" 
+				width="#{cc.attrs.size}" 
+				style="padding: 2px; 
+				border-solid: #ccc; 
+				background-color: #eee;" 
+				rendered="#{!cc.attrs.updatable and cc.attrs.email != null}"/>
+	</h:panelGroup>
 </composite:implementation>
 
 </html>
