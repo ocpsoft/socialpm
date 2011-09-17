@@ -51,6 +51,7 @@ public class Registration
 
    public void register() throws IdentityException
    {
+      // TODO validate username, email address, and user existence
       PersistenceManager identityManager = security.getPersistenceManager();
       User user = identityManager.createUser(username);
 
