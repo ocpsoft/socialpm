@@ -84,6 +84,7 @@ public class ValidateDatabase
       if (session.getPersistenceManager().findUser("lincoln") == null) {
          User u = session.getPersistenceManager().createUser("lincoln");
          session.getAttributesManager().updatePassword(u, "password");
+         session.getAttributesManager().addAttribute(u, "email", "lincoln@ocpsoft.com");
       }
    }
 }

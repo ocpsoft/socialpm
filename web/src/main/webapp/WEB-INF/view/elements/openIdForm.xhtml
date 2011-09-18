@@ -33,25 +33,74 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets" lang="en">
+	
 <ui:composition>
+	
+	<style type="text/css">
+		.provider {
+			float: left;
+			height: 50px;
+			width: 150px;
+			margin: 5px;
+		    background: url(#{resource['openid/sprites.png']}) no-repeat scroll 0 0 transparent;
+		}
+		#yahoo {
+		    background-position: 0 -150px;
+		}
+		#yahoo:hover {
+		    background-position: -150px -150px;
+		}
+		#yahoo.press {
+		    background-position: -300px -150px;
+		}
+		#google {
+		    background-position: 0 -50px;
+		}
+		#google:hover {
+		    background-position: -150px -50px;
+		}
+		#google.press {
+		    background-position: -300px -50px;
+		}
+		#aol {
+		    background-position: 0 0;
+		}
+		#aol:hover {
+		    background-position: -150px 0;
+		}
+		#aol.press {
+		    background-position: -300px 0;
+		}
+		#openid {
+		    background-position: 0 -100px;
+		}
+		#openid:hover {
+		    background-position: -150px -100px;
+		}
+		#openid.press {
+		    background-position: -300px -100px;
+		}
+		.expand{
+			display: block;
+			height: 50px;
+			width: 150px;
+		}
+				
+	</style>
 
-	<h:form id="openIdLogin">
-		<h:commandLink action="#{registration.openRegister}" styleClass="openId">
-			<h:graphicImage value="#{resource['openid/google.png']}" />
-		</h:commandLink>
-		<h:commandLink action="#{registration.openRegister}" styleClass="openId">
-			<h:graphicImage value="#{resource['openid/yahoo.png']}" />
-		</h:commandLink>
-		<h:commandLink action="#{registration.openRegister}" styleClass="openId">
-			<h:graphicImage value="#{resource['openid/flickr.png']}" />
-		</h:commandLink>
-		<h:commandLink action="#{registration.openRegister}" styleClass="openId">
-			<h:graphicImage value="#{resource['openid/livejournal.png']}" />
-		</h:commandLink>
-		<h:commandLink action="#{registration.openRegister}" styleClass="openId">
-			<h:graphicImage value="#{resource['openid/wordpress.png']}" />
-		</h:commandLink>
+	<h:form prependId="false">
+			<h:commandLink id="google" action="#{registration.openRegister}" styleClass="openId provider expand">
+				<f:setPropertyActionListener target="#{openIdAuthenticator.providerCode}" value="google" />
+			</h:commandLink>
+			<h:commandLink id="yahoo" action="#{registration.openRegister}" styleClass="openId provider expand">
+				<f:setPropertyActionListener target="#{openIdAuthenticator.providerCode}" value="yahoo" />
+			</h:commandLink>
+			<ui:remove>
+				<h:commandLink id="openid" action="#{registration.openRegister}" styleClass="openId provider expand">
+					<f:setPropertyActionListener target="#{openIdAuthenticator.providerCode}" value="myopenid" />
+				</h:commandLink>
+			</ui:remove>
+		<div class="clear"></div>
 	</h:form>
-
 </ui:composition>
 </html>

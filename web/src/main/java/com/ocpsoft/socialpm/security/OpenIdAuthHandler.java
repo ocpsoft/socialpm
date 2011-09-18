@@ -13,17 +13,18 @@ import org.jboss.seam.security.external.openid.api.OpenIdPrincipal;
 import org.jboss.seam.security.external.spi.OpenIdRelyingPartySpi;
 import org.jboss.seam.transaction.Transactional;
 
-public class OpenIdRelyingPartySpiImpl implements OpenIdRelyingPartySpi
+public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
 {
    @Inject
    private ServletContext servletContext;
 
    @Inject
-   OpenIdAuthenticator openIdAuthenticator;
+   private OpenIdAuthenticator openIdAuthenticator;
 
    @Inject
-   Event<DeferredAuthenticationEvent> deferredAuthentication;
+   private Event<DeferredAuthenticationEvent> deferredAuthentication;
 
+   @Override
    @Transactional
    public void loginSucceeded(final OpenIdPrincipal principal, final ResponseHolder responseHolder)
    {
@@ -38,10 +39,11 @@ public class OpenIdRelyingPartySpiImpl implements OpenIdRelyingPartySpi
       }
    }
 
+   @Override
    public void loginFailed(final String message, final ResponseHolder responseHolder)
    {
       try {
-         responseHolder.getResponse().sendRedirect(servletContext.getContextPath() + "/error");
+         responseHolder.getResponse().sendRedirect(servletContext.getContextPath() + "/signup");
       }
       catch (IOException e) {
          throw new RuntimeException(e);

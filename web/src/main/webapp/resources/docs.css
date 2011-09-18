@@ -15,6 +15,10 @@ a, a:hover, a:focus, a:active {
 	outline: none;
 }
 
+.clear {
+	clear: both; margin: 0; padding: 0;
+}
+
 section {
 	padding-top: 60px;
 }

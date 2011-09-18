@@ -14,7 +14,8 @@ import org.jboss.seam.security.annotations.management.IdentityEntity;
 import org.jboss.seam.security.annotations.management.IdentityProperty;
 import org.jboss.seam.security.annotations.management.PropertyType;
 
-@Entity @IdentityEntity(IDENTITY_OBJECT)
+@Entity
+@IdentityEntity(IDENTITY_OBJECT)
 public class IdentityObject implements Serializable
 {
    private static final long serialVersionUID = 1517888087403472476L;

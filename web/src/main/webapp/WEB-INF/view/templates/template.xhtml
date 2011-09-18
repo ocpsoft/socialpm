@@ -19,14 +19,6 @@
 	  See the License for the specific language governing permissions and 
 	  limitations under the License. 
 	-->
-
-		<!-- 
-	<h:outputText value='&lt;?xml version="1.0" encoding="UTF-8"?&gt;' escape="false" />
-	<h:outputText
-		value='&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;'
-		escape="false" />
-	 -->
-
 	</ui:remove>
 
 	<h:outputText value='&lt;!DOCTYPE html&gt;' escape="false" />
@@ -120,7 +112,7 @@
 								<h:outputText value=" " />
 								<h:inputSecret id="password" value="#{credentials.password}" style="width: 100px;"/>
 								<h:outputText value=" " />
-								<h:commandButton action="#{identity.login}" value="Sign in"/>
+								<h:commandButton action="#{authentication.login}" value="Sign in" />
 							</h:form>
 						</li>
 						</h:panelGroup>
@@ -132,7 +124,7 @@
 									<li><a href="#">Account</a></li>
 									<li><a href="#">Settings</a></li>
 									<li class="divider"></li>
-									<li><h:form id="logout" style="width: 100%;"><h:commandLink id="logoutBtn" value="sign out" action="#{identity.logout()}"/></h:form></li>
+									<li><h:form id="logout" style="width: 100%;"><h:commandLink id="logoutBtn" value="sign out" action="#{authentication.logout()}"/></h:form></li>
 								</ul>
 							</li>
                          </h:panelGroup>
