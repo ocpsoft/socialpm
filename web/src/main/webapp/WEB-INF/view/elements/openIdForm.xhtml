@@ -95,7 +95,13 @@
 			<h:commandLink id="yahoo" action="#{registration.openRegister}" styleClass="openId provider expand">
 				<f:setPropertyActionListener target="#{openIdAuthenticator.providerCode}" value="yahoo" />
 			</h:commandLink>
+			
+			<div class="clear"></div>
 			<ui:remove>
+				<h:commandLink id="stackexchange" action="#{registration.openRegister}" value="Stack Exchange"
+					style="margin-left: 30px;">
+					<f:setPropertyActionListener target="#{openIdAuthenticator.providerCode}" value="stackexchange" />
+				</h:commandLink>
 				<h:commandLink id="openid" action="#{registration.openRegister}" styleClass="openId provider expand">
 					<f:setPropertyActionListener target="#{openIdAuthenticator.providerCode}" value="myopenid" />
 				</h:commandLink>

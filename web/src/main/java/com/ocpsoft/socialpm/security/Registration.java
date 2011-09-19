@@ -88,6 +88,11 @@ public class Registration
 
       AuthenticationStatus status = openId.getStatus();
 
+      if (status == null)
+      {
+         status = AuthenticationStatus.FAILURE;
+      }
+
       switch (status)
       {
       case FAILURE:
