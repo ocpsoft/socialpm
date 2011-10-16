@@ -52,6 +52,7 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
 
                // Application mappings
                .addRule(Join.path("/").to("/pages/home.xhtml").withId("home"))
+               .addRule(Join.path("/guest").to("/pages/loggedOffHome.xhtml").withId("loggedOffHome"))
                .addRule(Join.path("/bootstrap").to("/bootstrap.xhtml"))
 
                // Load project data on any project page
@@ -76,7 +77,7 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                .addRule(Join.path("/404").to("/pages/404.xhtml"))
                .addRule(Join.path("/error").to("/pages/error.xhtml"))
 
-               .addRule(Join.path("/{page}").to("/pages/{page}.xhtml"))
+               .addRule(Join.path("/{page}").to("/pages/{page}.xhtml").where("page").matches("(?!RES_NOT_FOUND)[^/]+"))
                //
                // .defineRule()
                // .when(Path.matches("/logout"))

@@ -50,10 +50,17 @@ public class CurrentUserProducer
    @RequestScoped
    public User currentUser() throws IdentityException
    {
-      AttributesManager attrs = session.getAttributesManager();
-
-      User result = new User();
-      result.setEmail((String) attrs.getAttribute(identity.getUser(), "email").getValue());
+      User result;
+      if (identity.isLoggedIn())
+      {
+         AttributesManager attrs = session.getAttributesManager();
+         result = new User();
+         result.setEmail((String) attrs.getAttribute(identity.getUser(), "email").getValue());
+      }
+      else
+      {
+         result = new User();
+      }
       return result;
    }
 }
