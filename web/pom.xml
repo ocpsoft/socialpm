@@ -92,6 +92,12 @@
          <type>pom</type>
          <scope>provided</scope>
       </dependency>
+      <dependency>
+         <groupId>org.hibernate</groupId>
+         <artifactId>hibernate-entitymanager</artifactId>
+         <version>4.0.0.Alpha2</version>
+         <scope>provided</scope>
+      </dependency>
 
       <!-- Test Dependencies -->
       <dependency>
