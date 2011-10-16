@@ -22,11 +22,11 @@ package com.ocpsoft.socialpm.model.project;
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-import javax.ejb.Stateful;
 import javax.enterprise.context.ConversationScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
+
+import org.jboss.seam.transaction.Transactional;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
@@ -35,13 +35,12 @@ import com.ocpsoft.socialpm.domain.project.stories.Story;
  * @author <a href="mailto:bleathem@gmail.com">Brian Leathem</a>
  * 
  */
-@Stateful
 @ConversationScoped
 public class StoryService extends PersistenceUtil
 {
    private static final long serialVersionUID = 1L;
 
-   @PersistenceContext(type = PersistenceContextType.EXTENDED)
+   @Inject
    private EntityManager em;
 
    @Override
@@ -50,9 +49,11 @@ public class StoryService extends PersistenceUtil
       return em;
    }
 
+   @Transactional
    public Story create(final Story p)
    {
       super.create(p);
+      em.flush();
       return p;
    }
 

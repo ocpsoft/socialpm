@@ -15,9 +15,9 @@
    <name>SocialPM - Web</name>
 
    <properties>
-      <seam.version>3.1.0.Beta2</seam.version>
+      <seam.version>3.1.0.Beta3</seam.version>
       <version.seam-conversation>3.0.0.CR2</version.seam-conversation>
-      <version.rewrite>1.0.0.Alpha4</version.rewrite>
+      <version.rewrite>1.0.0-SNAPSHOT</version.rewrite>
    </properties>
 
    <dependencyManagement>
@@ -82,18 +82,9 @@
          <artifactId>seam-security-external</artifactId>
       </dependency>
       <dependency>
-         <groupId>org.jboss.seam.servlet</groupId>
-         <artifactId>seam-servlet</artifactId>
+         <groupId>org.jboss.solder</groupId>
+         <artifactId>solder-impl</artifactId>
       </dependency>
-      <dependency>
-         <groupId>org.jboss.seam.solder</groupId>
-         <artifactId>seam-solder</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam.config</groupId>
-         <artifactId>seam-config-xml</artifactId>
-      </dependency>
-
 
       <dependency>
          <groupId>org.jboss.spec</groupId>

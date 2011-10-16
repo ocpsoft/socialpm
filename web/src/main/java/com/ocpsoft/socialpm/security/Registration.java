@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jboss.seam.security.Authenticator.AuthenticationStatus;
+import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.external.openid.OpenIdAuthenticator;
 import org.jboss.seam.security.management.IdmAuthenticator;
@@ -34,6 +35,9 @@ import org.picketlink.idm.api.IdentitySession;
 import org.picketlink.idm.api.PersistenceManager;
 import org.picketlink.idm.api.User;
 import org.picketlink.idm.common.exception.IdentityException;
+import org.picketlink.idm.impl.api.PasswordCredential;
+
+import com.ocpsoft.spm.ws.rest.resources.UserResource;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -43,12 +47,20 @@ import org.picketlink.idm.common.exception.IdentityException;
 @RequestScoped
 public class Registration
 {
+   @Inject
+   private UserResource ur;
 
    @Inject
    private Identity identity;
 
    @Inject
+   private Credentials credentials;
+
+   @Inject
    private IdentitySession security;
+
+   @Inject
+   private IdmAuthenticator idm;
 
    private String username;
    private String password;
@@ -66,8 +78,14 @@ public class Registration
       attributesManager.addAttribute(user, "email", email);
 
       identity.setAuthenticatorClass(IdmAuthenticator.class);
+      credentials.setUsername(username);
+      credentials.setCredential(new PasswordCredential(password));
 
-      return "/pages/home?faces-redirect=true";
+      String result = identity.login();
+      AuthenticationStatus status = idm.getStatus();
+      result = getResult(result, status);
+
+      return result;
    }
 
    @Inject
@@ -87,7 +105,13 @@ public class Registration
       }
 
       AuthenticationStatus status = openId.getStatus();
+      result = getResult(result, status);
 
+      return result;
+   }
+
+   public String getResult(String result, AuthenticationStatus status)
+   {
       if (status == null)
       {
          status = AuthenticationStatus.FAILURE;
@@ -105,7 +129,6 @@ public class Registration
       default:
          break;
       }
-
       return result;
    }
 

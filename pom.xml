@@ -26,7 +26,7 @@
       <junit.version>4.8.1</junit.version>
       <prettyfaces.version>3.3.0</prettyfaces.version>
       <prettytime.version>1.0.7</prettytime.version>
-      <seam.version>3.1.0.Beta2</seam.version>
+      <seam.version>3.1.0.Beta3</seam.version>
    </properties>
 
    <dependencyManagement>
@@ -56,7 +56,7 @@
             <scope>import</scope>
          </dependency>
 
-
+<!-- 
          <dependency>
             <groupId>org.jboss.seam.security</groupId>
             <artifactId>seam-security-api</artifactId>
@@ -75,13 +75,14 @@
             <version>3.1.0-SNAPSHOT</version>
             <scope>compile</scope>
          </dependency>
+ -->
          <dependency>
-            <groupId>org.jboss.seam.solder</groupId>
-            <artifactId>seam-solder</artifactId>
+            <groupId>org.jboss.solder</groupId>
+            <artifactId>solder-impl</artifactId>
             <version>3.1.0-SNAPSHOT</version>
             <scope>compile</scope>
          </dependency>
-
+         
          <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>

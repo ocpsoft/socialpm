@@ -67,6 +67,8 @@ import com.ocpsoft.socialpm.util.Strings;
 @Path("/projects")
 public class ProjectResource extends PersistenceUtil
 {
+   private static final long serialVersionUID = 8078531824053093624L;
+
    @Inject
    private IterationService is;
 
