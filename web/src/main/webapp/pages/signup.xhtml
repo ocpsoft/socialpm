@@ -80,9 +80,9 @@
 					<div class="clearfix">
 						<label for="password">Password</label>
 						<div class="input">
-							<h:inputSecret id="password" value="#{registration.password}"
+							<h:inputSecret id="password" value="#{registration.password}" redisplay="true" 
 								styleClass="xLarge" style="text-transform: uppercase;" required="true" requiredMessage="Password is required.">
-								<f:ajax execute="password passwordConfirm passwordValidator" render="pwg pwcg :messages:messages"/>
+								<f:ajax execute="password passwordConfirm passwordValidator" render="password passwordConfirm pwg pwcg :messages:messages"/>
 							</h:inputSecret>
 							<h:panelGroup id="pwg">
 								<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.password != null}"
@@ -96,8 +96,8 @@
 						<label for="passwordConfirm">Confirm Password</label>
 						<div class="input">
 							<h:inputSecret id="passwordConfirm" value="#{registration.passwordConfirm}"
-								styleClass="xLarge" style="text-transform: uppercase;">
-								<f:ajax execute="password passwordConfirm passwordValidator signupValidator" render="pwg pwcg :messages:messages"/>
+								redisplay="true" styleClass="xLarge" style="text-transform: uppercase;">
+								<f:ajax execute="password passwordConfirm passwordValidator signupValidator" render="password passwordConfirm pwg pwcg :messages:messages"/>
 							</h:inputSecret>
 							<h:panelGroup id="pwcg">
 								<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.passwordConfirm != null}"

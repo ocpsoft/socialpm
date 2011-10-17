@@ -19,6 +19,10 @@ a, a:hover, a:focus, a:active {
 	clear: both; margin: 0; padding: 0;
 }
 
+input.error {
+	border-color: red;
+}
+
 section {
 	padding-top: 60px;
 }
