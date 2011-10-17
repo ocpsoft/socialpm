@@ -25,7 +25,7 @@ import com.ocpsoft.socialpm.domain.security.IdentityObjectType;
  * 
  * @author Shane Bryzak
  */
-public class ValidateDatabase
+public class InitializeDatabase
 {
    @PersistenceContext
    private EntityManager entityManager;

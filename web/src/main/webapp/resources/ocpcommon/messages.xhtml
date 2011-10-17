@@ -39,10 +39,10 @@
 </composite:interface>
 
 <composite:implementation>
-	<h:messages id="#{cc.clientId}"
+	<h:messages id="#{cc.clientId}" layout="table"
 		globalOnly="#{cc.attrs.globalOnly}"
-		errorClass="OCPmessagesError" fatalClass="OCPmessagesFatal"
-		infoClass="OCPmessagesInfo" warnClass="OCPmessagesWarning" />
+		errorClass="alert-message error" fatalClass="alert-message error"
+		infoClass="alert-message error" warnClass="alert-message warning" />
 </composite:implementation>
 
 </html>

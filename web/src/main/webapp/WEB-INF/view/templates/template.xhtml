@@ -41,6 +41,7 @@
 	<h:outputScript name="bootstrap/dropdown.js" />
 	<h:outputScript name="bootstrap/scrollspy.js" />
 	<h:outputScript name="bootstrap/twipsy.js" />
+	<h:outputScript name="bootstrap/alerts.js" />
 
 	<!-- Our customizations -->
 	<h:outputStylesheet name="application.css" />
@@ -103,6 +104,12 @@
 						<ui:insert name="topnav-right">
 						
 						<h:panelGroup rendered="#{!identity.loggedIn}">
+							<li>
+								<h:link outcome="/pages/login" value="Sign in" />
+							</li>
+						</h:panelGroup>
+						
+						<h:panelGroup rendered="#{!identity.loggedIn}">
 						<script type="text/javascript">
 							$(document).ready(function() {
 								$('#login\\:username').attr("placeholder", "username");
@@ -121,6 +128,8 @@
 							</h:form>
 						</li>
 						</h:panelGroup>
+						
+						
 						<h:panelGroup rendered="#{identity.loggedIn}">
 							<li><ocp:gravatar email="#{currentUser.email}" size="30" style="position: relative; top: 3px;"/></li>
 							<li class="menu">
@@ -143,8 +152,6 @@
 	<div style="min-height: 100%;">
 
 		<div style="padding-top: 40px;"></div>
-		
-		<ocp:messages id="messages" globalOnly="false" />
 
 		<section id="header">
 			<div class="container">
@@ -155,6 +162,7 @@
 								name="sub-header" /> </small>
 					</h1>
 				</div>
+				<ocp:messages id="messages" globalOnly="false" />
 			</div>
 		</section>
 

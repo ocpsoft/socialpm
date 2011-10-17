@@ -5,15 +5,29 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<ui:composition template="/WEB-INF/view/templates/socialpm-splash.xhtml">
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
 	<ui:param name="title" value="Home" />
 
 	<ui:define name="header">
-		
+		<div class="alert-message info">
+			<center>
+			<h1>0 people managing over 0 projects</h1>
+			<div class="alert-message warning">
+				<span style="font-size: 16px;">
+				<a href="/p/rewrite">rewrite</a>, 
+				<a href="/p/rewrite">prettyfaces</a>, 
+				<a href="/p/rewrite">forge</a>, 
+				<a href="/p/rewrite">seam</a>, 
+				<a href="/p/rewrite">richfaces</a>, 
+				 and many more.
+				</span>
+				<input type="text" placeholder="Find a project..." />
+			</div>
+			</center>
+		</div>
 	</ui:define>
 
 	<ui:define name="sub-header">
-		<h:link outcome="/pages/project/create" rendered="true" value="Start a new project" />
 	</ui:define>
 
 	<ui:define name="content">
