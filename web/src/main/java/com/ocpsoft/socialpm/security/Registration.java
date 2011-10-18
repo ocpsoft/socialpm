@@ -24,8 +24,8 @@ package com.ocpsoft.socialpm.security;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.http.HttpServletResponse;
 
+import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.Authenticator.AuthenticationStatus;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
@@ -38,6 +38,7 @@ import org.picketlink.idm.api.User;
 import org.picketlink.idm.common.exception.IdentityException;
 import org.picketlink.idm.impl.api.PasswordCredential;
 
+import com.ocpsoft.logging.Logger;
 import com.ocpsoft.spm.ws.rest.resources.UserResource;
 
 /**
@@ -48,6 +49,11 @@ import com.ocpsoft.spm.ws.rest.resources.UserResource;
 @RequestScoped
 public class Registration
 {
+   private static Logger log = Logger.getLogger(Registration.class);
+
+   @Inject
+   private Messages msg;
+
    @Inject
    private UserResource ur;
 
@@ -62,9 +68,6 @@ public class Registration
 
    @Inject
    private IdmAuthenticator idm;
-
-   @Inject
-   private HttpServletResponse response;
 
    private String username;
    private String password;
@@ -87,9 +90,8 @@ public class Registration
 
       String result = identity.login();
       AuthenticationStatus status = idm.getStatus();
-      result = getResult(result, status);
 
-      return result;
+      return getResult(result, status);
    }
 
    @Inject
@@ -109,9 +111,8 @@ public class Registration
       }
 
       AuthenticationStatus status = openId.getStatus();
-      result = getResult(result, status);
 
-      return result;
+      return getResult(result, status);
    }
 
    public String getResult(String result, AuthenticationStatus status)
@@ -125,9 +126,11 @@ public class Registration
       {
       case FAILURE:
          result = "/pages/signup?faces-redirect=true";
+         msg.error("Oops! We couldn't register you right now. Try again?");
          break;
       case SUCCESS:
          result = "/pages/home?faces-redirect=true";
+         msg.info("Welcome! Now that you're here, why not look around?");
          break;
 
       default:

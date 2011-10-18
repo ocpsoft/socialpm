@@ -50,10 +50,10 @@
 	</ui:define>
 
 	<ui:define name="footer">
-		<h:link value="privacy" outcome="/pages/privacy"/>
+		<h:link value="privacy" outcome="/pages/privacy"/> |
 		<a href="#{applicationConfig.blogUrl}"> blog</a> | 
-		<a href="#"> about</a> | 
-		<a href="#"> terms</a> | 	
+		<h:link value="about" outcome="/pages/about"/> | 
+		<h:link value="terms" outcome="/pages/terms"/> | 	
 		<a href="http://ocpsoft.com"> [&copy; ocpsoft.com]</a>
 	</ui:define>
 

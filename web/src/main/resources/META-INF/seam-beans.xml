@@ -13,9 +13,6 @@
       <openid:hostName>example.com</openid:hostName>
       <openid:port>8080</openid:port>
       <openid:protocol>http</openid:protocol>
-      <!-- 
-      <openid:returnToPath>/openid/callback</openid:returnToPath>
-       -->
    </openid:OpenIdConfiguration>   
    
    <openid:OpenIdRpInApplicationScopeProducer>
