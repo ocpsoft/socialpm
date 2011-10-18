@@ -24,6 +24,7 @@ package com.ocpsoft.socialpm.security;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletResponse;
 
 import org.jboss.seam.security.Authenticator.AuthenticationStatus;
 import org.jboss.seam.security.Credentials;
@@ -61,6 +62,9 @@ public class Registration
 
    @Inject
    private IdmAuthenticator idm;
+
+   @Inject
+   private HttpServletResponse response;
 
    private String username;
    private String password;
