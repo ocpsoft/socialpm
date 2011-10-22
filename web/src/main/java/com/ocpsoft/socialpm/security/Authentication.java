@@ -51,7 +51,6 @@ public class Authentication
    {
       String result = Identity.RESPONSE_LOGIN_FAILED;
       identity.setAuthenticatorClass(IdmAuthenticator.class);
-      String result;
       try {
          result = identity.login();
       }
@@ -99,7 +98,7 @@ public class Authentication
    public boolean isLoginFailed()
    {
       return loginFailed;
-}
+   }
 
    public void setLoginFailed(final boolean loginFailed)
    {
