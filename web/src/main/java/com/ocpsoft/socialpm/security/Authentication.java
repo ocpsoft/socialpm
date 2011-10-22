@@ -16,6 +16,8 @@
 package com.ocpsoft.socialpm.security;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Observes;
+import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,7 +25,11 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.events.DeferredAuthenticationEvent;
+import org.jboss.seam.security.events.LoggedInEvent;
+import org.jboss.seam.security.events.LoginFailedEvent;
 import org.jboss.seam.security.management.IdmAuthenticator;
+import org.picketlink.idm.api.User;
 
 import com.ocpsoft.logging.Logger;
 
@@ -37,6 +43,9 @@ public class Authentication
    Logger logger = Logger.getLogger(Authentication.class);
 
    @Inject
+   private HttpSession session;
+
+   @Inject
    private FacesContext context;
 
    @Inject
@@ -45,45 +54,68 @@ public class Authentication
    @Inject
    private Messages messages;
 
-   private boolean loginFailed;
-
-   public String login() throws InterruptedException
+   public void loginSuccess(@Observes final LoggedInEvent event, final NavigationHandler navigation)
    {
-      String result = Identity.RESPONSE_LOGIN_FAILED;
-      identity.setAuthenticatorClass(IdmAuthenticator.class);
-      try {
-         result = identity.login();
-      }
-      catch (Exception e) {
-         result = identity.login();
-      }
+      User user = event.getUser();
+      logger.info("User logged in [{}, {}]", user.getId(), user.getKey());
 
-      if (Identity.RESPONSE_LOGIN_SUCCESS.equals(result)) {
-         String viewId = context.getViewRoot().getViewId();
-         if (!"/pages/signup.xhtml".equals(viewId))
-            result = viewId;
-         else
-            result = "/pages/home";
-      }
-      else if (Identity.RESPONSE_LOGIN_FAILED.equals(result)) {
-         result = "/pages/login";
-         Thread.sleep(500);
-         loginFailed = true;
-         messages.warn("Whoops! We didn't recognize that username or password. Care to try again?");
-      }
-      else if (Identity.RESPONSE_LOGIN_EXCEPTION.equals(result)) {
-         loginFailed = true;
-         result = "/pages/login";
-         logger.error("Login failure. " + identity.getAuthenticatorName() + ", " + identity.getAuthenticatorClass()
-                  + ", " + identity);
-         messages.warn("Whoops! Something went wrong with your login. Care to try again? While we figure out what went wrong?");
-      }
+      String result = "/pages/home";
 
-      return result + "?faces-redirect=true";
+      String viewId = context.getViewRoot().getViewId();
+      if (!"/pages/signup.xhtml".equals(viewId))
+         result = viewId;
+      else
+         result = "/pages/home";
+
+      navigation.handleNavigation(context, null, result + "?faces-redirect=true");
    }
 
-   @Inject
-   private HttpSession session;
+   /*
+    * This is called outside of the JSF lifecycle.
+    */
+   public void openLoginSuccess(@Observes final DeferredAuthenticationEvent event, final NavigationHandler navigation)
+   {
+      if (event.isSuccess())
+      {
+         logger.info("User logged in with OpenID");
+      }
+      else
+      {
+         logger.info("User failed to login via OpenID, potentially due to cancellation");
+      }
+   }
+
+   public void loginFailed(@Observes final LoginFailedEvent event, final NavigationHandler navigation)
+            throws InterruptedException
+   {
+      Exception exception = event.getLoginException();
+      if (exception != null)
+      {
+         logger.error(
+                  "Login failed due to exception" + identity.getAuthenticatorName() + ", "
+                           + identity.getAuthenticatorClass()
+                           + ", " + identity); // TODO , exception );
+         messages.warn("Whoops! Something went wrong with your login. Care to try again? While we figure out what went wrong?");
+      }
+      else
+      {
+         messages.warn("Whoops! We don't recognize that username or password. Care to try again?");
+      }
+      Thread.sleep(500);
+
+      navigation.handleNavigation(context, null, "/pages/login?faces-redirect=true");
+   }
+
+   public void login() throws InterruptedException
+   {
+      identity.setAuthenticatorClass(IdmAuthenticator.class);
+      try {
+         identity.login();
+      }
+      catch (Exception e) {
+         identity.login();
+      }
+   }
 
    public String logout()
    {
@@ -93,15 +125,5 @@ public class Authentication
       session.invalidate();
 
       return "/pages/home?faces-redirect=true";
-   }
-
-   public boolean isLoginFailed()
-   {
-      return loginFailed;
-   }
-
-   public void setLoginFailed(final boolean loginFailed)
-   {
-      this.loginFailed = loginFailed;
    }
 }

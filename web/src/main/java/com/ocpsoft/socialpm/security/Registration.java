@@ -22,13 +22,14 @@
 package com.ocpsoft.socialpm.security;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.jboss.seam.international.status.Messages;
-import org.jboss.seam.security.Authenticator.AuthenticationStatus;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.events.UserCreatedEvent;
 import org.jboss.seam.security.external.openid.OpenIdAuthenticator;
 import org.jboss.seam.security.management.IdmAuthenticator;
 import org.picketlink.idm.api.AttributesManager;
@@ -66,15 +67,12 @@ public class Registration
    @Inject
    private IdentitySession security;
 
-   @Inject
-   private IdmAuthenticator idm;
-
    private String username;
    private String password;
    private String passwordConfirm;
    private String email;
 
-   public String register() throws IdentityException
+   public void register() throws IdentityException
    {
       // TODO validate username, email address, and user existence
       PersistenceManager identityManager = security.getPersistenceManager();
@@ -88,55 +86,33 @@ public class Registration
       credentials.setUsername(username);
       credentials.setCredential(new PasswordCredential(password));
 
-      String result = identity.login();
-      AuthenticationStatus status = idm.getStatus();
-
-      return getResult(result, status);
+      /*
+       * Don't make them log in the first time, but they may still need to confirm their account.
+       */
+      identity.login();
    }
 
-   @Inject
-   private OpenIdAuthenticator openId;
-
-   public String openRegister() throws IdentityException
+   public void openRegister() throws IdentityException
    {
       identity.setAuthenticatorClass(OpenIdAuthenticator.class);
-      String result = identity.login();
 
       /*
-       * Try again to work around some state bug in Seam Security
+       * Try twice to work around some state bug in Seam Security
        * TODO file issue in seam security
        */
+      String result = identity.login();
       if (Identity.RESPONSE_LOGIN_EXCEPTION.equals(result)) {
          result = identity.login();
       }
-
-      AuthenticationStatus status = openId.getStatus();
-
-      return getResult(result, status);
    }
 
-   public String getResult(String result, AuthenticationStatus status)
+   /*
+    * This is called outside of the JSF lifecycle.
+    */
+   public void registerSuccess(@Observes final UserCreatedEvent event)
    {
-      if (status == null)
-      {
-         status = AuthenticationStatus.FAILURE;
-      }
-
-      switch (status)
-      {
-      case FAILURE:
-         result = "/pages/signup?faces-redirect=true";
-         msg.error("Oops! We couldn't register you right now. Try again?");
-         break;
-      case SUCCESS:
-         result = "/pages/home?faces-redirect=true";
-         msg.info("Welcome! Now that you're here, why not look around?");
-         break;
-
-      default:
-         break;
-      }
-      return result;
+      Object user = event.getUser();
+      log.info("User registered [{}]", user);
    }
 
    public String getUsername()

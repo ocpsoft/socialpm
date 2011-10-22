@@ -3,6 +3,7 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:s="http://jboss.org/seam/faces"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
@@ -56,6 +57,7 @@
 					<h:panelGroup id="unm" layout="block" class="clearfix">
 						<label for="username">Username</label>
 						<div class="input">
+							<ocp:message for="username" />
 							<h:inputText id="username" value="#{registration.username}" styleClass="xLarge" required="true">
 								<f:ajax execute="@this" render="unm" />
 							</h:inputText>
@@ -68,7 +70,9 @@
 					<h:panelGroup id="eml" layout="block" class="clearfix">
 						<label for="email">Email Address</label>
 						<div class="input">
+							<ocp:message for="email" />
 							<h:inputText id="email" value="#{registration.email}" styleClass="xLarge" required="true">
+								<f:validator validatorId="emailValidator" />
 								<f:ajax execute="@this" render="eml"  />
 							</h:inputText>
 							<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.email != null}"
@@ -80,6 +84,7 @@
 					<div class="clearfix">
 						<label for="password">Password</label>
 						<div class="input">
+							<ocp:message for="password" />
 							<h:inputSecret id="password" value="#{registration.password}" redisplay="true" 
 								styleClass="xLarge" style="text-transform: uppercase;" required="true" requiredMessage="Password is required.">
 								<f:ajax execute="password passwordConfirm passwordValidator" render="password passwordConfirm pwg pwcg :messages:messages"/>
@@ -95,6 +100,7 @@
 					<div class="clearfix">
 						<label for="passwordConfirm">Confirm Password</label>
 						<div class="input">
+							<ocp:message for="passwordConfirm" />
 							<h:inputSecret id="passwordConfirm" value="#{registration.passwordConfirm}"
 								redisplay="true" styleClass="xLarge" style="text-transform: uppercase;">
 								<f:ajax execute="password passwordConfirm passwordValidator signupValidator" render="password passwordConfirm pwg pwcg :messages:messages"/>

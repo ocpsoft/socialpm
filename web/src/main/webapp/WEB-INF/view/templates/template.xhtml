@@ -124,7 +124,7 @@
 								<h:outputText value=" " />
 								<h:inputSecret id="password" value="#{credentials.password}" style="width: 100px;"/>
 								<h:outputText value=" " />
-								<h:commandButton action="#{authentication.login}" value="Sign in" />
+								<h:commandButton action="#{identity.login}" value="Sign in" />
 							</h:form>
 						</li>
 						</h:panelGroup>
@@ -162,7 +162,7 @@
 								name="sub-header" /> </small>
 					</h1>
 				</div>
-				<ocp:messages id="messages" globalOnly="false" />
+				<ocp:messages id="messages" globalOnly="true" />
 			</div>
 		</section>
 
