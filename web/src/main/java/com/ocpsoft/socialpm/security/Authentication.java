@@ -21,8 +21,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
+import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.management.IdmAuthenticator;
+
+import com.ocpsoft.logging.Logger;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -31,16 +34,24 @@ import org.jboss.seam.security.management.IdmAuthenticator;
 @RequestScoped
 public class Authentication
 {
+   Logger logger = Logger.getLogger(Authentication.class);
+
    @Inject
    private FacesContext context;
 
    @Inject
    private Identity identity;
 
-   public String login()
+   @Inject
+   private Messages messages;
+
+   private boolean loginFailed;
+
+   public String login() throws InterruptedException
    {
+      String result = Identity.RESPONSE_LOGIN_FAILED;
       identity.setAuthenticatorClass(IdmAuthenticator.class);
-      String result = identity.login();
+      result = identity.login();
 
       if (Identity.RESPONSE_LOGIN_SUCCESS.equals(result)) {
          String viewId = context.getViewRoot().getViewId();
@@ -51,9 +62,16 @@ public class Authentication
       }
       else if (Identity.RESPONSE_LOGIN_FAILED.equals(result)) {
          result = "/pages/login";
+         Thread.sleep(500);
+         loginFailed = true;
+         messages.warn("Whoops! We didn't recognize that username or password. Care to try again?");
       }
       else if (Identity.RESPONSE_LOGIN_EXCEPTION.equals(result)) {
+         loginFailed = true;
          result = "/pages/login";
+         logger.error("Login failure. " + identity.getAuthenticatorName() + ", " + identity.getAuthenticatorClass()
+                  + ", " + identity);
+         messages.warn("Whoops! Something went wrong with your login. Care to try again? While we figure out what went wrong?");
       }
 
       return result + "?faces-redirect=true";
@@ -67,5 +85,15 @@ public class Authentication
       ((HttpSession) context.getExternalContext().getSession(true)).invalidate();
 
       return "/pages/home?faces-redirect=true";
+   }
+
+   public boolean isLoginFailed()
+   {
+      return loginFailed;
+   }
+
+   public void setLoginFailed(final boolean loginFailed)
+   {
+      this.loginFailed = loginFailed;
    }
 }
