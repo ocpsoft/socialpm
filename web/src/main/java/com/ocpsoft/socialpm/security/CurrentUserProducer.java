@@ -21,6 +21,8 @@
  */
 package com.ocpsoft.socialpm.security;
 
+import java.io.Serializable;
+
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -31,14 +33,16 @@ import org.picketlink.idm.api.AttributesManager;
 import org.picketlink.idm.api.IdentitySession;
 import org.picketlink.idm.common.exception.IdentityException;
 
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-public class CurrentUserProducer
+public class CurrentUserProducer implements Serializable
 {
+   private static final long serialVersionUID = 8474539305281711165L;
+
    @Inject
    private IdentitySession session;
 
@@ -48,19 +52,16 @@ public class CurrentUserProducer
    @Produces
    @Named
    @RequestScoped
-   public User currentUser() throws IdentityException
+   public Profile currentUser() throws IdentityException
    {
-      User result;
+      Profile current = new Profile();
       if (identity.isLoggedIn())
       {
          AttributesManager attrs = session.getAttributesManager();
-         result = new User();
-         result.setEmail((String) attrs.getAttribute(identity.getUser(), "email").getValue());
+         current.setEmail((String) attrs.getAttribute(identity.getUser(), "email").getValue());
       }
-      else
-      {
-         result = new User();
-      }
-      return result;
+      else if (!identity.isLoggedIn())
+      {}
+      return current;
    }
 }

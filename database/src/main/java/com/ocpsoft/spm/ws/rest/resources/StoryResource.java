@@ -54,7 +54,7 @@ import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
 import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
 import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Path("/stories")
 public class StoryResource extends PersistenceUtil
@@ -117,7 +117,7 @@ public class StoryResource extends PersistenceUtil
    public Story addComment(@PathParam("id") final long storyId, final StoryComment comment)
    {
       Story story = findById(Story.class, storyId);
-      User u = findById(User.class, comment.getAuthor().getId());
+      Profile u = findById(Profile.class, comment.getAuthor().getId());
 
       StoryComment c = new StoryComment();
       c.setAuthor(u);
@@ -189,7 +189,7 @@ public class StoryResource extends PersistenceUtil
 
       if ((task.getAssignee() != null) && !task.getAssignee().equals(t.getAssignee()))
       {
-         User u = findById(User.class, task.getAssignee().getId());
+         Profile u = findById(Profile.class, task.getAssignee().getId());
          if (t.getStory().getProject().hasActiveMember(u))
          {
             t.setAssignee(u);
@@ -262,7 +262,7 @@ public class StoryResource extends PersistenceUtil
             @PathParam("vid") final long validationId, @QueryParam("user") final long userId)
    {
       Story story = findById(Story.class, storyId);
-      User user = findById(User.class, userId);
+      Profile user = findById(Profile.class, userId);
 
       for (ValidationCriteria v : story.getValidations())
       {

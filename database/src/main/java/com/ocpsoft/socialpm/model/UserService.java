@@ -23,7 +23,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.Stateful;
-import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,15 +30,9 @@ import javax.persistence.PersistenceContextType;
 
 import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.feed.UserRegistered;
-import com.ocpsoft.socialpm.domain.user.User;
-import com.ocpsoft.socialpm.domain.user.UserProfile;
-import com.ocpsoft.socialpm.util.Assert;
-import com.ocpsoft.socialpm.util.RandomGenerator;
-import com.ocpsoft.socialpm.util.StringValidations;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Stateful
-@ConversationScoped
 public class UserService extends PersistenceUtil implements Serializable
 {
    private static final long serialVersionUID = 2988513095024795683L;
@@ -56,54 +49,26 @@ public class UserService extends PersistenceUtil implements Serializable
       return em;
    }
 
-   public List<User> getUsers(final int limit, final int offset)
+   public List<Profile> getUsers(final int limit, final int offset)
    {
-      return findAll(User.class);
+      return findAll(Profile.class);
    }
 
-   public void save(final User user)
+   public void save(final Profile user)
    {
       super.save(user);
       em.flush();
    }
 
-   public User getUserById(final long id) throws NoSuchObjectException
+   public Profile getUserById(final long id) throws NoSuchObjectException
    {
-      return findById(User.class, id);
+      return findById(Profile.class, id);
    }
 
-   public User getUserByName(final String name) throws NoSuchObjectException
+   public Profile getUserByEmail(final String email) throws NoSuchObjectException
    {
-      return findUniqueByNamedQuery("user.byName", name);
-   }
-
-   public User getUserByEmail(final String email) throws NoSuchObjectException
-   {
-      return findUniqueByNamedQuery("user.byEmail", email);
-   }
-
-   /**
-    * Take a user object with populated username and plaintext password. Register that user, and return the pending
-    * registration key with which the user must be verified.
-    */
-   public String registerUser(final User user, final String username, final String password)
-   {
-      Assert.isTrue(StringValidations.isAlphanumeric(username)
-               && StringValidations.minLength(4, username)
-               && StringValidations.maxLength(15, username));
-      Assert.isTrue(StringValidations.isPassword(username));
-      Assert.isTrue(StringValidations.isEmailAddress(user.getEmail()));
-
-      UserProfile profile = new UserProfile();
-      user.setProfile(profile);
-      profile.setUser(user);
-
-      user.setRegistrationKey(RandomGenerator.makeString());
-
-      create(user);
-
-      fs.addEvent(new UserRegistered(user));
-      return user.getRegistrationKey();
+      // TODO implement
+      return null;
    }
 
 }

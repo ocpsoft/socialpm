@@ -10,12 +10,12 @@ import org.jboss.seam.security.events.PostAuthenticateEvent;
 import org.jboss.seam.security.external.openid.OpenIdUser;
 import org.jboss.seam.transaction.Transactional;
 import org.picketlink.idm.api.IdentitySession;
-import org.picketlink.idm.api.User;
 
+import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.model.UserService;
 
-public @RequestScoped
-class MemberValidator
+@RequestScoped
+public class PostAuthenticateObserver
 {
    @Inject
    private UserService userService;
@@ -32,11 +32,24 @@ class MemberValidator
    public @Transactional
    void observePostAuthenticate(@Observes final PostAuthenticateEvent event)
    {
-      User user = identity.getUser();
+      Object user = identity.getUser();
 
       if (user instanceof OpenIdUser) {
          OpenIdUser oid = (OpenIdUser) user;
          credentials.setUsername(oid.getAttribute("firstName") + " " + oid.getAttribute("lastName"));
+
+         String email = ((OpenIdUser) user).getAttribute("email");
+
+         try {
+            userService.getUserByEmail(email);
+         }
+         catch (NoSuchObjectException e) {
+            // TODO new registration, time to create our user.
+         }
+      }
+      else
+      {
+
       }
    }
 }

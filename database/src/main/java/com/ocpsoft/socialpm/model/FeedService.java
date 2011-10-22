@@ -48,7 +48,7 @@ import javax.ws.rs.QueryParam;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.feed.FeedEvent;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Path("/feeds")
 @Stateful
@@ -92,7 +92,7 @@ public class FeedService extends PersistenceUtil implements Serializable
    public List<FeedEvent> listByUser(@PathParam("id") final Long id, @QueryParam("limit") final int limit,
             @QueryParam("offset") final int offset)
    {
-      User user = findById(User.class, id);
+      Profile user = findById(Profile.class, id);
       TypedQuery<FeedEvent> query = entityManager.createNamedQuery("feedEvent.byUser", FeedEvent.class)
                .setParameter("user", user)
                .setFirstResult(offset);

@@ -25,7 +25,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -38,7 +38,7 @@ public class ProjectCreated extends ProjectEvent
 {
    private static final long serialVersionUID = 3509296443900421721L;
 
-   public ProjectCreated(final User u, final Project project)
+   public ProjectCreated(final Profile u, final Project project)
    {
       super(u, project);
    }

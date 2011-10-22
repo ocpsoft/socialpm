@@ -24,10 +24,12 @@ import javax.inject.Named;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.security.Authenticator.AuthenticationStatus;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.events.DeferredAuthenticationEvent;
 import org.jboss.seam.security.events.LoggedInEvent;
 import org.jboss.seam.security.events.LoginFailedEvent;
+import org.jboss.seam.security.external.openid.OpenIdAuthenticator;
 import org.jboss.seam.security.management.IdmAuthenticator;
 import org.picketlink.idm.api.User;
 
@@ -53,6 +55,12 @@ public class Authentication
 
    @Inject
    private Messages messages;
+
+   @Inject
+   private IdmAuthenticator auth;
+
+   @Inject
+   private OpenIdAuthenticator openAuth;
 
    public void loginSuccess(@Observes final LoggedInEvent event, final NavigationHandler navigation)
    {
@@ -88,22 +96,25 @@ public class Authentication
    public void loginFailed(@Observes final LoginFailedEvent event, final NavigationHandler navigation)
             throws InterruptedException
    {
-      Exception exception = event.getLoginException();
-      if (exception != null)
+      if (!AuthenticationStatus.DEFERRED.equals(openAuth.getStatus()))
       {
-         logger.error(
-                  "Login failed due to exception" + identity.getAuthenticatorName() + ", "
-                           + identity.getAuthenticatorClass()
-                           + ", " + identity); // TODO , exception );
-         messages.warn("Whoops! Something went wrong with your login. Care to try again? While we figure out what went wrong?");
-      }
-      else
-      {
-         messages.warn("Whoops! We don't recognize that username or password. Care to try again?");
-      }
-      Thread.sleep(500);
+         Exception exception = event.getLoginException();
+         if (exception != null)
+         {
+            logger.error(
+                     "Login failed due to exception" + identity.getAuthenticatorName() + ", "
+                              + identity.getAuthenticatorClass()
+                              + ", " + identity); // TODO , exception );
+            messages.warn("Whoops! Something went wrong with your login. Care to try again? While we figure out what went wrong?");
+         }
+         else
+         {
+            messages.warn("Whoops! We don't recognize that username or password. Care to try again?");
+         }
+         Thread.sleep(500);
 
-      navigation.handleNavigation(context, null, "/pages/login?faces-redirect=true");
+         navigation.handleNavigation(context, null, "/pages/login?faces-redirect=true");
+      }
    }
 
    public void login() throws InterruptedException

@@ -33,7 +33,7 @@ package com.ocpsoft.socialpm.domain.feed;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Entity
 @DiscriminatorValue("UREG")
@@ -41,7 +41,7 @@ public class UserRegistered extends UserEvent
 {
    private static final long serialVersionUID = -281646598510177402L;
 
-   public UserRegistered(final User u)
+   public UserRegistered(final Profile u)
    {
       super(u);
    }

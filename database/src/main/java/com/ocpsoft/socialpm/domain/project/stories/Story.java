@@ -63,7 +63,7 @@ import com.ocpsoft.socialpm.domain.project.Milestone;
 import com.ocpsoft.socialpm.domain.project.Points;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Entity
 @Table(name = "stories")
@@ -89,7 +89,7 @@ public class Story extends PersistentObject<Story>
    private Date closedOn;
 
    @ManyToOne
-   private User closedBy;
+   private Profile closedBy;
 
    @Column
    private Integer priority;
@@ -439,12 +439,12 @@ public class Story extends PersistentObject<Story>
       this.closedOn = closedOn;
    }
 
-   public User getClosedBy()
+   public Profile getClosedBy()
    {
       return closedBy;
    }
 
-   public void setClosedBy(final User closedBy)
+   public void setClosedBy(final Profile closedBy)
    {
       this.closedBy = closedBy;
    }

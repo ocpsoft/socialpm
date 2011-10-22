@@ -32,6 +32,7 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
          openIdAuthenticator.success(principal);
          deferredAuthentication.fire(new DeferredAuthenticationEvent(true));
 
+         // TODO figure out how best and where best to redirect user after OpenID signup/login
          responseHolder.getResponse().sendRedirect(servletContext.getContextPath() + "/");
       }
       catch (IOException e) {

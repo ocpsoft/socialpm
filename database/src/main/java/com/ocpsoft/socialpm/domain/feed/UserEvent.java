@@ -36,7 +36,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Entity
 @DiscriminatorValue("UEVENT")
@@ -48,19 +48,19 @@ public class UserEvent extends FeedEvent
    private static final long serialVersionUID = 7038341222060982180L;
 
    @OneToOne
-   private User user;
+   private Profile user;
 
-   public UserEvent(final User user)
+   public UserEvent(final Profile user)
    {
       this.user = user;
    }
 
-   public User getUser()
+   public Profile getUser()
    {
       return user;
    }
 
-   public void setUser(final User user)
+   public void setUser(final Profile user)
    {
       this.user = user;
    }

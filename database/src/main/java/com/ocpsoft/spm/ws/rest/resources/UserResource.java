@@ -48,8 +48,8 @@ import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
-import com.ocpsoft.socialpm.domain.user.User;
-import com.ocpsoft.socialpm.domain.user.UserProfile;
+import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Path("/users")
 @Stateful
@@ -66,23 +66,23 @@ public class UserResource extends PersistenceUtil
 
    @GET
    @Produces("application/xml")
-   public List<User> getUsers(@QueryParam("limit") final int limit, @QueryParam("offset") final int offset)
+   public List<Profile> getUsers(@QueryParam("limit") final int limit, @QueryParam("offset") final int offset)
    {
-      return findAll(User.class);
+      return findAll(Profile.class);
    }
 
    @GET
    @Path("/{id}")
    @Produces("application/xml")
-   public User getUserById(@PathParam("id") final long id)
+   public Profile getUserById(@PathParam("id") final long id)
    {
-      return findById(User.class, id);
+      return findById(Profile.class, id);
    }
 
    @GET
    @Path("/name/{name}")
    @Produces("application/xml")
-   public User getUserByName(@PathParam("name") final String name)
+   public Profile getUserByName(@PathParam("name") final String name)
    {
       return findUniqueByNamedQuery("user.byName", name);
    }
@@ -90,7 +90,7 @@ public class UserResource extends PersistenceUtil
    @GET
    @Path("/email/{email}")
    @Produces("application/xml")
-   public User getUserByEmail(@PathParam("email") final String email)
+   public Profile getUserByEmail(@PathParam("email") final String email)
    {
       return findUniqueByNamedQuery("user.byEmail", email);
    }
@@ -109,16 +109,16 @@ public class UserResource extends PersistenceUtil
    @Produces("application/xml")
    public List<Story> getStoriesWithOpenTasksFor(@PathParam("id") final long userId)
    {
-      User user = findById(User.class, userId);
+      Profile user = findById(Profile.class, userId);
       return findByNamedQuery("Story.withTasksFor", user, TaskStatus.DONE);
    }
 
    @PUT
    @Path("/{id}/enable")
    @Produces("application/xml")
-   public User enableUser(@PathParam("id") final long id)
+   public Profile enableUser(@PathParam("id") final long id)
    {
-      User user = getUserById(id);
+      Profile user = getUserById(id);
       save(user);
       return user;
    }
@@ -126,18 +126,18 @@ public class UserResource extends PersistenceUtil
    @GET
    @Path("/{uid}/profile")
    @Produces("application/xml")
-   public UserProfile getProfile(@PathParam("uid") final long userId)
+   public Profile getProfile(@PathParam("uid") final long userId)
    {
-      UserProfile p = findUniqueByNamedQuery("userProfile.byUserId", userId);
+      Profile p = findUniqueByNamedQuery("userProfile.byUserId", userId);
       return p;
    }
 
    @PUT
    @Path("/{uid}/profile")
    @Consumes("application/xml")
-   public void saveProfile(@PathParam("uid") final long id, final UserProfile profile)
+   public void saveProfile(@PathParam("uid") final long id, final Profile profile)
    {
-      UserProfile p = findUniqueByNamedQuery("userProfile.byUserId", id);
+      Profile p = findUniqueByNamedQuery("userProfile.byUserId", id);
 
       p.setBio(profile.getBio());
       p.setEmailSecret(profile.isEmailSecret());
@@ -154,7 +154,7 @@ public class UserResource extends PersistenceUtil
    @Produces("text/plain")
    public Boolean passwordIs(final @PathParam("id") long id, @QueryParam("p") final String password)
    {
-      User user = getUserById(id);
+      Profile user = getUserById(id);
       // return passwordTester.passwordMatches(user, password);
       return false;
    }

@@ -36,7 +36,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
 import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Entity
 @DiscriminatorValue("PCREATED")
@@ -47,7 +47,7 @@ public class ProjectEvent extends UserEvent
 
    private Project project;
 
-   public ProjectEvent(final User u, final Project project)
+   public ProjectEvent(final Profile u, final Project project)
    {
       super(u);
       setProject(project);

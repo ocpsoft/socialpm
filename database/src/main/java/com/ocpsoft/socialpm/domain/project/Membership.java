@@ -44,7 +44,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Entity
 @Table(name = "project_memberships")
@@ -67,7 +67,7 @@ public class Membership extends PersistentObject<Membership>
 
    @Index(name = "membershipUserIndex")
    @ManyToOne(optional = false)
-   private User user;
+   private Profile user;
 
    private boolean preferred;
 
@@ -75,7 +75,7 @@ public class Membership extends PersistentObject<Membership>
    {
    }
 
-   public Membership(final Project project, final User user, final MemberRole role)
+   public Membership(final Project project, final Profile user, final MemberRole role)
    {
       this.project = project;
       this.user = user;
@@ -123,12 +123,12 @@ public class Membership extends PersistentObject<Membership>
       this.project = project;
    }
 
-   public User getUser()
+   public Profile getUser()
    {
       return user;
    }
 
-   public void setUser(final User user)
+   public void setUser(final Profile user)
    {
       this.user = user;
    }

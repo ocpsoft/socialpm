@@ -44,7 +44,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Entity
 @Table(name = "story_comments")
@@ -56,7 +56,7 @@ public class StoryComment extends PersistentObject<StoryComment>
    @JoinColumn(updatable = false, nullable = false)
    @Cascade(value = CascadeType.REFRESH)
    @Index(name = "commentAuthorIndex")
-   private User author;
+   private Profile author;
 
    @Column(nullable = false, length = 2048)
    private String text;
@@ -67,12 +67,12 @@ public class StoryComment extends PersistentObject<StoryComment>
    @OnDelete(action = OnDeleteAction.CASCADE)
    private Story story;
 
-   public User getAuthor()
+   public Profile getAuthor()
    {
       return author;
    }
 
-   public void setAuthor(final User author)
+   public void setAuthor(final Profile author)
    {
       this.author = author;
    }

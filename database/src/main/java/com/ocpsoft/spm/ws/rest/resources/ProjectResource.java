@@ -61,7 +61,7 @@ import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
 import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
 import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.util.Strings;
 
 @Path("/projects")
@@ -114,7 +114,7 @@ public class ProjectResource extends PersistenceUtil
    @Consumes("application/xml")
    public Project createProject(@QueryParam("ownerId") final long ownerId, final Project project)
    {
-      User owner = findById(User.class, ownerId);
+      Profile owner = findById(Profile.class, ownerId);
 
       Project p = new Project();
       p.setName(project.getName());
@@ -165,7 +165,7 @@ public class ProjectResource extends PersistenceUtil
    public void inviteMember(@PathParam("pid") final long projectId, @QueryParam("uid") final long userId)
    {
       Project project = findById(Project.class, projectId);
-      User user = findById(User.class, userId);
+      Profile user = findById(Profile.class, userId);
 
       if (!project.getAllMembers().contains(user))
       {
@@ -180,7 +180,7 @@ public class ProjectResource extends PersistenceUtil
    public void requestMembership(@PathParam("pid") final long projectId, @QueryParam("uid") final long userId)
    {
       Project project = findById(Project.class, projectId);
-      User user = findById(User.class, userId);
+      Profile user = findById(Profile.class, userId);
 
       if (!project.getAllMembers().contains(user))
       {
@@ -198,7 +198,7 @@ public class ProjectResource extends PersistenceUtil
 
    {
       Project project = findById(Project.class, projectId);
-      User user = findById(User.class, userId);
+      Profile user = findById(Profile.class, userId);
       Membership member = project.getMembership(user);
       member.setRole(role);
       save(member);
@@ -209,7 +209,7 @@ public class ProjectResource extends PersistenceUtil
    public void leaveProject(@PathParam("pid") final long projectId, @PathParam("uid") final long userId)
    {
       Project project = findById(Project.class, projectId);
-      User user = findById(User.class, userId);
+      Profile user = findById(Profile.class, userId);
       Membership member = project.getMembership(user);
       if (project.getOwners().size() >= 1)
       {
@@ -224,7 +224,7 @@ public class ProjectResource extends PersistenceUtil
    }
 
    @SuppressWarnings("unchecked")
-   private List<Task> removeTaskAssignments(final Project project, final User user)
+   private List<Task> removeTaskAssignments(final Project project, final Profile user)
    {
       Query query = entityManager.createQuery("FROM Task t WHERE t.story.project = :project");
       query.setParameter("project", project);

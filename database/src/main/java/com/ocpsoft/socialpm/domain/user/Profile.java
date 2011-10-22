@@ -30,24 +30,30 @@
 
 package com.ocpsoft.socialpm.domain.user;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
+import com.ocpsoft.socialpm.domain.security.IdentityObject;
 
 @Entity
 @Table(name = "user_profiles")
-public class UserProfile extends PersistentObject<UserProfile>
+public class Profile extends PersistentObject<Profile>
 {
    private static final long serialVersionUID = 1894975986966495155L;
 
-   @OneToOne
-   @Index(name = "userProfileUserIndex")
-   private User user;
+   @Index(name = "userEmailIndex")
+   @Column(nullable = false, length = 128, unique = true)
+   private String email;
+
+   @OneToMany
+   private Set<IdentityObject> identities;
 
    @Column
    private boolean emailSecret = true;
@@ -63,16 +69,6 @@ public class UserProfile extends PersistentObject<UserProfile>
 
    @Column(length = 512)
    private String bio;
-
-   public User getUser()
-   {
-      return user;
-   }
-
-   public void setUser(final User user)
-   {
-      this.user = user;
-   }
 
    public String getScreenName()
    {
@@ -122,5 +118,25 @@ public class UserProfile extends PersistentObject<UserProfile>
    public void setEmailSecret(final boolean emailSecret)
    {
       this.emailSecret = emailSecret;
+   }
+
+   public String getEmail()
+   {
+      return email;
+   }
+
+   public void setEmail(final String email)
+   {
+      this.email = email;
+   }
+
+   public Set<IdentityObject> getIdentities()
+   {
+      return identities;
+   }
+
+   public void setIdentities(final Set<IdentityObject> identities)
+   {
+      this.identities = identities;
    }
 }

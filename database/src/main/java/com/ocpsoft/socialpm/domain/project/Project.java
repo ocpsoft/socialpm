@@ -53,7 +53,7 @@ import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Entity
 @Table(name = "projects")
@@ -183,10 +183,10 @@ public class Project extends PersistentObject<Project>
       throw new NoSuchObjectException("No such Iteration in project[" + name + "]:" + iteration);
    }
 
-   public boolean hasMemberInRole(final User user, final MemberRole role)
+   public boolean hasMemberInRole(final Profile user, final MemberRole role)
    {
-      List<User> members = getMembersByRoles(role);
-      for (User u : members)
+      List<Profile> members = getMembersByRoles(role);
+      for (Profile u : members)
       {
          if (u.equals(user))
          {
@@ -196,7 +196,7 @@ public class Project extends PersistentObject<Project>
       return false;
    }
 
-   public Membership getMembership(final User user)
+   public Membership getMembership(final Profile user)
    {
       List<Membership> members = getMemberships();
       for (Membership membership : members)
@@ -209,7 +209,7 @@ public class Project extends PersistentObject<Project>
       return new Membership(this, user, MemberRole.NOT_MEMBER);
    }
 
-   public boolean hasActiveMember(final User user)
+   public boolean hasActiveMember(final Profile user)
    {
       for (Membership member : memberships)
       {
@@ -221,40 +221,40 @@ public class Project extends PersistentObject<Project>
       return false;
    }
 
-   public List<User> getOwners()
+   public List<Profile> getOwners()
    {
       return getMembersByRoles(MemberRole.OWNER);
    }
 
-   public List<User> getAdmins()
+   public List<Profile> getAdmins()
    {
       return getMembersByRoles(MemberRole.ADMIN);
    }
 
-   public List<User> getMembers()
+   public List<Profile> getMembers()
    {
       return getMembersByRoles(MemberRole.MEMBER);
    }
 
-   public List<User> getAllMembers()
+   public List<Profile> getAllMembers()
    {
       return getMembersByRoles(MemberRole.values());
    }
 
-   public List<User> getActiveMembers()
+   public List<Profile> getActiveMembers()
    {
       return getMembersByRoles(MemberRole.OWNER, MemberRole.ADMIN, MemberRole.MEMBER);
    }
 
-   public List<User> getPendingMembers()
+   public List<Profile> getPendingMembers()
    {
       return getMembersByRoles(MemberRole.REQUESTED, MemberRole.INVITED);
    }
 
-   public List<User> getMembersByRoles(final MemberRole... roles)
+   public List<Profile> getMembersByRoles(final MemberRole... roles)
    {
       List<MemberRole> roleList = Arrays.asList(roles);
-      List<User> result = new ArrayList<User>();
+      List<Profile> result = new ArrayList<Profile>();
       for (Membership member : memberships)
       {
          if (roleList.contains(member.getRole()))
@@ -265,7 +265,7 @@ public class Project extends PersistentObject<Project>
       return result;
    }
 
-   public boolean hasMember(final User user)
+   public boolean hasMember(final Profile user)
    {
       for (Membership member : memberships)
       {
@@ -277,10 +277,10 @@ public class Project extends PersistentObject<Project>
       return false;
    }
 
-   public boolean hasMemberInRoles(final User user, final MemberRole... roles)
+   public boolean hasMemberInRoles(final Profile user, final MemberRole... roles)
    {
-      List<User> members = getMembersByRoles(roles);
-      for (User u : members)
+      List<Profile> members = getMembersByRoles(roles);
+      for (Profile u : members)
       {
          if (u.equals(user))
          {

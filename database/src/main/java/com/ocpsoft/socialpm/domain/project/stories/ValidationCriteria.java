@@ -48,7 +48,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Entity
 @Table(name = "story_validations")
@@ -69,7 +69,7 @@ public class ValidationCriteria extends PersistentObject<ValidationCriteria>
    private boolean accepted;
 
    @OneToOne
-   private User acceptedBy;
+   private Profile acceptedBy;
 
    @Temporal(TemporalType.TIMESTAMP)
    private Date acceptedOn;
@@ -103,12 +103,12 @@ public class ValidationCriteria extends PersistentObject<ValidationCriteria>
       this.accepted = accepted;
    }
 
-   public User getAcceptedBy()
+   public Profile getAcceptedBy()
    {
       return acceptedBy;
    }
 
-   public void setAcceptedBy(final User acceptedBy)
+   public void setAcceptedBy(final Profile acceptedBy)
    {
       this.acceptedBy = acceptedBy;
    }

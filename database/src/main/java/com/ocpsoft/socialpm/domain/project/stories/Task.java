@@ -52,7 +52,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
-import com.ocpsoft.socialpm.domain.user.User;
+import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.util.Dates;
 
 @Entity
@@ -72,7 +72,7 @@ public class Task extends PersistentObject<Task>
    @OneToOne(fetch = FetchType.EAGER)
    @JoinColumn
    @Index(name = "taskAssigneeIndex")
-   private User assignee;
+   private Profile assignee;
 
    @Column(length = 255)
    private String text;
@@ -185,12 +185,12 @@ public class Task extends PersistentObject<Task>
       this.status = status;
    }
 
-   public User getAssignee()
+   public Profile getAssignee()
    {
       return assignee;
    }
 
-   public void setAssignee(final User assignee)
+   public void setAssignee(final Profile assignee)
    {
       this.assignee = assignee;
    }
