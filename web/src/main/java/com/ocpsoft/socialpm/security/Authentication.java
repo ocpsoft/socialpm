@@ -51,7 +51,13 @@ public class Authentication
    {
       String result = Identity.RESPONSE_LOGIN_FAILED;
       identity.setAuthenticatorClass(IdmAuthenticator.class);
-      result = identity.login();
+      String result;
+      try {
+         result = identity.login();
+      }
+      catch (Exception e) {
+         result = identity.login();
+      }
 
       if (Identity.RESPONSE_LOGIN_SUCCESS.equals(result)) {
          String viewId = context.getViewRoot().getViewId();
@@ -77,12 +83,15 @@ public class Authentication
       return result + "?faces-redirect=true";
    }
 
+   @Inject
+   private HttpSession session;
+
    public String logout()
    {
       identity.setAuthenticatorClass(IdmAuthenticator.class);
       identity.logout();
 
-      ((HttpSession) context.getExternalContext().getSession(true)).invalidate();
+      session.invalidate();
 
       return "/pages/home?faces-redirect=true";
    }
@@ -90,7 +99,7 @@ public class Authentication
    public boolean isLoginFailed()
    {
       return loginFailed;
-   }
+}
 
    public void setLoginFailed(final boolean loginFailed)
    {

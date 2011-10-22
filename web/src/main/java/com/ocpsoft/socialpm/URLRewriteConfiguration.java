@@ -27,11 +27,13 @@ import com.ocpsoft.rewrite.bind.El;
 import com.ocpsoft.rewrite.config.Configuration;
 import com.ocpsoft.rewrite.config.ConfigurationBuilder;
 import com.ocpsoft.rewrite.config.Direction;
+import com.ocpsoft.rewrite.config.Invoke;
 import com.ocpsoft.rewrite.faces.config.PhaseAction;
 import com.ocpsoft.rewrite.servlet.config.DispatchType;
 import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import com.ocpsoft.rewrite.servlet.config.Path;
+import com.ocpsoft.rewrite.servlet.config.Redirect;
 import com.ocpsoft.rewrite.servlet.config.rule.Join;
 import com.ocpsoft.rewrite.servlet.config.rule.TrailingSlash;
 
@@ -77,19 +79,24 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                .addRule(Join.path("/404").to("/pages/404.xhtml"))
                .addRule(Join.path("/error").to("/pages/error.xhtml"))
 
+               // Authentication
+               .defineRule()
+               .when(Direction.isInbound().and(Path.matches("/logout")))
+               .perform(Invoke.binding(El.retrievalMethod("authentication.logout")).and(
+                        Redirect.temporary(context.getContextPath() + "/")))
+
+               .defineRule().when(Direction.isInbound().and(Path.matches("/register/callback")))
+               .perform(Invoke.binding(El.retrievalMethod("registration.callback")))
+
+               // Catch all rules
                .addRule(Join.path("/{page}").to("/pages/{page}.xhtml").where("page").matches("(?!RES_NOT_FOUND)[^/]+"))
-               //
-               // .defineRule()
-               // .when(Path.matches("/logout"))
-               // .perform(Invoke.binding(El.retrievalMethod("identity.logout")).and(
-               // Redirect.permanent(context.getContextPath())))
 
                .defineRule().when(
                         Direction.isInbound()
                                  .and(DispatchType.isRequest())
                                  .and(Path.matches(".*"))
                                  .andNot(Path.matches(".*javax\\.faces\\.resource.*"))
-                                 .andNot(Path.matches("/openid/RP/.*"))
+                                 .andNot(Path.matches("/openid/.*"))
                                  .andNot(Path.matches("/rfRes/.*")))
                .perform(Forward.to("/404"));
    }

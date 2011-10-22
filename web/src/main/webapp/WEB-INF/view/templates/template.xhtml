@@ -138,7 +138,7 @@
 									<li><a href="#">Account</a></li>
 									<li><a href="#">Settings</a></li>
 									<li class="divider"></li>
-									<li><h:form id="logout" style="width: 100%;"><h:commandLink id="logoutBtn" value="sign out" action="#{authentication.logout()}"/></h:form></li>
+									<li><h:outputLink value="${request.contextPath}/logout">Sign out</h:outputLink></li>
 								</ul>
 							</li>
                          </h:panelGroup>
