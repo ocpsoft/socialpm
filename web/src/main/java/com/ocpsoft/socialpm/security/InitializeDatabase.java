@@ -92,7 +92,7 @@ public class InitializeDatabase
          p.setEmail("lincoln@ocpsoft.com");
          p.setUsername("lincoln");
          p.getKeys().add(u.getKey());
-         p.setConfirmed(true);
+         p.setUsernameConfirmed(true);
          entityManager.persist(p);
       }
    }

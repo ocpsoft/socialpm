@@ -47,7 +47,7 @@ public class AccountVerificationInterceptor extends HttpConfigurationProvider
    public Configuration getConfiguration(final ServletContext context)
    {
       ConfigurationBuilder config = ConfigurationBuilder.begin();
-      if (profile.isPersistent() && !profile.isConfirmed())
+      if (profile.isPersistent() && !profile.isUsernameConfirmed())
       {
          return config.defineRule()
                   .when(DispatchType.isRequest()

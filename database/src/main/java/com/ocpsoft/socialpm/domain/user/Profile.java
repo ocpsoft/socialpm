@@ -158,12 +158,12 @@ public class Profile extends PersistentObject<Profile>
       this.keys = keys;
    }
 
-   public boolean isConfirmed()
+   public boolean isUsernameConfirmed()
    {
       return confirmed;
    }
 
-   public void setConfirmed(final boolean confirmed)
+   public void setUsernameConfirmed(final boolean confirmed)
    {
       this.confirmed = confirmed;
    }

@@ -90,9 +90,18 @@ public class Registration
       credentials.setCredential(new PasswordCredential(password));
 
       /*
-       * Don't make them log in the first time, but they may still need to confirm their account.
+       * Don't make them log in the first time, but they 
+       * may still need to confirm their account.
        */
       identity.login();
+
+      // TODO figure out a good pattern for this...
+      Profile p = new Profile();
+      p.setEmail(email);
+      p.setUsername(username);
+      p.getKeys().add(identity.getUser().getKey());
+      p.setUsernameConfirmed(true);
+      ps.create(p);
    }
 
    public void openRegister() throws IdentityException
@@ -120,7 +129,7 @@ public class Registration
    {
       Profile p = ps.getProfileById(profile.getId());
       p.setUsername(profile.getUsername());
-      p.setConfirmed(true);
+      p.setUsernameConfirmed(true);
       ps.save(p);
       msg.info("Congrats! Your username is, and forever will be, \"" + p.getUsername() + "\".");
       return "/pages/home?faces-redirect=true";
