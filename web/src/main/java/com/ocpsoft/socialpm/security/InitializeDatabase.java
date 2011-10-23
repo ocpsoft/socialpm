@@ -7,6 +7,7 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.security.management.picketlink.IdentitySessionProducer;
 import org.jboss.seam.transaction.Transactional;
@@ -19,6 +20,7 @@ import org.picketlink.idm.common.exception.IdentityException;
 
 import com.ocpsoft.socialpm.domain.security.IdentityObjectCredentialType;
 import com.ocpsoft.socialpm.domain.security.IdentityObjectType;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**
  * Validates that the database contains the minimum required entities to function
@@ -27,7 +29,7 @@ import com.ocpsoft.socialpm.domain.security.IdentityObjectType;
  */
 public class InitializeDatabase
 {
-   @PersistenceContext
+   @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager entityManager;
 
    @Inject
@@ -85,6 +87,13 @@ public class InitializeDatabase
          User u = session.getPersistenceManager().createUser("lincoln");
          session.getAttributesManager().updatePassword(u, "password");
          session.getAttributesManager().addAttribute(u, "email", "lincoln@ocpsoft.com");
+
+         Profile p = new Profile();
+         p.setEmail("lincoln@ocpsoft.com");
+         p.setUsername("lincoln");
+         p.getKeys().add(u.getKey());
+         p.setConfirmed(true);
+         entityManager.persist(p);
       }
    }
 }

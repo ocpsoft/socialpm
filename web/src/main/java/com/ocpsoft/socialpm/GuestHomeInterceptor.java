@@ -43,14 +43,15 @@ public class GuestHomeInterceptor extends HttpConfigurationProvider
    @Override
    public Configuration getConfiguration(final ServletContext context)
    {
+      ConfigurationBuilder config = ConfigurationBuilder.begin();
       if (!profile.isPersistent())
       {
          /*
           * If the user is not logged in, show them the guest home page instead of the dashboard.
           */
-         return ConfigurationBuilder.begin().addRule(Join.path("/").to("/pages/loggedOffHome.xhtml"));
+         return config.addRule(Join.path("/").to("/pages/loggedOffHome.xhtml"));
       }
-      return ConfigurationBuilder.begin();
+      return config;
    }
 
    @Override

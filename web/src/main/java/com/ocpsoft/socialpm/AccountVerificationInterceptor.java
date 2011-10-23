@@ -46,9 +46,10 @@ public class AccountVerificationInterceptor extends HttpConfigurationProvider
    @Override
    public Configuration getConfiguration(final ServletContext context)
    {
+      ConfigurationBuilder config = ConfigurationBuilder.begin();
       if (profile.isPersistent() && !profile.isConfirmed())
       {
-         return ConfigurationBuilder.begin().defineRule()
+         return config.defineRule()
                   .when(DispatchType.isRequest()
                            .and(Direction.isInbound())
                            .and(SocialPMResources.excluded()))
@@ -56,7 +57,7 @@ public class AccountVerificationInterceptor extends HttpConfigurationProvider
 
                   .addRule(Join.path("/account/confirm").to("/pages/accountConfirm.xhtml"));
       }
-      return ConfigurationBuilder.begin();
+      return config;
    }
 
    @Override
