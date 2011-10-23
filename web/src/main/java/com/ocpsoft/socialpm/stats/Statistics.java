@@ -19,62 +19,34 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.ocpsoft.socialpm.model.project;
+package com.ocpsoft.socialpm.stats;
 
-import java.util.List;
-
-import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import javax.inject.Named;
 
-import org.jboss.seam.transaction.Transactional;
-
-import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.project.Project;
+import com.ocpsoft.socialpm.model.ProfileService;
+import com.ocpsoft.socialpm.model.project.ProjectService;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-@Transactional
-@ConversationScoped
-public class ProjectService extends PersistenceUtil
+@Named
+public class Statistics
 {
-   private static final long serialVersionUID = 1403645951285144409L;
+   @Inject
+   private ProfileService ps;
 
    @Inject
-   private EntityManager em;
+   private ProjectService projects;
 
-   @Override
-   protected EntityManager getEntityManager()
+   public long getUserCount()
    {
-      return em;
-   }
-
-   public Project create(final Project p)
-   {
-      save(p);
-      return p;
-   }
-
-   public Project findByName(final String name)
-   {
-      return findUniqueByNamedQuery("project.byName", name);
-   }
-
-   public Project findBySlug(final String slug)
-   {
-      return findUniqueByNamedQuery("project.bySlug", slug);
-   }
-
-   public List<Project> findAll()
-   {
-      return findAll(Project.class);
+      return ps.getProfileCount();
    }
 
    public long getProjectCount()
    {
-      return count(Project.class);
+      return projects.getProjectCount();
    }
-
 }

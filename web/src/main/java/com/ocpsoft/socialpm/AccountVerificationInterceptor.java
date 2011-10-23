@@ -24,8 +24,6 @@ package com.ocpsoft.socialpm;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import org.jboss.seam.international.status.Messages;
-
 import com.ocpsoft.rewrite.config.Configuration;
 import com.ocpsoft.rewrite.config.ConfigurationBuilder;
 import com.ocpsoft.rewrite.config.Direction;
@@ -44,9 +42,6 @@ public class AccountVerificationInterceptor extends HttpConfigurationProvider
    @Inject
    @Current
    private Profile profile;
-
-   @Inject
-   private Messages msg;
 
    @Override
    public Configuration getConfiguration(final ServletContext context)

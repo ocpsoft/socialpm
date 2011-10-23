@@ -50,6 +50,11 @@ public class ProfileService extends PersistenceUtil implements Serializable
       return em;
    }
 
+   public long getProfileCount()
+   {
+      return count(Profile.class);
+   }
+
    public List<Profile> getProfiles(final int limit, final int offset)
    {
       return findAll(Profile.class);
