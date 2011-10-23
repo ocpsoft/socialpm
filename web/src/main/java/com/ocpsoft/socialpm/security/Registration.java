@@ -122,7 +122,7 @@ public class Registration
       p.setUsername(profile.getUsername());
       p.setConfirmed(true);
       ps.save(p);
-      msg.info("Congrats! Your username is, and forever will be \"" + p.getUsername() + "\".");
+      msg.info("Congrats! Your username is, and forever will be, \"" + p.getUsername() + "\".");
       return "/pages/home?faces-redirect=true";
    }
 
