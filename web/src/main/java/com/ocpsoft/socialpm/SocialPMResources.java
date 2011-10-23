@@ -19,49 +19,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.ocpsoft.socialpm.security;
+package com.ocpsoft.socialpm;
 
-import java.io.Serializable;
-
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Produces;
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import org.jboss.seam.security.Identity;
-import org.picketlink.idm.api.AttributesManager;
-import org.picketlink.idm.api.IdentitySession;
-import org.picketlink.idm.common.exception.IdentityException;
-
-import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.rewrite.config.Condition;
+import com.ocpsoft.rewrite.config.ConditionBuilder;
+import com.ocpsoft.rewrite.context.EvaluationContext;
+import com.ocpsoft.rewrite.event.Rewrite;
+import com.ocpsoft.rewrite.servlet.config.Path;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-public class CurrentUserProducer implements Serializable
+public abstract class SocialPMResources extends ConditionBuilder
 {
-   private static final long serialVersionUID = 8474539305281711165L;
-
-   @Inject
-   private IdentitySession session;
-
-   @Inject
-   private Identity identity;
-
-   @Produces
-   @Named
-   @RequestScoped
-   public Profile currentUser() throws IdentityException
+   public static Condition excluded()
    {
-      Profile current = new Profile();
-      if (identity.isLoggedIn())
-      {
-         AttributesManager attrs = session.getAttributesManager();
-         current.setEmail((String) attrs.getAttribute(identity.getUser(), "email").getValue());
-      }
-      else if (!identity.isLoggedIn())
-      {}
-      return current;
+      return new SocialPMResources() {
+         @Override
+         public boolean evaluate(final Rewrite event, final EvaluationContext context)
+         {
+            return Path.matches(".*")
+                     .andNot(Path.matches(".*javax\\.faces\\.resource.*"))
+                     .andNot(Path.matches("/openid/.*"))
+                     .andNot(Path.matches("/rfRes/.*")).evaluate(event, context);
+         }
+      };
    }
 }

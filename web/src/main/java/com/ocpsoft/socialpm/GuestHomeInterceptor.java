@@ -19,57 +19,43 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.ocpsoft.socialpm.model.project;
+package com.ocpsoft.socialpm;
 
-import java.util.List;
-
-import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import javax.servlet.ServletContext;
 
-import org.jboss.seam.transaction.Transactional;
-
-import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.project.Project;
+import com.ocpsoft.rewrite.config.Configuration;
+import com.ocpsoft.rewrite.config.ConfigurationBuilder;
+import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
+import com.ocpsoft.rewrite.servlet.config.rule.Join;
+import com.ocpsoft.socialpm.cdi.Current;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
- * 
  */
-@Transactional
-@ConversationScoped
-public class ProjectService extends PersistenceUtil
+public class GuestHomeInterceptor extends HttpConfigurationProvider
 {
-   private static final long serialVersionUID = 1403645951285144409L;
-
    @Inject
-   private EntityManager em;
+   @Current
+   private Profile profile;
 
    @Override
-   protected EntityManager getEntityManager()
+   public Configuration getConfiguration(final ServletContext context)
    {
-      return em;
+      if (!profile.isPersistent())
+      {
+         /*
+          * If the user is not logged in, show them the guest home page instead of the dashboard.
+          */
+         return ConfigurationBuilder.begin().addRule(Join.path("/").to("/pages/loggedOffHome.xhtml"));
+      }
+      return ConfigurationBuilder.begin();
    }
 
-   public Project create(final Project p)
+   @Override
+   public int priority()
    {
-      save(p);
-      return p;
+      return 5;
    }
-
-   public Project findByName(final String name)
-   {
-      return findUniqueByNamedQuery("project.byName", name);
-   }
-
-   public Project findBySlug(final String slug)
-   {
-      return findUniqueByNamedQuery("project.bySlug", slug);
-   }
-
-   public List<Project> findAll()
-   {
-      return findAll(Project.class);
-   }
-
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+
+	<ui:param name="title" value="Confirm your username" />
+
+	<ui:define name="header">
+		Confirm your username
+	</ui:define>
+
+	<ui:define name="sub-header">
+		How else will we know what to call you?
+	</ui:define>
+
+	<ui:define name="content">
+		
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#signup\\:username').attr("placeholder", "Who are you?").focus();
+				$('#signup\\:username').attr("placeholder", "What should we call you?");
+				$('#signup\\:email').attr("placeholder", "Got email?");
+			});
+		</script>
+
+		<h:form prependId="false">	
+			<h:panelGroup id="unm" layout="block" class="clearfix">
+				<label for="username">Username</label>
+				<div class="input">
+					<ocp:message for="username" />
+					<h:inputText id="username" value="#{profile.username}" styleClass="xLarge" required="true">
+						<f:ajax execute="@this" render="unm" />
+					</h:inputText>
+					<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.username != null}"
+						styleClass="validation-status" />
+					<br/><span class="help-inline">Your username, <b>not</b> your company's username.</span>
+				</div>
+			</h:panelGroup>
+			
+			<div class="alert-message warning">
+				<p>By clicking "Confirm my username" below, you are agreeing to the 
+				<h:link value="Terms of Service" outcome="/pages/terms"/> and the 
+				<h:link value="Privacy Policy" outcome="/pages/privacy"/>.</p>
+			</div>
+			
+			<div class="actions">
+				<h:commandButton action="#{registration.confirmUsername}" value="Confirm my username"
+					styleClass="btn primary" />
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

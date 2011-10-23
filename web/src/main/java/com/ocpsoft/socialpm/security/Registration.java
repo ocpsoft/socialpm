@@ -40,6 +40,9 @@ import org.picketlink.idm.common.exception.IdentityException;
 import org.picketlink.idm.impl.api.PasswordCredential;
 
 import com.ocpsoft.logging.Logger;
+import com.ocpsoft.socialpm.cdi.Current;
+import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.model.ProfileService;
 import com.ocpsoft.spm.ws.rest.resources.UserResource;
 
 /**
@@ -104,6 +107,24 @@ public class Registration
       if (Identity.RESPONSE_LOGIN_EXCEPTION.equals(result)) {
          result = identity.login();
       }
+   }
+
+   @Inject
+   @Current
+   private Profile profile;
+
+   @Inject
+   private ProfileService ps;
+
+   public String confirmUsername()
+   {
+      Profile p = ps.getProfileById(profile.getId());
+      p.setUsername(profile.getUsername());
+      p.setConfirmed(true);
+      ps.save(p);
+      msg.clear(); // remove the extra message added by our interceptor
+      msg.info("Congrats. Your username is, and forever will be: \"" + p.getUsername() + "\".");
+      return "/pages/home?faces-redirect=true";
    }
 
    /*

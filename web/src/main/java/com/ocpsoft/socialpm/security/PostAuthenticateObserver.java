@@ -10,15 +10,15 @@ import org.jboss.seam.security.events.PostAuthenticateEvent;
 import org.jboss.seam.security.external.openid.OpenIdUser;
 import org.jboss.seam.transaction.Transactional;
 import org.picketlink.idm.api.IdentitySession;
+import org.picketlink.idm.common.exception.IdentityException;
 
-import com.ocpsoft.socialpm.domain.NoSuchObjectException;
-import com.ocpsoft.socialpm.model.UserService;
+import com.ocpsoft.socialpm.model.ProfileService;
 
 @RequestScoped
 public class PostAuthenticateObserver
 {
    @Inject
-   private UserService userService;
+   private ProfileService userService;
 
    @Inject
    private Credentials credentials;
@@ -30,22 +30,12 @@ public class PostAuthenticateObserver
    private IdentitySession identitySession;
 
    public @Transactional
-   void observePostAuthenticate(@Observes final PostAuthenticateEvent event)
+   void observePostAuthenticate(@Observes final PostAuthenticateEvent event) throws IdentityException
    {
       Object user = identity.getUser();
 
       if (user instanceof OpenIdUser) {
          OpenIdUser oid = (OpenIdUser) user;
-         credentials.setUsername(oid.getAttribute("firstName") + " " + oid.getAttribute("lastName"));
-
-         String email = ((OpenIdUser) user).getAttribute("email");
-
-         try {
-            userService.getUserByEmail(email);
-         }
-         catch (NoSuchObjectException e) {
-            // TODO new registration, time to create our user.
-         }
       }
       else
       {

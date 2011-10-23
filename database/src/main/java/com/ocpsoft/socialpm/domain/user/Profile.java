@@ -30,17 +30,18 @@
 
 package com.ocpsoft.socialpm.domain.user;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
-import com.ocpsoft.socialpm.domain.security.IdentityObject;
 
 @Entity
 @Table(name = "user_profiles")
@@ -48,15 +49,22 @@ public class Profile extends PersistentObject<Profile>
 {
    private static final long serialVersionUID = 1894975986966495155L;
 
+   @Column
+   private boolean confirmed;
+
    @Index(name = "userEmailIndex")
    @Column(nullable = false, length = 128, unique = true)
    private String email;
 
-   @OneToMany
-   private Set<IdentityObject> identities;
+   @CollectionTable(name = "user_profiles_keys")
+   @ElementCollection
+   private Set<String> keys = new HashSet<String>();
 
    @Column
    private boolean emailSecret = true;
+
+   @Column(length = 24, nullable = false)
+   private String username;
 
    @Column(length = 70)
    private String fullName;
@@ -130,13 +138,62 @@ public class Profile extends PersistentObject<Profile>
       this.email = email;
    }
 
-   public Set<IdentityObject> getIdentities()
+   public String getUsername()
    {
-      return identities;
+      return username;
    }
 
-   public void setIdentities(final Set<IdentityObject> identities)
+   public void setUsername(final String username)
    {
-      this.identities = identities;
+      this.username = username;
    }
+
+   public Set<String> getKeys()
+   {
+      return keys;
+   }
+
+   public void setKeys(final Set<String> keys)
+   {
+      this.keys = keys;
+   }
+
+   public boolean isConfirmed()
+   {
+      return confirmed;
+   }
+
+   public void setConfirmed(final boolean confirmed)
+   {
+      this.confirmed = confirmed;
+   }
+
+   @Override
+   public int hashCode()
+   {
+      final int prime = 31;
+      int result = 1;
+      result = (prime * result) + ((username == null) ? 0 : username.hashCode());
+      return result;
+   }
+
+   @Override
+   public boolean equals(final Object obj)
+   {
+      if (this == obj)
+         return true;
+      if (obj == null)
+         return false;
+      if (getClass() != obj.getClass())
+         return false;
+      Profile other = (Profile) obj;
+      if (username == null) {
+         if (other.username != null)
+            return false;
+      }
+      else if (!username.equals(other.username))
+         return false;
+      return true;
+   }
+
 }

@@ -19,57 +19,49 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.ocpsoft.socialpm.model.project;
+package com.ocpsoft.socialpm.security;
 
-import java.util.List;
+import java.io.Serializable;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import javax.inject.Named;
 
-import org.jboss.seam.transaction.Transactional;
+import org.jboss.seam.security.Identity;
+import org.picketlink.idm.common.exception.IdentityException;
 
-import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.project.Project;
+import com.ocpsoft.socialpm.cdi.Current;
+import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.model.ProfileService;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-@Transactional
-@ConversationScoped
-public class ProjectService extends PersistenceUtil
+public class CurrentProfile implements Serializable
 {
-   private static final long serialVersionUID = 1403645951285144409L;
+   private static final long serialVersionUID = 8474539305281711165L;
 
    @Inject
-   private EntityManager em;
+   private Identity identity;
 
-   @Override
-   protected EntityManager getEntityManager()
+   @Inject
+   private ProfileService ps;
+
+   @Produces
+   @Current
+   @Named
+   @RequestScoped
+   public Profile profile() throws IdentityException
    {
-      return em;
+      Profile current = new Profile();
+      if (identity.isLoggedIn())
+      {
+         current = ps.getProfileByIdentityKey(identity.getUser().getKey());
+      }
+      else if (!identity.isLoggedIn())
+      {}
+      return current;
    }
-
-   public Project create(final Project p)
-   {
-      save(p);
-      return p;
-   }
-
-   public Project findByName(final String name)
-   {
-      return findUniqueByNamedQuery("project.byName", name);
-   }
-
-   public Project findBySlug(final String slug)
-   {
-      return findUniqueByNamedQuery("project.bySlug", slug);
-   }
-
-   public List<Project> findAll()
-   {
-      return findAll(Project.class);
-   }
-
 }

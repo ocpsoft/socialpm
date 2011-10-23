@@ -19,57 +19,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.ocpsoft.socialpm.model.project;
+package com.ocpsoft.socialpm.cdi;
 
-import java.util.List;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import javax.enterprise.context.ConversationScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-import org.jboss.seam.transaction.Transactional;
+import javax.inject.Qualifier;
 
-import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.project.Project;
-
+@Qualifier
+@Inherited
+@Target({ TYPE, METHOD, PARAMETER, FIELD })
+@Retention(RUNTIME)
+@Documented
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
- * 
  */
-@Transactional
-@ConversationScoped
-public class ProjectService extends PersistenceUtil
+public @interface Current
 {
-   private static final long serialVersionUID = 1403645951285144409L;
-
-   @Inject
-   private EntityManager em;
-
-   @Override
-   protected EntityManager getEntityManager()
-   {
-      return em;
-   }
-
-   public Project create(final Project p)
-   {
-      save(p);
-      return p;
-   }
-
-   public Project findByName(final String name)
-   {
-      return findUniqueByNamedQuery("project.byName", name);
-   }
-
-   public Project findBySlug(final String slug)
-   {
-      return findUniqueByNamedQuery("project.bySlug", slug);
-   }
-
-   public List<Project> findAll()
-   {
-      return findAll(Project.class);
-   }
 
 }

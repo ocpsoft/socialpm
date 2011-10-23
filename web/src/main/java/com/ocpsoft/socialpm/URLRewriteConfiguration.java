@@ -73,7 +73,7 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                .addRule(Join.path("/p/{project}-{story}").where("project").matches(PROJECT)
                         .to("/pages/story/view.xhtml"))
 
-               .addRule(Join.path("/new-project").to("/pages/project/create.xhtml"))
+               .addRule(Join.path("/projects/new").to("/pages/project/create.xhtml"))
 
                // 404 and Error
                .addRule(Join.path("/404").to("/pages/404.xhtml"))
@@ -91,19 +91,15 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                // Catch all rules
                .addRule(Join.path("/{page}").to("/pages/{page}.xhtml").where("page").matches("(?!RES_NOT_FOUND)[^/]+"))
 
-               .defineRule().when(
-                        Direction.isInbound()
-                                 .and(DispatchType.isRequest())
-                                 .and(Path.matches(".*"))
-                                 .andNot(Path.matches(".*javax\\.faces\\.resource.*"))
-                                 .andNot(Path.matches("/openid/.*"))
-                                 .andNot(Path.matches("/rfRes/.*")))
+               .defineRule().when(DispatchType.isRequest()
+                        .and(Direction.isInbound())
+                        .and(SocialPMResources.excluded()))
                .perform(Forward.to("/404"));
    }
 
    @Override
    public int priority()
    {
-      return 0;
+      return 10;
    }
 }

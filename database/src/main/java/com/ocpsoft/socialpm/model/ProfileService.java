@@ -25,15 +25,16 @@ import java.util.List;
 import javax.ejb.Stateful;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
 
-import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Stateful
-public class UserService extends PersistenceUtil implements Serializable
+public class ProfileService extends PersistenceUtil implements Serializable
 {
    private static final long serialVersionUID = 2988513095024795683L;
 
@@ -49,9 +50,14 @@ public class UserService extends PersistenceUtil implements Serializable
       return em;
    }
 
-   public List<Profile> getUsers(final int limit, final int offset)
+   public List<Profile> getProfiles(final int limit, final int offset)
    {
       return findAll(Profile.class);
+   }
+
+   public void create(final Profile profile)
+   {
+      super.create(profile);
    }
 
    public void save(final Profile user)
@@ -60,15 +66,48 @@ public class UserService extends PersistenceUtil implements Serializable
       em.flush();
    }
 
-   public Profile getUserById(final long id) throws NoSuchObjectException
+   public Profile getProfileByUsername(final String username) throws NoResultException
    {
-      return findById(Profile.class, id);
+      TypedQuery<Profile> query = em.createQuery("SELECT p FROM Profile p WHERE p.username = :username", Profile.class);
+      query.setParameter("username", username);
+
+      Profile result = query.getSingleResult();
+      return result;
    }
 
-   public Profile getUserByEmail(final String email) throws NoSuchObjectException
+   public Profile getProfileByEmail(final String email) throws NoResultException
    {
-      // TODO implement
-      return null;
+      TypedQuery<Profile> query = em.createQuery("SELECT p FROM Profile p WHERE p.email = :email", Profile.class);
+      query.setParameter("email", email);
+
+      Profile result = query.getSingleResult();
+      return result;
+   }
+
+   public boolean hasProfileByIdentityKey(final String key) throws NoResultException
+   {
+      try {
+         getProfileByIdentityKey(key);
+         return true;
+      }
+      catch (NoResultException e) {
+         return false;
+      }
+   }
+
+   public Profile getProfileByIdentityKey(final String key) throws NoResultException
+   {
+      TypedQuery<Profile> query = em.createQuery(
+               "SELECT p FROM Profile p JOIN p.keys k WHERE k = :key", Profile.class);
+      query.setParameter("key", key);
+
+      Profile result = query.getSingleResult();
+      return result;
+   }
+
+   public Profile getProfileById(final Long id)
+   {
+      return findById(Profile.class, id);
    }
 
 }

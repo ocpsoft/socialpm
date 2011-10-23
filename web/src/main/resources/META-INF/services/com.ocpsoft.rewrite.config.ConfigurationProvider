@@ -1,1 +1,3 @@
 com.ocpsoft.socialpm.URLRewriteConfiguration
+com.ocpsoft.socialpm.AccountVerificationInterceptor
+com.ocpsoft.socialpm.GuestHomeInterceptor

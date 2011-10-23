@@ -24,6 +24,9 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
    @Inject
    private Event<DeferredAuthenticationEvent> deferredAuthentication;
 
+   @Inject
+   private ProfileManager profiles;
+
    @Override
    @Transactional
    public void loginSucceeded(final OpenIdPrincipal principal, final ResponseHolder responseHolder)
@@ -32,7 +35,11 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
          openIdAuthenticator.success(principal);
          deferredAuthentication.fire(new DeferredAuthenticationEvent(true));
 
-         // TODO figure out how best and where best to redirect user after OpenID signup/login
+         /*
+          * If this is a new registration, we need to create a profile for this OpenId.
+          */
+         profiles.attachProfile(principal);
+
          responseHolder.getResponse().sendRedirect(servletContext.getContextPath() + "/");
       }
       catch (IOException e) {

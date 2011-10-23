@@ -131,11 +131,11 @@
 						
 						
 						<h:panelGroup rendered="#{identity.loggedIn}">
-							<li><ocp:gravatar email="#{currentUser.email}" size="30" style="position: relative; top: 3px;"/></li>
+							<li><ocp:gravatar email="#{profile.email}" size="30" style="position: relative; top: 3px;" updatable="true"/></li>
 							<li class="menu">
-								<a href="#" class="menu">#{credentials.username}</a>
+								<a href="#" class="menu">#{profile.username}</a>
 								<ul class="menu-dropdown">
-									<li><a href="#">Account</a></li>
+									<li><h:link outcome="/pages/account" value="Account" /></li>
 									<li><a href="#">Settings</a></li>
 									<li class="divider"></li>
 									<li><h:outputLink value="${request.contextPath}/logout">Sign out</h:outputLink></li>
