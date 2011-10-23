@@ -8,6 +8,8 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
+import com.ocpsoft.socialpm.util.StringValidations;
+
 @RequestScoped
 @FacesValidator("emailValidator")
 public class EmailAddressValidator implements Validator
@@ -17,7 +19,7 @@ public class EmailAddressValidator implements Validator
             throws ValidatorException
    {
       String address = value.toString();
-      if (!address.matches(".+@.+\\\\.[a-z]+"))
+      if (!StringValidations.isEmailAddress(address))
       {
          FacesMessage message = new FacesMessage();
          message.setDetail("Email not valid");
