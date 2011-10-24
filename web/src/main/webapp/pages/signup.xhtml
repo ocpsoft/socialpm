@@ -86,7 +86,7 @@
 							<ocp:message for="password" /></label>
 						<div class="input">
 							<h:inputSecret id="password" value="#{registration.password}" redisplay="true" 
-								styleClass="xLarge" style="text-transform: uppercase;" required="true" requiredMessage="Password is required.">
+								styleClass="xLarge" style="text-transform: uppercase;" required="true" requiredMessage="Required">
 								<f:ajax execute="password passwordConfirm passwordValidator" render="password passwordConfirm pwg pwcg :messages:messages"/>
 							</h:inputSecret>
 							<h:panelGroup id="pwg">
