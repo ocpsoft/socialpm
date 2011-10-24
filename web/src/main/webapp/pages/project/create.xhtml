@@ -3,48 +3,83 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
 	<ui:param name="title" value="New Project" />
 
 	<ui:define name="header">
-		Set up your new project
+		Start a new Social Project
 	</ui:define>
 
 	<ui:define name="sub-header">
-		What is a project, anyway?
+		Everybody's doing it...
 	</ui:define>
 
 	<ui:define name="content">
 
+		<script type="text/javascript">
+			$(document).ready(function () {
+				var options = { trigger: 'focus', offset: 10, animate: true};
+				
+				$('#name').attr("data-original-title", "What should you call it?");
+				$('#name').attr("data-content", "The project name should be something that you and all of your partners will easily recognize and associate with. Try not to use things like dates and general topics. This name will appear in headers and labels throughout the site.");
+				$('#name').attr("rel", "popover");
+				$('#name').popover(options); 
+				$('#name').focus();
+
+				$('#slug').attr("data-original-title", "What's this SLUG thing?");
+				$('#slug').attr("data-content", "The project SLUG is used in links and bookmarks throughout the site; this is how your project will appear in URLs.");
+				$('#slug').attr("rel", "popover");
+				$('#slug').popover(options);  
+
+				$('#vision').attr("data-original-title", "What's your vision?");
+				$('#vision').attr("data-content", "Vision statements help focus your team. They should be both specific and measurable; try to be as clear and concise as possible. Good examples would be, \"Less expensive than our top five competitors,\" or \"No page more than three clicks away.\"");
+				$('#vision').attr("rel", "popover");
+				$('#vision').popover(options); 
+			});
+		</script>
+
 		<div class="row">
 			<div class="span12 columns">
+				
+				<div class="alert-message info">
+					<p>We need a little bit of information about your new project.</p>
+				</div>
 
-				<h:form>
+				<h:form prependId="false">
 					<div class="clearfix">
-						<label for="name">Name</label>
+						<label for="name">Project name</label>
 						<div class="input">
+							<ocp:message id="nameMsg" for="name" />
 							<h:inputText id="name" value="#{projects.current.name}"
-								styleClass="xLarge" required="true"/>
-							<span class="help-inline">Keep it clear, simple, but descriptive.</span>
+								styleClass="xLarge" required="true">
+							</h:inputText>
+							<span class="help-inline"></span>
 						</div>
 					</div>
 
 					<div class="clearfix">
-						<label for="slug">Key</label>
+						<label for="slug">Link slug</label>
 						<div class="input">
+							<ocp:message id="slugMsg" for="slug" />
 							<h:inputText id="slug" value="#{projects.current.slug}"
-								styleClass="xLarge" style="text-transform: uppercase;"  required="true"/>
-							<span class="help-inline">3 - 10 numbers and/or letters used in links on the site.</span>
+								styleClass="xLarge" style="text-transform: uppercase;"
+								required="true">
+							</h:inputText>
+							<span class="help-inline"></span>
 						</div>
 					</div>
 
 					<div class="clearfix">
-						<label for="name">Vision</label>
+						<label for="name">Vision statement
+							<span class="help-inline">(optional)</span></label>
 						<div class="input">
-							<h:inputText id="vision" value="#{projects.current.vision}"
-								styleClass="xLarge" />
+							<ocp:message id="visionMsg" for="vision" />
+							<h:inputTextarea id="vision" value="#{projects.current.vision}"
+								styleClass="xLarge">
+							</h:inputTextarea>
 						</div>
 					</div>
 
@@ -53,41 +88,17 @@
 							styleClass="btn primary" />
 						&nbsp;
 						<h:commandButton action="/pages/home.xhtml?faces-redirect=true"
-							value="Cancel" styleClass="btn" />
+							value="Cancel" styleClass="btn" immediate="true"/>
 					</div>
 				</h:form>
+				
+
 			</div>
 
 			<div class="span4 columns">
-				<h4>What should I call it?</h4>
-				The project name should be something that you and all of your
-				partners will easily recognize and associate with. Try not to use
-				things like dates and general topics.
-				<h6>Good examples:</h6>
-				<ul>
-					<li>Acme Website Rewrite</li>
-					<li>ACME-252</li>
-				</ul>
-				<h6>Bad examples:</h6>
-				<ul>
-					<li>2011-08-01</li>
-					<li>Website Rewrite</li>
-				</ul>
-
-				<h4>What about the vision?</h4>
-				Vision statements should be both specific and measurable. Try to be
-				as clear and concise as possible.
-
-				<h6>Good examples:</h6>
-				<ul>
-					<li>Less expensive than our top five competitors.</li>
-					<li>No page more than three clicks away.</li>
-				</ul>
-				<h6>Bad examples:</h6>
-				<ul>
-					<li>Inexpensive.</li>
-					<li>Easy to access.</li>
-				</ul>
+				<h4>Note</h4>
+				
+				<p>You can create an unlimited number of public projects and invite your friends to work on them with you.</p>
 			</div>
 		</div>
 
