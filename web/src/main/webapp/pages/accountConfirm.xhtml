@@ -11,7 +11,7 @@
 	<ui:param name="title" value="Confirm your username" />
 
 	<ui:define name="header">
-		Confirm your username
+		Choose your username
 	</ui:define>
 
 	<ui:define name="sub-header">
@@ -29,6 +29,11 @@
 		</script>
 
 		<h:form prependId="false">	
+			
+			<div class="alert-message info">
+				<p>This is what others will see when they visit your profile page, your status updates, and projects you've worked on.</p>
+			</div>
+		
 			<h:panelGroup id="unm" layout="block" class="clearfix">
 				<label for="username">Username</label>
 				<div class="input">
@@ -38,7 +43,7 @@
 					</h:inputText>
 					<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.username != null}"
 						styleClass="validation-status" />
-					<br/><span class="help-inline">Your username, <b>not</b> your company's username.</span>
+					<br/><span class="help-inline"></span>
 				</div>
 			</h:panelGroup>
 			

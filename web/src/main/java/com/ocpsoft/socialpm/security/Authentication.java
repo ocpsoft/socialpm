@@ -105,7 +105,7 @@ public class Authentication
                      "Login failed due to exception" + identity.getAuthenticatorName() + ", "
                               + identity.getAuthenticatorClass()
                               + ", " + identity); // TODO , exception );
-            messages.warn("Whoops! Something went wrong with your login. Care to try again? While we figure out what went wrong?");
+            messages.warn("Whoops! Something went wrong with your login. Care to try again? We'll try to figure out what went wrong.");
          }
          else
          {
