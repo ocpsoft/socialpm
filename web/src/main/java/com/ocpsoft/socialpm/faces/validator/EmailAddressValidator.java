@@ -22,8 +22,7 @@ public class EmailAddressValidator implements Validator
       if (!StringValidations.isEmailAddress(address))
       {
          FacesMessage message = new FacesMessage();
-         message.setDetail("Email not valid");
-         message.setSummary("Email not valid");
+         message.setSummary("Not valid");
          message.setSeverity(FacesMessage.SEVERITY_ERROR);
          throw new ValidatorException(message);
       }

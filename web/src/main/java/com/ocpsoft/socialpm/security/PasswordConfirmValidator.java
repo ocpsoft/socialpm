@@ -1,14 +1,15 @@
 package com.ocpsoft.socialpm.security;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 
 import org.jboss.seam.faces.validation.InputElement;
-import org.jboss.seam.faces.validation.ValidatorException;
 
 @RequestScoped
 @FacesValidator("passwordConfirm")
@@ -42,7 +43,8 @@ public class PasswordConfirmValidator implements Validator
 
       if (!ignore && !passwordValue.equals(passwordConfirmValue))
       {
-         throw new ValidatorException("Passwords do not match.");
+         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords do not match.",
+                  null));
       }
    }
 }

@@ -39,10 +39,10 @@
 </composite:interface>
 
 <composite:implementation>
-	<h:messages id="#{cc.clientId}" layout="table"
+	<h:messages id="#{cc.clientId}" style="list-style: none; margin: 0;"
 		globalOnly="#{cc.attrs.globalOnly}"
-		errorClass="alert-message error" fatalClass="alert-message error"
-		infoClass="alert-message info" warnClass="alert-message warning" />
+		errorClass="alert-message block-message error fade in" fatalClass="alert-message block-message error fade in"
+		infoClass="alert-message block-message info fade in" warnClass="alert-message block-message warning fade in" />
 </composite:implementation>
 
 </html>

@@ -27,6 +27,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 
 import org.jboss.seam.security.Identity;
 import org.picketlink.idm.common.exception.IdentityException;
@@ -56,12 +57,17 @@ public class CurrentProfile implements Serializable
    public Profile profile() throws IdentityException
    {
       Profile current = new Profile();
-      if (identity.isLoggedIn())
-      {
-         current = ps.getProfileByIdentityKey(identity.getUser().getKey());
+      try {
+         if (identity.isLoggedIn())
+         {
+            current = ps.getProfileByIdentityKey(identity.getUser().getKey());
+         }
+         else if (!identity.isLoggedIn())
+         {}
       }
-      else if (!identity.isLoggedIn())
-      {}
+      catch (NoResultException e) {
+         e.printStackTrace();
+      }
       return current;
    }
 }

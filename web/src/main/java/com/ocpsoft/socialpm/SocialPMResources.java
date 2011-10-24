@@ -42,6 +42,7 @@ public abstract class SocialPMResources extends ConditionBuilder
             return Path.matches(".*")
                      .andNot(Path.matches(".*javax\\.faces\\.resource.*"))
                      .andNot(Path.matches("/openid/.*"))
+                     .andNot(Path.matches("/logout"))
                      .andNot(Path.matches("/rfRes/.*")).evaluate(event, context);
          }
       };

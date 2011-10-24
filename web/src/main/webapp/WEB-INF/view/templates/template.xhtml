@@ -47,7 +47,7 @@
 	<!-- Our customizations -->
 	<h:outputStylesheet name="application.css" />
 	<h:outputScript name="application.js" />
-
+	
 	<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
 	<ui:insert name="head"></ui:insert>
@@ -70,7 +70,6 @@
 						</h:panelGroup>
 						
 						<h:panelGroup rendered="#{identity.loggedIn}">
-							<li><h:link outcome="/pages/home.xhtml" value="Home" /></li>
 							<h:panelGroup>
 								<li><h:link outcome="/pages/project/create.xhtml"
 										value="New Project" />
@@ -154,6 +153,17 @@
 
 		<div style="padding-top: 40px;"></div>
 
+		<div class="container">
+			<div class="row">
+				<div class="span12 columns" style="position: absolute;">
+					<div style="position: relative; top: -2px;">
+						<ui:insert name="subnav">
+						</ui:insert>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<section id="header">
 			<div class="container">
 				<div class="page-header ">
@@ -164,6 +174,14 @@
 					</h1>
 				</div>
 				<ocp:messages id="messages" globalOnly="true" />
+				<script type="text/javascript">
+					$(document).ready(function() {
+						$('#messages\\:messages li').attr("data-alert", "alert");
+						$('#messages\\:messages li').append('<a href="#" class="close">×</a>');
+						$('.alert-message').alert();
+						$('.alert-message').click().alert('close');
+					});
+				</script>
 			</div>
 		</section>
 

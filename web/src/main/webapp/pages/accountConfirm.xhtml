@@ -55,7 +55,9 @@
 			
 			<div class="actions">
 				<h:commandButton action="#{registration.confirmUsername}" value="Confirm my username"
-					styleClass="btn primary" />
+					styleClass="btn primary" >
+					  <f:ajax execute="@form" render="@form" />
+				</h:commandButton>
 			</div>
 		</h:form>
 	</ui:define>
