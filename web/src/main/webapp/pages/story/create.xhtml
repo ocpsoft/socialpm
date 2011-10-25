@@ -20,21 +20,19 @@
 	</ui:define>
 
 	<ui:define name="sub-header">
-		<ocp:tooltip placement="below" title="Cool huh?">
-			Share yours.
-		</ocp:tooltip>
+		Share yours.
 	</ui:define>
 
 	<ui:define name="content">
 
 		<div class="row">
 			<div class="span12 columns">
-				<h:form id="story" prependId="true">
+				<h:form prependId="false">
 		
 					<div class="clearfix">
 						<label for="role">As a</label>
 						<div class="input">
-							<ocp:popover placement="right" for="story:role" title="Who needs it?" 
+							<ocp:popover placement="right" for="role" title="Who needs it?" 
 								trigger="focus" focus="true">
 								Some content, baby!
 							</ocp:popover>
@@ -46,7 +44,7 @@
 					<div class="clearfix">
 						<label for="objective">I want</label>
 						<div class="input">
-							<ocp:popover placement="right" for="story:objective" title="What is the objective?" 
+							<ocp:popover placement="right" for="objective" title="What is the objective?" 
 								trigger="focus" focus="true">
 								Some content, baby!
 							</ocp:popover>
@@ -57,7 +55,7 @@
 
 					<div class="clearfix">
 						<label for="result">so that</label>
-						<ocp:popover placement="right" for="story:result" title="What is the result?" 
+						<ocp:popover placement="right" for="result" title="What is the result?" 
 							trigger="focus" focus="true">
 							Some content, baby!
 						</ocp:popover>
@@ -72,7 +70,7 @@
 						<h:commandButton id="go" action="#{stories.create}" value="Ok, let's go!"
 							styleClass="btn primary" />
 						&nbsp;
-						<ocp:tooltip placement="right" title="Really? Ok..." for="story:cancel" />
+						<ocp:tooltip placement="right" title="Really? Ok..." for="cancel" />
 						<h:commandButton action="/pages/home.xhtml?faces-redirect=true"
 							id="cancel" value="Cancel" styleClass="btn" />
 					</div>

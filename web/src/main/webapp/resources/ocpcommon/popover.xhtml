@@ -52,7 +52,7 @@
 		$(document).ready(function () {
 			var id= "${cc.attrs.for}".replace(/:/, "\\:");
 			$('#' + id).attr("data-original-title", "${cc.attrs.title}");
-			$('#' + id).attr("data-content", $('#${cc.clientId}\\:content').html());
+			$('#' + id).attr("data-content", $('#${cc.clientId}:content'.replace(/:/, "\\:")).html());
 			$('#' + id).attr("rel", "popover");
 			$('#' + id).popover({
 				animate: true, delayIn: ${cc.attrs.delayIn}, delayOut: ${cc.attrs.delayOut},

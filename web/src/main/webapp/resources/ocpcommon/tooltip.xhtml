@@ -51,8 +51,9 @@
 	<script type="text/javascript">
 		$(document).ready(function () {
 
-			var id = "${cc.attrs.for}".replace(/:/g,"\\\\:");
-			if(!id)	id = "${cc.id}\\\\:content";
+			var id = "${cc.attrs.for}";
+			if(!id)	id = "${cc.id}:content";
+			id = id.replace(/:/g,"\\:");
 			var options = { 
 					trigger: 'hover', offset: ${cc.attrs.offset}, animate: true,
 					delayIn: ${cc.attrs.delayIn}, delayOut: ${cc.attrs.delayOut},
