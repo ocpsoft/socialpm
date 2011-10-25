@@ -94,6 +94,12 @@ public class Story extends PersistentObject<Story>
    @Column
    private Integer priority;
 
+   private String role;
+
+   private String objective;
+
+   private String result;
+
    @ManyToOne(optional = false)
    private Iteration iteration;
 
@@ -447,5 +453,35 @@ public class Story extends PersistentObject<Story>
    public void setClosedBy(final Profile closedBy)
    {
       this.closedBy = closedBy;
+   }
+
+   public String getRole()
+   {
+      return role;
+   }
+
+   public void setRole(final String role)
+   {
+      this.role = role;
+   }
+
+   public String getObjective()
+   {
+      return objective;
+   }
+
+   public void setObjective(final String objective)
+   {
+      this.objective = objective;
+   }
+
+   public String getResult()
+   {
+      return result;
+   }
+
+   public void setResult(final String result)
+   {
+      this.result = result;
    }
 }

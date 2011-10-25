@@ -3,46 +3,78 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
 	<ui:param name="title" value="New Project" />
 
+	<ui:define name="subnav">
+		<div class="alert-message info">
+			<p>Let's figure out what you need to do.</p>
+		</div>
+	</ui:define>
+
 	<ui:define name="header">
-		#{projects.current.name} &raquo; New Story
+		#{projects.current.name} &raquo; Add a New Story
 	</ui:define>
 
 	<ui:define name="sub-header">
-		Share yours.
+		<ocp:tooltip placement="below" title="Cool huh?">
+			Share yours.
+		</ocp:tooltip>
 	</ui:define>
 
 	<ui:define name="content">
 
 		<div class="row">
 			<div class="span12 columns">
-
-				<h:form>
-					<fieldset>
-						<legend>What do you need?</legend>
-					</fieldset>
+				<h:form id="story" prependId="true">
+		
+					<div class="clearfix">
+						<label for="role">As a</label>
+						<div class="input">
+							<ocp:popover placement="right" for="story:role" title="Who needs it?" 
+								trigger="focus" focus="true">
+								Some content, baby!
+							</ocp:popover>
+							<h:inputText id="role" value="#{stories.current.role}"
+								styleClass="xxLarge"/>
+						</div>
+					</div>
 
 					<div class="clearfix">
-						<label for="name">Story</label>
+						<label for="objective">I want</label>
 						<div class="input">
-							<h:inputTextarea id="name" value="#{stories.current.text}"
+							<ocp:popover placement="right" for="story:objective" title="What is the objective?" 
+								trigger="focus" focus="true">
+								Some content, baby!
+							</ocp:popover>
+							<h:inputTextarea id="objective" value="#{stories.current.objective}"
 								styleClass="xxLarge"/>
-							<span class="help-inline">
-								As a ____, I want ____, so I can ____.
-							</span>
+						</div>
+					</div>
+
+					<div class="clearfix">
+						<label for="result">so that</label>
+						<ocp:popover placement="right" for="story:result" title="What is the result?" 
+							trigger="focus" focus="true">
+							Some content, baby!
+						</ocp:popover>
+						<div class="input">
+							<h:inputTextarea id="result" value="#{stories.current.objective}"
+								styleClass="xxLarge"/>
 						</div>
 					</div>
 
 					<div class="actions">
-						<h:commandButton action="#{stories.create}" value="Ok, let's go!"
+					
+						<h:commandButton id="go" action="#{stories.create}" value="Ok, let's go!"
 							styleClass="btn primary" />
 						&nbsp;
+						<ocp:tooltip placement="right" title="Really? Ok..." for="story:cancel" />
 						<h:commandButton action="/pages/home.xhtml?faces-redirect=true"
-							value="Cancel" styleClass="btn" />
+							id="cancel" value="Cancel" styleClass="btn" />
 					</div>
 				</h:form>
 			</div>
