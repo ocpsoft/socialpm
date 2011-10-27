@@ -43,7 +43,6 @@ import com.ocpsoft.logging.Logger;
 import com.ocpsoft.socialpm.cdi.Current;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
-import com.ocpsoft.spm.ws.rest.resources.UserResource;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -57,9 +56,6 @@ public class Registration
 
    @Inject
    private Messages msg;
-
-   @Inject
-   private UserResource ur;
 
    @Inject
    private Identity identity;

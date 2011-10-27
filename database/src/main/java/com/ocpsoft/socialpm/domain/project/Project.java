@@ -40,10 +40,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
@@ -96,14 +96,9 @@ public class Project extends PersistentObject<Project>
    @Column(length = 128)
    private String vision;
 
-   @Column(length = 2048)
-   private String goals;
-
-   @OneToOne(optional = false)
+   @ManyToOne(optional = false)
    private Profile owner;
 
-   @Column(length = 2048)
-   private String objectives;
    private PrivacyLevel privacyLevel = PrivacyLevel.PUBLIC;
 
    @Override
@@ -429,26 +424,6 @@ public class Project extends PersistentObject<Project>
       this.vision = vision;
    }
 
-   public String getGoals()
-   {
-      return goals;
-   }
-
-   public void setGoals(final String goals)
-   {
-      this.goals = goals;
-   }
-
-   public String getObjectives()
-   {
-      return objectives;
-   }
-
-   public void setObjectives(final String objectives)
-   {
-      this.objectives = objectives;
-   }
-
    public List<Membership> getMemberships()
    {
       return memberships;
@@ -502,7 +477,7 @@ public class Project extends PersistentObject<Project>
    {
       if (slug != null)
       {
-         slug = slug.toUpperCase();
+         slug = slug.toLowerCase();
       }
       this.slug = slug;
    }
@@ -512,7 +487,7 @@ public class Project extends PersistentObject<Project>
       return owner;
    }
 
-   public void setOwner(Profile owner)
+   public void setOwner(final Profile owner)
    {
       this.owner = owner;
    }

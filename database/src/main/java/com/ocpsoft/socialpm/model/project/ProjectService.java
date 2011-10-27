@@ -23,21 +23,25 @@ package com.ocpsoft.socialpm.model.project;
 
 import java.util.List;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.ejb.TransactionAttribute;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import org.jboss.seam.transaction.TransactionPropagation;
 import org.jboss.seam.transaction.Transactional;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
+import com.ocpsoft.socialpm.domain.feed.ProjectCreated;
+import com.ocpsoft.socialpm.domain.project.Feature;
 import com.ocpsoft.socialpm.domain.project.Project;
+import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
- * 
  */
-@Transactional
-@ConversationScoped
+@TransactionAttribute
+@Transactional(TransactionPropagation.REQUIRED)
 public class ProjectService extends PersistenceUtil
 {
    private static final long serialVersionUID = 1403645951285144409L;
@@ -51,9 +55,39 @@ public class ProjectService extends PersistenceUtil
       return em;
    }
 
-   public Project create(final Project p)
+   public Project create(final Profile owner, final Project p)
    {
-      save(p);
+      p.setOwner(owner);
+      super.create(p);
+
+      Iteration unassigned = new Iteration();
+      unassigned.setProject(p);
+      unassigned.setTitle("Unassigned");
+      p.getIterations().add(unassigned);
+
+      Feature bugFixes = new Feature();
+      bugFixes.setName("Bug Fixes");
+      bugFixes.setProject(p);
+      p.getFeatures().add(bugFixes);
+      bugFixes.setProject(p);
+
+      Feature enhancements = new Feature();
+      enhancements.setName("Enhancements");
+      enhancements.setProject(p);
+      p.getFeatures().add(enhancements);
+      enhancements.setProject(p);
+
+      Feature unclassified = new Feature();
+      unclassified.setName("Unclassified");
+      unclassified.setProject(p);
+      p.getFeatures().add(unclassified);
+      unclassified.setProject(p);
+
+      super.create(p);
+
+      // p.getMemberships().add(new Membership(p, owner, MemberRole.OWNER));
+
+      super.create(new ProjectCreated(owner, p));
       return p;
    }
 

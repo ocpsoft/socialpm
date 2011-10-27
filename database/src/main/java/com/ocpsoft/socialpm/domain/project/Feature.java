@@ -36,8 +36,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -58,7 +58,7 @@ public class Feature extends PersistentObject<Feature>
 {
    private static final long serialVersionUID = 2779206239693394734L;
 
-   @Column(nullable = false, length = 32)
+   @Column(length = 32)
    private String name;
 
    @Column(length = 512)
@@ -81,13 +81,12 @@ public class Feature extends PersistentObject<Feature>
    private Project project;
 
    @Fetch(FetchMode.SUBSELECT)
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "feature")
+   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "features")
    @Cascade({ CascadeType.REFRESH })
    private List<Story> stories;
 
    public Feature()
-   {
-   }
+   {}
 
    public boolean isEmpty()
    {
@@ -99,8 +98,8 @@ public class Feature extends PersistentObject<Feature>
    {
       final int prime = 31;
       int result = 1;
-      result = prime * result + ((name == null) ? 0 : name.hashCode());
-      result = prime * result + ((project == null) ? 0 : project.hashCode());
+      result = (prime * result) + ((name == null) ? 0 : name.hashCode());
+      result = (prime * result) + ((project == null) ? 0 : project.hashCode());
       return result;
    }
 

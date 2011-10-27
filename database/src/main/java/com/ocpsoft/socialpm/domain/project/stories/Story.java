@@ -32,6 +32,7 @@ package com.ocpsoft.socialpm.domain.project.stories;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -42,6 +43,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -67,11 +69,10 @@ import com.ocpsoft.socialpm.domain.user.Profile;
 @Entity
 @Table(name = "stories")
 @NamedQueries({
-         @NamedQuery(name = "Story.byProjectAndNumber", query = "from Story where project.id = ? and number = ?"),
+         @NamedQuery(name = "Story.byProjectAndNumber", query = "from Story where project = ? and number = ?"),
          @NamedQuery(name = "Story.byProjectId", query = "from Story where project.id = ?"),
-         @NamedQuery(name = "Story.byProjectAndFeatureId", query = "from Story where project.id = ? and feature.id = ?"),
          @NamedQuery(name = "Story.withTasksFor", query = "from Story s where s.id in (select t.story from Task t where t.assignee = ? and t.status != ?)"),
-         @NamedQuery(name = "Story.byFeature", query = "from Story where project.name = ? and feature.name = ?") })
+})
 public class Story extends PersistentObject<Story>
 {
    private static final long serialVersionUID = 719438791700341079L;
@@ -109,23 +110,22 @@ public class Story extends PersistentObject<Story>
    @JoinColumn
    private Milestone milestone;
 
-   @ManyToOne
-   @JoinColumn(nullable = false)
-   private Feature feature;
+   @ManyToMany(fetch = FetchType.LAZY)
+   private Set<Feature> features = new HashSet<Feature>();
 
    @Column(nullable = false)
-   private Points storyPoints;
+   private Points storyPoints = Points.NOT_POINTED;
 
    @Column(nullable = false)
-   private Points businessValue;
+   private Points businessValue = Points.NOT_POINTED;
 
    @Column(nullable = false, length = 32)
    @Enumerated(EnumType.STRING)
-   private StoryStatus status;
+   private StoryStatus status = StoryStatus.OPEN;
 
    @Column(nullable = false)
    @Enumerated(EnumType.ORDINAL)
-   private StoryBurner burner;
+   private StoryBurner burner = StoryBurner.FRONT;
 
    @Fetch(FetchMode.SUBSELECT)
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "story", orphanRemoval = true, cascade = CascadeType.ALL)
@@ -170,14 +170,14 @@ public class Story extends PersistentObject<Story>
       this.project = project;
    }
 
-   public Feature getFeature()
+   public Set<Feature> getFeatures()
    {
-      return feature;
+      return features;
    }
 
-   public void setFeature(final Feature feature)
+   public void setFeatures(final Set<Feature> feature)
    {
-      this.feature = feature;
+      this.features = feature;
    }
 
    public boolean getIsImpeded()

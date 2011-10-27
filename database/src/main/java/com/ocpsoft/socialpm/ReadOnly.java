@@ -19,40 +19,31 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.ocpsoft.spm.ws.rest.resources;
+package com.ocpsoft.socialpm;
 
-import java.io.Serializable;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Disposes;
-import javax.enterprise.inject.Produces;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-import org.jboss.solder.core.ExtensionManaged;
+import javax.inject.Qualifier;
 
+@Qualifier
+@Target({ TYPE, METHOD, PARAMETER, FIELD })
+@Retention(RUNTIME)
+@Documented
 /**
+ * Used to inject a temporary (non-scoped) EntityManager
+ * 
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
+ *
  */
-@RequestScoped
-public class EntityManagerProducer implements Serializable
+public @interface ReadOnly
 {
-   private static final long serialVersionUID = -5267593171036179836L;
 
-   @RequestScoped
-   @PersistenceUnit
-   private EntityManagerFactory emf;
-
-   @Produces
-   @ExtensionManaged
-   public EntityManager create()
-   {
-      return emf.createEntityManager();
-   }
-
-   public void close(@Disposes final EntityManager em)
-   {
-      em.close();
-   }
 }

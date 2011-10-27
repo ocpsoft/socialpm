@@ -59,22 +59,25 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
 
                // Canonicalize project name
                .defineRule()
-               .when(Path.matches("/p/{project}").where("project")
-                        .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
-                        .transformedBy(new ToLowerCase()))
+               .when(Direction.isInbound().and(
+                        Path.matches("/p/{project}").where("project")
+                                 .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
+                                 .transformedBy(new ToLowerCase())))
                .perform(Redirect.permanent(context.getContextPath() + "/p/{project}"))
 
                .defineRule()
-               .when(Path.matches("/p/{project}{tail}").where("project")
-                        .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
-                        .transformedBy(new ToLowerCase())
-                        .where("tail").matches("/.*"))
+               .when(Direction.isInbound().and(
+                        Path.matches("/p/{project}{tail}").where("project")
+                                 .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
+                                 .transformedBy(new ToLowerCase())
+                                 .where("tail").matches("/.*")))
                .perform(Redirect.permanent(context.getContextPath() + "/p/{project}{tail}"))
 
                // Bind project value to EL & Load current Project
                .defineRule()
-               .when(Path.matches("/p/{project}.*").where("project").matches(PROJECT)
-                        .bindsTo(El.property("projects.current.slug")))
+               .when(Direction.isInbound().and(
+                        Path.matches("/p/{project}.*").where("project").matches(PROJECT)
+                                 .bindsTo(El.property("params.projectSlug"))))
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("projects.loadCurrent")))
 
                .addRule(Join.path("/p/{project}").where("project").matches(PROJECT).to("/pages/project/view.xhtml"))

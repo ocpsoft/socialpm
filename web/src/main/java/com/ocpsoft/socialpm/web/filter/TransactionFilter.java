@@ -18,14 +18,12 @@ package com.ocpsoft.socialpm.web.filter;
 import java.io.IOException;
 
 import javax.inject.Inject;
-import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.transaction.Status;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
@@ -36,7 +34,7 @@ import com.ocpsoft.logging.Logger;
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-@WebFilter(urlPatterns = "/*", dispatcherTypes = { DispatcherType.REQUEST })
+// @WebFilter(urlPatterns = "/*", dispatcherTypes = { DispatcherType.REQUEST })
 public class TransactionFilter implements Filter
 {
    Logger log = Logger.getLogger(TransactionFilter.class);
@@ -45,11 +43,12 @@ public class TransactionFilter implements Filter
    private UserTransaction tx;
 
    @Override
-   public void init(FilterConfig filterConfig) throws ServletException
+   public void init(final FilterConfig filterConfig) throws ServletException
    {}
 
    @Override
-   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+   public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
+            throws IOException,
             ServletException
    {
       try {

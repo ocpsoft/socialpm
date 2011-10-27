@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.security.management.picketlink.IdentitySessionProducer;
+import org.jboss.seam.transaction.TransactionPropagation;
 import org.jboss.seam.transaction.Transactional;
 import org.jboss.solder.servlet.WebApplication;
 import org.jboss.solder.servlet.event.Initialized;
@@ -27,6 +28,7 @@ import com.ocpsoft.socialpm.domain.user.Profile;
  * 
  * @author Shane Bryzak
  */
+@Transactional(TransactionPropagation.REQUIRED)
 public class InitializeDatabase
 {
    @PersistenceContext(type = PersistenceContextType.EXTENDED)

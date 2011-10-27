@@ -13,12 +13,14 @@ package com.ocpsoft.socialpm.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+@TransactionAttribute
 public abstract class PersistenceUtil implements Serializable
 {
    private static final long serialVersionUID = -276417828563635020L;

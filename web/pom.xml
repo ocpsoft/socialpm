@@ -20,18 +20,6 @@
       <version.rewrite>1.0.0.Alpha10</version.rewrite>
    </properties>
 
-   <dependencyManagement>
-      <dependencies>
-         <dependency>
-            <groupId>org.richfaces</groupId>
-            <artifactId>richfaces-bom</artifactId>
-            <version>4.0.0.Final</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-      </dependencies>
-   </dependencyManagement>
-
    <dependencies>
       <dependency>
          <groupId>com.ocpsoft</groupId>

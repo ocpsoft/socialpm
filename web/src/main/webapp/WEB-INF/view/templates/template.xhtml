@@ -70,11 +70,6 @@
 						</h:panelGroup>
 						
 						<h:panelGroup rendered="#{identity.loggedIn}">
-							<h:panelGroup>
-								<li><h:link outcome="/pages/project/create.xhtml"
-										value="New Project" />
-								</li>
-							</h:panelGroup>
 							<h:panelGroup rendered="#{projects.active}">
 								<li><h:link outcome="/pages/project/backlog.xhtml"
 										value="Backlog">
@@ -84,14 +79,16 @@
 							</h:panelGroup>
 						
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle">Dropdown</a>
+								<a href="#" class="dropdown-toggle">Projects</a>
 								<ul class="dropdown-menu">
 									<li><a href="#">Secondary link</a></li>
 									<li><a href="#">Something else here</a>
 									</li>
 						
 									<li class="divider"></li>
-									<li><a href="#">Another link</a>
+									<li>
+									<h:link outcome="/pages/project/create.xhtml"
+										value="New Project" />
 									</li>
 								</ul>
 							</li>
@@ -131,7 +128,7 @@
 						
 						
 						<h:panelGroup rendered="#{identity.loggedIn}">
-							<li><ocp:gravatar email="#{profile.email}" size="30" style="position: relative; top: 3px;" updatable="true"/></li>
+							<li><h:link outcome="/pages/account" style="margin: 0px; padding: 0px;"><ocp:gravatar email="#{profile.email}" size="30" style="position: relative; top: 1px;"/></h:link></li>
 							<li class="menu">
 								<a href="#" class="menu">#{profile.username}</a>
 								<ul class="menu-dropdown">
@@ -164,13 +161,17 @@
 			</div>
 		</div>
 
+		<div>
+			<ui:insert name="header-pre" />
+		</div>
+
 		<section id="header">
 			<div class="container">
 				<div class="page-header ">
 					<h1>
-						<ui:insert name="header" />
+						<ui:insert name="header"><span style="visibility: hidden;">.</span></ui:insert>
 						<small class="right" style="margin-top: 15px;"><ui:insert
-								name="sub-header" /> </small>
+								name="header-right" /> </small>
 					</h1>
 				</div>
 				<ocp:messages id="messages" globalOnly="true" />

@@ -29,10 +29,7 @@ import javax.inject.Named;
 
 import org.jboss.seam.international.status.Messages;
 
-import com.ocpsoft.socialpm.domain.project.Points;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.StoryBurner;
-import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.model.project.StoryService;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
@@ -73,13 +70,7 @@ public class Stories implements Serializable
 
    public String create()
    {
-      current.setProject(projects.getCurrent());
-      current.setBurner(StoryBurner.FRONT);
-      current.setBusinessValue(Points.NOT_POINTED);
-      current.setStoryPoints(Points.NOT_POINTED);
-      current.setStatus(StoryStatus.OPEN);
-      projects.getCurrent().getStories().add(current);
-      ss.create(current);
+      ss.create(projects.getCurrent(), current);
       return UrlConstants.PROJECT_VIEW + "&project=" + projects.getCurrent().getSlug();
    }
 

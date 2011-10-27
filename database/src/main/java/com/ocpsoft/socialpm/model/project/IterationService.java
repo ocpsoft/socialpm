@@ -28,7 +28,7 @@
  * details, contact OcpSoft (http://ocpsoft.com)
  */
 
-package com.ocpsoft.spm.ws.rest.resources;
+package com.ocpsoft.socialpm.model.project;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -123,6 +123,7 @@ public class IterationService extends PersistenceUtil
       {
          from.getStories().remove(story);
          // story.getIterationHistory().remove(from);
+         // TODO re-implement iteration history
       }
 
       // story.getIterationHistory().add(to);

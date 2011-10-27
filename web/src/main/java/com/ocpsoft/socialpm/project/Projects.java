@@ -25,7 +25,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.NoResultException;
@@ -35,6 +34,7 @@ import org.jboss.seam.international.status.Messages;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.model.project.ProjectService;
 import com.ocpsoft.socialpm.security.CurrentProfile;
+import com.ocpsoft.socialpm.web.ParamsBean;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 /**
@@ -51,7 +51,10 @@ public class Projects implements Serializable
    private Messages messages;
 
    @Inject
-   private Instance<ProjectService> ps;
+   private ProjectService ps;
+
+   @Inject
+   private ParamsBean params;
 
    private Project current = new Project();
 
@@ -75,23 +78,27 @@ public class Projects implements Serializable
 
    public String create()
    {
-      current.setOwner(profile.current());
-      ps.get().create(current);
+      ps.create(profile.current(), current);
       return UrlConstants.PROJECT_VIEW + "&project=" + current.getSlug();
+   }
+
+   public long getCount()
+   {
+      return ps.getProjectCount();
    }
 
    public List<Project> getAll()
    {
-      return ps.get().findAll();
+      return ps.findAll();
    }
 
    public Project getCurrent()
    {
-      if ((current != null) && (current.getSlug() != null))
+      if ((current != null) && (params.getProjectSlug() != null))
       {
          try
          {
-            Project found = ps.get().findBySlug(current.getSlug());
+            Project found = ps.findBySlug(params.getProjectSlug());
             if (found != null)
             {
                current = found;

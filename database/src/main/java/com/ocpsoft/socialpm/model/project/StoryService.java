@@ -22,20 +22,22 @@ package com.ocpsoft.socialpm.model.project;
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
+import org.jboss.seam.transaction.TransactionPropagation;
 import org.jboss.seam.transaction.Transactional;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
+import com.ocpsoft.socialpm.domain.project.Points;
+import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
 
 /**
- * @author <a href="mailto:bleathem@gmail.com">Brian Leathem</a>
- * 
+ * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@ConversationScoped
+@Transactional(TransactionPropagation.REQUIRED)
 public class StoryService extends PersistenceUtil
 {
    private static final long serialVersionUID = 1L;
@@ -49,12 +51,40 @@ public class StoryService extends PersistenceUtil
       return em;
    }
 
-   @Transactional
-   public Story create(final Story p)
+   public Story create(final Project p, final Story s)
    {
-      super.create(p);
-      em.flush();
-      return p;
+      s.setProject(p);
+      p.getStories().add(s);
+
+      for (ValidationCriteria v : s.getValidations())
+      {
+         v.setStory(s);
+         s.getValidations().add(v);
+      }
+
+      if (s.getStoryPoints() == null)
+      {
+         s.setStoryPoints(Points.NOT_POINTED);
+      }
+
+      if (s.getBusinessValue() == null)
+      {
+         s.setBusinessValue(Points.NOT_POINTED);
+      }
+
+      if (s.getIteration() == null)
+      {
+         s.setIteration(p.getDefaultIteration());
+      }
+
+      super.create(s);
+      return s;
+   }
+
+   public Story findByProjectAndNumber(final Project p, final int storyNumber)
+   {
+      Story s = findUniqueByNamedQuery("Story.byProjectAndNumber", p, storyNumber);
+      return s;
    }
 
    public Story findById(final Long id)

@@ -14,7 +14,7 @@
 		#{projects.current.name}
 	</ui:define>
 
-	<ui:define name="sub-header">
+	<ui:define name="header-right">
 		#{projects.current.vision}
 	</ui:define>
 
@@ -32,11 +32,11 @@
 				</f:facet>
 				<h:column>
 					<f:facet name="header">ID</f:facet>
-					#{story.id}
+					#{story.number}
 			</h:column>
 				<h:column>
 					<f:facet name="header">Story</f:facet>
-					#{story.text}
+					#{story.role}
 			</h:column>
 				<f:facet name="footer">
 					<h:panelGroup rendered="#{empty projects.current.stories}">

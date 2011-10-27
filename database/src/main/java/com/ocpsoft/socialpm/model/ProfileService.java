@@ -22,23 +22,25 @@ package com.ocpsoft.socialpm.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.Stateful;
+import javax.ejb.TransactionAttribute;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
+
+import org.jboss.seam.transaction.TransactionPropagation;
+import org.jboss.seam.transaction.Transactional;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.user.Profile;
 
-@Stateful
+@TransactionAttribute
+@Transactional(TransactionPropagation.REQUIRED)
 public class ProfileService extends PersistenceUtil implements Serializable
 {
    private static final long serialVersionUID = 2988513095024795683L;
 
-   @PersistenceContext(type = PersistenceContextType.EXTENDED)
+   @Inject
    private EntityManager em;
 
    @Inject

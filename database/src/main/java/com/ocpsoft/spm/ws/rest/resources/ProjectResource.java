@@ -34,6 +34,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -48,7 +50,6 @@ import javax.ws.rs.QueryParam;
 
 import com.ocpsoft.socialpm.domain.DataException;
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.feed.ProjectCreated;
 import com.ocpsoft.socialpm.domain.project.Feature;
 import com.ocpsoft.socialpm.domain.project.MemberRole;
 import com.ocpsoft.socialpm.domain.project.Membership;
@@ -62,6 +63,7 @@ import com.ocpsoft.socialpm.domain.project.stories.Task;
 import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
 import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
 import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.model.project.IterationService;
 import com.ocpsoft.socialpm.util.Strings;
 
 @Path("/projects")
@@ -72,7 +74,7 @@ public class ProjectResource extends PersistenceUtil
    @Inject
    private IterationService is;
 
-   @Inject
+   @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager entityManager;
 
    @Override
@@ -117,34 +119,8 @@ public class ProjectResource extends PersistenceUtil
       Profile owner = findById(Profile.class, ownerId);
 
       Project p = new Project();
-      p.setName(project.getName());
-      p.setSlug(project.getSlug());
-
-      Iteration unassigned = new Iteration();
-      unassigned.setProject(p);
-      unassigned.setTitle("Unassigned");
-      p.getIterations().add(unassigned);
-
-      Feature bugFixes = new Feature();
-      bugFixes.setName("Bug Fixes");
-      bugFixes.setProject(p);
-      p.getFeatures().add(bugFixes);
-
-      Feature enhancements = new Feature();
-      bugFixes.setName("Enhancements");
-      bugFixes.setProject(p);
-      p.getFeatures().add(enhancements);
-
-      Feature unclassified = new Feature();
-      bugFixes.setName("Unclassified");
-      bugFixes.setProject(p);
-      p.getFeatures().add(unclassified);
-
-      p.getMemberships().add(new Membership(p, owner, MemberRole.OWNER));
 
       create(p);
-      create(new ProjectCreated(owner, p));
-
       return p;
    }
 
@@ -155,8 +131,6 @@ public class ProjectResource extends PersistenceUtil
    {
       Project p = findById(Project.class, projectId);
       p.setVision(project.getVision());
-      p.setGoals(project.getGoals());
-      p.setObjectives(project.getObjectives());
       save(p);
    }
 
@@ -261,8 +235,6 @@ public class ProjectResource extends PersistenceUtil
          s.getValidations().add(v);
       }
 
-      s.setFeature(story.getFeature());
-      s.setProject(project);
       project.getStories().add(s);
       s.setBurner(story.getBurner());
       s.setStatus(StoryStatus.OPEN);
@@ -292,15 +264,6 @@ public class ProjectResource extends PersistenceUtil
 
       is.updateIterationStatistics(s.getIteration());
       return s.getNumber();
-   }
-
-   @GET
-   @Path("/{name}/stories/{number}")
-   @Produces("application/xml")
-   public Story getStory(@PathParam("name") final String projectName, @PathParam("number") final int storyNumber)
-   {
-      Story s = findUniqueByNamedQuery("Story.byProjectAndNumber", projectName, storyNumber);
-      return s;
    }
 
    @GET

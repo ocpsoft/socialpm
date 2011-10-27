@@ -34,6 +34,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.user.Profile;
@@ -45,6 +46,7 @@ public class ProjectEvent extends UserEvent
 {
    private static final long serialVersionUID = -281646598510177402L;
 
+   @OneToOne
    private Project project;
 
    public ProjectEvent(final Profile u, final Project project)

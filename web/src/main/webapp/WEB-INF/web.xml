@@ -3,6 +3,7 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
    <display-name>socialpm</display-name>
+   
    <context-param>
       <param-name>javax.faces.PROJECT_STAGE</param-name>
       <param-value>Development</param-value>
@@ -66,6 +67,7 @@
    </servlet-mapping>
    <session-config>
       <session-timeout>0</session-timeout>
+      <tracking-mode>URL</tracking-mode>
    </session-config>
    
    <mime-mapping>

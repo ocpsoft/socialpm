@@ -3,29 +3,82 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
-	<ui:param name="title" value="Home" />
-
-	<ui:define name="header">
-		Home
+	<ui:param name="title" value="Dashboard" />
+	
+	<ui:define name="subnav">
 	</ui:define>
 
-	<ui:define name="sub-header">
-		<h:link outcome="/pages/project/create" rendered="true" value="Start a new project" />
+	<ui:define name="header-pre">
+		<div class="row fl" style="margin-top: 5px; position: relative; left: 103px;">
+			<div class="span2 columns">
+				<h:link outcome="/pages/account" title="View your account">
+					<ocp:gravatar email="${profile.email}" size="90" updatable="false" />
+				</h:link>
+			</div>
+			<div class="span4 columns">
+				<h4>Hi there, ${profile.username}.</h4>
+				<p>What are you going to accomplish today?</p>
+			</div>
+			<div class="span4 columns">
+			</div>
+		</div>
+	</ui:define>
+	
+	<ui:define name="header-right">
+		Everything is fine.
 	</ui:define>
 
 	<ui:define name="content">
-		<ul>
-			<ui:repeat var="project" value="#{projects.all}">
-				<li><h:link outcome="/pages/project/view"
-						value="#{project.name}">
-						<f:param name="project" value="#{project.slug}" />
-					</h:link>
-				</li>
-			</ui:repeat>
-		</ul>
+		
+		<div class="row">
+			<div class="span8 columns">
+				<h:panelGroup layout="block" rendered="${empty projects.all}" class="alert-message block-message success">
+					It looks like you're new here. So let's get this sorted out.
+				</h:panelGroup>
+				.
+			</div>
+			<div class="span8 columns">
+				<div class="well" style="padding-top: 7px; padding-bottom: 10px;">
+					<h:button value="Start a new Project" outcome="/pages/project/create" class="btn fr"/>
+					<h3>Your Projects (${projects.count})</h3>
+					
+					<ul class="plain clear">
+						<ui:repeat var="project" value="#{projects.all}">
+							<li>
+								<div class="box" style="margin-bottom: 8px;">
+								
+									<div class="row">
+										<div class="span6 columns">
+											<h:button value="${project.owner.username}" outcome="/pages/account" /> 
+											<span style="font-size: 16px;">
+												/ <h:link outcome="/pages/project/view"
+													value="#{project.name}">
+													<f:param name="project" value="#{project.slug}" />
+												</h:link>
+											</span>
+										</div>
+										<div class="span1 columns">
+											<a href="#" class="btn warn fr">Entered</a>
+										</div>
+									</div>
+									
+									<p>Your assignments: <a href="#">3 stories</a> totaling <a href="#">4 tasks</a></p>
+								</div>
+							</li>
+						</ui:repeat>
+						
+						<h:panelGroup layout="block" rendered="${projects.count == 0}" styleClass="box">
+							Looks like you aren't working on anything right now. You can <h:link outcome="/pages/project/create" value="start a new project" /> to get going.
+						</h:panelGroup>
+					</ul>
+				</div>
+			</div>
+		</div>
+	
 
 	</ui:define>
 
