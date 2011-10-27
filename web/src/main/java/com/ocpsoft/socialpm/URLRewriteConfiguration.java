@@ -42,7 +42,7 @@ import com.ocpsoft.rewrite.servlet.config.rule.TrailingSlash;
  */
 public class URLRewriteConfiguration extends HttpConfigurationProvider
 {
-   private static final String PROJECT = "[A-Z0-9]+";
+   private static final String PROJECT = "[a-zA-Z0-9-]+";
 
    @Override
    public Configuration getConfiguration(final ServletContext context)
@@ -57,7 +57,21 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                .addRule(Join.path("/guest").to("/pages/loggedOffHome.xhtml").withId("loggedOffHome"))
                .addRule(Join.path("/bootstrap").to("/bootstrap.xhtml"))
 
-               // Load project data on any project page
+               // Canonicalize project name
+               .defineRule()
+               .when(Path.matches("/p/{project}").where("project")
+                        .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
+                        .transformedBy(new ToLowerCase()))
+               .perform(Redirect.permanent(context.getContextPath() + "/p/{project}"))
+
+               .defineRule()
+               .when(Path.matches("/p/{project}{tail}").where("project")
+                        .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
+                        .transformedBy(new ToLowerCase())
+                        .where("tail").matches("/.*"))
+               .perform(Redirect.permanent(context.getContextPath() + "/p/{project}{tail}"))
+
+               // Bind project value to EL & Load current Project
                .defineRule()
                .when(Path.matches("/p/{project}.*").where("project").matches(PROJECT)
                         .bindsTo(El.property("projects.current.slug")))
@@ -68,7 +82,7 @@ public class URLRewriteConfiguration extends HttpConfigurationProvider
                         .to("/pages/project/backlog.xhtml"))
 
                // Story pages
-               .addRule(Join.path("/p/{project}/new-issue").where("project").matches(PROJECT)
+               .addRule(Join.path("/p/{project}/stories/new").where("project").matches(PROJECT)
                         .to("/pages/story/create.xhtml"))
                .addRule(Join.path("/p/{project}-{story}").where("project").matches(PROJECT)
                         .to("/pages/story/view.xhtml"))

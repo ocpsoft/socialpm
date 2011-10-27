@@ -49,12 +49,13 @@ import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
 import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Path("/users")
 @Stateful
 public class UserResource extends PersistenceUtil
 {
+   private static final long serialVersionUID = 2714525193812096061L;
+
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager em;
 

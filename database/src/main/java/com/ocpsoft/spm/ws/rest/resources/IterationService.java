@@ -37,7 +37,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
@@ -120,17 +119,11 @@ public class IterationService extends PersistenceUtil
          throw new IllegalArgumentException("Cannot change iteration history: Iteration [" + to + "] is in the past");
       }
 
-      try
+      if (!from.isEnded())
       {
-
-         if (!from.isEnded())
-         {
-            from.getStories().remove(story);
-            // story.getIterationHistory().remove(from);
-         }
+         from.getStories().remove(story);
+         // story.getIterationHistory().remove(from);
       }
-      catch (NoSuchObjectException e)
-      {}
 
       // story.getIterationHistory().add(to);
       save(story);

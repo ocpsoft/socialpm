@@ -31,7 +31,6 @@ public abstract class PersistenceUtil implements Serializable
       CriteriaQuery<Long> cq = qb.createQuery(Long.class);
       cq.select(qb.count(cq.from(type)));
       return getEntityManager().createQuery(cq).getSingleResult();
-
    }
 
    protected <T> void create(final T entity)
@@ -39,19 +38,12 @@ public abstract class PersistenceUtil implements Serializable
       getEntityManager().persist(entity);
    }
 
-   protected <T> void delete(final T entity) throws NoSuchObjectException
+   protected <T> void delete(final T entity) throws NoResultException
    {
-      try
-      {
-         getEntityManager().remove(entity);
-      }
-      catch (NoResultException e)
-      {
-         throw new NoSuchObjectException();
-      }
+      getEntityManager().remove(entity);
    }
 
-   protected <T> T deleteById(final Class<T> type, final Long id) throws NoSuchObjectException
+   protected <T> T deleteById(final Class<T> type, final Long id) throws NoResultException
    {
       T object = findById(type, id);
       delete(object);
@@ -59,13 +51,13 @@ public abstract class PersistenceUtil implements Serializable
    }
 
    @SuppressWarnings("unchecked")
-   protected <T> T findById(final Class<T> type, final Long id) throws NoSuchObjectException
+   protected <T> T findById(final Class<T> type, final Long id) throws NoResultException
    {
       Class<?> clazz = getObjectClass(type);
       T result = (T) getEntityManager().find(clazz, id);
       if (result == null)
       {
-         throw new NoSuchObjectException("No object of type: " + type + " with ID: " + id);
+         throw new NoResultException("No object of type: " + type + " with ID: " + id);
       }
       return result;
    }
@@ -124,21 +116,14 @@ public abstract class PersistenceUtil implements Serializable
    }
 
    @SuppressWarnings("unchecked")
-   protected <T> T findUniqueByNamedQuery(final String namedQueryName) throws NoSuchObjectException
+   protected <T> T findUniqueByNamedQuery(final String namedQueryName) throws NoResultException
    {
-      try
-      {
-         return (T) getEntityManager().createNamedQuery(namedQueryName).getSingleResult();
-      }
-      catch (NoResultException e)
-      {
-         throw new NoSuchObjectException(e);
-      }
+      return (T) getEntityManager().createNamedQuery(namedQueryName).getSingleResult();
    }
 
    @SuppressWarnings("unchecked")
    protected <T> T findUniqueByNamedQuery(final String namedQueryName, final Object... params)
-            throws NoSuchObjectException
+            throws NoResultException
    {
       Query query = getEntityManager().createNamedQuery(namedQueryName);
       int i = 1;
@@ -147,13 +132,6 @@ public abstract class PersistenceUtil implements Serializable
          query.setParameter(i++, p);
       }
 
-      try
-      {
-         return (T) query.getSingleResult();
-      }
-      catch (NoResultException e)
-      {
-         throw new NoSuchObjectException(e);
-      }
+      return (T) query.getSingleResult();
    }
 }

@@ -28,11 +28,13 @@ import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.model.project.ProjectService;
+import com.ocpsoft.socialpm.security.CurrentProfile;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 /**
@@ -53,19 +55,27 @@ public class Projects implements Serializable
 
    private Project current = new Project();
 
+   @Inject
+   private CurrentProfile profile;
+
    public String loadCurrent()
    {
       Project current = getCurrent();
-      if ((current == null) || (current.getId() == null))
+      if (!current.isPersistent() && profile.current().isPersistent())
       {
-         messages.error("Oops! We couldn't find that project.");
-         return UrlConstants.HOME;
+         messages.error("Oops! We couldn't find that project. Want to create one instead?");
+         return "/pages/project/create";
+      }
+      else if (!current.isPersistent())
+      {
+         return "/pages/404";
       }
       return null;
    }
 
    public String create()
    {
+      current.setOwner(profile.current());
       ps.get().create(current);
       return UrlConstants.PROJECT_VIEW + "&project=" + current.getSlug();
    }
@@ -81,9 +91,13 @@ public class Projects implements Serializable
       {
          try
          {
-            current = ps.get().findBySlug(current.getSlug());
+            Project found = ps.get().findBySlug(current.getSlug());
+            if (found != null)
+            {
+               current = found;
+            }
          }
-         catch (Exception e)
+         catch (NoResultException e)
          {}
       }
       return current;

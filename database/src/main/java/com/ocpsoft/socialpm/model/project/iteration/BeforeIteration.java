@@ -26,46 +26,45 @@
  * 
  * Optionally, customers may choose a Commercial License. For additional 
  * details, contact OcpSoft (http://ocpsoft.com)
- */ 
+ */
 
 package com.ocpsoft.socialpm.model.project.iteration;
 
-import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.iteration.IterationStatistics;
 
 public class BeforeIteration implements DailyStatsUpdater
 {
-	public static BeforeIteration getInstance()
-	{
-		return new BeforeIteration();
-	}
+   public static BeforeIteration getInstance()
+   {
+      return new BeforeIteration();
+   }
 
-	@Override
-	public boolean shouldUpdate(Iteration iteration)
-	{
-		if (iteration.isUpcoming())
-		{
-			return true;
-		}
-		return false;
-	}
+   @Override
+   public boolean shouldUpdate(Iteration iteration)
+   {
+      if (iteration.isUpcoming())
+      {
+         return true;
+      }
+      return false;
+   }
 
-	@Override
-	public void update(Iteration iteration)
-	{
-		IterationStatistics stat;
-		try
-		{
-			stat = iteration.getStatistics(iteration.getStartDate());
-			new StatsCalculator().update(iteration, stat);
-		}
-		catch (NoSuchObjectException e)
-		{
-			stat = new StatsCalculator().calculate(iteration);
-			stat.setDate(iteration.getStartDate());
-			stat.setIteration(iteration);
-			iteration.getStatistics().add(stat);
-		}
-	}
+   @Override
+   public void update(Iteration iteration)
+   {
+      IterationStatistics stat;
+      try
+      {
+         stat = iteration.getStatistics(iteration.getStartDate());
+         new StatsCalculator().update(iteration, stat);
+      }
+      catch (IllegalArgumentException e)
+      {
+         stat = new StatsCalculator().calculate(iteration);
+         stat.setDate(iteration.getStartDate());
+         stat.setIteration(iteration);
+         iteration.getStatistics().add(stat);
+      }
+   }
 }

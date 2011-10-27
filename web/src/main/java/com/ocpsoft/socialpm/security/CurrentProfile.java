@@ -30,7 +30,6 @@ import javax.inject.Named;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.security.Identity;
-import org.picketlink.idm.common.exception.IdentityException;
 
 import com.ocpsoft.socialpm.cdi.Current;
 import com.ocpsoft.socialpm.domain.user.Profile;
@@ -40,6 +39,7 @@ import com.ocpsoft.socialpm.model.ProfileService;
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
+@RequestScoped
 public class CurrentProfile implements Serializable
 {
    private static final long serialVersionUID = 8474539305281711165L;
@@ -52,9 +52,9 @@ public class CurrentProfile implements Serializable
 
    @Produces
    @Current
-   @Named
+   @Named("profile")
    @RequestScoped
-   public Profile profile() throws IdentityException
+   public Profile current()
    {
       Profile current = new Profile();
       try {

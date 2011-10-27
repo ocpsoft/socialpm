@@ -43,13 +43,13 @@ import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
-import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
@@ -99,6 +99,9 @@ public class Project extends PersistentObject<Project>
    @Column(length = 2048)
    private String goals;
 
+   @OneToOne(optional = false)
+   private Profile owner;
+
    @Column(length = 2048)
    private String objectives;
    private PrivacyLevel privacyLevel = PrivacyLevel.PUBLIC;
@@ -119,11 +122,11 @@ public class Project extends PersistentObject<Project>
       return false;
    }
 
-   public Iteration getCurrentIteration() throws NoSuchObjectException
+   public Iteration getCurrentIteration() throws IllegalStateException
    {
       if ((iterations == null) || (iterations.size() == 0))
       {
-         throw new NoSuchObjectException("Project does not have any iterations");
+         throw new IllegalStateException("Project does not have any iterations");
       }
 
       Iteration result = null;
@@ -180,7 +183,7 @@ public class Project extends PersistentObject<Project>
             return i;
          }
       }
-      throw new NoSuchObjectException("No such Iteration in project[" + name + "]:" + iteration);
+      throw new IllegalArgumentException("No such Iteration in project[" + name + "]:" + iteration);
    }
 
    public boolean hasMemberInRole(final Profile user, final MemberRole role)
@@ -299,7 +302,7 @@ public class Project extends PersistentObject<Project>
             return f;
          }
       }
-      throw new NoSuchObjectException("No such Feature in project[" + feature + "]:" + feature);
+      throw new IllegalArgumentException("No such Feature in project[" + feature + "]:" + feature);
    }
 
    @Override
@@ -380,7 +383,7 @@ public class Project extends PersistentObject<Project>
             return r;
          }
       }
-      throw new NoSuchObjectException("No such Milestone in project[" + name + "]:" + milestone);
+      throw new IllegalArgumentException("No such Milestone in project[" + name + "]:" + milestone);
    }
 
    public List<Milestone> getMilestones()
@@ -477,7 +480,7 @@ public class Project extends PersistentObject<Project>
             return m;
          }
       }
-      throw new NoSuchObjectException("No such Release in project[" + name + "]:" + name);
+      throw new IllegalArgumentException("No such Release in project[" + name + "]:" + name);
    }
 
    public PrivacyLevel getPrivacyLevel()
@@ -502,6 +505,16 @@ public class Project extends PersistentObject<Project>
          slug = slug.toUpperCase();
       }
       this.slug = slug;
+   }
+
+   public Profile getOwner()
+   {
+      return owner;
+   }
+
+   public void setOwner(Profile owner)
+   {
+      this.owner = owner;
    }
 
 }

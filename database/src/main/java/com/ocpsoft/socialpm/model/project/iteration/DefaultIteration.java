@@ -30,7 +30,6 @@
 
 package com.ocpsoft.socialpm.model.project.iteration;
 
-import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.iteration.IterationStatistics;
 import com.ocpsoft.socialpm.util.Dates;
@@ -61,7 +60,7 @@ public class DefaultIteration implements DailyStatsUpdater
          stat = iteration.getStatistics(Dates.now());
          new StatsCalculator().update(iteration, stat);
       }
-      catch (NoSuchObjectException e)
+      catch (IllegalArgumentException e)
       {
          stat = new StatsCalculator().calculate(iteration);
          stat.setDate(Dates.now());

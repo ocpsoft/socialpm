@@ -254,7 +254,6 @@ public class ProjectResource extends PersistenceUtil
       Project project = findById(Project.class, projectId);
 
       Story s = new Story();
-      s.setText(story.getText());
 
       for (ValidationCriteria v : story.getValidations())
       {

@@ -56,7 +56,6 @@ import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.Feature;
 import com.ocpsoft.socialpm.domain.project.Milestone;
@@ -94,10 +93,13 @@ public class Story extends PersistentObject<Story>
    @Column
    private Integer priority;
 
+   @Column(nullable = false, length = 255)
    private String role;
 
+   @Column(nullable = false, length = 255)
    private String objective;
 
+   @Column(nullable = false, length = 255)
    private String result;
 
    @ManyToOne(optional = false)
@@ -110,9 +112,6 @@ public class Story extends PersistentObject<Story>
    @ManyToOne
    @JoinColumn(nullable = false)
    private Feature feature;
-
-   @Column(nullable = false, length = 255)
-   private String text;
 
    @Column(nullable = false)
    private Points storyPoints;
@@ -220,16 +219,6 @@ public class Story extends PersistentObject<Story>
       this.tasks = tasks;
    }
 
-   public String getText()
-   {
-      return text;
-   }
-
-   public void setText(final String text)
-   {
-      this.text = text;
-   }
-
    public boolean isImpeded()
    {
       if (this.isOpen())
@@ -317,7 +306,7 @@ public class Story extends PersistentObject<Story>
       this.milestone = release;
    }
 
-   public StoryComment getStoryComment(final long commentId)
+   public StoryComment getStoryComment(final long commentId) throws IllegalArgumentException
    {
       for (StoryComment comment : getComments())
       {
@@ -327,7 +316,7 @@ public class Story extends PersistentObject<Story>
          }
       }
 
-      throw new NoSuchObjectException("Comment " + commentId + " does not exist for story: " + getId());
+      throw new IllegalArgumentException("Comment " + commentId + " does not exist for story: " + getId());
    }
 
    public List<StoryComment> getComments()
@@ -405,7 +394,7 @@ public class Story extends PersistentObject<Story>
       this.number = number;
    }
 
-   public Iteration getIteration() throws NoSuchObjectException
+   public Iteration getIteration()
    {
       return iteration;
    }

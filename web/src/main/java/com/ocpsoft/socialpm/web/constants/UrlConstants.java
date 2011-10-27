@@ -28,4 +28,5 @@ public class UrlConstants
    public static final String PROJECT_VIEW = "/pages/project/view.xhtml?faces-redirect=true";
    public static final String PROJECT_CREATE = "/pages/project/create.xhtml?faces-redirect=true";
    public static final String REFRESH = "?faces-redirect=true";
+   public static final String E404 = "/pages/404";
 }

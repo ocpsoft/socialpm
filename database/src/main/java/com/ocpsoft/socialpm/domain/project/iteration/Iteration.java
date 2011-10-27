@@ -43,6 +43,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -51,7 +52,6 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Formula;
 
-import com.ocpsoft.socialpm.domain.NoSuchObjectException;
 import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
@@ -95,13 +95,14 @@ public class Iteration extends PersistentObject<Iteration>
    private Set<IterationStatistics> statistics = new HashSet<IterationStatistics>();
 
    public Iteration()
-   {
-   }
+   {}
 
    @Override
    public String toString()
    {
-      return "Iteration [committedOn=" + committedOn + ", endDate=" + endDate + ", goals=" + goals + ", number=" + number + ", project=" + project + ", startDate=" + startDate + ", statistics=" + statistics + ", title=" + title + "]";
+      return "Iteration [committedOn=" + committedOn + ", endDate=" + endDate + ", goals=" + goals + ", number="
+               + number + ", project=" + project + ", startDate=" + startDate + ", statistics=" + statistics
+               + ", title=" + title + "]";
    }
 
    public Iteration(final String title, final Date startDate, final Date endDate)
@@ -142,7 +143,7 @@ public class Iteration extends PersistentObject<Iteration>
          stats = getStatistics(null);
          new StatsCalculator().update(this, stats);
       }
-      catch (NoSuchObjectException e)
+      catch (NoResultException e)
       {
          stats = new StatsCalculator().calculate(this);
          stats.setIteration(this);
@@ -150,7 +151,7 @@ public class Iteration extends PersistentObject<Iteration>
       }
    }
 
-   public IterationStatistics getStatistics(final Date date) throws NoSuchObjectException
+   public IterationStatistics getStatistics(final Date date) throws IllegalArgumentException
    {
       for (IterationStatistics stat : statistics)
       {
@@ -164,7 +165,7 @@ public class Iteration extends PersistentObject<Iteration>
          }
       }
 
-      throw new NoSuchObjectException("No stats found for date: " + date);
+      throw new IllegalArgumentException("No stats exist for date: " + date);
    }
 
    public boolean isCommitted()
