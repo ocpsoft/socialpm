@@ -77,6 +77,6 @@ public class Profiles implements Serializable
       Profile current = current();
       current.setShowBootcamp(false);
       ps.save(current);
-      return "?faces-redirect=true";
+      return "/pages/home?faces-redirect=true";
    }
 }
