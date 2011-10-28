@@ -95,6 +95,7 @@ public class InitializeDatabase
          p.setUsername("lincoln");
          p.getKeys().add(u.getKey());
          p.setUsernameConfirmed(true);
+         p.setShowBootcamp(true);
          entityManager.persist(p);
       }
    }

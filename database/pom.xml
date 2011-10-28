@@ -24,8 +24,11 @@
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.security</groupId>
+         <artifactId>seam-security</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.seam.security</groupId>
          <artifactId>seam-security-api</artifactId>
-         <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.persistence</groupId>

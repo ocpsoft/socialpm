@@ -33,7 +33,7 @@ import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.model.project.ProjectService;
-import com.ocpsoft.socialpm.security.CurrentProfile;
+import com.ocpsoft.socialpm.security.Profiles;
 import com.ocpsoft.socialpm.web.ParamsBean;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
@@ -59,7 +59,7 @@ public class Projects implements Serializable
    private Project current = new Project();
 
    @Inject
-   private CurrentProfile profile;
+   private Profiles profile;
 
    public String loadCurrent()
    {

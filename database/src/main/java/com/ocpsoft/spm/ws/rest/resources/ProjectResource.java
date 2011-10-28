@@ -85,6 +85,7 @@ public class ProjectResource extends PersistenceUtil
 
    @GET
    @Produces("application/xml")
+   @SuppressWarnings("unchecked")
    public List<Project> list(@QueryParam("limit") @DefaultValue("10") final int limit,
             @QueryParam("offset") final int offset)
    {
@@ -109,19 +110,6 @@ public class ProjectResource extends PersistenceUtil
    public Project getByName(@PathParam("name") final String name)
    {
       return findUniqueByNamedQuery("project.bySlug", Strings.canonicalize(name));
-   }
-
-   @POST
-   @Produces("application/xml")
-   @Consumes("application/xml")
-   public Project createProject(@QueryParam("ownerId") final long ownerId, final Project project)
-   {
-      Profile owner = findById(Profile.class, ownerId);
-
-      Project p = new Project();
-
-      create(p);
-      return p;
    }
 
    @PUT

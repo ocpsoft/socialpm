@@ -161,32 +161,38 @@
 			</div>
 		</div>
 
-		<div>
-			<ui:insert name="header-pre" />
-		</div>
-
-		<section id="header">
-			<div class="container">
-				<div class="page-header ">
-					<h1>
-						<ui:insert name="header"><span style="visibility: hidden;">.</span></ui:insert>
-						<small class="right" style="margin-top: 15px;"><ui:insert
-								name="header-right" /> </small>
-					</h1>
+		<ui:insert name="header-replace">
+			<section id="header">
+				<div class="container">
+					<div class="page-header ">
+						<h1>
+							<ui:insert name="header"><span style="visibility: hidden;">.</span></ui:insert>
+							<small class="right" style="margin-top: 15px;"><ui:insert
+									name="header-right" /> </small>
+						</h1>
+					</div>
 				</div>
-				<ocp:messages id="messages" globalOnly="true" />
-				<script type="text/javascript">
-					$(document).ready(function() {
-						$('#messages\\:messages li').attr("data-alert", "alert");
-						$('#messages\\:messages li').append('<a href="#" class="close">×</a>');
-						$('.alert-message').alert();
-						$('.alert-message').click().alert('close');
-					});
-				</script>
-			</div>
-		</section>
+			</section>
+		</ui:insert>
 
+		<div class="container">
+			<ocp:messages id="messages" globalOnly="true" />
+			<script type="text/javascript">
+				$(document).ready(function() {
+					$('#messages\\:messages li').attr("data-alert", "alert");
+					$('#messages\\:messages li').append('<a href="#" class="close">×</a>');
+					$('.alert-message').alert();
+					$('.alert-message').click().alert('close');
+				});
+			</script>
+		</div>
+		
+		<div class="container">
+			<ui:insert name="content-pre" />
+		</div>
+		
 		<div class="container" style="padding-bottom: 150px;">
+			
 			<div class="sidebar">
 				<ui:insert name="sidebar" />
 			</div>

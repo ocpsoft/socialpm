@@ -52,6 +52,9 @@ public class Profile extends PersistentObject<Profile>
    @Column
    private boolean confirmed;
 
+   @Column
+   private boolean showBootcamp;
+
    @Index(name = "userEmailIndex")
    @Column(nullable = false, length = 128, unique = true)
    private String email;
@@ -194,6 +197,16 @@ public class Profile extends PersistentObject<Profile>
       else if (!username.equals(other.username))
          return false;
       return true;
+   }
+
+   public boolean isShowBootcamp()
+   {
+      return showBootcamp;
+   }
+
+   public void setShowBootcamp(boolean showBootcamp)
+   {
+      this.showBootcamp = showBootcamp;
    }
 
 }

@@ -12,34 +12,70 @@
 	<ui:define name="subnav">
 	</ui:define>
 
-	<ui:define name="header-pre">
-		<div class="row fl" style="margin-top: 5px; position: relative; left: 103px;">
-			<div class="span2 columns">
-				<h:link outcome="/pages/account" title="View your account">
-					<ocp:gravatar email="${profile.email}" size="90" updatable="false" />
-				</h:link>
-			</div>
-			<div class="span4 columns">
-				<h4>Hi there, ${profile.username}.</h4>
-				<p>What are you going to accomplish today?</p>
-			</div>
-			<div class="span4 columns">
+	<ui:define name="header-replace">
+		<div class="container">
+			<div class="row fl" style="margin-top: 5px;">
+				<div class="span2 columns">
+					<h:link outcome="/pages/account" title="View your account">
+						<ocp:gravatar email="${profile.email}" size="90" updatable="false" />
+					</h:link>
+				</div>
+				<div class="span4 columns">
+					<h4>Hi there, ${profile.username}.</h4>
+					<p>What are you going to accomplish today?</p>
+				</div>
+				<div class="span6 columns offset4">
+					<h4 class="fr">Everything is fine.</h4>
+				</div>
 			</div>
 		</div>
 	</ui:define>
 	
-	<ui:define name="header-right">
-		Everything is fine.
+	<ui:define name="content-pre">
+		<h:form rendered="#{profile.showBootcamp}">
+			<div style="margin-top: 10px; margin-bottom: 15px;">
+				<h1 class="header">SocialPM Bootcamp <span>If you are still new to things, we’ve provided a few walkthroughs to get you started.</span>
+		  			<h:commandLink class="fr" title="Hide this notice forever" action="#{profiles.dismissBootcamp()}" >×</h:commandLink>
+		  		</h1>
+				<div class="body">
+					<div class="row">
+						<h:link>
+							<div class="span4 columns" style="margin-left: 21px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
+								Start A New Project
+							</div></div>
+						</h:link>
+						<h:link>
+							<div class="span4 columns" style="margin-left: 12px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
+								Enter Your Stories
+							</div></div>
+						</h:link>
+						<h:link>
+							<div class="span4 columns" style="margin-left: 12px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
+								Join An Organization
+							</div></div>
+						</h:link>
+						<h:link>
+							<div class="span4 columns" style="margin-left: 12px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
+								Connect With Colleagues
+							</div></div>
+						</h:link>
+					</div>
+				</div>
+			</div>
+		</h:form>
 	</ui:define>
-
+	
 	<ui:define name="content">
 		
 		<div class="row">
 			<div class="span8 columns">
-				<h:panelGroup layout="block" rendered="${empty projects.all}" class="alert-message block-message success">
-					It looks like you're new here. So let's get this sorted out.
-				</h:panelGroup>
-				.
+				<div class="hanger">
+				<b>Welcome to SocialPM! What's next?</b> (just now)
+					<p><h:link value="Start a project" /><br/>
+					<h:link value="Tell us about yourself" /><br/>
+					<h:link value="Browse interesting projects" /><br/>
+					<a href="http://twitter.com/ocpsoft">Follow @ocpsoft on Twitter</a></p>
+				</div>
 			</div>
 			<div class="span8 columns">
 				<div class="well" style="padding-top: 7px; padding-bottom: 10px;">

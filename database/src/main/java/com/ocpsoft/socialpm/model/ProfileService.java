@@ -19,7 +19,6 @@
 
 package com.ocpsoft.socialpm.model;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.ejb.TransactionAttribute;
@@ -36,7 +35,7 @@ import com.ocpsoft.socialpm.domain.user.Profile;
 
 @TransactionAttribute
 @Transactional(TransactionPropagation.REQUIRED)
-public class ProfileService extends PersistenceUtil implements Serializable
+public class ProfileService extends PersistenceUtil
 {
    private static final long serialVersionUID = 2988513095024795683L;
 
@@ -64,6 +63,7 @@ public class ProfileService extends PersistenceUtil implements Serializable
 
    public void create(final Profile profile)
    {
+      profile.setShowBootcamp(true);
       super.create(profile);
    }
 

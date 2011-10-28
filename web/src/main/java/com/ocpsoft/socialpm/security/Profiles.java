@@ -39,8 +39,9 @@ import com.ocpsoft.socialpm.model.ProfileService;
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
+@Named("profiles")
 @RequestScoped
-public class CurrentProfile implements Serializable
+public class Profiles implements Serializable
 {
    private static final long serialVersionUID = 8474539305281711165L;
 
@@ -69,5 +70,13 @@ public class CurrentProfile implements Serializable
          e.printStackTrace();
       }
       return current;
+   }
+
+   public String dismissBootcamp()
+   {
+      Profile current = current();
+      current.setShowBootcamp(false);
+      ps.save(current);
+      return "?faces-redirect=true";
    }
 }
