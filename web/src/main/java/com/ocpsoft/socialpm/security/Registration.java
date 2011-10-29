@@ -29,6 +29,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.international.status.Messages;
+import org.jboss.seam.security.Authenticator.AuthenticationStatus;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.events.UserCreatedEvent;
@@ -67,6 +68,12 @@ public class Registration
    private Profile profile;
    private ProfileService ps;
 
+   @Inject
+   private OpenIdAuthenticator oidAuth;
+
+   @Inject
+   private IdmAuthenticator idmAuth;
+
    public Registration()
    {}
 
@@ -96,6 +103,9 @@ public class Registration
 
    public void register() throws IdentityException
    {
+      oidAuth.setStatus(AuthenticationStatus.FAILURE);
+      identity.setAuthenticatorClass(IdmAuthenticator.class);
+
       // TODO validate username, email address, and user existence
       PersistenceManager identityManager = security.getPersistenceManager();
       User user = identityManager.createUser(username);
@@ -104,15 +114,17 @@ public class Registration
       attributesManager.updatePassword(user, password);
       attributesManager.addAttribute(user, "email", email);
 
-      identity.setAuthenticatorClass(IdmAuthenticator.class);
       credentials.setUsername(username);
       credentials.setCredential(new PasswordCredential(password));
 
       /*
-       * Don't make them log in the first time, but they 
-       * may still need to confirm their account.
+       * Try twice to work around some state bug in Seam Security
+       * TODO file issue in seam security
        */
-      identity.login();
+      String result = identity.login();
+      if (Identity.RESPONSE_LOGIN_EXCEPTION.equals(result)) {
+         result = identity.login();
+      }
 
       // TODO figure out a good pattern for this...
       Profile p = new Profile();
@@ -125,6 +137,7 @@ public class Registration
 
    public void openRegister() throws IdentityException
    {
+      idmAuth.setStatus(AuthenticationStatus.FAILURE);
       identity.setAuthenticatorClass(OpenIdAuthenticator.class);
 
       /*
@@ -140,7 +153,7 @@ public class Registration
    public String confirmUsername()
    {
       Profile p = ps.getProfileById(profile.getId());
-      p.setUsername(profile.getUsername());
+      p.setUsername(username);
       p.setUsernameConfirmed(true);
       ps.save(p);
       msg.info("Congrats! Your username is, and forever will be, \"" + p.getUsername() + "\".");

@@ -18,12 +18,14 @@ package com.ocpsoft.socialpm.web.filter;
 import java.io.IOException;
 
 import javax.inject.Inject;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.transaction.Status;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
@@ -34,7 +36,7 @@ import com.ocpsoft.logging.Logger;
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-// @WebFilter(urlPatterns = "/*", dispatcherTypes = { DispatcherType.REQUEST })
+@WebFilter(urlPatterns = "/*", dispatcherTypes = { DispatcherType.REQUEST })
 public class TransactionFilter implements Filter
 {
    Logger log = Logger.getLogger(TransactionFilter.class);

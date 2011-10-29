@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.TransactionAttribute;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.UserTransaction;
 
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.events.DeferredAuthenticationEvent;
@@ -26,9 +26,10 @@ import org.jboss.seam.transaction.Transactional;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
 
+@TransactionAttribute
 public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
 {
-   @PersistenceContext(type = PersistenceContextType.EXTENDED)
+   @Inject
    private EntityManager em;
 
    @Inject
@@ -74,6 +75,9 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
       profileService.setEntityManager(em);
    }
 
+   @Inject
+   private UserTransaction tx;
+
    private boolean attachProfile(OpenIdPrincipal principal, ResponseHolder responseHolder)
    {
       try
@@ -85,6 +89,7 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
          String email = principal.getAttribute("email");
 
          try {
+            int status = tx.getStatus();
             profileService.getProfileByEmail(email);
             identity.logout();
 
@@ -96,6 +101,7 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
                               "Accounts page to merge your profiles.");
          }
          catch (NoResultException e) {
+            int status = tx.getStatus();
             if (!profileService.hasProfileByIdentityKey(key))
             {
                Profile p = new Profile();
@@ -106,6 +112,11 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
                profileService.create(p);
                return true;
             }
+            else
+            {
+               // what do we do if they have a profile already but the email address does not match?
+            }
+
          }
       }
       catch (Exception e) {

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -32,7 +33,6 @@ import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.util.Strings;
 
-@TransactionAttribute
 public class ProfileService extends PersistenceUtil
 {
    private static final long serialVersionUID = 2988513095024795683L;
@@ -47,6 +47,31 @@ public class ProfileService extends PersistenceUtil
       this.em = em;
    }
 
+   @TransactionAttribute(TransactionAttributeType.REQUIRED)
+   public void create(final Profile profile)
+   {
+      profile.setShowBootcamp(true);
+      super.create(profile);
+   }
+
+   @TransactionAttribute(TransactionAttributeType.REQUIRED)
+   public void save(final Profile user)
+   {
+      super.save(user);
+      em.flush();
+   }
+
+   @TransactionAttribute(TransactionAttributeType.REQUIRED)
+   public String getRandomUsername(String seed)
+   {
+      String username = Strings.canonicalize(seed);
+      while (!isUsernameAvailable(username))
+      {
+         username += new Random(System.currentTimeMillis()).nextInt() % 100;
+      }
+      return username;
+   }
+
    public long getProfileCount()
    {
       return count(Profile.class);
@@ -55,18 +80,6 @@ public class ProfileService extends PersistenceUtil
    public List<Profile> getProfiles(final int limit, final int offset)
    {
       return findAll(Profile.class);
-   }
-
-   public void create(final Profile profile)
-   {
-      profile.setShowBootcamp(true);
-      super.create(profile);
-   }
-
-   public void save(final Profile user)
-   {
-      super.save(user);
-      em.flush();
    }
 
    public Profile getProfileByUsername(final String username) throws NoResultException
@@ -133,16 +146,6 @@ public class ProfileService extends PersistenceUtil
       catch (NoResultException e) {
          return true;
       }
-   }
-
-   public String getRandomUsername(String seed)
-   {
-      String username = Strings.canonicalize(seed);
-      while (!isUsernameAvailable(username))
-      {
-         username += new Random(System.currentTimeMillis()).nextInt() % 100;
-      }
-      return username;
    }
 
 }

@@ -50,6 +50,7 @@ public class MessageInterceptor extends HttpConfigurationProvider
       return ConfigurationBuilder.begin()
 
                // TODO support empty {path} parameters
+               // TODO encode and strip these messages
 
                .defineRule()
                .when(

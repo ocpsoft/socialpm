@@ -7,6 +7,7 @@
       <application-exception>
          <exception-class>javax.persistence.PersistenceException</exception-class>
          <rollback>false</rollback>
+         <inherited>true</inherited>
       </application-exception>
    </assembly-descriptor>
 
