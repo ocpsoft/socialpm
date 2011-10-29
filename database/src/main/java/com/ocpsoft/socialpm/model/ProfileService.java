@@ -20,6 +20,7 @@
 package com.ocpsoft.socialpm.model;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.ejb.TransactionAttribute;
 import javax.inject.Inject;
@@ -27,28 +28,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
-import org.jboss.seam.transaction.TransactionPropagation;
-import org.jboss.seam.transaction.Transactional;
-
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.util.Strings;
 
 @TransactionAttribute
-@Transactional(TransactionPropagation.REQUIRED)
 public class ProfileService extends PersistenceUtil
 {
    private static final long serialVersionUID = 2988513095024795683L;
 
    @Inject
-   private EntityManager em;
-
-   @Inject
    private FeedService fs;
 
    @Override
-   protected EntityManager getEntityManager()
+   public void setEntityManager(EntityManager em)
    {
-      return em;
+      fs.setEntityManager(em);
+      this.em = em;
    }
 
    public long getProfileCount()
@@ -115,6 +111,38 @@ public class ProfileService extends PersistenceUtil
    public Profile getProfileById(final Long id)
    {
       return findById(Profile.class, id);
+   }
+
+   public boolean isUsernameAvailable(String username)
+   {
+      try {
+         getProfileByUsername(username);
+         return false;
+      }
+      catch (NoResultException e) {
+         return true;
+      }
+   }
+
+   public boolean isEmailAddressAvailable(String email)
+   {
+      try {
+         getProfileByEmail(email);
+         return false;
+      }
+      catch (NoResultException e) {
+         return true;
+      }
+   }
+
+   public String getRandomUsername(String seed)
+   {
+      String username = Strings.canonicalize(seed);
+      while (!isUsernameAvailable(username))
+      {
+         username += new Random(System.currentTimeMillis()).nextInt() % 100;
+      }
+      return username;
    }
 
 }

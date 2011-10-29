@@ -50,9 +50,9 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () {
-			var id= "${cc.attrs.for}".replace(/:/, "\\:");
+			var id= "${cc.attrs.for}".replace(/:/g, "\\:");
 			$('#' + id).attr("data-original-title", "${cc.attrs.title}");
-			$('#' + id).attr("data-content", $('#${cc.clientId}:content'.replace(/:/, "\\:")).html());
+			$('#' + id).attr("data-content", $('#${cc.clientId}:content'.replace(/:/g, "\\:")).html());
 			$('#' + id).attr("rel", "popover");
 			$('#' + id).popover({
 				animate: true, delayIn: ${cc.attrs.delayIn}, delayOut: ${cc.attrs.delayOut},

@@ -21,8 +21,10 @@
  */
 package com.ocpsoft.socialpm.stats;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 
 import com.ocpsoft.socialpm.model.ProfileService;
 import com.ocpsoft.socialpm.model.project.ProjectService;
@@ -32,13 +34,24 @@ import com.ocpsoft.socialpm.model.project.ProjectService;
  * 
  */
 @Named
+@RequestScoped
 public class Statistics
 {
-   @Inject
    private ProfileService ps;
+   private ProjectService projects;
+
+   public Statistics()
+   {}
 
    @Inject
-   private ProjectService projects;
+   public Statistics(EntityManager em, ProfileService ps, ProjectService projects)
+   {
+      this.ps = ps;
+      this.projects = projects;
+
+      ps.setEntityManager(em);
+      projects.setEntityManager(em);
+   }
 
    public long getUserCount()
    {

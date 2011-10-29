@@ -34,7 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
-import javax.inject.Inject;
+import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
@@ -44,17 +44,15 @@ import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.model.project.iteration.DailyStatsChain;
 import com.ocpsoft.socialpm.util.Dates;
 
+@TransactionAttribute
 public class IterationService extends PersistenceUtil
 {
    private static final long serialVersionUID = -3555718237042388593L;
 
-   @Inject
-   private EntityManager em;
-
    @Override
-   protected EntityManager getEntityManager()
+   public void setEntityManager(EntityManager em)
    {
-      return em;
+      this.em = em;
    }
 
    /**

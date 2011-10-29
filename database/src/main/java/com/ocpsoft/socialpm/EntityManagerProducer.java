@@ -23,14 +23,10 @@ package com.ocpsoft.socialpm;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
-
-import org.jboss.solder.core.ExtensionManaged;
+import javax.persistence.PersistenceContextType;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -40,13 +36,6 @@ public class EntityManagerProducer implements Serializable
    private static final long serialVersionUID = -5267593171036179836L;
 
    @Produces
-   @ExtensionManaged
-   @PersistenceUnit
-   @RequestScoped
-   EntityManagerFactory emf;
-
-   @Produces
-   @ReadOnly
-   @PersistenceContext
+   @PersistenceContext(type = PersistenceContextType.EXTENDED)
    EntityManager em;
 }

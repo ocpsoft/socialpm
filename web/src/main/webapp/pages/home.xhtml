@@ -33,11 +33,13 @@
 	</ui:define>
 	
 	<ui:define name="content-pre">
-		<h:form rendered="#{profile.showBootcamp}">
+		<h:form id="bootcamp" rendered="#{profile.showBootcamp}">
 			<div style="margin-bottom: 15px;">
 				<h1 class="header">SocialPM Bootcamp <span>If you are still new to things, we’ve provided a few walkthroughs to get you started.</span>
-		  			<h:commandLink class="fr" title="Hide this notice forever" action="#{profiles.dismissBootcamp()}" >×</h:commandLink>
+		  			<h:commandLink id="close" class="fr" action="#{profiles.dismissBootcamp()}" 
+		  				style="color: white; padding:2px; position: relative; top:-2px; right: -2px;">×</h:commandLink>
 		  		</h1>
+		  		<ocp:tooltip for="bootcamp:close" title="Hide this tutorial forever" placement="left" trigger="hover" />
 				<div class="body">
 					<div class="row">
 						<h:link>

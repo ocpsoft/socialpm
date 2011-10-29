@@ -44,12 +44,14 @@ public class PasswordValidator implements Validator
 {
 
    @Override
-   public void validate(final FacesContext context, final UIComponent component, final Object value) throws ValidatorException
+   public void validate(final FacesContext context, final UIComponent component, final Object value)
+            throws ValidatorException
    {
       String field = value.toString();
-      if (StringValidations.isEmptyString(field) || !StringValidations.isPassword(field))
+      if (value instanceof String && ((String) value).length() > 0 && !StringValidations.isPassword(field))
       {
-         FacesMessage msg = new FacesMessage("Must be at least 4 characters (most special characters allowed)");
+         FacesMessage msg = new FacesMessage(
+                  "Too short (minimum is 8 characters) - most special characters are allowed.");
          throw new ValidatorException(msg);
       }
    }

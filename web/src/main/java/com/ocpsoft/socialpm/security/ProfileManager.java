@@ -24,7 +24,7 @@ package com.ocpsoft.socialpm.security;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ejb.Stateful;
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -38,25 +38,29 @@ import org.jboss.seam.security.management.picketlink.IdentitySessionProducer;
 
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
-import com.ocpsoft.socialpm.util.Strings;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
 @Named
-@Stateful
 @RequestScoped
 public class ProfileManager
 {
-   @Inject
-   private Identity identity;
-
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    private EntityManager em;
 
    @Inject
-   private ProfileService ps;
+   private Identity identity;
+
+   @Inject
+   private ProfileService profileService;
+
+   @PostConstruct
+   public void init()
+   {
+      profileService.setEntityManager(em);
+   }
 
    public void attachProfile(final OpenIdPrincipal principal)
    {
@@ -65,17 +69,21 @@ public class ProfileManager
          Map<String, Object> sessionOptions = new HashMap<String, Object>();
          sessionOptions.put(IdentitySessionProducer.SESSION_OPTION_ENTITY_MANAGER, em);
 
-         if (!ps.hasProfileByIdentityKey(identity.getUser().getKey()))
+         if (!profileService.hasProfileByIdentityKey(identity.getUser().getKey()))
          {
             Profile p = new Profile();
             p.getKeys().add(identity.getUser().getKey());
             p.setEmail(principal.getAttribute("email"));
             p.setFullName(principal.getAttribute("firstName") + " " + principal.getAttribute("lastName"));
-            p.setUsername(Strings.canonicalize(p.getFullName()));
-            ps.create(p);
+            p.setUsername(profileService.getRandomUsername(p.getFullName()));
+            profileService.create(p);
          }
       }
       catch (Exception e) {
+         try {
+            identity.logout();
+         }
+         catch (Exception e2) {}
          throw new RuntimeException(e);
       }
    }

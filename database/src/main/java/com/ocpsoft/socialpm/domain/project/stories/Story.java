@@ -71,7 +71,7 @@ import com.ocpsoft.socialpm.domain.user.Profile;
 @NamedQueries({
          @NamedQuery(name = "Story.byProjectAndNumber", query = "from Story where project = ? and number = ?"),
          @NamedQuery(name = "Story.byProjectId", query = "from Story where project.id = ?"),
-         @NamedQuery(name = "Story.withTasksFor", query = "from Story s where s.id in (select t.story from Task t where t.assignee = ? and t.status != ?)"),
+         @NamedQuery(name = "Story.withTasksFor", query = "from Story s where s.id in (select t.story from Task t where t.assignee = ? and t.status != ?)")
 })
 public class Story extends PersistentObject<Story>
 {

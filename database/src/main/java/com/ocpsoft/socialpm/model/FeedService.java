@@ -33,8 +33,8 @@ package com.ocpsoft.socialpm.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.TransactionAttribute;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
@@ -43,17 +43,15 @@ import com.ocpsoft.socialpm.domain.feed.FeedEvent;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.user.Profile;
 
+@TransactionAttribute
 public class FeedService extends PersistenceUtil
 {
    private static final long serialVersionUID = 5716926734835352145L;
 
-   @Inject
-   private EntityManager entityManager;
-
    @Override
-   protected EntityManager getEntityManager()
+   public void setEntityManager(EntityManager em)
    {
-      return entityManager;
+      this.em = em;
    }
 
    public void addEvent(@Observes final FeedEvent event)
@@ -64,7 +62,7 @@ public class FeedService extends PersistenceUtil
 
    public List<FeedEvent> list(final int limit, final int offset)
    {
-      TypedQuery<FeedEvent> query = entityManager.createNamedQuery("feedEvent.all", FeedEvent.class)
+      TypedQuery<FeedEvent> query = em.createNamedQuery("feedEvent.all", FeedEvent.class)
                .setFirstResult(offset);
 
       if (limit > 0)
@@ -77,7 +75,7 @@ public class FeedService extends PersistenceUtil
 
    public List<FeedEvent> listByProfile(final Profile profile, final int limit, final int offset)
    {
-      TypedQuery<FeedEvent> query = entityManager.createNamedQuery("feedEvent.byUser", FeedEvent.class)
+      TypedQuery<FeedEvent> query = em.createNamedQuery("feedEvent.byUser", FeedEvent.class)
                .setParameter("user", profile)
                .setFirstResult(offset);
 

@@ -24,11 +24,7 @@ package com.ocpsoft.socialpm.model.project;
 import java.util.List;
 
 import javax.ejb.TransactionAttribute;
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
-
-import org.jboss.seam.transaction.TransactionPropagation;
-import org.jboss.seam.transaction.Transactional;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.feed.ProjectCreated;
@@ -41,18 +37,14 @@ import com.ocpsoft.socialpm.domain.user.Profile;
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 @TransactionAttribute
-@Transactional(TransactionPropagation.REQUIRED)
 public class ProjectService extends PersistenceUtil
 {
    private static final long serialVersionUID = 1403645951285144409L;
 
-   @Inject
-   private EntityManager em;
-
    @Override
-   protected EntityManager getEntityManager()
+   public void setEntityManager(EntityManager em)
    {
-      return em;
+      this.em = em;
    }
 
    public Project create(final Profile owner, final Project p)

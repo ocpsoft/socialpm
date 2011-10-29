@@ -36,80 +36,63 @@
 						});
 					</script>
 					
-					<style type="text/css">
-						#signup input[type=text], #signup input[type=password] {
-							width: 240px;
-						}
-						
-						.validation-status {
-							position: relative;
-							bottom: -4px;
-							height: 18px;
-							width: 18px;
-							margin-left: 5px;
-						}
-						
-						.openId {
-							margin: 25px;
-						}
-					</style>
-
 					<h:panelGroup id="unm" layout="block" class="clearfix">
-						<label for="username">Username
-							<ocp:message for="username" /></label>
+						<label for="username">Username</label>
 						<div class="input">
 							<h:inputText id="username" value="#{registration.username}" styleClass="xLarge" required="true">
 								<f:ajax execute="@this" render="unm" />
+								<f:validator validatorId="usernameValidator" />
+								<f:validator validatorId="signupUsernameAvailabilityValidator" />
 							</h:inputText>
 							<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.username != null}"
 								styleClass="validation-status" />
-							<br/><span class="help-inline">Your username, <b>not</b> your company's username.</span>
+							<span class="help-inline"><br/>Your username, <b>not</b> your company. (We will get to that later.) <ocp:message for="username" /></span>
 						</div>
 					</h:panelGroup>
 
 					<h:panelGroup id="eml" layout="block" class="clearfix">
-						<label for="email">Email Address
-							<ocp:message for="email" /></label>
+						<label for="email">Email Address</label>
 						<div class="input">
 							<h:inputText id="email" value="#{registration.email}" styleClass="xLarge" required="true">
 								<f:validator validatorId="emailValidator" />
+								<f:validator validatorId="signupEmailAvailabilityValidator" />
 								<f:ajax execute="@this" render="eml"  />
 							</h:inputText>
 							<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.email != null}"
 								styleClass="validation-status" />
-							<br/><span class="help-inline">We promise <b>never</b> to share your email address.</span>
+							<span class="help-inline"><br/>We promise <b>never</b> to share your email address. <ocp:message for="email" /></span>
 						</div>
 					</h:panelGroup>
 
 					<div class="clearfix">
-						<label for="password">Password
-							<ocp:message for="password" /></label>
+						<label for="password">Password</label>
 						<div class="input">
 							<h:inputSecret id="password" value="#{registration.password}" redisplay="true" 
 								styleClass="xLarge" style="text-transform: uppercase;" required="true" requiredMessage="Required">
 								<f:ajax execute="password passwordConfirm passwordValidator" render="password passwordConfirm pwg pwcg :messages:messages"/>
+								<f:validator validatorId="passwordValidator" />
 							</h:inputSecret>
 							<h:panelGroup id="pwg">
 								<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.password != null}"
 									styleClass="validation-status"/>
+								<span class="help-inline"><ocp:message id="pm"  for="password" /></span>
 							</h:panelGroup>
-							<br/><span class="help-inline">Must be at least 8 characters long.</span>
 						</div>
 					</div>
 
 					<div class="clearfix">
-						<label for="passwordConfirm">Confirm Password
-							<ocp:message for="passwordConfirm" /></label>
+						<label for="passwordConfirm">Confirm Password</label>
 						<div class="input">
 							<h:inputSecret id="passwordConfirm" value="#{registration.passwordConfirm}"
 								redisplay="true" styleClass="xLarge" style="text-transform: uppercase;">
 								<f:ajax execute="password passwordConfirm passwordValidator signupValidator" render="password passwordConfirm pwg pwcg :messages:messages"/>
+								<f:validator validatorId="passwordValidator" />
 							</h:inputSecret>
 							<h:panelGroup id="pwcg">
 								<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.passwordConfirm != null}"
 									styleClass="validation-status"/>
+								<span class="help-inline"><ocp:message for="passwordConfirm" /></span>
 							</h:panelGroup>
-							<span class="help-inline"></span>
 						</div>
 					</div>
 					<br/>

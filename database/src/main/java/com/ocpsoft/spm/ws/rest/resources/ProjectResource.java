@@ -34,8 +34,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -71,17 +69,14 @@ public class ProjectResource extends PersistenceUtil
 {
    private static final long serialVersionUID = 8078531824053093624L;
 
+   @Override
+   public void setEntityManager(EntityManager em)
+   {
+      this.em = em;
+   }
+
    @Inject
    private IterationService is;
-
-   @PersistenceContext(type = PersistenceContextType.EXTENDED)
-   private EntityManager entityManager;
-
-   @Override
-   protected EntityManager getEntityManager()
-   {
-      return entityManager;
-   }
 
    @GET
    @Produces("application/xml")
@@ -89,7 +84,7 @@ public class ProjectResource extends PersistenceUtil
    public List<Project> list(@QueryParam("limit") @DefaultValue("10") final int limit,
             @QueryParam("offset") final int offset)
    {
-      Query query = entityManager.createNamedQuery("project.list", Project.class);
+      Query query = em.createNamedQuery("project.list", Project.class);
       query.setFirstResult(offset);
       query.setMaxResults(limit);
       List<Project> result = query.getResultList();
@@ -188,18 +183,18 @@ public class ProjectResource extends PersistenceUtil
    @SuppressWarnings("unchecked")
    private List<Task> removeTaskAssignments(final Project project, final Profile user)
    {
-      Query query = entityManager.createQuery("FROM Task t WHERE t.story.project = :project");
+      Query query = em.createQuery("FROM Task t WHERE t.story.project = :project");
       query.setParameter("project", project);
       List<Task> tasks = query.getResultList();
 
-      query = entityManager.createQuery("UPDATE Task t SET t.assignee = null WHERE t.assignee = :user "
+      query = em.createQuery("UPDATE Task t SET t.assignee = null WHERE t.assignee = :user "
                + "AND t.status <> :status AND t IN (:list)");
       query.setParameter("user", user);
       query.setParameter("status", TaskStatus.DONE);
       query.setParameter("list", tasks);
       query.executeUpdate();
 
-      query = entityManager.createQuery("FROM Task t WHERE t IN (:list)", Task.class);
+      query = em.createQuery("FROM Task t WHERE t IN (:list)", Task.class);
       query.setParameter("list", tasks);
 
       List<Task> result = query.getResultList();
@@ -339,7 +334,7 @@ public class ProjectResource extends PersistenceUtil
       assert from.getProject().getId() == projectId;
       assert to.getProject().getId() == projectId;
 
-      Query query = entityManager.createQuery("update Story set feature = :newFeature where feature = :oldFeature");
+      Query query = em.createQuery("update Story set feature = :newFeature where feature = :oldFeature");
       query.setParameter("newFeature", to);
       query.setParameter("oldFeature", from);
       int updated = query.executeUpdate();

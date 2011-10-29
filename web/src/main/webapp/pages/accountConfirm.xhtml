@@ -19,47 +19,60 @@
 	</ui:define>
 
 	<ui:define name="content">
-		
+
 		<script type="text/javascript">
 			$(document).ready(function() {
-				$('#signup\\:username').attr("placeholder", "Who are you?").focus();
-				$('#signup\\:username').attr("placeholder", "What should we call you?");
-				$('#signup\\:email').attr("placeholder", "Got email?");
+				$('#username').attr("value", "${profile.username}").focus().select();
 			});
 		</script>
 
-		<h:form prependId="false">	
-			
-			<div class="alert-message info">
-				<p>This is what others will see when they visit your profile page, your status updates, and projects you've worked on.</p>
-			</div>
-		
-			<h:panelGroup id="unm" layout="block" class="clearfix">
-				<label for="username">Username</label>
-				<div class="input">
-					<ocp:message for="username" />
-					<h:inputText id="username" value="#{profile.username}" styleClass="xLarge" required="true">
-						<f:ajax execute="@this" render="unm" />
-					</h:inputText>
-					<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.username != null}"
-						styleClass="validation-status" />
-					<br/><span class="help-inline"></span>
+		<div class="container">
+			<div class="row">
+				<div class="span8 columns offset4">
+					<h:form prependId="false">
+						<div class="alert-message block-message info">
+							<p>This is what others will see when they visit your profile
+								page, your status updates, and projects you've worked on.</p>
+						</div>
+
+						<h:panelGroup id="unm" layout="block" class="clearfix">
+							<label for="username">Username</label>
+							<div class="input">
+								<ocp:message for="username" />
+								<h:inputText id="username" value="#{registration.username}"
+									styleClass="xLarge" required="true">
+									<f:validator validatorId="usernameValidator" />
+									<f:validator validatorId="signupUsernameAvailabilityValidator" />
+									<f:ajax execute="@this" render="unm" />
+								</h:inputText>
+								<h:graphicImage value="#{resource['success.gif']}"
+									rendered="#{registration.username != null}"
+									styleClass="validation-status" />
+								<br /> <span class="help-inline"></span>
+							</div>
+						</h:panelGroup>
+
+						<div class="alert-message warning">
+							<p>
+								By clicking "Confirm my username" below, you are agreeing to the
+								<h:link value="Terms of Service" outcome="/pages/terms" />
+								and the
+								<h:link value="Privacy Policy" outcome="/pages/privacy" />
+								.
+							</p>
+						</div>
+
+						<div class="actions">
+							<h:commandButton action="#{registration.confirmUsername}"
+								value="Confirm my username" styleClass="btn primary">
+								<f:ajax execute="@form" render="@form" />
+							</h:commandButton>
+						</div>
+					</h:form>
 				</div>
-			</h:panelGroup>
-			
-			<div class="alert-message warning">
-				<p>By clicking "Confirm my username" below, you are agreeing to the 
-				<h:link value="Terms of Service" outcome="/pages/terms"/> and the 
-				<h:link value="Privacy Policy" outcome="/pages/privacy"/>.</p>
 			</div>
-			
-			<div class="actions">
-				<h:commandButton action="#{registration.confirmUsername}" value="Confirm my username"
-					styleClass="btn primary" >
-					  <f:ajax execute="@form" render="@form" />
-				</h:commandButton>
-			</div>
-		</h:form>
+		</div>
+
 	</ui:define>
 
 </ui:composition>

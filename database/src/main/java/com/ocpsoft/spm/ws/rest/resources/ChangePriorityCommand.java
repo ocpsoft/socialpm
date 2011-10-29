@@ -30,7 +30,6 @@
 
 package com.ocpsoft.spm.ws.rest.resources;
 
-import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -41,17 +40,14 @@ public class ChangePriorityCommand extends PersistenceUtil
 {
    private static final long serialVersionUID = -3165198869580133953L;
 
+   @Override
+   public void setEntityManager(EntityManager em)
+   {
+      this.em = em;
+   }
+
    private Story story;
    private Integer newPriority;
-
-   @Inject
-   private EntityManager em;
-
-   @Override
-   protected EntityManager getEntityManager()
-   {
-      return em;
-   }
 
    public ChangePriorityCommand(final Story story, final Integer newPriority)
    {

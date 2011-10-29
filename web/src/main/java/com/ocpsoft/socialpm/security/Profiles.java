@@ -23,10 +23,12 @@ package com.ocpsoft.socialpm.security;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.security.Identity;
@@ -46,10 +48,19 @@ public class Profiles implements Serializable
    private static final long serialVersionUID = 8474539305281711165L;
 
    @Inject
+   private EntityManager em;
+
+   @Inject
    private Identity identity;
 
    @Inject
    private ProfileService ps;
+
+   @PostConstruct
+   public void init()
+   {
+      ps.setEntityManager(em);
+   }
 
    @Produces
    @Current

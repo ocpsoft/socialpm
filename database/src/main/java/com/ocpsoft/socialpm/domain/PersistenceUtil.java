@@ -25,7 +25,14 @@ public abstract class PersistenceUtil implements Serializable
 {
    private static final long serialVersionUID = -276417828563635020L;
 
-   protected abstract EntityManager getEntityManager();
+   protected EntityManager em;
+
+   public EntityManager getEntityManager()
+   {
+      return em;
+   }
+
+   public abstract void setEntityManager(EntityManager em);
 
    protected <T> long count(final Class<T> type)
    {

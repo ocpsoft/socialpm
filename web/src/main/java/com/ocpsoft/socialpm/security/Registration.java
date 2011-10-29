@@ -21,10 +21,12 @@
  */
 package com.ocpsoft.socialpm.security;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 
 import org.jboss.seam.international.status.Messages;
 import org.jboss.seam.security.Credentials;
@@ -55,16 +57,37 @@ public class Registration
    private static Logger log = Logger.getLogger(Registration.class);
 
    @Inject
+   private EntityManager em;
+
    private Messages msg;
-
-   @Inject
    private Identity identity;
-
-   @Inject
    private Credentials credentials;
+   private IdentitySession security;
+
+   private Profile profile;
+   private ProfileService ps;
+
+   public Registration()
+   {}
 
    @Inject
-   private IdentitySession security;
+   public Registration(@Current Profile profile, ProfileService profileService, IdentitySession security,
+            Credentials credentials,
+            Identity identity, Messages msg)
+   {
+      this.msg = msg;
+      this.identity = identity;
+      this.credentials = credentials;
+      this.security = security;
+      this.profile = profile;
+      this.ps = profileService;
+   }
+
+   @PostConstruct
+   public void init()
+   {
+      ps.setEntityManager(em);
+   }
 
    private String username;
    private String password;
@@ -113,13 +136,6 @@ public class Registration
          result = identity.login();
       }
    }
-
-   @Inject
-   @Current
-   private Profile profile;
-
-   @Inject
-   private ProfileService ps;
 
    public String confirmUsername()
    {

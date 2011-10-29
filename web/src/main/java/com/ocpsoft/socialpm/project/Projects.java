@@ -27,6 +27,7 @@ import java.util.List;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
@@ -47,24 +48,31 @@ public class Projects implements Serializable
 {
    private static final long serialVersionUID = -5792291552146633049L;
 
-   @Inject
    private Messages messages;
-
-   @Inject
-   private ProjectService ps;
-
-   @Inject
    private ParamsBean params;
+   private Profiles profiles;
+   private ProjectService projectService;
 
    private Project current = new Project();
 
+   public Projects()
+   {}
+
    @Inject
-   private Profiles profile;
+   public Projects(EntityManager em, ProjectService projectService, Messages messages, ParamsBean params,
+            Profiles profiles)
+   {
+      this.params = params;
+      this.profiles = profiles;
+      this.messages = messages;
+      this.projectService = projectService;
+      projectService.setEntityManager(em);
+   }
 
    public String loadCurrent()
    {
       Project current = getCurrent();
-      if (!current.isPersistent() && profile.current().isPersistent())
+      if (!current.isPersistent() && profiles.current().isPersistent())
       {
          messages.error("Oops! We couldn't find that project. Want to create one instead?");
          return "/pages/project/create";
@@ -78,18 +86,18 @@ public class Projects implements Serializable
 
    public String create()
    {
-      ps.create(profile.current(), current);
+      projectService.create(profiles.current(), current);
       return UrlConstants.PROJECT_VIEW + "&project=" + current.getSlug();
    }
 
    public long getCount()
    {
-      return ps.getProjectCount();
+      return projectService.getProjectCount();
    }
 
    public List<Project> getAll()
    {
-      return ps.findAll();
+      return projectService.findAll();
    }
 
    public Project getCurrent()
@@ -98,7 +106,7 @@ public class Projects implements Serializable
       {
          try
          {
-            Project found = ps.findBySlug(params.getProjectSlug());
+            Project found = projectService.findBySlug(params.getProjectSlug());
             if (found != null)
             {
                current = found;

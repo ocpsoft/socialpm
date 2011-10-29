@@ -16,13 +16,17 @@ import org.jboss.seam.faces.validation.InputElement;
 public class SignupValidator implements Validator
 {
    @Inject
+   private InputElement<String> password;
+   @Inject
    private InputElement<String> passwordConfirm;
 
    @Override
    public void validate(final FacesContext context, final UIComponent comp, final Object values)
             throws ValidatorException
    {
-      if ((passwordConfirm.getValue() == null) || "".equals(passwordConfirm.getValue()))
+      if (((passwordConfirm.getValue() == null)
+               || ("".equals(passwordConfirm.getValue())))
+               && !(password.getValue() == null || !"".equals(password.getValue())))
       {
          passwordConfirm.getComponent().setValid(false);
          passwordConfirm.getComponent().setValidatorMessage("Confirm your password");

@@ -26,6 +26,9 @@ import java.io.Serializable;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 import org.jboss.seam.international.status.Messages;
 
@@ -43,14 +46,26 @@ public class Stories implements Serializable
 {
    private static final long serialVersionUID = -6828711689148386870L;
 
-   @Inject
    private Messages messages;
 
-   @Inject
    private Projects projects;
 
-   @Inject
    private StoryService ss;
+
+   @PersistenceContext(type = PersistenceContextType.EXTENDED)
+   private EntityManager em;
+
+   public Stories()
+   {}
+
+   @Inject
+   public Stories(StoryService ss, Projects projects, Messages messages)
+   {
+      this.messages = messages;
+      this.projects = projects;
+      this.ss = ss;
+      this.ss.setEntityManager(em);
+   }
 
    private Story current = new Story();
 

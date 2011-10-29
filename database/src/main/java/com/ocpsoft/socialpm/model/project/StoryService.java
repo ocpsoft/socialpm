@@ -22,11 +22,8 @@ package com.ocpsoft.socialpm.model.project;
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-import javax.inject.Inject;
+import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
-
-import org.jboss.seam.transaction.TransactionPropagation;
-import org.jboss.seam.transaction.Transactional;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Points;
@@ -37,18 +34,15 @@ import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@Transactional(TransactionPropagation.REQUIRED)
+@TransactionAttribute
 public class StoryService extends PersistenceUtil
 {
    private static final long serialVersionUID = 1L;
 
-   @Inject
-   private EntityManager em;
-
    @Override
-   protected EntityManager getEntityManager()
+   public void setEntityManager(EntityManager em)
    {
-      return em;
+      this.em = em;
    }
 
    public Story create(final Project p, final Story s)
