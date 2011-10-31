@@ -1,11 +1,12 @@
 /**
- * This file is part of SocialPM: Agile Project Management Tools (SocialPM) 
+ * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM) 
  *
- * Copyright (c)2010 Lincoln Baxter, III <lincoln@ocpsoft.com> (OcpSoft)
+ * Copyright (c)2011 Lincoln Baxter, III <lincoln@ocpsoft.com> (OCPsoft)
+ * Copyright (c)2011 OCPsoft.com (http://ocpsoft.com)
  * 
  * If you are developing and distributing open source applications under 
- * the GPL Licence, then you are free to use SocialPM under the GPL 
- * License:
+ * the GPL License, then you are free to re-distribute SocialPM under the
+ * terms of the GPL License:
  *
  * SocialPM is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,12 +21,12 @@
  * You should have received a copy of the GNU General Public License
  * along with SocialPM.  If not, see <http://www.gnu.org/licenses/>.
  *  
- * For OEMs, ISVs, and VARs who distribute SocialPM with their products, 
- * host their product online, OcpSoft provides flexible OEM commercial 
- * Licences. 
+ * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their 
+ * products, or host their product online, OCPsoft provides flexible 
+ * OEM commercial licenses. 
  * 
  * Optionally, customers may choose a Commercial License. For additional 
- * details, contact OcpSoft (http://ocpsoft.com)
+ * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
 package com.ocpsoft.socialpm.domain.user;

@@ -1,11 +1,11 @@
 /**
- * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM) 
+ * OCPsoft SocialPM: Agile Project Management Tools (SocialPM) 
  *
  * Copyright (c)2011 Lincoln Baxter, III <lincoln@ocpsoft.com> (OCPsoft)
  * Copyright (c)2011 OCPsoft.com (http://ocpsoft.com)
  * 
  * If you are developing and distributing open source applications under 
- * the GPL License, then you are free to re-distribute SocialPM under the
+ * the GPL Licence, then you are free to re-distribute SocialPM under the
  * terms of the GPL License:
  *
  * SocialPM is free software: you can redistribute it and/or modify
@@ -28,41 +28,3 @@
  * Optionally, customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-
-package com.ocpsoft.socialpm.domain.feed;
-
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-
-import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.user.Profile;
-
-@Entity
-@DiscriminatorValue("PCREATED")
-@NamedQueries({ @NamedQuery(name = "feedEvent.byProject", query = "from FeedEvent where project = ? order by createdOn") })
-public class ProjectEvent extends UserEvent
-{
-   private static final long serialVersionUID = -281646598510177402L;
-
-   @OneToOne
-   private Project project;
-
-   public ProjectEvent(final Profile u, final Project project)
-   {
-      super(u);
-      setProject(project);
-   }
-
-   public Project getProject()
-   {
-      return project;
-   }
-
-   public void setProject(final Project project)
-   {
-      this.project = project;
-   }
-}

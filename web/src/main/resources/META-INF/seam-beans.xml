@@ -10,8 +10,8 @@
    
    <openid:OpenIdConfiguration>
       <s:modifies/>
-      <openid:hostName>example.com</openid:hostName>
-      <openid:port>8080</openid:port>
+      <openid:hostName>scrumshark.com</openid:hostName>
+      <openid:port>80</openid:port>
       <openid:protocol>http</openid:protocol>
    </openid:OpenIdConfiguration>   
    
