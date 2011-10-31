@@ -64,18 +64,18 @@
 				</div>
 			</div>
 			<div class="span8 columns" style="padding: 0px;">
-				<h:form id="burndown" rendered="#{profile.showBootcamp}">
-					<div style="margin-bottom: 15px;">
-						<h1 class="header">Burndown Chart <span>How's everything going?.</span>
-				  			<h:commandLink id="refresh" class="fr" action="rewrite:refresh" 
-				  				style="color: white; padding:2px; position: relative; top:-2px; right: -2px;">×</h:commandLink>
-				  		</h1>
-				  		<ocp:tooltip for="burndown:refresh" title="Refresh" placement="left" trigger="hover" />
-						<div class="body" style="padding: 0px;">
-							<h:graphicImage width="458" value="#{resource['burndown.jpg']}" />
-						</div>
+				<div style="margin-bottom: 15px;">
+					<h1 class="header">Burndown Chart <span>How's everything going?.</span>
+			  			<h:link id="refresh" class="fr" action="/pages/project/view" 
+			  				style="color: white; padding:2px; position: relative; top:-2px; right: -2px;">
+			  				<f:param name="project" value="#{project.slug}" />
+			  				×</h:link>
+			  		</h1>
+			  		<ocp:tooltip for="refresh" title="Refresh" placement="left" trigger="hover" />
+					<div class="body" style="padding: 0px;">
+						<h:graphicImage width="458" value="#{resource['burndown.jpg']}" />
 					</div>
-				</h:form>
+				</div>
 			</div>
 		</div>
 	
