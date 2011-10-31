@@ -56,6 +56,7 @@ import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.StoryBurner;
+import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.model.project.iteration.StatsCalculator;
 import com.ocpsoft.socialpm.util.Dates;
 
@@ -187,9 +188,49 @@ public class Iteration extends PersistentObject<Iteration>
       return getStoriesByShelf(StoryBurner.BACK);
    }
 
+   public int getNumStories()
+   {
+      return getNumFrontShelfStories() + getNumBackShelfStories();
+   }
+
+   public int getNumOpenStories()
+   {
+      return getNumOpenFrontShelfStories() + getNumOpenBackShelfStories();
+   }
+
+   public int getNumBackShelfStories()
+   {
+      return getBackShelfStories().size();
+   }
+
+   public int getNumOpenBackShelfStories()
+   {
+      return getOpenBackShelfStories().size();
+   }
+
+   public List<Story> getOpenBackShelfStories()
+   {
+      return getOpenStoriesByShelf(StoryBurner.BACK);
+   }
+
    public List<Story> getFrontShelfStories()
    {
       return getStoriesByShelf(StoryBurner.FRONT);
+   }
+
+   public List<Story> getOpenFrontShelfStories()
+   {
+      return getOpenStoriesByShelf(StoryBurner.FRONT);
+   }
+
+   public int getNumFrontShelfStories()
+   {
+      return getFrontShelfStories().size();
+   }
+
+   public int getNumOpenFrontShelfStories()
+   {
+      return getOpenFrontShelfStories().size();
    }
 
    private List<Story> getStoriesByShelf(final StoryBurner shelf)
@@ -198,6 +239,19 @@ public class Iteration extends PersistentObject<Iteration>
       for (Story s : stories)
       {
          if (shelf.equals(s.getBurner()))
+         {
+            result.add(s);
+         }
+      }
+      return result;
+   }
+
+   private List<Story> getOpenStoriesByShelf(final StoryBurner shelf)
+   {
+      List<Story> result = new ArrayList<Story>();
+      for (Story s : stories)
+      {
+         if (StoryStatus.OPEN.equals(s.getStatus()) && shelf.equals(s.getBurner()))
          {
             result.add(s);
          }
@@ -324,8 +378,8 @@ public class Iteration extends PersistentObject<Iteration>
    {
       final int prime = 31;
       int result = 1;
-      result = prime * result + ((project == null) ? 0 : project.hashCode());
-      result = prime * result + ((title == null) ? 0 : title.hashCode());
+      result = (prime * result) + ((project == null) ? 0 : project.hashCode());
+      result = (prime * result) + ((title == null) ? 0 : title.hashCode());
       return result;
    }
 

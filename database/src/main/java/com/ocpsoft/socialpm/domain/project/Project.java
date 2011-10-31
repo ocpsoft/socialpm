@@ -53,6 +53,7 @@ import org.hibernate.annotations.Index;
 import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.domain.user.Profile;
 
 @Entity
@@ -352,6 +353,24 @@ public class Project extends PersistentObject<Project>
    public List<Story> getStories()
    {
       return stories;
+   }
+
+   public List<Story> getOpenStories()
+   {
+      List<Story> result = new ArrayList<Story>();
+      for (Story s : stories)
+      {
+         if (StoryStatus.OPEN.equals(s.getStatus()))
+         {
+            result.add(s);
+         }
+      }
+      return result;
+   }
+
+   public int getNumOpenStories()
+   {
+      return getOpenStories().size();
    }
 
    public void setStories(final List<Story> stories)

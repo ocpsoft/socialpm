@@ -25,6 +25,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -32,7 +33,9 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
 
+import com.ocpsoft.socialpm.cdi.Current;
 import com.ocpsoft.socialpm.domain.project.Project;
+import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.model.project.ProjectService;
 import com.ocpsoft.socialpm.security.Profiles;
 import com.ocpsoft.socialpm.web.ParamsBean;
@@ -59,8 +62,9 @@ public class Projects implements Serializable
    {}
 
    @Inject
-   public Projects(EntityManager em, ProjectService projectService, Messages messages, ParamsBean params,
-            Profiles profiles)
+   public Projects(final EntityManager em, final ProjectService projectService, final Messages messages,
+            final ParamsBean params,
+            final Profiles profiles)
    {
       this.params = params;
       this.profiles = profiles;
@@ -97,9 +101,13 @@ public class Projects implements Serializable
 
    public List<Project> getAll()
    {
-      return projectService.findAll();
+      List<Project> result = projectService.findAll();
+      return result;
    }
 
+   @Produces
+   @Named("project")
+   @RequestScoped
    public Project getCurrent()
    {
       if ((current != null) && (params.getProjectSlug() != null))
@@ -116,6 +124,15 @@ public class Projects implements Serializable
          {}
       }
       return current;
+   }
+
+   @Produces
+   @Current
+   @Named("iteration")
+   public Iteration getCurrentIteration()
+   {
+      Iteration iteration = getCurrent().getCurrentIteration();
+      return iteration;
    }
 
    public void setCurrent(final Project current)

@@ -3,51 +3,82 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
 	<ui:param name="title" value="View Project" />
 
 	<ui:define name="header">
-		#{projects.current.name}
+		<h:link value="#{projects.current.owner.username}" outcome="/pages/account" /> / #{projects.current.name}
 	</ui:define>
 
 	<ui:define name="header-right">
-		#{projects.current.vision}
+		<h:button value="Admin" outcome="/pages/project/admin" />
+		<h:outputText value=" " />
+		<h:button value="Watch" action="/pages/project/view" />
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="mainForm">
-			<h:dataTable width="100%" id="stories"
-				value="#{projects.current.stories}" var="story">
-				<f:facet name="header">
-					<h3>
-						Stories <small class="right"> 
-						<h:link outcome="/pages/story/create" value="Add new">
-							<f:param name="project" value="#{projects.current.slug}"/>
-						</h:link> </small>
-					</h3>
-				</f:facet>
-				<h:column>
-					<f:facet name="header">ID</f:facet>
-					#{story.number}
-			</h:column>
-				<h:column>
-					<f:facet name="header">Story</f:facet>
-					#{story.role}
-			</h:column>
-				<f:facet name="footer">
-					<h:panelGroup rendered="#{empty projects.current.stories}">
-					This project does not yet have any stories! 
-						<h:link outcome="/pages/story/create" value="Add one now">
-							<f:param name="project" value="#{projects.current.slug}"/>
-						</h:link>.
-					</h:panelGroup>
-				</f:facet>
-			</h:dataTable>
-		</h:form>
+		<div class="row">
+			<div class="span8 columns">
+				<div class="well" style="padding-top: 7px; padding-bottom: 10px;">
+					<h:button value="Add a New Story" outcome="/pages/story/create" class="btn fr">
+						<f:param name="owner" value="#{project.owner.username}" />
+						<f:param name="project" value="#{project.slug}" />
+					</h:button>
+					<h3>Open Stories (${iteration.numOpenFrontShelfStories})</h3>
+					
+					<ul class="plain clear">
+						<ui:repeat var="story" value="#{iteration.frontShelfStories}">
+							<li>
+								<div class="box" style="margin-bottom: 8px;">
+								
+									<div class="row">
+										<div class="span6 columns">
+											<h:button outcome="/pages/story/view"
+												value="#{story.number}">
+												<f:param name="owner" value="#{project.owner.username}" />
+												<f:param name="project" value="#{project.slug}" />
+												<f:param name="story" value="#{story.number}" />
+											</h:button>
+											<span style="font-size: 16px; padding-right: 30px;">
+												 As a #{story.role}, I want #{story.objective}, so that #{story.result}.
+											</span>
+										</div>
+										<div class="span1 columns">
+											<a href="#" class="btn warn fr">Entered</a>
+										</div>
+									</div>
+								</div>
+							</li>
+						</ui:repeat>
+						
+						<h:panelGroup layout="block" rendered="${iteration.numFrontShelfStories == 0}" styleClass="box">
+							Looks like you could use stories to work on. You can <h:link outcome="/pages/story/create" value="add a new story" />
+							<h:panelGroup rendered="#{iteration.numBackShelfStories > 0}">, <h:outputText rendered="#{iteration.numBackShelfStories > 0}" value="or"/> move some stories to the front shelf</h:panelGroup>
+							<h:panelGroup rendered="#{project.numOpenStories - iteration.numStories > 0}">, or pull some stories from the project backlog</h:panelGroup>
+							 to get going.
+						</h:panelGroup>
+					</ul>
+				</div>
+			</div>
+			<div class="span8 columns" style="padding: 0px;">
+				<h:form id="burndown" rendered="#{profile.showBootcamp}">
+					<div style="margin-bottom: 15px;">
+						<h1 class="header">Burndown Chart <span>How's everything going?.</span>
+				  			<h:commandLink id="refresh" class="fr" action="rewrite:refresh" 
+				  				style="color: white; padding:2px; position: relative; top:-2px; right: -2px;">×</h:commandLink>
+				  		</h1>
+				  		<ocp:tooltip for="burndown:refresh" title="Refresh" placement="left" trigger="hover" />
+						<div class="body" style="padding: 0px;">
+							<h:graphicImage width="458" value="#{resource['burndown.jpg']}" />
+						</div>
+					</div>
+				</h:form>
+			</div>
+		</div>
+	
 	</ui:define>
 
 	<ui:define name="side-items">

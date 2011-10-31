@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+	<ui:param name="title" value="New Project" />
+
+	<ui:define name="header">
+		Start a new Social Project
+	</ui:define>
+
+	<ui:define name="header-right">
+		Everybody's doing it...
+	</ui:define>
+
+	<ui:define name="subnav">
+		<div class="alert-message info">
+			<p>We need a little bit of information about your new project.</p>
+		</div>
+	</ui:define>
+
+	<ui:define name="content">
+
+		<script type="text/javascript">
+			$(document).ready(function () {
+				var options = { trigger: 'focus', offset: 10, animate: true};
+				
+				$('#name').attr("data-original-title", "What should you call it?");
+				$('#name').attr("data-content", "The project name should be something that you and all of your partners will easily recognize and associate with. Try not to use things like dates and general topics. This name will appear in headers and labels throughout the site.");
+				$('#name').attr("rel", "popover");
+				$('#name').popover(options); 
+				$('#name').focus();
+
+				$('#slug').attr("data-original-title", "What's this SLUG thing?");
+				$('#slug').attr("data-content", "The project SLUG is used in links and bookmarks throughout the site; this is how your project will appear in URLs.");
+				$('#slug').attr("rel", "popover");
+				$('#slug').popover(options);  
+
+				$('#vision').attr("data-original-title", "What's your vision?");
+				$('#vision').attr("data-content", "Vision statements help focus your team. They should be both specific and measurable; try to be as clear and concise as possible. Good examples would be, \"Less expensive than our top five competitors,\" or \"No page more than three clicks away.\"");
+				$('#vision').attr("rel", "popover");
+				$('#vision').popover(options); 
+			});
+		</script>
+
+		<div class="row">
+			<div class="span12 columns">
+
+				<h:form prependId="false">
+					<div class="clearfix">
+						<label for="name">Project name</label>
+						<div class="input">
+							<ocp:message id="nameMsg" for="name" />
+							<h:inputText id="name" value="#{projects.current.name}"
+								styleClass="xLarge" required="true">
+							</h:inputText>
+							<span class="help-inline"></span>
+						</div>
+					</div>
+
+					<div class="clearfix">
+						<label for="slug">Link slug</label>
+						<div class="input">
+							<ocp:message id="slugMsg" for="slug" />
+							<h:inputText id="slug" value="#{projects.current.slug}"
+								styleClass="xLarge" style="text-transform: lowercase;"
+								required="true">
+							</h:inputText>
+							<span class="help-inline"></span>
+						</div>
+					</div>
+
+					<div class="clearfix">
+						<label for="name">Vision statement
+							<span class="help-inline">(optional)</span></label>
+						<div class="input">
+							<ocp:message id="visionMsg" for="vision" />
+							<h:inputTextarea id="vision" value="#{projects.current.vision}"
+								styleClass="xLarge">
+							</h:inputTextarea>
+						</div>
+					</div>
+
+					<div class="actions">
+						<h:commandButton action="#{projects.create}" value="Ok, let's go!"
+							styleClass="btn primary" />
+						&nbsp;
+						<h:commandButton action="/pages/home.xhtml?faces-redirect=true"
+							value="Cancel" styleClass="btn" immediate="true"/>
+					</div>
+				</h:form>
+				
+
+			</div>
+
+			<div class="span4 columns">
+				<h4>Note</h4>
+				
+				<p>You can create an unlimited number of public projects and invite your friends to work on them with you.</p>
+			</div>
+		</div>
+
+	</ui:define>
+
+	<ui:define name="side-items">
+		#{projects.current.name}
+	</ui:define>
+
+</ui:composition>
+</html>

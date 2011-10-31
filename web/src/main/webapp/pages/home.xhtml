@@ -86,17 +86,17 @@
 					<h3>Your Projects (${projects.count})</h3>
 					
 					<ul class="plain clear">
-						<ui:repeat var="project" value="#{projects.all}">
+						<ui:repeat var="p" value="#{projects.all}">
 							<li>
 								<div class="box" style="margin-bottom: 8px;">
 								
 									<div class="row">
 										<div class="span6 columns">
-											<h:button value="${project.owner.username}" outcome="/pages/account" /> 
+											<h:button value="${p.owner.username}" outcome="/pages/account" /> 
 											<span style="font-size: 16px;">
 												/ <h:link outcome="/pages/project/view"
-													value="#{project.name}">
-													<f:param name="project" value="#{project.slug}" />
+													value="#{p.name}">
+													<f:param name="project" value="#{p.slug}" />
 												</h:link>
 											</span>
 										</div>
