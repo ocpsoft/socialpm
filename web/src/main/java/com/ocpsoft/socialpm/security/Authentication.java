@@ -96,7 +96,8 @@ public class Authentication
    public void loginFailed(@Observes final LoginFailedEvent event, final NavigationHandler navigation)
             throws InterruptedException
    {
-      if (!AuthenticationStatus.DEFERRED.equals(openAuth.getStatus()))
+      if (!(OpenIdAuthenticator.class.equals(identity.getAuthenticatorClass())
+      && AuthenticationStatus.DEFERRED.equals(openAuth.getStatus())))
       {
          Exception exception = event.getLoginException();
          if (exception != null)

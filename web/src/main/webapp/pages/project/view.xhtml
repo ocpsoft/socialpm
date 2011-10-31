@@ -67,12 +67,12 @@
 				<div style="margin-bottom: 15px;">
 					<h1 class="header">Burndown Chart <span>How's everything going?.</span>
 			  			<h:link id="refresh" class="fr" action="/pages/project/view" 
-			  				style="color: white; padding:2px; position: relative; top:-2px; right: -2px;">
-			  				<f:param name="project" value="#{project.slug}" />
-			  				×</h:link>
+			  				style="color: white; padding:2px; position: relative; top: 0px; right: -8px;">
+			  				<h:graphicImage height="15" width="15" value="#{resource['refresh.png']}" />
+		  				</h:link>
 			  		</h1>
 			  		<ocp:tooltip for="refresh" title="Refresh" placement="left" trigger="hover" />
-					<div class="body" style="padding: 0px;">
+					<div class="body" style="padding: 0px; height: 345px;">
 						<h:graphicImage width="458" value="#{resource['burndown.jpg']}" />
 					</div>
 				</div>

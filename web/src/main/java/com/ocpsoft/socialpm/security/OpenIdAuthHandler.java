@@ -26,9 +26,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.transaction.UserTransaction;
 
+import org.jboss.seam.security.Authenticator.AuthenticationStatus;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.events.DeferredAuthenticationEvent;
 import org.jboss.seam.security.external.api.ResponseHolder;
@@ -62,9 +61,6 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
    @Inject
    private Event<DeferredAuthenticationEvent> deferredAuthentication;
 
-   @Inject
-   private HttpServletRequest request;
-
    @Override
    @Transactional
    public void loginSucceeded(final OpenIdPrincipal principal, final ResponseHolder responseHolder)
@@ -77,7 +73,24 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
           * If this is a new registration, we need to create a profile for this OpenId.
           */
          if (attachProfile(principal, responseHolder))
+         {
             responseHolder.getResponse().sendRedirect(servletContext.getContextPath() + "/");
+            return;
+         }
+      }
+      catch (IOException e) {
+         throw new RuntimeException(e);
+      }
+      deferredAuthentication.fire(new DeferredAuthenticationEvent(false));
+   }
+
+   @Override
+   public void loginFailed(final String message, final ResponseHolder responseHolder)
+   {
+      try {
+         deferredAuthentication.fire(new DeferredAuthenticationEvent(false));
+         openIdAuthenticator.setStatus(AuthenticationStatus.FAILURE);
+         responseHolder.getResponse().sendRedirect(servletContext.getContextPath() + "/signup");
       }
       catch (IOException e) {
          throw new RuntimeException(e);
@@ -90,10 +103,7 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
       profileService.setEntityManager(em);
    }
 
-   @Inject
-   private UserTransaction tx;
-
-   private boolean attachProfile(OpenIdPrincipal principal, ResponseHolder responseHolder)
+   private boolean attachProfile(final OpenIdPrincipal principal, final ResponseHolder responseHolder)
    {
       try
       {
@@ -104,19 +114,35 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
          String email = principal.getAttribute("email");
 
          try {
-            int status = tx.getStatus();
-            profileService.getProfileByEmail(email);
-            identity.logout();
+            Profile profileByEmail = profileService.getProfileByEmail(email);
+            if (!profileService.hasProfileByIdentityKey(key))
+            {
+               identity.logout();
 
-            responseHolder.getResponse().sendRedirect(
-                     servletContext.getContextPath()
-                              + "/signup?error=The email address used by your OpenID account is already " +
-                              "registered with a username on this website. " +
-                              "Please log in with that account and visit the " +
-                              "Accounts page to merge your profiles.");
+               responseHolder.getResponse().sendRedirect(
+                        servletContext.getContextPath()
+                                 + "/signup?error=The email address used by your OpenID account is already " +
+                                 "registered with a username on this website. " +
+                                 "Please log in with that account and visit the " +
+                                 "Accounts page to merge your profiles.");
+            }
+            else if (profileByEmail.equals(profileService.getProfileByIdentityKey(key)))
+            {
+               return true;
+            }
+            else
+            {
+               identity.logout();
+
+               responseHolder.getResponse().sendRedirect(
+                        servletContext.getContextPath()
+                                 + "/signup?error=The email address used by your OpenID account is already " +
+                                 "registered with a username on this website. " +
+                                 "Please log in with that account and visit the " +
+                                 "Accounts page to merge your profiles.");
+            }
          }
          catch (NoResultException e) {
-            int status = tx.getStatus();
             if (!profileService.hasProfileByIdentityKey(key))
             {
                Profile p = new Profile();
@@ -127,11 +153,6 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
                profileService.create(p);
                return true;
             }
-            else
-            {
-               // what do we do if they have a profile already but the email address does not match?
-            }
-
          }
       }
       catch (Exception e) {
@@ -144,16 +165,5 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
       }
 
       return false;
-   }
-
-   @Override
-   public void loginFailed(final String message, final ResponseHolder responseHolder)
-   {
-      try {
-         responseHolder.getResponse().sendRedirect(servletContext.getContextPath() + "/signup");
-      }
-      catch (IOException e) {
-         throw new RuntimeException(e);
-      }
    }
 }

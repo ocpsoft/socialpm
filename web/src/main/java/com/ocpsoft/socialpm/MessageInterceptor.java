@@ -27,7 +27,7 @@ import com.ocpsoft.rewrite.config.ConfigurationBuilder;
 import com.ocpsoft.rewrite.context.EvaluationContext;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import com.ocpsoft.rewrite.servlet.config.HttpOperation;
-import com.ocpsoft.rewrite.servlet.config.RequestParameter;
+import com.ocpsoft.rewrite.servlet.config.QueryString;
 import com.ocpsoft.rewrite.servlet.http.event.HttpServletRewrite;
 
 /**
@@ -48,13 +48,13 @@ public class MessageInterceptor extends HttpConfigurationProvider
 
                .defineRule()
                .when(
-                        RequestParameter.exists("info")
-                                 .or(RequestParameter.exists("warning"))
-                                 .or(RequestParameter.exists("error"))
+                        QueryString.parameterExists("info")
+                                 .or(QueryString.parameterExists("warning"))
+                                 .or(QueryString.parameterExists("error"))
                )
                .perform(new HttpOperation() {
                   @Override
-                  public void performHttp(HttpServletRewrite event, EvaluationContext context)
+                  public void performHttp(final HttpServletRewrite event, final EvaluationContext context)
                   {
                      for (String type : Arrays.asList("info", "warning", "error")) {
                         String error = event.getRequest().getParameter(type);
@@ -68,6 +68,18 @@ public class MessageInterceptor extends HttpConfigurationProvider
                               messages.error(error);
                         }
                      }
+
+                     // URLBuilder url = URLBuilder.begin();
+                     // QueryStringBuilder query = url
+                     // .addPathSegments(event.getRequestPath())
+                     // .getQueryStringBuilder();
+                     //
+                     // query.removeParameter("info");
+                     // query.removeParameter("warn");
+                     // query.removeParameter("error");
+                     //
+                     // String target = url.toURL();
+                     // Forward.to(target).perform(event, context);
                   }
                });
 

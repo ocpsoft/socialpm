@@ -121,7 +121,9 @@
 								<h:outputText value=" " />
 								<h:inputSecret id="password" value="#{credentials.password}" style="width: 100px;"/>
 								<h:outputText value=" " />
-								<h:commandButton action="#{identity.login}" value="Sign in" />
+								<h:commandButton action="#{authentication.login}" value="Sign in">
+									<f:ajax execute="@form" />
+								</h:commandButton>
 							</h:form>
 						</li>
 						</h:panelGroup>
