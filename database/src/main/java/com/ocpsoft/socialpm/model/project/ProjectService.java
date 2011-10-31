@@ -36,17 +36,17 @@ import com.ocpsoft.socialpm.domain.user.Profile;
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@TransactionAttribute
 public class ProjectService extends PersistenceUtil
 {
    private static final long serialVersionUID = 1403645951285144409L;
 
    @Override
-   public void setEntityManager(EntityManager em)
+   public void setEntityManager(final EntityManager em)
    {
       this.em = em;
    }
 
+   @TransactionAttribute
    public Project create(final Profile owner, final Project p)
    {
       p.setOwner(owner);
