@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ocpsoft.socialpm;
+package com.ocpsoft.socialpm.rewrite;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
@@ -21,9 +21,9 @@ import javax.servlet.ServletContext;
 import com.ocpsoft.rewrite.config.Configuration;
 import com.ocpsoft.rewrite.config.ConfigurationBuilder;
 import com.ocpsoft.rewrite.config.Direction;
-import com.ocpsoft.rewrite.servlet.config.DispatchType;
-import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
+import com.ocpsoft.rewrite.servlet.config.Path;
+import com.ocpsoft.rewrite.servlet.config.Redirect;
 import com.ocpsoft.rewrite.servlet.config.rule.Join;
 import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.domain.user.Profile;
@@ -31,7 +31,7 @@ import com.ocpsoft.socialpm.domain.user.Profile;
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-public class AccountVerificationInterceptor extends HttpConfigurationProvider
+public class AuthenticationStatusInterceptor extends HttpConfigurationProvider
 {
    @Inject
    @LoggedIn
@@ -41,15 +41,19 @@ public class AccountVerificationInterceptor extends HttpConfigurationProvider
    public Configuration getConfiguration(final ServletContext context)
    {
       ConfigurationBuilder config = ConfigurationBuilder.begin();
-      if (profile.isPersistent() && !profile.isUsernameConfirmed())
+      if (!profile.isPersistent())
       {
-         return config.defineRule()
-                  .when(DispatchType.isRequest()
-                           .and(Direction.isInbound())
-                           .and(SocialPMResources.excluded()))
-                  .perform(Forward.to("/account/confirm"))
-
-                  .addRule(Join.path("/account/confirm").to("/pages/accountConfirm.xhtml"));
+         /*
+          * If the user is not logged in, show them the guest home page instead of the dashboard.
+          */
+         return config.addRule(Join.path("/").to("/pages/loggedOffHome.xhtml"));
+      }
+      else
+      {
+         config.defineRule()
+                  .when(Direction.isInbound()
+                           .and(Path.matches("/signup|/login")))
+                  .perform(Redirect.temporary(context.getContextPath() + "/"));
       }
       return config;
    }
@@ -57,6 +61,6 @@ public class AccountVerificationInterceptor extends HttpConfigurationProvider
    @Override
    public int priority()
    {
-      return 0;
+      return 5;
    }
 }

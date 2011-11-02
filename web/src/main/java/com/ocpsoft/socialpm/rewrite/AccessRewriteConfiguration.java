@@ -13,54 +13,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ocpsoft.socialpm;
+package com.ocpsoft.socialpm.rewrite;
 
-import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
+import com.ocpsoft.common.services.NonEnriching;
+import com.ocpsoft.rewrite.bind.El;
 import com.ocpsoft.rewrite.config.Configuration;
 import com.ocpsoft.rewrite.config.ConfigurationBuilder;
 import com.ocpsoft.rewrite.config.Direction;
+import com.ocpsoft.rewrite.config.Invoke;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import com.ocpsoft.rewrite.servlet.config.Path;
 import com.ocpsoft.rewrite.servlet.config.Redirect;
 import com.ocpsoft.rewrite.servlet.config.rule.Join;
-import com.ocpsoft.socialpm.cdi.LoggedIn;
-import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-public class AuthenticationStatusInterceptor extends HttpConfigurationProvider
+public class AccessRewriteConfiguration extends HttpConfigurationProvider implements NonEnriching
 {
-   @Inject
-   @LoggedIn
-   private Profile profile;
-
    @Override
    public Configuration getConfiguration(final ServletContext context)
    {
-      ConfigurationBuilder config = ConfigurationBuilder.begin();
-      if (!profile.isPersistent())
-      {
-         /*
-          * If the user is not logged in, show them the guest home page instead of the dashboard.
-          */
-         return config.addRule(Join.path("/").to("/pages/loggedOffHome.xhtml"));
-      }
-      else
-      {
-         config.defineRule()
-                  .when(Direction.isInbound()
-                           .and(Path.matches("/signup|/login")))
-                  .perform(Redirect.temporary(context.getContextPath() + "/"));
-      }
-      return config;
+      return ConfigurationBuilder.begin()
+
+               .addRule(Join.path("/").to("/pages/home.xhtml"))
+               .addRule(Join.path("/projects/new").to("/pages/project/create.xhtml"))
+
+               .addRule(Join.path("/signup").to("/pages/signup.xhtml"))
+
+               // 404 and Error
+               .addRule(Join.path("/404").to("/pages/404.xhtml"))
+               .addRule(Join.path("/error").to("/pages/error.xhtml"))
+
+               // Authentication
+               .defineRule()
+               .when(Direction.isInbound().and(Path.matches("/logout")))
+               .perform(Invoke.binding(El.retrievalMethod("authentication.logout"))
+                        .and(Redirect.temporary(context.getContextPath() + "/")))
+
+      ;
    }
 
    @Override
    public int priority()
    {
-      return 5;
+      return 10;
    }
 }

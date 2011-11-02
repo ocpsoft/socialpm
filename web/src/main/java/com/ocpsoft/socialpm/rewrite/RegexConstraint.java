@@ -13,25 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ocpsoft.socialpm;
+package com.ocpsoft.socialpm.rewrite;
 
 import com.ocpsoft.rewrite.context.EvaluationContext;
 import com.ocpsoft.rewrite.event.Rewrite;
-import com.ocpsoft.rewrite.param.Transform;
+import com.ocpsoft.rewrite.param.Constraint;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-public class ToLowerCase implements Transform<String>
+public class RegexConstraint implements Constraint<String>
 {
-   @Override
-   public String transform(Rewrite event, EvaluationContext context, String value)
-   {
-      if (value == null)
-         return value;
+   private final String pattern;
 
-      return value.toString().toLowerCase();
+   public RegexConstraint(String pattern)
+   {
+      this.pattern = pattern;
    }
 
+   @Override
+   public boolean isSatisfiedBy(Rewrite event, EvaluationContext context, String value)
+   {
+      return value.matches(pattern);
+   }
 }

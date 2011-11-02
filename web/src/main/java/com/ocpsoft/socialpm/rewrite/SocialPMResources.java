@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ocpsoft.socialpm;
+package com.ocpsoft.socialpm.rewrite;
 
 import com.ocpsoft.rewrite.config.Condition;
 import com.ocpsoft.rewrite.config.ConditionBuilder;

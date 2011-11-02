@@ -28,29 +28,52 @@
  * Optionally, customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm;
+package com.ocpsoft.socialpm.rewrite;
 
-import com.ocpsoft.rewrite.config.Operation;
+import java.net.MalformedURLException;
+
+import com.ocpsoft.logging.Logger;
+import com.ocpsoft.rewrite.bind.Evaluation;
+import com.ocpsoft.rewrite.bind.ParameterizedPattern;
 import com.ocpsoft.rewrite.context.EvaluationContext;
-import com.ocpsoft.rewrite.servlet.config.HttpOperation;
+import com.ocpsoft.rewrite.param.Parameter;
+import com.ocpsoft.rewrite.servlet.config.HttpCondition;
 import com.ocpsoft.rewrite.servlet.http.event.HttpServletRewrite;
 
 /**
- * Mark the current Rewrite event as handled.
- * 
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-public class MarkEvent
+public class Resource extends HttpCondition
 {
-   public static Operation handled()
-   {
-      return new HttpOperation() {
+   // TODO move to rewrite proper
+   private static final Logger log = Logger.getLogger(Resource.class);
 
-         @Override
-         public void performHttp(final HttpServletRewrite event, final EvaluationContext context)
-         {
-            event.handled();
-         }
-      };
+   private ParameterizedPattern resource = new ParameterizedPattern("/pages/{page}.xhtml");
+
+   private Resource(final String resource)
+   {
+      this.resource = new ParameterizedPattern(resource);
+
+      for (Parameter<String> parameter : this.resource.getParameters().values()) {
+         parameter.bindsTo(Evaluation.property(parameter.getName()));
+      }
+   }
+
+   @Override
+   public boolean evaluateHttp(final HttpServletRewrite event, final EvaluationContext context)
+   {
+      String file = resource.build(event, context);
+      try {
+         return event.getRequest().getServletContext().getResource(file) != null;
+      }
+      catch (MalformedURLException e) {
+         log.debug("Invalid file format [{}]", file);
+      }
+      return false;
+   }
+
+   public static Resource exists(final String resource)
+   {
+      return new Resource(resource);
    }
 }

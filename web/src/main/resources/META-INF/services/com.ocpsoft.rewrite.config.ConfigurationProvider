@@ -1,6 +1,6 @@
-com.ocpsoft.socialpm.AccessRewriteConfiguration
-com.ocpsoft.socialpm.CatchallRewriteConfiguration
-com.ocpsoft.socialpm.ProjectRewriteConfiguration
-com.ocpsoft.socialpm.AccountVerificationInterceptor
-com.ocpsoft.socialpm.MessageInterceptor
-com.ocpsoft.socialpm.AuthenticationStatusInterceptor
+com.ocpsoft.socialpm.rewrite.AccessRewriteConfiguration
+com.ocpsoft.socialpm.rewrite.CatchallRewriteConfiguration
+com.ocpsoft.socialpm.rewrite.ProjectRewriteConfiguration
+com.ocpsoft.socialpm.rewrite.AccountVerificationInterceptor
+com.ocpsoft.socialpm.rewrite.MessageInterceptor
+com.ocpsoft.socialpm.rewrite.AuthenticationStatusInterceptor
