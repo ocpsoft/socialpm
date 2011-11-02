@@ -55,7 +55,7 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                                  .where("project")
                                  .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
                                  .transformedBy(new ToLowerCase())))
-               .perform(Redirect.permanent(context.getContextPath() + "/p/{project}"))
+               .perform(Redirect.permanent(context.getContextPath() + "/{profile}/{project}"))
 
                /*
                 * Transform Profile Name and Project Slug
