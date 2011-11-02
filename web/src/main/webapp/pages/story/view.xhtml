@@ -9,23 +9,25 @@
 	<ui:param name="title" value="New Project" />
 
 	<ui:define name="header">
-		#{projects.current.name} &raquo; Story #{stories.current.id} 
+		<h:link value="#{projects.current.owner.username}" outcome="/pages/account" /> 
+		/ 
+		<h:link value="#{projects.current.name}" outcome="/pages/project/view">
+			<f:param name="profile" value="#{project.owner.username}" />
+			<f:param name="project" value="#{project.slug}" />
+		</h:link>
+		/ Story #{stories.current.number}
 	</ui:define>
 
 	<ui:define name="header-right">
-		Share yours.
+		Big news here.
 	</ui:define>
 
 	<ui:define name="content">
 
 		<div class="row">
-			<div class="span12 columns">
-					#{stories.current.role}
-			</div>
-
-			<div class="span4 columns">
-				<h4></h4>
-			</div>
+			<div class="well">
+				 <h3>As a #{story.role}, I want #{story.objective}, so that #{story.result}.</h3>
+			 </div>
 		</div>
 
 	</ui:define>

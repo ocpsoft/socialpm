@@ -25,27 +25,32 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:form id="mainForm">
-			<h:dataTable width="100%" id="stories"
-				value="#{projects.current.stories}" var="story">
-				<f:facet name="header">
-					<h3>Story Backlog</h3>
-				</f:facet>
-				<h:column>
-					<f:facet name="header">ID</f:facet>
-					<h:outputText value="#{story.id}" />
-				</h:column>
-				<h:column>
-					<f:facet name="header">Story</f:facet>
-					<h:outputText value="#{story.text}" />
-				</h:column>
-				<f:facet name="footer">
-					<h:panelGroup rendered="#{empty projects.current.stories}">
-							This project does not yet have any stories! 
-						</h:panelGroup>
-				</f:facet>
-			</h:dataTable>
-		</h:form>
+	
+		<ul class="plain clear">
+			<ui:repeat var="s" value="#{project.stories}">
+				<li>
+					<div class="box" style="margin-bottom: 8px;">
+					
+						<div class="row">
+							<div class="span6 columns">
+								<h:button outcome="/pages/story/view"
+									value="#{s.number}">
+									<f:param name="profile" value="#{project.owner.username}" />
+									<f:param name="project" value="#{project.slug}" />
+									<f:param name="story" value="#{s.number}" />
+								</h:button>
+								<span style="font-size: 16px; padding-right: 30px;">
+									 As a #{s.role}, I want #{s.objective}, so that #{s.result}.
+								</span>
+							</div>
+							<div class="span1 columns">
+								<a href="#" class="btn warn fr">Entered</a>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ui:repeat>
+		</ul>
 	</ui:define>
 
 	<ui:define name="side-items">

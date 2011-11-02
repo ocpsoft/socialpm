@@ -30,20 +30,20 @@
 					<h3>Open Stories (${iteration.numOpenFrontShelfStories})</h3>
 					
 					<ul class="plain clear">
-						<ui:repeat var="story" value="#{iteration.frontShelfStories}">
+						<ui:repeat var="s" value="#{iteration.frontShelfStories}">
 							<li>
 								<div class="box" style="margin-bottom: 8px;">
 								
 									<div class="row">
 										<div class="span6 columns">
 											<h:button outcome="/pages/story/view"
-												value="#{story.number}">
-												<f:param name="owner" value="#{project.owner.username}" />
+												value="#{s.number}">
+												<f:param name="profile" value="#{project.owner.username}" />
 												<f:param name="project" value="#{project.slug}" />
-												<f:param name="story" value="#{story.number}" />
+												<f:param name="story" value="#{s.number}" />
 											</h:button>
 											<span style="font-size: 16px; padding-right: 30px;">
-												 As a #{story.role}, I want #{story.objective}, so that #{story.result}.
+												 As a #{s.role}, I want #{s.objective}, so that #{s.result}.
 											</span>
 										</div>
 										<div class="span1 columns">

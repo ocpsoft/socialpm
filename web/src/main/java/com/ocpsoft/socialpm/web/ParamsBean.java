@@ -28,6 +28,7 @@ public class ParamsBean
 {
    private String projectSlug;
    private String profileUsername;
+   private int storyNumber;
 
    public String getProjectSlug()
    {
@@ -47,5 +48,15 @@ public class ParamsBean
    public void setProfileUsername(final String profileUsername)
    {
       this.profileUsername = profileUsername;
+   }
+
+   public int getStoryNumber()
+   {
+      return storyNumber;
+   }
+
+   public void setStoryNumber(final int storyNumber)
+   {
+      this.storyNumber = storyNumber;
    }
 }

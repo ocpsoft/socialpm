@@ -74,7 +74,7 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                .perform(Redirect.permanent(context.getContextPath() + "/{profile}/{project}{tail}"))
 
                /*
-                *  Bind project value to EL & Load current Project
+                *  Bind profile and project value to EL & Load current Project
                 */
                .defineRule()
                .when(Direction.isInbound()
@@ -94,8 +94,6 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                                  .and(Direction.isInbound())
                                  .and(Path.matches("/{profile}/{project}.*")
                                           .where("profile").matches(PROJECT)
-                                          .bindsTo(El.property("params.profileUsername"))
-
                                           .where("project").matches(PROJECT)
                                           .bindsTo(El.property("params.projectSlug")))
                )
@@ -125,11 +123,30 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                         .when(SocialPMResources.excluded())
                )
 
-               .addRule(Join.path("/{profile}/{project}-{story}")
+               /*
+                * Bind story number to EL and Load current story
+                */
+               .defineRule()
+               .when(
+                        Direction.isInbound()
+                                 .andNot(Path.matches(".*xhtml"))
+                                 .and(Direction.isInbound())
+                                 .and(Path.matches("/{profile}/{project}/story/{story}.*")
+                                          .where("profile").matches(PROJECT)
+                                          .where("project").matches(PROJECT)
+                                          .where("story").matches(PROJECT)
+                                          .bindsTo(El.property("params.storyNumber")))
+               )
+               .perform(PhaseAction.retrieveFrom(El.retrievalMethod("stories.loadCurrent")))
+
+               .addRule(Join.path("/{profile}/{project}/story/{story}")
                         .to("/pages/story/view.xhtml")
                         .where("project").matches(PROJECT)
                         .when(SocialPMResources.excluded())
-               );
+               )
+
+      ;
+
    }
 
    @Override

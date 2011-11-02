@@ -17,15 +17,18 @@ package com.ocpsoft.socialpm.project;
 
 import java.io.Serializable;
 
-import javax.enterprise.context.ConversationScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.international.status.Messages;
 
+import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.model.project.StoryService;
+import com.ocpsoft.socialpm.web.ParamsBean;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 /**
@@ -33,7 +36,7 @@ import com.ocpsoft.socialpm.web.constants.UrlConstants;
  * 
  */
 @Named
-@ConversationScoped
+@RequestScoped
 public class Stories implements Serializable
 {
    private static final long serialVersionUID = -6828711689148386870L;
@@ -44,12 +47,16 @@ public class Stories implements Serializable
 
    private StoryService ss;
 
+   private ParamsBean params;
+
    public Stories()
    {}
 
    @Inject
-   public Stories(final EntityManager em, final StoryService ss, final Projects projects, final Messages messages)
+   public Stories(final EntityManager em, final StoryService ss, final Projects projects, final Messages messages,
+            final ParamsBean params)
    {
+      this.params = params;
       this.messages = messages;
       this.projects = projects;
       this.ss = ss;
@@ -60,25 +67,37 @@ public class Stories implements Serializable
 
    public String loadCurrent()
    {
-      if ((current != null) && (current.getId() != null))
+      Project project = projects.getCurrent();
+
+      if (project.isPersistent())
       {
-         current = ss.findById(current.getId());
-         return null;
+         if ((current != null) && (params.getStoryNumber() != 0))
+         {
+            current = ss.findByProjectAndNumber(project, params.getStoryNumber());
+            return null;
+         }
+         else
+         {
+            messages.error("Oops! We couldn't find that Story.");
+            // TODO need a better navigation system
+            return "/pages/project/view?faces-redirect=true&profile=" + project.getOwner().getUsername()
+                     + "&project=" + project.getSlug();
+         }
       }
-      else
-      {
-         messages.error("Oops! We couldn't find that Story.");
-         return UrlConstants.HOME;
-      }
+      return null;
    }
 
    public String create()
    {
       ss.create(projects.getCurrent(), current);
       return UrlConstants.PROJECT_VIEW + "&project=" + projects.getCurrent().getSlug() + "&profile="
-               + current.getProject().getOwner().getUsername();
+               + current.getProject().getOwner().getUsername()
+               + "&story=" + current.getNumber();
    }
 
+   @Produces
+   @Named("story")
+   @RequestScoped
    public Story getCurrent()
    {
       return current;
