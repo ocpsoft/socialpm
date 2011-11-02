@@ -21,6 +21,8 @@ import javax.faces.application.NavigationHandler;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.international.status.Messages;
@@ -34,6 +36,7 @@ import org.jboss.seam.security.management.IdmAuthenticator;
 import org.picketlink.idm.api.User;
 
 import com.ocpsoft.logging.Logger;
+import com.ocpsoft.rewrite.servlet.impl.HttpInboundRewriteImpl;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -57,12 +60,12 @@ public class Authentication
    private Messages messages;
 
    @Inject
-   private IdmAuthenticator auth;
-
-   @Inject
    private OpenIdAuthenticator openAuth;
 
-   public void loginSuccess(@Observes final LoggedInEvent event, final NavigationHandler navigation)
+   public void loginSuccess(@Observes final LoggedInEvent event, final NavigationHandler navigation,
+            final FacesContext context,
+            final HttpServletRequest request,
+            final HttpServletResponse response)
    {
       User user = event.getUser();
       logger.info("User logged in [{}, {}]", user.getId(), user.getKey());
@@ -71,11 +74,16 @@ public class Authentication
 
       String viewId = context.getViewRoot().getViewId();
       if (!"/pages/signup.xhtml".equals(viewId))
-         result = viewId;
-      else
+      {
+         // TODO need a better way to navigate: this doesn't work with AJAX requests
+         HttpInboundRewriteImpl rewrite = new HttpInboundRewriteImpl(request, response);
+         rewrite.redirectTemporary(rewrite.getContextPath() + rewrite.getURL());
+         return;
+      }
+      else {
          result = "/pages/home";
-
-      navigation.handleNavigation(context, null, result + "?faces-redirect=true");
+         navigation.handleNavigation(context, null, result + "?faces-redirect=true");
+      }
    }
 
    /*

@@ -37,7 +37,7 @@ import org.picketlink.idm.common.exception.IdentityException;
 import org.picketlink.idm.impl.api.PasswordCredential;
 
 import com.ocpsoft.logging.Logger;
-import com.ocpsoft.socialpm.cdi.Current;
+import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
 
@@ -72,7 +72,7 @@ public class Registration
    {}
 
    @Inject
-   public Registration(@Current Profile profile, ProfileService profileService, IdentitySession security,
+   public Registration(@LoggedIn Profile profile, ProfileService profileService, IdentitySession security,
             Credentials credentials,
             Identity identity, Messages msg)
    {

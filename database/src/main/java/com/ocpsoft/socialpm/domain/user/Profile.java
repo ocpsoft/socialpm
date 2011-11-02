@@ -147,8 +147,12 @@ public class Profile extends PersistentObject<Profile>
       return username;
    }
 
-   public void setUsername(final String username)
+   public void setUsername(String username)
    {
+      if (username != null)
+      {
+         username = username.toLowerCase();
+      }
       this.username = username;
    }
 
@@ -205,7 +209,7 @@ public class Profile extends PersistentObject<Profile>
       return showBootcamp;
    }
 
-   public void setShowBootcamp(boolean showBootcamp)
+   public void setShowBootcamp(final boolean showBootcamp)
    {
       this.showBootcamp = showBootcamp;
    }

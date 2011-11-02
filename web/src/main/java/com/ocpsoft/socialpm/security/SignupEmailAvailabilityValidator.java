@@ -25,7 +25,7 @@ import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import com.ocpsoft.socialpm.cdi.Current;
+import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
 
@@ -40,7 +40,7 @@ public class SignupEmailAvailabilityValidator implements Validator
    private ProfileService ps;
 
    @Inject
-   @Current
+   @LoggedIn
    private Profile profile;
 
    @Override

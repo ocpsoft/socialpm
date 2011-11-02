@@ -75,7 +75,8 @@ public class Stories implements Serializable
    public String create()
    {
       ss.create(projects.getCurrent(), current);
-      return UrlConstants.PROJECT_VIEW + "&project=" + projects.getCurrent().getSlug();
+      return UrlConstants.PROJECT_VIEW + "&project=" + projects.getCurrent().getSlug() + "&profile="
+               + current.getProject().getOwner().getUsername();
    }
 
    public Story getCurrent()

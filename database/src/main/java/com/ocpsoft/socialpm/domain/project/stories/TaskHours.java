@@ -55,8 +55,6 @@ import org.hibernate.annotations.OnDeleteAction;
 @Table(name = "task_hours", uniqueConstraints = { @UniqueConstraint(columnNames = { "task_id", "date" }) })
 public class TaskHours
 {
-   private static final long serialVersionUID = -7476573232041610503L;
-
    @Id
    @GeneratedValue(strategy = GenerationType.AUTO)
    @Column(name = "id", updatable = false, nullable = false)
@@ -108,7 +106,7 @@ public class TaskHours
    {
       final int prime = 31;
       int result = 1;
-      result = prime * result + ((date == null) ? 0 : date.hashCode());
+      result = (prime * result) + ((date == null) ? 0 : date.hashCode());
       return result;
    }
 

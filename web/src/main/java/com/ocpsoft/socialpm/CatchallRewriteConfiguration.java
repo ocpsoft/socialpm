@@ -15,9 +15,9 @@
  */
 package com.ocpsoft.socialpm;
 
-import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
+import com.ocpsoft.common.services.NonEnriching;
 import com.ocpsoft.rewrite.config.Configuration;
 import com.ocpsoft.rewrite.config.ConfigurationBuilder;
 import com.ocpsoft.rewrite.config.Direction;
@@ -25,38 +25,32 @@ import com.ocpsoft.rewrite.servlet.config.DispatchType;
 import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import com.ocpsoft.rewrite.servlet.config.rule.Join;
-import com.ocpsoft.socialpm.cdi.LoggedIn;
-import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-public class AccountVerificationInterceptor extends HttpConfigurationProvider
+public class CatchallRewriteConfiguration extends HttpConfigurationProvider implements NonEnriching
 {
-   @Inject
-   @LoggedIn
-   private Profile profile;
-
    @Override
    public Configuration getConfiguration(final ServletContext context)
    {
-      ConfigurationBuilder config = ConfigurationBuilder.begin();
-      if (profile.isPersistent() && !profile.isUsernameConfirmed())
-      {
-         return config.defineRule()
-                  .when(DispatchType.isRequest()
-                           .and(Direction.isInbound())
-                           .and(SocialPMResources.excluded()))
-                  .perform(Forward.to("/account/confirm"))
+      return ConfigurationBuilder.begin()
 
-                  .addRule(Join.path("/account/confirm").to("/pages/accountConfirm.xhtml"));
-      }
-      return config;
+               .addRule(Join.path("/{page}")
+                        .to("/pages/{page}.xhtml")
+                        .when(Resource.exists("/pages/{page}.xhtml"))
+                        .where("page").matches("(?!RES_NOT_FOUND)[^/]+"))
+
+               // Block direct access to XHTML files
+               .defineRule().when(DispatchType.isRequest()
+                        .and(Direction.isInbound())
+                        .and(SocialPMResources.excluded()))
+               .perform(Forward.to("/404"));
    }
 
    @Override
    public int priority()
    {
-      return 0;
+      return 30;
    }
 }

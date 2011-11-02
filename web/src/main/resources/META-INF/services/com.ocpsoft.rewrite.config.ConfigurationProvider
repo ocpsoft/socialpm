@@ -1,4 +1,6 @@
-com.ocpsoft.socialpm.URLRewriteConfiguration
+com.ocpsoft.socialpm.AccessRewriteConfiguration
+com.ocpsoft.socialpm.CatchallRewriteConfiguration
+com.ocpsoft.socialpm.ProjectRewriteConfiguration
 com.ocpsoft.socialpm.AccountVerificationInterceptor
 com.ocpsoft.socialpm.MessageInterceptor
-com.ocpsoft.socialpm.GuestHomeInterceptor
+com.ocpsoft.socialpm.AuthenticationStatusInterceptor

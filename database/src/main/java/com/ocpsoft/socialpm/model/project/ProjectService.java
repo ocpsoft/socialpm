@@ -92,16 +92,6 @@ public class ProjectService extends PersistenceUtil
       return p;
    }
 
-   public Project findByName(final String name)
-   {
-      return findUniqueByNamedQuery("project.byName", name);
-   }
-
-   public Project findBySlug(final String slug)
-   {
-      return findUniqueByNamedQuery("project.bySlug", slug);
-   }
-
    public List<Project> findAll()
    {
       return findAll(Project.class);
@@ -110,6 +100,11 @@ public class ProjectService extends PersistenceUtil
    public long getProjectCount()
    {
       return count(Project.class);
+   }
+
+   public Project findByProfileAndSlug(final Profile profile, final String slug)
+   {
+      return findUniqueByNamedQuery("project.byProfileAndSlug", profile, slug);
    }
 
 }

@@ -68,13 +68,13 @@ public abstract class PersistentObject<E extends PersistentObject<?>> implements
    private Date createdOn;
 
    @PrePersist
-   void prePersistSetCreationTimestamp()
+   void prePersist()
    {
       createdOn = new Date();
    }
 
    @PreUpdate
-   void preUpdateSetLastUpdatedTimestamp()
+   void preUpdate()
    {
       lastUpdate = new Date();
    }

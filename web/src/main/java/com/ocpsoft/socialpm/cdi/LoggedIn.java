@@ -36,7 +36,7 @@ import javax.inject.Qualifier;
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-public @interface Current
+public @interface LoggedIn
 {
 
 }

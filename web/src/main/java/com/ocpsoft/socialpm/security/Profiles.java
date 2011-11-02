@@ -27,9 +27,10 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.security.Identity;
 
-import com.ocpsoft.socialpm.cdi.Current;
+import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
+import com.ocpsoft.socialpm.web.ParamsBean;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -50,6 +51,9 @@ public class Profiles implements Serializable
    @Inject
    private ProfileService ps;
 
+   @Inject
+   private ParamsBean params;
+
    @PostConstruct
    public void init()
    {
@@ -57,29 +61,44 @@ public class Profiles implements Serializable
    }
 
    @Produces
-   @Current
    @Named("profile")
    @RequestScoped
-   public Profile current()
+   public Profile getCurrent()
    {
-      Profile current = new Profile();
+      Profile result = new Profile();
+      try {
+         result = ps.getProfileByUsername(params.getProfileUsername());
+      }
+      catch (NoResultException e) {
+         // not an error
+      }
+      return result;
+   }
+
+   @Produces
+   @LoggedIn
+   @Named("userProfile")
+   @RequestScoped
+   public Profile getLoggedIn()
+   {
+      Profile loggedIn = new Profile();
       try {
          if (identity.isLoggedIn())
          {
-            current = ps.getProfileByIdentityKey(identity.getUser().getKey());
+            loggedIn = ps.getProfileByIdentityKey(identity.getUser().getKey());
          }
          else if (!identity.isLoggedIn())
          {}
       }
       catch (NoResultException e) {
-         e.printStackTrace();
+         // TODO log error
       }
-      return current;
+      return loggedIn;
    }
 
    public String dismissBootcamp()
    {
-      Profile current = current();
+      Profile current = getLoggedIn();
       current.setShowBootcamp(false);
       ps.save(current);
       return "/pages/home?faces-redirect=true";

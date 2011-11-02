@@ -46,24 +46,26 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 
-import com.ocpsoft.socialpm.domain.PersistentObject;
+import com.ocpsoft.socialpm.domain.DeletableObject;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.util.Strings;
 
 @Entity
-@Table(name = "projects")
-@NamedQueries({ @NamedQuery(name = "project.byName", query = "from Project where name = ?"),
-         @NamedQuery(name = "project.bySlug", query = "from Project where slug = ?"),
+@Table(name = "projects", uniqueConstraints = { @UniqueConstraint(columnNames = { "owner_id", "slug" }) })
+@NamedQueries({
+         @NamedQuery(name = "project.byProfileAndSlug", query = "FROM Project WHERE owner = ? AND slug = ?"),
          @NamedQuery(name = "project.count", query = "select count(*) from Project"),
          @NamedQuery(name = "project.list", query = "from Project p order by p.slug asc") })
-public class Project extends PersistentObject<Project>
+public class Project extends DeletableObject<Project>
 {
    private static final long serialVersionUID = 719438791700341079L;
 
@@ -88,11 +90,11 @@ public class Project extends PersistentObject<Project>
    private List<Milestone> milestones = new ArrayList<Milestone>();
 
    @Index(name = "projectNameIndex")
-   @Column(length = 48, nullable = false, updatable = false, unique = true)
+   @Column(length = 48, nullable = false)
    private String name;
 
    @Index(name = "projectSlugIndex")
-   @Column(length = 12, nullable = false, updatable = false, unique = true)
+   @Column(length = 12, nullable = false)
    private String slug;
 
    @Column(length = 128)
@@ -497,6 +499,7 @@ public class Project extends PersistentObject<Project>
    {
       if (slug != null)
       {
+         slug = Strings.canonicalize(slug);
          slug = slug.toLowerCase();
       }
       this.slug = slug;

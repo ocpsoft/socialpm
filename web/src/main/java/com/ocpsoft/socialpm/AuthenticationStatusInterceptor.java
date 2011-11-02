@@ -20,18 +20,21 @@ import javax.servlet.ServletContext;
 
 import com.ocpsoft.rewrite.config.Configuration;
 import com.ocpsoft.rewrite.config.ConfigurationBuilder;
+import com.ocpsoft.rewrite.config.Direction;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
+import com.ocpsoft.rewrite.servlet.config.Path;
+import com.ocpsoft.rewrite.servlet.config.Redirect;
 import com.ocpsoft.rewrite.servlet.config.rule.Join;
-import com.ocpsoft.socialpm.cdi.Current;
+import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-public class GuestHomeInterceptor extends HttpConfigurationProvider
+public class AuthenticationStatusInterceptor extends HttpConfigurationProvider
 {
    @Inject
-   @Current
+   @LoggedIn
    private Profile profile;
 
    @Override
@@ -44,6 +47,13 @@ public class GuestHomeInterceptor extends HttpConfigurationProvider
           * If the user is not logged in, show them the guest home page instead of the dashboard.
           */
          return config.addRule(Join.path("/").to("/pages/loggedOffHome.xhtml"));
+      }
+      else
+      {
+         config.defineRule()
+                  .when(Direction.isInbound()
+                           .and(Path.matches("/signup|/login")))
+                  .perform(Redirect.temporary(context.getContextPath() + "/"));
       }
       return config;
    }

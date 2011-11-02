@@ -41,4 +41,18 @@ public abstract class SocialPMResources extends ConditionBuilder
          }
       };
    }
+
+   public static Condition included()
+   {
+      return new SocialPMResources() {
+         @Override
+         public boolean evaluate(final Rewrite event, final EvaluationContext context)
+         {
+            return Path.matches(".*javax\\.faces\\.resource.*")
+                     .or(Path.matches("/openid/.*"))
+                     .or(Path.matches("/logout"))
+                     .or(Path.matches("/rfRes/.*")).evaluate(event, context);
+         }
+      };
+   }
 }

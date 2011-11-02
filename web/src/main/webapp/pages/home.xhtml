@@ -18,11 +18,11 @@
 			<div class="row fl" style="margin-top: 5px;">
 				<div class="span2 columns">
 					<h:link outcome="/pages/account" title="View your account">
-						<ocp:gravatar email="${profile.email}" size="90" updatable="false" />
+						<ocp:gravatar email="${userProfile.email}" size="90" updatable="false" />
 					</h:link>
 				</div>
 				<div class="span4 columns">
-					<h4>Hi there, ${profile.username}.</h4>
+					<h4>Hi there, ${userProfile.username}.</h4>
 					<p>What are you going to accomplish today?</p>
 				</div>
 				<div class="span6 columns offset4">
@@ -33,10 +33,10 @@
 	</ui:define>
 	
 	<ui:define name="content-pre">
-		<h:form id="bootcamp" rendered="#{profile.showBootcamp}">
+		<h:form id="bootcamp" rendered="#{userProfile.showBootcamp}">
 			<div style="margin-bottom: 15px;">
 				<h1 class="header">SocialPM Bootcamp <span>If you are still new to things, we’ve provided a few walkthroughs to get you started.</span>
-		  			<h:commandLink id="close" class="fr" action="#{profiles.dismissBootcamp()}" 
+		  			<h:commandLink id="close" class="fr" action="#{userProfile.dismissBootcamp()}" 
 		  				style="color: white; padding:2px; position: relative; top:-2px; right: -2px;">×</h:commandLink>
 		  		</h1>
 		  		<ocp:tooltip for="bootcamp:close" title="Hide this tutorial forever" placement="left" trigger="hover" />
@@ -96,6 +96,7 @@
 											<span style="font-size: 16px;">
 												/ <h:link outcome="/pages/project/view"
 													value="#{p.name}">
+													<f:param name="profile" value="#{p.owner.username}" />
 													<f:param name="project" value="#{p.slug}" />
 												</h:link>
 											</span>

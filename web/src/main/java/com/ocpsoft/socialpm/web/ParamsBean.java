@@ -27,6 +27,7 @@ import javax.inject.Named;
 public class ParamsBean
 {
    private String projectSlug;
+   private String profileUsername;
 
    public String getProjectSlug()
    {
@@ -36,5 +37,15 @@ public class ParamsBean
    public void setProjectSlug(final String projectSlug)
    {
       this.projectSlug = projectSlug;
+   }
+
+   public String getProfileUsername()
+   {
+      return profileUsername;
+   }
+
+   public void setProfileUsername(final String profileUsername)
+   {
+      this.profileUsername = profileUsername;
    }
 }

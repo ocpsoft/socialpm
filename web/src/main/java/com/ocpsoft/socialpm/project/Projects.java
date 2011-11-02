@@ -27,9 +27,10 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
 
-import com.ocpsoft.socialpm.cdi.Current;
+import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
+import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.project.ProjectService;
 import com.ocpsoft.socialpm.security.Profiles;
 import com.ocpsoft.socialpm.web.ParamsBean;
@@ -70,13 +71,14 @@ public class Projects implements Serializable
    public String loadCurrent()
    {
       Project current = getCurrent();
-      if (!current.isPersistent() && profiles.current().isPersistent())
+      if (!current.isPersistent() && profiles.getLoggedIn().isPersistent())
       {
          messages.error("Oops! We couldn't find that project. Want to create one instead?");
          return "/pages/project/create";
       }
       else if (!current.isPersistent())
       {
+         messages.error("Oops! We couldn't find the project you asked for.");
          return "/pages/404";
       }
       return null;
@@ -84,8 +86,9 @@ public class Projects implements Serializable
 
    public String create()
    {
-      projectService.create(profiles.current(), current);
-      return UrlConstants.PROJECT_VIEW + "&project=" + current.getSlug();
+      projectService.create(profiles.getLoggedIn(), current);
+      return UrlConstants.PROJECT_VIEW + "&project=" + current.getSlug() + "&profile="
+               + profiles.getLoggedIn().getUsername();
    }
 
    public long getCount()
@@ -108,10 +111,14 @@ public class Projects implements Serializable
       {
          try
          {
-            Project found = projectService.findBySlug(params.getProjectSlug());
-            if (found != null)
+            Profile profile = profiles.getCurrent();
+            if (profile.isPersistent())
             {
-               current = found;
+               Project found = projectService.findByProfileAndSlug(profile, params.getProjectSlug());
+               if (found != null)
+               {
+                  current = found;
+               }
             }
          }
          catch (NoResultException e)
@@ -121,7 +128,7 @@ public class Projects implements Serializable
    }
 
    @Produces
-   @Current
+   @LoggedIn
    @Named("iteration")
    public Iteration getCurrentIteration()
    {

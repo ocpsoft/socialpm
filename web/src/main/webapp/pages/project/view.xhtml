@@ -24,7 +24,7 @@
 			<div class="span8 columns">
 				<div class="well" style="padding-top: 7px; padding-bottom: 10px;">
 					<h:button value="Add a New Story" outcome="/pages/story/create" class="btn fr">
-						<f:param name="owner" value="#{project.owner.username}" />
+						<f:param name="profile" value="#{project.owner.username}" />
 						<f:param name="project" value="#{project.slug}" />
 					</h:button>
 					<h3>Open Stories (${iteration.numOpenFrontShelfStories})</h3>
@@ -55,7 +55,11 @@
 						</ui:repeat>
 						
 						<h:panelGroup layout="block" rendered="${iteration.numFrontShelfStories == 0}" styleClass="box">
-							Looks like you could use stories to work on. You can <h:link outcome="/pages/story/create" value="add a new story" />
+							Looks like you could use stories to work on. You can 
+							<h:link outcome="/pages/story/create" value="add a new story">
+								<f:param name="profile" value="#{project.owner.username}" />
+								<f:param name="project" value="#{project.slug}" />
+							</h:link>
 							<h:panelGroup rendered="#{iteration.numBackShelfStories > 0}">, <h:outputText rendered="#{iteration.numBackShelfStories > 0}" value="or"/> move some stories to the front shelf</h:panelGroup>
 							<h:panelGroup rendered="#{project.numOpenStories - iteration.numStories > 0}">, or pull some stories from the project backlog</h:panelGroup>
 							 to get going.

@@ -59,7 +59,7 @@ import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.ocpsoft.socialpm.domain.PersistentObject;
+import com.ocpsoft.socialpm.domain.DeletableObject;
 import com.ocpsoft.socialpm.domain.project.Feature;
 import com.ocpsoft.socialpm.domain.project.Milestone;
 import com.ocpsoft.socialpm.domain.project.Points;
@@ -74,7 +74,7 @@ import com.ocpsoft.socialpm.domain.user.Profile;
          @NamedQuery(name = "Story.byProjectId", query = "from Story where project.id = ?"),
          @NamedQuery(name = "Story.withTasksFor", query = "from Story s where s.id in (select t.story from Task t where t.assignee = ? and t.status != ?)")
 })
-public class Story extends PersistentObject<Story>
+public class Story extends DeletableObject<Story>
 {
    private static final long serialVersionUID = 719438791700341079L;
 
