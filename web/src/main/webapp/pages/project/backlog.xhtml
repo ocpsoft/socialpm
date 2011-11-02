@@ -11,7 +11,13 @@
 	<ui:param name="title" value="View Project" />
 
 	<ui:define name="header">
-		#{projects.current.name} &raquo; Backlog
+		<h:link value="#{projects.current.owner.username}" outcome="/pages/account" /> 
+		/ 
+		<h:link value="#{projects.current.name}" outcome="/pages/project/view">
+			<f:param name="profile" value="#{project.owner.username}" />
+			<f:param name="project" value="#{project.slug}" />
+		</h:link>
+		/ Backlog
 	</ui:define>
 
 	<ui:define name="header-right">
