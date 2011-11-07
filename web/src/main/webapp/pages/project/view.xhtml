@@ -70,8 +70,10 @@
 			<div class="span8 columns" style="padding: 0px;">
 				<div style="margin-bottom: 15px;">
 					<h1 class="header">Burndown Chart <span>How's everything going?.</span>
-			  			<h:link id="refresh" class="fr" action="/pages/project/view" 
+			  			<h:link id="refresh" class="fr" action="/pages/project/view"
 			  				style="color: white; padding:2px; position: relative; top: 0px; right: -8px;">
+							<f:param name="profile" value="#{project.owner.username}" />
+							<f:param name="project" value="#{project.slug}" />
 			  				<h:graphicImage height="15" width="15" value="#{resource['refresh.png']}" />
 		  				</h:link>
 			  		</h1>

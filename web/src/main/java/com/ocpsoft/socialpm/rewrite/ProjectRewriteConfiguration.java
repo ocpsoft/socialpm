@@ -51,7 +51,7 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                                  .where("profile")
                                  .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
                                  .transformedBy(new ToLowerCase())
-
+                                 // TODO this creates an implicit AND operator... probably need an alternative
                                  .where("project")
                                  .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
                                  .transformedBy(new ToLowerCase())))
