@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
@@ -34,7 +35,6 @@ import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.model.project.StoryService;
 import com.ocpsoft.socialpm.web.ParamsBean;
-import com.ocpsoft.socialpm.web.constants.UrlConstants;
 
 /**
  * @author <a href="mailto:bleathem@gmail.com">Brian Leathem</a>
@@ -99,15 +99,16 @@ public class Stories implements Serializable
       return null;
    }
 
+   @TransactionAttribute
    public String create()
    {
-      ss.create(projects.getCurrent(), current);
-      return UrlConstants.PROJECT_VIEW + "&project=" + projects.getCurrent().getSlug() + "&profile="
+      Story created = ss.create(projects.getCurrent(), current);
+      return "/pages/story/view?faces-redirect=true&project=" + projects.getCurrent().getSlug() + "&profile="
                + current.getProject().getOwner().getUsername()
-               + "&project=" + current.getProject().getSlug()
-               + "&story=" + current.getNumber();
+               + "&story=" + ss.getStoryNumber(created);
    }
 
+   @TransactionAttribute
    public void saveAjax()
    {
       ss.save(current);

@@ -52,8 +52,11 @@ package com.ocpsoft.socialpm.model.project;
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
+import java.math.BigInteger;
+
 import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Points;
@@ -64,7 +67,6 @@ import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@TransactionAttribute
 public class StoryService extends PersistenceUtil
 {
    private static final long serialVersionUID = 1L;
@@ -75,6 +77,7 @@ public class StoryService extends PersistenceUtil
       this.em = em;
    }
 
+   @TransactionAttribute
    public Story create(final Project p, final Story s)
    {
       s.setProject(p);
@@ -116,9 +119,19 @@ public class StoryService extends PersistenceUtil
       return em.find(Story.class, id);
    }
 
+   @TransactionAttribute
    public Story save(final Story story)
    {
       super.save(story);
       return story;
+   }
+
+   public int getStoryNumber(final Story created)
+   {
+      Query query = em.createNativeQuery(
+               "(SELECT count(st.id) + 1 FROM stories st WHERE st.project_id = :pid AND st.id < :sid)");
+      query.setParameter("pid", created.getProject().getId());
+      query.setParameter("sid", created.getId());
+      return ((BigInteger) query.getSingleResult()).intValue();
    }
 }

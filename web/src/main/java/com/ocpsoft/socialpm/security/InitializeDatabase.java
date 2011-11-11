@@ -34,9 +34,11 @@ import org.picketlink.idm.api.IdentitySessionFactory;
 import org.picketlink.idm.api.User;
 import org.picketlink.idm.common.exception.IdentityException;
 
+import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.security.IdentityObjectCredentialType;
 import com.ocpsoft.socialpm.domain.security.IdentityObjectType;
 import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.model.project.ProjectService;
 
 /**
  * Validates that the database contains the minimum required entities to function
@@ -112,6 +114,16 @@ public class InitializeDatabase
          p.setUsernameConfirmed(true);
          p.setShowBootcamp(true);
          entityManager.persist(p);
+
+         Project project = new Project();
+         project.setName("Social Project Management");
+         project.setSlug("socialpm");
+
+         ps.setEntityManager(entityManager);
+         ps.create(p, project);
       }
    }
+
+   @Inject
+   private ProjectService ps;
 }
