@@ -16,7 +16,10 @@
 package com.ocpsoft.socialpm.project;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.List;
 
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -25,6 +28,8 @@ import javax.persistence.EntityManager;
 
 import org.jboss.seam.international.status.Messages;
 
+import com.ocpsoft.socialpm.cdi.Web;
+import com.ocpsoft.socialpm.domain.project.Points;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.model.project.StoryService;
@@ -36,7 +41,7 @@ import com.ocpsoft.socialpm.web.constants.UrlConstants;
  * 
  */
 @Named
-@RequestScoped
+@ConversationScoped
 public class Stories implements Serializable
 {
    private static final long serialVersionUID = -6828711689148386870L;
@@ -53,7 +58,7 @@ public class Stories implements Serializable
    {}
 
    @Inject
-   public Stories(final EntityManager em, final StoryService ss, final Projects projects, final Messages messages,
+   public Stories(final @Web EntityManager em, final StoryService ss, final Projects projects, final Messages messages,
             final ParamsBean params)
    {
       this.params = params;
@@ -61,6 +66,13 @@ public class Stories implements Serializable
       this.projects = projects;
       this.ss = ss;
       this.ss.setEntityManager(em);
+   }
+
+   @Produces
+   @Named("points")
+   public List<Points> getPointsList()
+   {
+      return Arrays.asList(Points.values());
    }
 
    private Story current = new Story();
@@ -92,7 +104,13 @@ public class Stories implements Serializable
       ss.create(projects.getCurrent(), current);
       return UrlConstants.PROJECT_VIEW + "&project=" + projects.getCurrent().getSlug() + "&profile="
                + current.getProject().getOwner().getUsername()
+               + "&project=" + current.getProject().getSlug()
                + "&story=" + current.getNumber();
+   }
+
+   public void saveAjax()
+   {
+      ss.save(current);
    }
 
    @Produces

@@ -125,7 +125,7 @@ public class Story extends DeletableObject<Story>
    private StoryStatus status = StoryStatus.OPEN;
 
    @Column(nullable = false)
-   @Enumerated(EnumType.ORDINAL)
+   @Enumerated(EnumType.STRING)
    private StoryBurner burner = StoryBurner.FRONT;
 
    @Fetch(FetchMode.SUBSELECT)
@@ -156,9 +156,20 @@ public class Story extends DeletableObject<Story>
       this.burner = burner;
    }
 
-   public boolean onFrontBurner()
+   public boolean isFrontBurner()
    {
       return StoryBurner.FRONT.equals(burner);
+   }
+
+   public void setFrontBurner(final boolean value)
+   {
+      if (value)
+      {
+         burner = StoryBurner.FRONT;
+      }
+      else {
+         burner = StoryBurner.BACK;
+      }
    }
 
    public Project getProject()

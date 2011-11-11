@@ -105,7 +105,7 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                .addRule(Join.path("/{profile}/{project}")
                         .to("/pages/project/view.xhtml")
                         .where("project").matches(PROJECT)
-                        .when(SocialPMResources.excluded())
+                        .when(SocialPMResources.excluded()).perform(null)
                )
 
                .addRule(Join.path("/{profile}/{project}/issues")

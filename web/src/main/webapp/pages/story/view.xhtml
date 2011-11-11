@@ -3,10 +3,11 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
-	<ui:param name="title" value="New Project" />
+	<ui:param name="title" value="Story #{stories.current.number}" />
 
 	<ui:define name="header">
 		<h:link value="#{projects.current.owner.username}" outcome="/pages/account" /> 
@@ -23,11 +24,80 @@
 	</ui:define>
 
 	<ui:define name="content">
+		<h:panelGroup class="alert-message error" rendered="#{stories.current.impeded}">
+			This story is impeded.
+		</h:panelGroup>
 
 		<div class="row">
-			<div class="well">
-				 <h3>As a #{story.role}, I want #{story.objective}, so that #{story.result}.</h3>
+			<div class="span11 columns">
+				<div class="well">
+					 <h3>As a #{story.role}, I want #{story.objective}, so that #{story.result}.</h3>
+				 </div>
 			 </div>
+			<div class="span5 columns" style="padding: 0px;">
+				
+				<ocp:box title="Details" tooltip="Refresh" padding="15" action="rewrite:" >
+
+					<f:param name="profile" value="#{project.owner.username}" />
+					<f:param name="project" value="#{project.slug}" />
+					<f:param name="story" value="#{stories.current.number}" />
+					
+					<f:facet name="actionContent">
+					</f:facet>
+					
+					<f:facet name="content">
+						<h:form prependId="false">
+						
+							<h:panelGroup id="pr" layout="block" class="clearfix">
+								<label for="priority">Priority</label>
+								<div class="input">
+									<h:inputText id="priority" value="#{stories.current.priority}" class="span1">
+										<f:ajax execute="@this save" render="@this"/>
+									</h:inputText>
+									<span class="help-inline"><br/><ocp:message for="priority" /></span>
+								</div>
+							</h:panelGroup>
+						
+							<h:panelGroup id="br" layout="block" class="clearfix">
+								<label for="burner">Front burner</label>
+								<div class="input">
+									<h:selectBooleanCheckbox id="burner" value="#{stories.current.frontBurner}">
+										<f:ajax execute="@this save" render="@this"/>
+									</h:selectBooleanCheckbox>
+									<span class="help-inline"><br/><ocp:message for="burner" /></span>
+								</div>
+							</h:panelGroup>
+						
+							<h:panelGroup id="sp" layout="block" class="clearfix">
+								<label for="points">Story points</label>
+								<div class="input">
+									<h:selectOneMenu id="points" value="#{stories.current.storyPoints}" style="width: 65px;">
+										<f:selectItems value="#{points}" />
+										<f:ajax execute="@this save" render="@this" />
+									</h:selectOneMenu>
+									<span class="help-inline"><br/><ocp:message for="points" /></span>
+								</div>
+							</h:panelGroup>
+						
+							<h:panelGroup id="bv" layout="block" class="clearfix">
+								<label for="value">Business value</label>
+								<div class="input">
+									<h:selectOneMenu id="value" value="#{stories.current.businessValue}" style="width: 65px;">
+										<f:selectItems value="#{points}" />
+										<f:ajax execute="@this save" render="@this" />
+									</h:selectOneMenu>
+									<span class="help-inline"><br/><ocp:message for="value" /></span>
+								</div>
+							</h:panelGroup>
+							
+
+							<h:commandLink id="save" value="Save" action="#{stories.saveAjax()}" style="display: none;" />							
+						</h:form>
+					</f:facet>
+					
+				</ocp:box>
+			
+			</div>
 		</div>
 
 	</ui:define>

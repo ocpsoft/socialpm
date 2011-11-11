@@ -36,9 +36,7 @@ public class PostAuthenticateObserver
    {
       Object user = identity.getUser();
 
-      if (user instanceof OpenIdUser) {
-         OpenIdUser oid = (OpenIdUser) user;
-      }
+      if (user instanceof OpenIdUser) {}
       else
       {
 

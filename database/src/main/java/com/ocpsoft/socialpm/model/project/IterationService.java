@@ -51,7 +51,7 @@ public class IterationService extends PersistenceUtil
    private static final long serialVersionUID = -3555718237042388593L;
 
    @Override
-   public void setEntityManager(EntityManager em)
+   public void setEntityManager(final EntityManager em)
    {
       this.em = em;
    }
@@ -128,7 +128,7 @@ public class IterationService extends PersistenceUtil
       // story.getIterationHistory().add(to);
       save(story);
 
-      if (story.onFrontBurner())
+      if (story.isFrontBurner())
       {
          if (!from.isEnded())
          {

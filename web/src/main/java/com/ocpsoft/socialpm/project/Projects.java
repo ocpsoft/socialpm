@@ -18,6 +18,7 @@ package com.ocpsoft.socialpm.project;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -28,6 +29,7 @@ import javax.persistence.NoResultException;
 import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.socialpm.cdi.LoggedIn;
+import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.user.Profile;
@@ -41,7 +43,7 @@ import com.ocpsoft.socialpm.web.constants.UrlConstants;
  * 
  */
 @Named
-@RequestScoped
+@ConversationScoped
 public class Projects implements Serializable
 {
    private static final long serialVersionUID = -5792291552146633049L;
@@ -57,7 +59,7 @@ public class Projects implements Serializable
    {}
 
    @Inject
-   public Projects(final EntityManager em, final ProjectService projectService, final Messages messages,
+   public Projects(final @Web EntityManager em, final ProjectService projectService, final Messages messages,
             final ParamsBean params,
             final Profiles profiles)
    {

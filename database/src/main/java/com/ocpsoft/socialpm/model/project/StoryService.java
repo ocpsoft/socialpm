@@ -70,7 +70,7 @@ public class StoryService extends PersistenceUtil
    private static final long serialVersionUID = 1L;
 
    @Override
-   public void setEntityManager(EntityManager em)
+   public void setEntityManager(final EntityManager em)
    {
       this.em = em;
    }
@@ -114,5 +114,11 @@ public class StoryService extends PersistenceUtil
    public Story findById(final Long id)
    {
       return em.find(Story.class, id);
+   }
+
+   public Story save(final Story story)
+   {
+      super.save(story);
+      return story;
    }
 }

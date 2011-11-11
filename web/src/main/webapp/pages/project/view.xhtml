@@ -36,18 +36,17 @@
 								
 									<div class="row">
 										<div class="span6 columns">
-											<h:button outcome="/pages/story/view"
-												value="#{s.number}">
-												<f:param name="profile" value="#{project.owner.username}" />
-												<f:param name="project" value="#{project.slug}" />
-												<f:param name="story" value="#{s.number}" />
-											</h:button>
-											<span style="font-size: 16px; padding-right: 30px;">
-												 As a #{s.role}, I want #{s.objective}, so that #{s.result}.
+											<span style="font-size: 20px;">#{s.number}</span>
+											<span style="font-size: 16px; padding-right: 30px; margin-left: 10px; margin-top: 10px;">
+												<h:link outcome="/pages/story/view" value="As a #{s.role}, I want #{s.objective}, so that #{s.result}.">
+													<f:param name="profile" value="#{project.owner.username}" />
+													<f:param name="project" value="#{project.slug}" />
+													<f:param name="story" value="#{s.number}" />
+												 </h:link>
 											</span>
 										</div>
 										<div class="span1 columns">
-											<a href="#" class="btn warn fr">Entered</a>
+											<span class="btn warn fr" >Entered</span>
 										</div>
 									</div>
 								</div>

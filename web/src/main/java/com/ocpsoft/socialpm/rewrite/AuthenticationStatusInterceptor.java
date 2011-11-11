@@ -52,7 +52,7 @@ public class AuthenticationStatusInterceptor extends HttpConfigurationProvider
       {
          config.defineRule()
                   .when(Direction.isInbound()
-                           .and(Path.matches("/signup|/login")))
+                           .and(Path.matches("/(signup|login|404)")))
                   .perform(Redirect.temporary(context.getContextPath() + "/"));
       }
       return config;
