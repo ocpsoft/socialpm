@@ -67,20 +67,20 @@
 				</div>
 			</div>
 			<div class="span8 columns" style="padding: 0px;">
-				<div style="margin-bottom: 15px;">
-					<h1 class="header">Burndown Chart <span>How's everything going?.</span>
-			  			<h:link id="refresh" class="fr" action="/pages/project/view"
-			  				style="color: white; padding:2px; position: relative; top: 0px; right: -8px;">
-							<f:param name="profile" value="#{project.owner.username}" />
-							<f:param name="project" value="#{project.slug}" />
-			  				<h:graphicImage height="15" width="15" value="#{resource['refresh.png']}" />
-		  				</h:link>
-			  		</h1>
-			  		<ocp:tooltip for="refresh" title="Refresh" placement="left" trigger="hover" />
-					<div class="body" style="padding: 0px; height: 345px;">
-						<h:graphicImage width="458" value="#{resource['burndown.jpg']}" />
-					</div>
-				</div>
+			
+				<ocp:box title="Burndown Chart" message="How's everything going?" outcome="/pages/project/view" padding="0">
+				
+					<f:param name="profile" value="#{project.owner.username}" />
+					<f:param name="project" value="#{project.slug}" />
+				
+					<f:facet name="content">
+				  		<ocp:tooltip for="refresh" title="Refresh" placement="left" trigger="hover" />
+						<div class="body" style="padding: 0px; height: 345px;">
+							<h:graphicImage width="458" value="#{resource['burndown.jpg']}" />
+						</div>
+					</f:facet>
+				</ocp:box>
+			
 			</div>
 		</div>
 	
