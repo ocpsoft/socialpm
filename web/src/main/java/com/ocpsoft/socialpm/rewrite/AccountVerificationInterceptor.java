@@ -25,8 +25,8 @@ import com.ocpsoft.rewrite.servlet.config.DispatchType;
 import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import com.ocpsoft.rewrite.servlet.config.rule.Join;
-import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.security.Profiles;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -34,14 +34,14 @@ import com.ocpsoft.socialpm.domain.user.Profile;
 public class AccountVerificationInterceptor extends HttpConfigurationProvider
 {
    @Inject
-   @LoggedIn
-   private Profile profile;
+   private Profiles profiles;
 
    @Override
    public Configuration getConfiguration(final ServletContext context)
    {
       ConfigurationBuilder config = ConfigurationBuilder.begin();
-      if (profile.isPersistent() && !profile.isUsernameConfirmed())
+      Profile current = profiles.getCurrent();
+      if (current.isPersistent() && !current.isUsernameConfirmed())
       {
          return config.defineRule()
                   .when(DispatchType.isRequest()

@@ -27,22 +27,29 @@
  * 
  * Optionally, customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
- */ 
+ */
 
 package com.ocpsoft.socialpm.domain.project.stories;
 
-public enum TaskStatus {
-    NOT_STARTED("Not Started"), IN_PROGRESS("In Progress"), DONE("Done"), IMPEDED("Impeded");
+public enum TaskStatus
+{
+   NOT_STARTED("Not Started"), IN_PROGRESS("In Progress"), DONE("Done"), IMPEDED("Impeded");
 
-    private String status;
+   private String status;
 
-    private TaskStatus(final String status)
-    {
-        this.status = status;
-    }
+   private TaskStatus(final String status)
+   {
+      this.status = status;
+   }
 
-    public String getStatus()
-    {
-        return status;
-    }
+   public String getStatus()
+   {
+      return status;
+   }
+
+   @Override
+   public String toString()
+   {
+      return status;
+   }
 }

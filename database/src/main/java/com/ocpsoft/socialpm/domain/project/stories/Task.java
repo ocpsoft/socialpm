@@ -62,8 +62,6 @@ public class Task extends PersistentObject<Task>
 {
    private static final long serialVersionUID = -4511905664407432745L;
 
-   public static final String UNASSIGNED = "---";
-
    @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(nullable = false, updatable = false)
    @OnDelete(action = OnDeleteAction.CASCADE)
@@ -78,9 +76,12 @@ public class Task extends PersistentObject<Task>
    @Column(length = 255)
    private String text;
 
+   @Column(length = 255)
+   private String impediments;
+
    @Column(nullable = false)
    @Enumerated(EnumType.ORDINAL)
-   private TaskStatus status;
+   private TaskStatus status = TaskStatus.NOT_STARTED;
 
    @Column(updatable = false, nullable = false)
    private int initialHours;
@@ -90,8 +91,7 @@ public class Task extends PersistentObject<Task>
    private Set<TaskHours> hours = new HashSet<TaskHours>();
 
    public Task()
-   {
-   }
+   {}
 
    public Task(final String description, final int hoursRemain, final TaskStatus status)
    {
@@ -222,8 +222,8 @@ public class Task extends PersistentObject<Task>
    {
       final int prime = 31;
       long result = getId() + 1;
-      result = prime * result + ((story == null) ? 0 : story.hashCode());
-      result = prime * result + ((text == null) ? 0 : text.hashCode());
+      result = (prime * result) + ((story == null) ? 0 : story.hashCode());
+      result = (prime * result) + ((text == null) ? 0 : text.hashCode());
       return (int) result;
    }
 
@@ -275,6 +275,18 @@ public class Task extends PersistentObject<Task>
    @Override
    public String toString()
    {
-      return "Task [assignee=" + assignee + ", hours=" + hours + ", initialHours=" + initialHours + ", status=" + status + ", story=" + story + ", text=" + text + ", getCreatedOn()=" + getCreatedOn() + ", getId()=" + getId() + ", getLastUpdate()=" + getLastUpdate() + ", getVersion()=" + getVersion() + "]";
+      return "Task [assignee=" + assignee + ", hours=" + hours + ", initialHours=" + initialHours + ", status="
+               + status + ", story=" + story + ", text=" + text + ", getCreatedOn()=" + getCreatedOn() + ", getId()="
+               + getId() + ", getLastUpdate()=" + getLastUpdate() + ", getVersion()=" + getVersion() + "]";
+   }
+
+   public String getImpediments()
+   {
+      return impediments;
+   }
+
+   public void setImpediments(final String impediments)
+   {
+      this.impediments = impediments;
    }
 }

@@ -33,39 +33,31 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
-	<composite:attribute name="delayIn" required="false" type="int" default="0" />
-	<composite:attribute name="delayOut" required="false" type="int" default="0" />
-	<composite:attribute name="focus" required="false" type="boolean" default="false" />
-	<composite:attribute name="for" required="true" type="String" />
-	<composite:attribute name="offset" required="false" type="String" default="10" />
-	<composite:attribute name="placement" required="true" type="String" />
+	<composite:attribute name="closeable" required="false" type="Boolean" default="true"/>
+	<composite:attribute name="hidden" required="false" type="Boolean" default="true"/>
+	<composite:attribute name="fade" required="false" type="Boolean" default="true"/>
 	<composite:attribute name="title" required="true" type="String"/>
-	<composite:attribute name="trigger" required="false" type="String" default="hover" />
 </composite:interface>
 
 <composite:implementation> 
 
-	<script type="text/javascript">
-		$(document).ready(function () {
-			var id= "${cc.attrs.for}".replace(/:/g, "\\:");
-			$('#' + id).attr("data-original-title", "${cc.attrs.title}");
-			$('#' + id).attr("data-content", $('#${cc.clientId}:content'.replace(/:/g, "\\:")).html());
-			$('#' + id).attr("rel", "popover");
-			$('#' + id).popover({
-				animate: true, delayIn: ${cc.attrs.delayIn}, delayOut: ${cc.attrs.delayOut},
-				fallback: '', html: true, offset: ${cc.attrs.offset}, placement: '${cc.attrs.placement}', 
-				trigger: '${cc.attrs.trigger}', width: '600px'
-			}); 
-			if( ${cc.attrs.focus}) { $('#' + id).focus(); }
-		});
-	</script>
-		
-	<h:panelGroup id="content" style="display: none;">
-		<composite:insertChildren />
-	</h:panelGroup>
+	<!-- Modal -->
+	<div id="#{cc.clientId}" class="modal #{cc.attrs.hidden ? 'hide' : '' } #{cc.attrs.fade ? 'fade' : '' }">
+		<div class="modal-header">
+			<h3>${cc.attrs.title} <h:panelGroup styleClass="fr" rendered="${cc.attrs.closeable}"><a href="#" class="close">×</a></h:panelGroup></h3>
+		</div>
+		<div class="modal-body">
+			<composite:insertChildren />			
+		</div>
+		<div class="modal-footer">
+			<composite:renderFacet name="footer" />
+		</div>
+	</div>
+
 </composite:implementation>
 
 </html>

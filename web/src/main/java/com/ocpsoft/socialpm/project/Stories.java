@@ -26,6 +26,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
 
@@ -85,15 +86,14 @@ public class Stories implements Serializable
       {
          if ((current != null) && (params.getStoryNumber() != 0))
          {
-            current = ss.findByProjectAndNumber(project, params.getStoryNumber());
-            return null;
-         }
-         else
-         {
-            messages.error("Oops! We couldn't find that Story.");
-            // TODO need a better navigation system
-            return "/pages/project/view?faces-redirect=true&profile=" + project.getOwner().getUsername()
-                     + "&project=" + project.getSlug();
+            try {
+               current = ss.findByProjectAndNumber(project, params.getStoryNumber());
+            }
+            catch (NoResultException e) {
+               messages.error("Oops! We couldn't find that Story.");
+               return "/pages/project/view?faces-redirect=true&profile=" + project.getOwner().getUsername()
+                        + "&project=" + project.getSlug();
+            }
          }
       }
       return null;

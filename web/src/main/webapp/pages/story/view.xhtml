@@ -24,17 +24,130 @@
 	</ui:define>
 
 	<ui:define name="content">
-		<h:panelGroup class="alert-message error" rendered="#{stories.current.impeded}">
-			This story is impeded.
-		</h:panelGroup>
+	
+		<h:outputStylesheet target="head"> 
+			.IMPEDED {
+				color: #fff;
+				background-color: #C43C35; 
+			}
+			
+			.IN_PROGRESS {
+				color: #fff;
+				background-color: #339bb9; 
+			}
+			
+			.DONE {
+				color: #fff;
+				background-color: #57a957; 
+			}
+		</h:outputStylesheet>
 
 		<div class="row">
 			<div class="span11 columns">
 				<div class="well">
 					 <h3>As a #{story.role}, I want #{story.objective}, so that #{story.result}.</h3>
-				 </div>
-			 </div>
+				</div>
+				
+				<h:form id="validations" prependId="false">
+					<h3>Validation Criteria ( #{stories.current.validationCount} ) <ocp:modalControl text="+1" for="addVC" styleClass="fr"/></h3>
+				
+					<h:panelGroup id="list">
+						<ul class="plain clear">
+							<ui:repeat var="v" value="#{stories.current.validations}">
+								<li>
+									<div class="box" style="margin-bottom: 8px;">
+										<div class="row">
+											<div class="span1 columns">
+												<h:commandLink id="approveVC" action="#{validations.acceptAjax(v)}" value="Pending" rendered="${!v.accepted}" styleClass="btn info">
+													<f:ajax execute="@this @form" render="@form" />
+												</h:commandLink>
+												<h:commandLink id="rejectVC" action="#{validations.rejectAjax(v)}" value="Approved" rendered="${v.accepted}" styleClass="btn success">
+													<f:ajax execute="@this @form" render="@form" />
+												</h:commandLink>
+											</div>
+											<div class="span6 columns offset1" style="padding-top: 5px;">
+												#{v.text}
+											</div>
+											<div class="span2 columns" style="padding-top: 5px;">
+												<b></b>
+											</div>
+										</div>
+									</div>
+								</li>
+							</ui:repeat>
+						</ul>
+					</h:panelGroup>
+											
+					<h:panelGroup layout="block" rendered="${empty stories.current.validations}" styleClass="box" style="margin-bottom: 20px;">
+						This story has no validation criteria. You should <ocp:modalControl text="add one" for="addVC" />  to get started.
+					</h:panelGroup>
+					
+				</h:form>
+				
+				<h:form id="tasks">
+					<h3>Tasks ( #{stories.current.taskCount} ) <ocp:modalControl text="+1" for="addTasks" styleClass="fr"/></h3>
+				
+					<ul class="plain clear">
+						<ui:repeat var="t" value="#{stories.current.tasks}">
+							<li>
+								<div class="box" style="margin-bottom: 8px;">
+									<div class="row">
+										<div class="span1 columns">
+											<h:selectOneMenu id="status" value="#{t.status}" style="width: 100px;" styleClass="#{t.status}">
+												<f:selectItems value="#{taskStatuses}"/>
+												<f:ajax execute="@form :tasks:saveTask" render="@form :impeded" />
+											</h:selectOneMenu>
+										</div>
+										<div class="span6 columns offset1" style="padding-top: 5px;">
+											#{t.text}
+										</div>
+										<div class="span2 columns" style="padding-top: 5px;">
+											<b>#{t.hoursRemain} hours remain</b>
+										</div>
+									</div>
+									<h:panelGroup layout="block" styleClass="row" rendered="#{t.status == 'IMPEDED'}">
+										<div>
+										
+											<div class="span10 columns" style="width: 100%; margin-top: 5px; padding-top: 10px; border-top: 1px solid #DDD; position: relative; right: 10px;">
+										
+											<h:panelGroup id="imdp" layout="block" class="clearfix">
+												<label for="imped"><b>Impeded because</b></label>
+												<div class="imped">
+													<h:inputTextarea value="#{t.impediments}" rows="2" styleClass="span8" style="margin-left: 20px; height: 40px;">
+														<f:ajax execute="@form :tasks:saveTask" render="@this" />
+													</h:inputTextarea>
+													<span class="help-inline"><br/><ocp:message for="desc" /></span>
+												</div>
+											</h:panelGroup>
+										
+											</div>
+										
+										</div>
+									</h:panelGroup>
+								</div>
+							</li>
+						</ui:repeat>
+						<h:commandLink id="saveTask" action="#{stories.saveAjax()}" value="saveTask" style="display:none;" />
+					</ul>
+											
+					<h:panelGroup layout="block" rendered="${empty stories.current.tasks}" styleClass="box" style="margin-bottom: 20px;">
+						This story has no tasks. You should 
+						<ocp:modalControl text="add one" for="addTasks" /> to get started.
+					</h:panelGroup>
+					
+				</h:form>
+
+			
+			</div>
 			<div class="span5 columns" style="padding: 0px;">
+			
+				<h:panelGroup id="impeded">
+					<h3>
+						<h:panelGroup layout="block" class="alert-message error" rendered="#{stories.current.impeded}">
+							<center>This story is impeded.</center>
+						</h:panelGroup>
+					</h3>
+				</h:panelGroup>
 				
 				<ocp:box title="Details" tooltip="Refresh" padding="15" action="rewrite:" >
 
@@ -89,7 +202,6 @@
 									<span class="help-inline"><br/><ocp:message for="value" /></span>
 								</div>
 							</h:panelGroup>
-							
 
 							<h:commandLink id="save" value="Save" action="#{stories.saveAjax()}" style="display: none;" />							
 						</h:form>
@@ -99,6 +211,82 @@
 			
 			</div>
 		</div>
+
+
+
+
+
+		<ocp:modal id="addVC" title="Add validation criteria" hidden="false">
+			<h:form prependId="false" id="VCmodal">
+				<p/>					
+				<h:panelGroup id="dscp" layout="block" class="clearfix">
+					<label for="desc">Description<br/><span class="help-inline"><br/><ocp:message for="desc" /></span></label>
+					<div class="input">
+						<h:inputTextarea id="desc" required="true" 
+							value="#{validation.text}" styleClass="span6" style="margin-left: 15px;" />
+					</div>
+				</h:panelGroup>
+
+				<div style="margin-bottom: 20px;">
+					<div class="fr">
+						<h:commandLink value="Do it!" action="#{validations.createAjax}" styleClass="btn primary">
+							<f:ajax execute="desc @this" render=":validations dscp" />
+						</h:commandLink>
+						<a class="btn secondary" onclick="$('#addVC').modal('hide');">Cancel</a>
+					</div>
+					<div style="clear: none;"></div>
+				</div>
+			</h:form>
+			<f:facet name="footer">
+			</f:facet>
+		</ocp:modal>
+	
+		<ocp:modal id="addTasks" title="Add tasks">
+			<h:form prependId="false" id="TaskModal">
+				<p/>					
+				<h:panelGroup id="dscp" layout="block" class="clearfix">
+					<label for="desc">Description</label>
+					<div class="input">
+						<h:inputTextarea id="desc" value="#{tasks.current.text}" styleClass="span6" required="true"/>
+						<span class="help-inline"><br/><ocp:message for="desc" /></span>
+					</div>
+				</h:panelGroup>
+				
+				<div class="row">
+					<div class="span4 columns">
+						<h:panelGroup id="hrp" layout="block" class="clearfix">
+							<label for="hrs">Hours Remaining</label>
+							<div class="input">
+								<h:inputText id="hrs" value="#{tasks.current.initialHours}" styleClass="span1" />
+								<span class="help-inline"><br/><ocp:message for="hrs" /></span>
+							</div>
+						</h:panelGroup>
+					</div>
+					
+					<div class="span5 columns">
+						<h:panelGroup id="asp" layout="block" styleClass="clearfix" style="position: relative; right: 60px;">
+							<label for="assignee">Assignee</label>
+							<div class="input">
+								<h:selectOneMenu id="assignee" value="${tasks.current.assignee}" style="width: 160px">
+									<f:selectItems value="#{assignees}" /> 
+								</h:selectOneMenu>
+								<span class="help-inline"><br/><ocp:message for="assignee" /></span>
+							</div>
+						</h:panelGroup>
+					</div>
+				</div>
+				
+				<div class="fr">
+					<h:commandLink value="Do it!" action="#{tasks.createAjax}" styleClass="btn primary">
+						<f:ajax execute="@form" render="@form :tasks" />
+					</h:commandLink>
+					<a class="btn secondary" onclick="$('#addTasks').modal('hide');">Cancel</a>
+				</div>
+			</h:form>
+			
+			<f:facet name="footer">
+			</f:facet>
+		</ocp:modal>
 
 	</ui:define>
 

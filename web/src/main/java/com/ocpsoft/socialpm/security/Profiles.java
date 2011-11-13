@@ -103,4 +103,9 @@ public class Profiles implements Serializable
       ps.save(current);
       return "/pages/home?faces-redirect=true";
    }
+
+   public void setEntityManager(final EntityManager em)
+   {
+      this.em = em;
+   }
 }

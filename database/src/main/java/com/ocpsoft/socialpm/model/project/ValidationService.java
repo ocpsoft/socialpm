@@ -52,23 +52,18 @@ package com.ocpsoft.socialpm.model.project;
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-import java.math.BigInteger;
-
 import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.project.Points;
-import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
+import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-public class StoryService extends PersistenceUtil
+public class ValidationService extends PersistenceUtil
 {
    private static final long serialVersionUID = 1L;
 
@@ -79,60 +74,32 @@ public class StoryService extends PersistenceUtil
    }
 
    @TransactionAttribute
-   public Story create(final Project p, final Story s)
+   public ValidationCriteria create(final Story s, final ValidationCriteria v)
    {
-      s.setProject(p);
-      p.getStories().add(s);
-
-      for (ValidationCriteria v : s.getValidations())
-      {
-         v.setStory(s);
-         s.getValidations().add(v);
-      }
-
-      if (s.getStoryPoints() == null)
-      {
-         s.setStoryPoints(Points.NOT_POINTED);
-      }
-
-      if (s.getBusinessValue() == null)
-      {
-         s.setBusinessValue(Points.NOT_POINTED);
-      }
-
-      if (s.getIteration() == null)
-      {
-         s.setIteration(p.getDefaultIteration());
-      }
+      v.setStory(s);
+      s.getValidations().add(v);
 
       super.create(s);
-      return s;
-   }
-
-   public Story findByProjectAndNumber(final Project p, final int storyNumber) throws NoResultException
-   {
-      Story s = findUniqueByNamedQuery("Story.byProjectAndNumber", p, storyNumber);
-      return s;
-   }
-
-   public Story findById(final Long id) throws NoResultException
-   {
-      return em.find(Story.class, id);
+      return v;
    }
 
    @TransactionAttribute
-   public Story save(final Story story)
+   public ValidationCriteria save(final ValidationCriteria v)
    {
-      super.save(story);
-      return story;
+      super.save(v);
+      return v;
    }
 
-   public int getStoryNumber(final Story created)
+   public void accept(final Profile profile, final ValidationCriteria v)
    {
-      Query query = em.createNativeQuery(
-               "(SELECT count(st.id) + 1 FROM stories st WHERE st.project_id = :pid AND st.id < :sid)");
-      query.setParameter("pid", created.getProject().getId());
-      query.setParameter("sid", created.getId());
-      return ((BigInteger) query.getSingleResult()).intValue();
+      v.accept(profile);
+      save(v);
    }
+
+   public void reject(final Profile profile, final ValidationCriteria v)
+   {
+      v.reject();
+      save(v);
+   }
+
 }

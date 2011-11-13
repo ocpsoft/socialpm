@@ -52,23 +52,17 @@ package com.ocpsoft.socialpm.model.project;
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-import java.math.BigInteger;
-
 import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.Query;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.project.Points;
-import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
+import com.ocpsoft.socialpm.domain.project.stories.Task;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-public class StoryService extends PersistenceUtil
+public class TaskService extends PersistenceUtil
 {
    private static final long serialVersionUID = 1L;
 
@@ -79,60 +73,20 @@ public class StoryService extends PersistenceUtil
    }
 
    @TransactionAttribute
-   public Story create(final Project p, final Story s)
+   public Task create(final Story s, final Task t)
    {
-      s.setProject(p);
-      p.getStories().add(s);
-
-      for (ValidationCriteria v : s.getValidations())
-      {
-         v.setStory(s);
-         s.getValidations().add(v);
-      }
-
-      if (s.getStoryPoints() == null)
-      {
-         s.setStoryPoints(Points.NOT_POINTED);
-      }
-
-      if (s.getBusinessValue() == null)
-      {
-         s.setBusinessValue(Points.NOT_POINTED);
-      }
-
-      if (s.getIteration() == null)
-      {
-         s.setIteration(p.getDefaultIteration());
-      }
+      t.setStory(s);
+      s.getTasks().add(t);
 
       super.create(s);
-      return s;
-   }
-
-   public Story findByProjectAndNumber(final Project p, final int storyNumber) throws NoResultException
-   {
-      Story s = findUniqueByNamedQuery("Story.byProjectAndNumber", p, storyNumber);
-      return s;
-   }
-
-   public Story findById(final Long id) throws NoResultException
-   {
-      return em.find(Story.class, id);
+      return t;
    }
 
    @TransactionAttribute
-   public Story save(final Story story)
+   public Task save(final Task task)
    {
-      super.save(story);
-      return story;
+      super.save(task);
+      return task;
    }
 
-   public int getStoryNumber(final Story created)
-   {
-      Query query = em.createNativeQuery(
-               "(SELECT count(st.id) + 1 FROM stories st WHERE st.project_id = :pid AND st.id < :sid)");
-      query.setParameter("pid", created.getProject().getId());
-      query.setParameter("sid", created.getId());
-      return ((BigInteger) query.getSingleResult()).intValue();
-   }
 }

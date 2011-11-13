@@ -214,4 +214,10 @@ public class Profile extends PersistentObject<Profile>
       this.showBootcamp = showBootcamp;
    }
 
+   @Override
+   public String toString()
+   {
+      return username;
+   }
+
 }

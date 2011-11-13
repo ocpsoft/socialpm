@@ -34,27 +34,44 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
-import com.ocpsoft.socialpm.domain.project.stories.StoryBurner;
+import com.ocpsoft.socialpm.cdi.Web;
+import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.model.ProfileService;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-@FacesConverter(value = "storyBurnerBooleanConverter")
-public class StoryBurnerBooleanConverter implements Converter
+@FacesConverter(forClass = Profile.class)
+public class ProfileConverter implements Converter
 {
+   @Inject
+   @Web
+   private EntityManager em;
+
+   @Inject
+   private ProfileService ps;
 
    @Override
-   public Object getAsObject(final FacesContext context, final UIComponent component, final String value)
+   public Object getAsObject(final FacesContext arg0, final UIComponent arg1, final String value)
    {
-      return "true".equalsIgnoreCase(value) ? StoryBurner.FRONT : StoryBurner.BACK;
+      try {
+         ps.setEntityManager(em);
+         return ps.getProfileByUsername(value);
+      }
+      catch (NoResultException e) {
+         return new Profile();
+      }
    }
 
    @Override
-   public String getAsString(final FacesContext context, final UIComponent component, final Object value)
+   public String getAsString(final FacesContext arg0, final UIComponent arg1, final Object profile)
    {
-      return ((Boolean) StoryBurner.FRONT.equals(value)).toString();
+      return ((Profile) profile).getUsername();
    }
 
 }

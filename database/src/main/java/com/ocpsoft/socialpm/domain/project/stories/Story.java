@@ -206,12 +206,13 @@ public class Story extends DeletableObject<Story>
 
    public void add(final Task task)
    {
-      if (!(tasks instanceof Set<?>))
-      {
-         tasks = new ArrayList<Task>();
-      }
       task.setStory(this);
       tasks.add(task);
+   }
+
+   public int getTaskCount()
+   {
+      return tasks.size();
    }
 
    public List<Task> getTasks()
@@ -419,6 +420,11 @@ public class Story extends DeletableObject<Story>
    public List<ValidationCriteria> getValidations()
    {
       return validations;
+   }
+
+   public int getValidationCount()
+   {
+      return validations.size();
    }
 
    public void setValidations(final List<ValidationCriteria> validations)

@@ -76,12 +76,23 @@ public class ValidationCriteria extends PersistentObject<ValidationCriteria>
    private Date acceptedOn;
 
    public ValidationCriteria()
-   {
-   }
+   {}
 
    public ValidationCriteria(final String criteria)
    {
       this.text = criteria;
+   }
+
+   public void accept(final Profile profile)
+   {
+      setAccepted(true);
+      setAcceptedBy(profile);
+      setAcceptedOn(new Date());
+   }
+
+   public void reject()
+   {
+      setAccepted(false);
    }
 
    public String getText()
@@ -139,8 +150,8 @@ public class ValidationCriteria extends PersistentObject<ValidationCriteria>
    {
       final int prime = 31;
       long result = getId() + 1;
-      result = prime * result + ((story == null) ? 0 : story.hashCode());
-      result = prime * result + ((text == null) ? 0 : text.hashCode());
+      result = (prime * result) + ((story == null) ? 0 : story.hashCode());
+      result = (prime * result) + ((text == null) ? 0 : text.hashCode());
       return (int) result;
    }
 
