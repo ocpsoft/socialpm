@@ -25,8 +25,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.international.status.Messages;
-
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
 import com.ocpsoft.socialpm.domain.user.Profile;
@@ -44,8 +42,6 @@ public class Validations implements Serializable
 {
    private static final long serialVersionUID = -6828711689148386870L;
 
-   private Messages messages;
-
    private Stories stories;
 
    private Profiles profiles;
@@ -62,10 +58,8 @@ public class Validations implements Serializable
    @Inject
    public Validations(final @Web EntityManager em, final ValidationService vs, final ProfileService prs,
             final Profiles profiles,
-            final Stories stories,
-            final Messages messages)
+            final Stories stories)
    {
-      this.messages = messages;
       this.profiles = profiles;
       this.stories = stories;
       this.prs = prs;
@@ -79,6 +73,7 @@ public class Validations implements Serializable
    public void createAjax()
    {
       vs.create(stories.getCurrent(), current);
+      current = new ValidationCriteria();
    }
 
    @TransactionAttribute

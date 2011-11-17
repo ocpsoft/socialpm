@@ -40,7 +40,7 @@ public class AccountVerificationInterceptor extends HttpConfigurationProvider
    public Configuration getConfiguration(final ServletContext context)
    {
       ConfigurationBuilder config = ConfigurationBuilder.begin();
-      Profile current = profiles.getCurrent();
+      Profile current = profiles.getLoggedIn();
       if (current.isPersistent() && !current.isUsernameConfirmed())
       {
          return config.defineRule()

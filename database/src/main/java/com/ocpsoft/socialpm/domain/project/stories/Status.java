@@ -31,15 +31,24 @@
 
 package com.ocpsoft.socialpm.domain.project.stories;
 
-public enum TaskStatus
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public enum Status
 {
-   NOT_STARTED("Not Started"), IN_PROGRESS("In Progress"), DONE("Done"), IMPEDED("Impeded");
+   NOT_STARTED("Not Started"),
+   DONE("Done", NOT_STARTED),
+   IN_PROGRESS("In Progress", NOT_STARTED, DONE),
+   IMPEDED("Impeded", IN_PROGRESS, DONE, NOT_STARTED);
 
    private String status;
+   private List<Status> strongerThan;
 
-   private TaskStatus(final String status)
+   private Status(final String status, final Status... weaker)
    {
       this.status = status;
+      this.strongerThan = weaker == null ? new ArrayList<Status>() : Arrays.asList(weaker);
    }
 
    public String getStatus()
@@ -51,5 +60,10 @@ public enum TaskStatus
    public String toString()
    {
       return status;
+   }
+
+   public boolean isStrongerThan(final Status result)
+   {
+      return strongerThan.contains(result);
    }
 }

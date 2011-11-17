@@ -1,5 +1,27 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
+
+.IMPEDED {
+	color: #fff;
+	background-color: #C43C35; 
+}
+
+.IN_PROGRESS {
+	color: #fff;
+	background-color: #339bb9; 
+}
+
+.DONE {
+	color: #fff;
+	background-color: #57a957; 
+}
+
+
+
+
+
+
+
 /*
   Bootstrap's documentation styles
   Special styles for presenting Bootstrap's documentation and examples

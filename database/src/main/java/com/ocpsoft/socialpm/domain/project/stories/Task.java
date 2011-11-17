@@ -81,7 +81,7 @@ public class Task extends PersistentObject<Task>
 
    @Column(nullable = false)
    @Enumerated(EnumType.ORDINAL)
-   private TaskStatus status = TaskStatus.NOT_STARTED;
+   private Status status = Status.NOT_STARTED;
 
    @Column(updatable = false, nullable = false)
    private int initialHours;
@@ -93,7 +93,7 @@ public class Task extends PersistentObject<Task>
    public Task()
    {}
 
-   public Task(final String description, final int hoursRemain, final TaskStatus status)
+   public Task(final String description, final int hoursRemain, final Status status)
    {
       this.text = description;
       this.status = status;
@@ -102,18 +102,18 @@ public class Task extends PersistentObject<Task>
 
    public boolean isDone()
    {
-      return TaskStatus.DONE.equals(status);
+      return Status.DONE.equals(status);
    }
 
    public void close()
    {
-      setStatus(TaskStatus.DONE);
+      setStatus(Status.DONE);
       setHoursRemain(0);
    }
 
    public void reopen()
    {
-      setStatus(TaskStatus.IN_PROGRESS);
+      setStatus(Status.IN_PROGRESS);
    }
 
    public void setHoursRemain(final int hoursRemain)
@@ -176,12 +176,12 @@ public class Task extends PersistentObject<Task>
       this.text = description;
    }
 
-   public TaskStatus getStatus()
+   public Status getStatus()
    {
       return status;
    }
 
-   public void setStatus(final TaskStatus status)
+   public void setStatus(final Status status)
    {
       this.status = status;
    }

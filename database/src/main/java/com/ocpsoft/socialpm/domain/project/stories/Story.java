@@ -192,18 +192,6 @@ public class Story extends DeletableObject<Story>
       this.features = feature;
    }
 
-   public boolean getIsImpeded()
-   {
-      for (Task t : tasks)
-      {
-         if (TaskStatus.IMPEDED.equals(t.getStatus()))
-         {
-            return true;
-         }
-      }
-      return false;
-   }
-
    public void add(final Task task)
    {
       task.setStory(this);
@@ -232,19 +220,23 @@ public class Story extends DeletableObject<Story>
       this.tasks = tasks;
    }
 
-   public boolean isImpeded()
+   public Status getProgressStatus()
    {
-      if (this.isOpen())
+      Status result = Status.NOT_STARTED;
+      for (Task t : tasks)
       {
-         for (Task t : tasks)
+         Status status = t.getStatus();
+         if (status.isStrongerThan(result))
          {
-            if (TaskStatus.IMPEDED.equals(t.getStatus()))
-            {
-               return true;
-            }
+            result = status;
          }
       }
-      return false;
+      return result;
+   }
+
+   public boolean isImpeded()
+   {
+      return Status.IMPEDED == getProgressStatus();
    }
 
    public boolean isOpen()
@@ -254,17 +246,7 @@ public class Story extends DeletableObject<Story>
 
    public boolean isStarted()
    {
-      if (this.isOpen())
-      {
-         for (Task t : tasks)
-         {
-            if (false == TaskStatus.NOT_STARTED.equals(t.getStatus()))
-            {
-               return true;
-            }
-         }
-      }
-      return false;
+      return Status.IMPEDED != getProgressStatus();
    }
 
    public boolean isValidated()

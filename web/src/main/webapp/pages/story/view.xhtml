@@ -24,31 +24,15 @@
 	</ui:define>
 
 	<ui:define name="content">
-	
-		<h:outputStylesheet target="head"> 
-			.IMPEDED {
-				color: #fff;
-				background-color: #C43C35; 
-			}
-			
-			.IN_PROGRESS {
-				color: #fff;
-				background-color: #339bb9; 
-			}
-			
-			.DONE {
-				color: #fff;
-				background-color: #57a957; 
-			}
-		</h:outputStylesheet>
 
 		<div class="row">
 			<div class="span11 columns">
-				<div class="well">
-					 <h3>As a #{story.role}, I want #{story.objective}, so that #{story.result}.</h3>
-				</div>
 				
 				<h:form id="validations" prependId="false">
+					<div class="well">
+						 <h3>As a #{story.role}, I want #{story.objective}, so that #{story.result}.</h3>
+					</div>
+				
 					<h3>Validation Criteria ( #{stories.current.validationCount} ) <ocp:modalControl text="+1" for="addVC" styleClass="fr"/></h3>
 				
 					<h:panelGroup id="list">

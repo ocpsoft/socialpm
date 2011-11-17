@@ -36,7 +36,7 @@ import com.ocpsoft.socialpm.domain.project.iteration.IterationStatistics;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
-import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
+import com.ocpsoft.socialpm.domain.project.stories.Status;
 
 public class StatsCalculator
 {
@@ -65,7 +65,7 @@ public class StatsCalculator
 
          for (Task t : story.getTasks())
          {
-            if (TaskStatus.DONE.equals(t.getStatus()))
+            if (Status.DONE.equals(t.getStatus()))
             {
                completedTasks++;
             }

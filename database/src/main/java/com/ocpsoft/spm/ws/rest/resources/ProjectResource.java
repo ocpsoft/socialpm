@@ -59,7 +59,7 @@ import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
-import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
+import com.ocpsoft.socialpm.domain.project.stories.Status;
 import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.project.IterationService;
@@ -191,7 +191,7 @@ public class ProjectResource extends PersistenceUtil
       query = em.createQuery("UPDATE Task t SET t.assignee = null WHERE t.assignee = :user "
                + "AND t.status <> :status AND t IN (:list)");
       query.setParameter("user", user);
-      query.setParameter("status", TaskStatus.DONE);
+      query.setParameter("status", Status.DONE);
       query.setParameter("list", tasks);
       query.executeUpdate();
 

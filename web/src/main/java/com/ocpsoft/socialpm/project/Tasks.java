@@ -27,11 +27,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import org.jboss.seam.international.status.Messages;
-
 import com.ocpsoft.socialpm.cdi.Web;
+import com.ocpsoft.socialpm.domain.project.stories.Status;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
-import com.ocpsoft.socialpm.domain.project.stories.TaskStatus;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
 import com.ocpsoft.socialpm.model.project.TaskService;
@@ -46,8 +44,6 @@ public class Tasks implements Serializable
 {
    private static final long serialVersionUID = -6828711689148386870L;
 
-   private Messages messages;
-
    private Stories stories;
 
    private TaskService ts;
@@ -58,10 +54,8 @@ public class Tasks implements Serializable
    {}
 
    @Inject
-   public Tasks(final @Web EntityManager em, final TaskService ts, final ProfileService prs, final Stories stories,
-            final Messages messages)
+   public Tasks(final @Web EntityManager em, final TaskService ts, final ProfileService prs, final Stories stories)
    {
-      this.messages = messages;
       this.stories = stories;
       this.prs = prs;
       this.ts = ts;
@@ -97,9 +91,9 @@ public class Tasks implements Serializable
    @Produces
    @Named("taskStatuses")
    @RequestScoped
-   public List<TaskStatus> getStatuses()
+   public List<Status> getStatuses()
    {
-      return Arrays.asList(TaskStatus.values());
+      return Arrays.asList(Status.values());
    }
 
    public void setCurrent(final Task current)

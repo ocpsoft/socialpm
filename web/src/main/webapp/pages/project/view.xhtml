@@ -20,6 +20,7 @@
 	</ui:define>
 
 	<ui:define name="content">
+	
 		<div class="row">
 			<div class="span8 columns">
 				<div class="well" style="padding-top: 7px; padding-bottom: 10px;">
@@ -35,9 +36,11 @@
 								<div class="box" style="margin-bottom: 8px;">
 								
 									<div class="row">
-										<div class="span6 columns">
+										<div class="span1 columns">
 											<span style="font-size: 20px;">#{s.number}</span>
-											<span style="font-size: 16px; padding-right: 30px; margin-left: 10px; margin-top: 10px;">
+										</div>
+										<div class="span4 columns">
+											<span style="font-size: 16px; margin-top: 10px;">
 												<h:link outcome="/pages/story/view" value="As a #{s.role}, I want #{s.objective}, so that #{s.result}.">
 													<f:param name="profile" value="#{project.owner.username}" />
 													<f:param name="project" value="#{project.slug}" />
@@ -45,8 +48,12 @@
 												 </h:link>
 											</span>
 										</div>
-										<div class="span1 columns">
-											<span class="btn warn fr" >Entered</span>
+										<div class="span2 columns">
+											<h:link class="fr #{s.progressStatus}" style="padding: 5px;" outcome="/pages/story/view" value="#{s.progressStatus.status}">
+												<f:param name="profile" value="#{project.owner.username}" />
+												<f:param name="project" value="#{project.slug}" />
+												<f:param name="story" value="#{s.number}" />
+											</h:link>
 										</div>
 									</div>
 								</div>
