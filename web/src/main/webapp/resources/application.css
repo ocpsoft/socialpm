@@ -1,6 +1,13 @@
 /* Add additional stylesheets below
 -------------------------------------------------- */
 
+/* Tasks */
+
+.NOT_STARTED {
+	color: #fff;
+	background-color: #AAA; 
+}
+
 .IMPEDED {
 	color: #fff;
 	background-color: #C43C35; 
@@ -16,11 +23,17 @@
 	background-color: #57a957; 
 }
 
+/* Validation Criteria */
 
+.PENDING {
+	color: #fff;
+	background-color: #339bb9; 
+}
 
-
-
-
+.ACCEPTED {
+	color: #fff;
+	background-color: #57a957; 
+}
 
 /*
   Bootstrap's documentation styles

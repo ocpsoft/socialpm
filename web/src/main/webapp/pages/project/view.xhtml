@@ -37,7 +37,8 @@
 								
 									<div class="row">
 										<div class="span1 columns">
-											<span style="font-size: 20px;">#{s.number}</span>
+											<span id="number#{s.number}" style="font-size: 20px;">#{s.number}</span><br/>
+											<span id="priority#{s.number}" style="padding: 5px; padding-left: 0px; color: #bbb;">#{s.priority}</span>
 										</div>
 										<div class="span4 columns">
 											<span style="font-size: 16px; margin-top: 10px;">
@@ -49,6 +50,16 @@
 											</span>
 										</div>
 										<div class="span2 columns">
+											<h:link class="fr ACCEPTED" style="padding: 5px;" outcome="/pages/story/view" value="✓" rendered="#{s.validated and s.validationCount > 0}">
+												<f:param name="profile" value="#{project.owner.username}" />
+												<f:param name="project" value="#{project.slug}" />
+												<f:param name="story" value="#{s.number}" />
+											</h:link>
+											<h:link class="fr PENDING" style="padding: 5px;" outcome="/pages/story/view" value="✗" rendered="#{!s.validated and s.validationCount > 0}">
+												<f:param name="profile" value="#{project.owner.username}" />
+												<f:param name="project" value="#{project.slug}" />
+												<f:param name="story" value="#{s.number}" />
+											</h:link>
 											<h:link class="fr #{s.progressStatus}" style="padding: 5px;" outcome="/pages/story/view" value="#{s.progressStatus.status}">
 												<f:param name="profile" value="#{project.owner.username}" />
 												<f:param name="project" value="#{project.slug}" />
@@ -75,7 +86,7 @@
 			</div>
 			<div class="span8 columns" style="padding: 0px;">
 			
-				<ocp:box title="Burndown Chart" message="How's everything going?" outcome="/pages/project/view" padding="0">
+				<ocp:box title="Burndown Chart" tooltip="Refresh" message="How's everything going?" outcome="/pages/project/view" padding="0">
 				
 					<f:param name="profile" value="#{project.owner.username}" />
 					<f:param name="project" value="#{project.slug}" />
