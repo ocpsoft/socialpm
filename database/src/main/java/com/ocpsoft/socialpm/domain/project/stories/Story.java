@@ -220,6 +220,11 @@ public class Story extends DeletableObject<Story>
       return result;
    }
 
+   public int getImpededTaskCount()
+   {
+      return getImpededTasks().size();
+   }
+
    public List<Task> getTaskList()
    {
       ArrayList<Task> taskList = new ArrayList<Task>();

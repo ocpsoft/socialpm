@@ -79,6 +79,9 @@ public class Task extends PersistentObject<Task>
    @Column(length = 255)
    private String impediments;
 
+   @ManyToOne
+   private Profile impedimentReporter;
+
    @Column(nullable = false)
    @Enumerated(EnumType.ORDINAL)
    private Status status = Status.NOT_STARTED;
@@ -298,6 +301,7 @@ public class Task extends PersistentObject<Task>
    public void clearImpediments()
    {
       setImpediments(null);
+      setImpedimentReporter(null);
       if (getHoursRemain() == 0)
       {
          setStatus(Status.DONE);
@@ -306,5 +310,15 @@ public class Task extends PersistentObject<Task>
       {
          setStatus(Status.IN_PROGRESS);
       }
+   }
+
+   public Profile getImpedimentReporter()
+   {
+      return impedimentReporter;
+   }
+
+   public void setImpedimentReporter(final Profile impedimentReporter)
+   {
+      this.impedimentReporter = impedimentReporter;
    }
 }

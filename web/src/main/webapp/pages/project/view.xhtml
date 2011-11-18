@@ -83,27 +83,59 @@
 					</h:panelGroup>
 					
 					<ui:repeat var="s" value="#{iteration.frontShelfStories}">
-						<ocp:modal forceId="impediments#{s.number}" title="Story #{s.number} is impeded because..." hidden="false">
+						<ocp:modal forceId="impediments#{s.number}" title="Story #{s.number} - As a #{s.role}, I want #{s.objective}, so that #{s.result}." hidden="false">
 							<h:form prependId="false" id="stories">
 								<p/>
+									<h4>Impeded tasks (#{s.impededTaskCount})</h4>
 									<h:panelGroup rendered="#{s.impeded}">
-										<ul>
+										<ul style="list-style: none; margin-left: 0px;">
 											<ui:repeat var="t" value="#{s.impededTasks}">
-												<li style="margin-bottom: 10px;">
-													<h:commandLink id="resolve" style="padding: 5px;" styleClass="IMPEDED" action="#{tasks.clearImpediments(t)}" value="Resolve">
-														<f:ajax execute="@this @form" render="@form :status"/>
-													</h:commandLink>
-													#{t.text} - #{t.impediments} 
+												<li>
+													<div class="box" style="margin-bottom: 8px;">
+														<div class="row">
+															<div class="span1 columns">
+																<h:commandLink id="resolve" style="padding: 5px;" styleClass="IMPEDED" action="#{tasks.clearImpediments(t)}" value="Resolve">
+																	<f:ajax execute="@this @form" render="@form :status"/>
+																</h:commandLink>
+															</div>
+															<div class="span4 columns offset1" style="padding-top: 5px;">
+																#{t.text}
+															</div>
+															<div class="span2 columns" style="padding-top: 5px;">
+																<b>#{t.hoursRemain} hours remain</b>
+															</div>
+														</div>
+														<div class="row">
+															<div class="span10 columns" style="width: 100%; margin-top: 5px; padding-top: 10px; border-top: 1px solid #DDD; position: relative; right: 10px;">
+														
+															<h:panelGroup id="imdp" layout="block" class="clearfix">
+																<label for="imped"><b>Impeded because</b></label>
+																<div class="imped">
+																	<span class="span8" style="margin-left: 20px;">
+																		#{empty t.impediments ? 'Not specified' : t.impediments}
+																	</span>
+																</div>
+															</h:panelGroup>
+														
+															</div>
+														
+														</div>
+													</div>
 												</li>
 											</ui:repeat>
 										</ul>
 									</h:panelGroup>
-									#{s.impededTasks}
 									<h:outputScript rendered="#{empty s.impededTasks}">
 										$('#impediments#{s.number}').modal('hide');
 									</h:outputScript>										
 								</h:form>
 							<f:facet name="footer">
+								<a class="btn secondary" onclick="$('#impediments#{s.number}').modal('hide');">Done</a>
+								<h:link styleClass="btn primary" outcome="/pages/story/view" value="Go to story #{s.number}">
+									<f:param name="profile" value="#{project.owner.username}" />
+									<f:param name="project" value="#{project.slug}" />
+									<f:param name="story" value="#{s.number}" />
+								 </h:link>
 							</f:facet>
 						</ocp:modal>
 					</ui:repeat>
