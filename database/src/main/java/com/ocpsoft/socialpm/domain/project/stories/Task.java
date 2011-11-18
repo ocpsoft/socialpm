@@ -289,4 +289,22 @@ public class Task extends PersistentObject<Task>
    {
       this.impediments = impediments;
    }
+
+   public boolean isImpeded()
+   {
+      return Status.IMPEDED.equals(getStatus());
+   }
+
+   public void clearImpediments()
+   {
+      setImpediments(null);
+      if (getHoursRemain() == 0)
+      {
+         setStatus(Status.DONE);
+      }
+      else
+      {
+         setStatus(Status.IN_PROGRESS);
+      }
+   }
 }

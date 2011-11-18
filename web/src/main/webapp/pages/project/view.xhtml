@@ -28,8 +28,10 @@
 						<f:param name="profile" value="#{project.owner.username}" />
 						<f:param name="project" value="#{project.slug}" />
 					</h:button>
+
+				
+					<h:panelGroup id="status">
 					<h3>Open Stories (${iteration.numOpenFrontShelfStories})</h3>
-					
 					<ul class="plain clear">
 						<ui:repeat var="s" value="#{iteration.frontShelfStories}">
 							<li>
@@ -50,21 +52,17 @@
 											</span>
 										</div>
 										<div class="span2 columns">
-											<h:link class="fr ACCEPTED" style="padding: 5px;" outcome="/pages/story/view" value="✓" rendered="#{s.validated and s.validationCount > 0}">
+											<h:link class="fr #{s.validated ? 'ACCEPTED' : 'PENDING' }" style="padding: 5px;" outcome="/pages/story/view" value="#{s.validated ? '✓' : '✗' }" rendered="#{s.validationCount > 0}">
 												<f:param name="profile" value="#{project.owner.username}" />
 												<f:param name="project" value="#{project.slug}" />
 												<f:param name="story" value="#{s.number}" />
 											</h:link>
-											<h:link class="fr PENDING" style="padding: 5px;" outcome="/pages/story/view" value="✗" rendered="#{!s.validated and s.validationCount > 0}">
+											<h:link class="fr #{s.progressStatus}" style="padding: 5px;" outcome="/pages/story/view" value="#{s.progressStatus.status}" rendered="#{!s.impeded}">
 												<f:param name="profile" value="#{project.owner.username}" />
 												<f:param name="project" value="#{project.slug}" />
 												<f:param name="story" value="#{s.number}" />
 											</h:link>
-											<h:link class="fr #{s.progressStatus}" style="padding: 5px;" outcome="/pages/story/view" value="#{s.progressStatus.status}">
-												<f:param name="profile" value="#{project.owner.username}" />
-												<f:param name="project" value="#{project.slug}" />
-												<f:param name="story" value="#{s.number}" />
-											</h:link>
+											<ocp:modalControl text="#{s.progressStatus.status}" for="impediments#{s.number}" styleClass="fr #{s.progressStatus}" style="padding: 5px;" rendered="#{s.impeded}"/>
 										</div>
 									</div>
 								</div>
@@ -82,6 +80,33 @@
 							 to get going.
 						</h:panelGroup>
 					</ul>
+					</h:panelGroup>
+					
+					<ui:repeat var="s" value="#{iteration.frontShelfStories}">
+						<ocp:modal forceId="impediments#{s.number}" title="Story #{s.number} is impeded because..." hidden="false" rendered="#{s.impeded}">
+							<h:form prependId="false" id="stories">
+								<p/>
+									<h:panelGroup rendered="#{s.impeded}">
+										<ul>
+											<ui:repeat var="t" value="#{s.impededTasks}">
+												<li style="margin-bottom: 10px;">
+													<h:commandLink id="resolve" style="padding: 5px;" styleClass="IMPEDED" action="#{tasks.clearImpediments(t)}" value="Resolve">
+														<f:ajax execute="@this @form" render="@form :status"/>
+													</h:commandLink>
+													#{t.text} - #{t.impediments} 
+												</li>
+											</ui:repeat>
+										</ul>
+									</h:panelGroup>
+									#{s.impededTasks}
+									<h:outputScript rendered="#{empty s.impededTasks}">
+										$('#impediments#{s.number}').modal('hide');
+									</h:outputScript>										
+								</h:form>
+							<f:facet name="footer">
+							</f:facet>
+						</ocp:modal>
+					</ui:repeat>
 				</div>
 			</div>
 			<div class="span8 columns" style="padding: 0px;">

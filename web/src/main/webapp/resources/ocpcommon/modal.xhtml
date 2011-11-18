@@ -37,6 +37,7 @@
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
+	<composite:attribute name="forceId" required="false" type="String" />
 	<composite:attribute name="closeable" required="false" type="Boolean" default="true"/>
 	<composite:attribute name="hidden" required="false" type="Boolean" default="true"/>
 	<composite:attribute name="fade" required="false" type="Boolean" default="true"/>
@@ -46,7 +47,7 @@
 <composite:implementation> 
 
 	<!-- Modal -->
-	<div id="#{cc.clientId}" class="modal #{cc.attrs.hidden ? 'hide' : '' } #{cc.attrs.fade ? 'fade' : '' }">
+	<div id="#{cc.attrs.forceId == null ? cc.clientId : cc.attrs.forceId}" class="modal #{cc.attrs.hidden ? 'hide' : '' } #{cc.attrs.fade ? 'fade' : '' }">
 		<div class="modal-header">
 			<h3>${cc.attrs.title} <h:panelGroup styleClass="fr" rendered="${cc.attrs.closeable}"><a href="#" class="close">×</a></h:panelGroup></h3>
 		</div>

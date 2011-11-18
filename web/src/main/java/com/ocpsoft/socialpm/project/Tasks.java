@@ -78,6 +78,13 @@ public class Tasks implements Serializable
       current.setAssignee(created.getAssignee());
    }
 
+   @TransactionAttribute
+   public void clearImpediments(final Task t)
+   {
+      t.clearImpediments();
+      ts.save(t);
+   }
+
    private Task current = new Task();
 
    @Produces

@@ -37,6 +37,7 @@
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
+	<composite:attribute name="style" required="false" type="String" />
 	<composite:attribute name="styleClass" required="false" type="String" />
 	<composite:attribute name="backdrop" required="false" type="Boolean" default="true"/>
 	<composite:attribute name="for" required="true" type="String"/>
@@ -49,7 +50,7 @@
 		<a data-controls-modal="#{cc.attrs.for}" 
 			data-backdrop="#{cc.attrs.backdrop}"
 			data-keyboard="#{cc.attrs.keyboard}" 
-			style="cursor: pointer;"
+			style="cursor: pointer; #{cc.attrs.style}"
 			class="#{cc.attrs.styleClass}">
 			${cc.attrs.text}
 		</a>

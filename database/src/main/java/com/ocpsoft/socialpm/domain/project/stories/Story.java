@@ -208,6 +208,18 @@ public class Story extends DeletableObject<Story>
       return tasks;
    }
 
+   public List<Task> getImpededTasks()
+   {
+      List<Task> result = new ArrayList<Task>();
+      for (Task task : tasks) {
+         if (task.isImpeded())
+         {
+            result.add(task);
+         }
+      }
+      return result;
+   }
+
    public List<Task> getTaskList()
    {
       ArrayList<Task> taskList = new ArrayList<Task>();

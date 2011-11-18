@@ -54,6 +54,7 @@ package com.ocpsoft.socialpm.model.project;
 
 import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
@@ -87,6 +88,11 @@ public class TaskService extends PersistenceUtil
    {
       super.save(task);
       return task;
+   }
+
+   public Task findById(final Long id) throws NoResultException
+   {
+      return findById(Task.class, id);
    }
 
 }
