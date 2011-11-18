@@ -83,7 +83,7 @@
 					</h:panelGroup>
 					
 					<ui:repeat var="s" value="#{iteration.frontShelfStories}">
-						<ocp:modal forceId="impediments#{s.number}" title="Story #{s.number} is impeded because..." hidden="false" rendered="#{s.impeded}">
+						<ocp:modal forceId="impediments#{s.number}" title="Story #{s.number} is impeded because..." hidden="false">
 							<h:form prependId="false" id="stories">
 								<p/>
 									<h:panelGroup rendered="#{s.impeded}">
