@@ -131,6 +131,10 @@ public class Iteration extends PersistentObject<Iteration>
             result = Status.DONE;
          }
       }
+      else if (isInProgress())
+      {
+         result = Status.IN_PROGRESS;
+      }
 
       for (Story s : getStories()) {
          if (s.isImpeded())

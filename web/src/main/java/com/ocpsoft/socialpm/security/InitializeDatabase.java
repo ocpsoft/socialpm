@@ -15,6 +15,7 @@
  */
 package com.ocpsoft.socialpm.security;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,6 +36,7 @@ import org.picketlink.idm.api.User;
 import org.picketlink.idm.common.exception.IdentityException;
 
 import com.ocpsoft.socialpm.domain.project.Project;
+import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.security.IdentityObjectCredentialType;
 import com.ocpsoft.socialpm.domain.security.IdentityObjectType;
 import com.ocpsoft.socialpm.domain.user.Profile;
@@ -118,6 +120,19 @@ public class InitializeDatabase
          Project project = new Project();
          project.setName("Social Project Management");
          project.setSlug("socialpm");
+         Iteration i = new Iteration();
+         i.setStartDate(new Date());
+         i.setEndDate(new Date(System.currentTimeMillis() + 36000));
+         i.setProject(project);
+         i.setTitle("Another");
+         project.getIterations().add(i);
+
+         i = new Iteration();
+         i.setStartDate(new Date(System.currentTimeMillis() + 36000));
+         i.setEndDate(new Date(System.currentTimeMillis() + 72000));
+         i.setProject(project);
+         i.setTitle("Another2");
+         project.getIterations().add(i);
 
          ps.setEntityManager(entityManager);
          ps.create(p, project);
