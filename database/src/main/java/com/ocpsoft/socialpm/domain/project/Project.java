@@ -113,7 +113,7 @@ public class Project extends DeletableObject<Project>
       return name;
    }
 
-   public boolean hasCurrentIteration()
+   public boolean isIterationActive()
    {
       Iteration currentIteration = getCurrentIteration();
       if ((currentIteration != null) && (currentIteration.getStartDate() != null))

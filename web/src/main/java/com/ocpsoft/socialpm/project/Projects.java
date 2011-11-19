@@ -16,6 +16,7 @@
 package com.ocpsoft.socialpm.project;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ConversationScoped;
@@ -32,8 +33,11 @@ import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
+import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.stories.Task;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.project.ProjectService;
+import com.ocpsoft.socialpm.security.Account;
 import com.ocpsoft.socialpm.security.Profiles;
 import com.ocpsoft.socialpm.web.ParamsBean;
 import com.ocpsoft.socialpm.web.constants.UrlConstants;
@@ -50,7 +54,9 @@ public class Projects implements Serializable
 
    private Messages messages;
    private ParamsBean params;
+   private Account account;
    private Profiles profiles;
+   private Stories stories;
    private ProjectService projectService;
 
    private Project current = new Project();
@@ -61,10 +67,14 @@ public class Projects implements Serializable
    @Inject
    public Projects(final @Web EntityManager em, final ProjectService projectService, final Messages messages,
             final ParamsBean params,
-            final Profiles profiles)
+            final Stories stories,
+            final Profiles profiles,
+            final Account account)
    {
       this.params = params;
+      this.account = account;
       this.profiles = profiles;
+      this.stories = stories;
       this.messages = messages;
       this.projectService = projectService;
       projectService.setEntityManager(em);
@@ -73,7 +83,7 @@ public class Projects implements Serializable
    public String loadCurrent()
    {
       Project current = getCurrent();
-      if (!current.isPersistent() && profiles.getLoggedIn().isPersistent())
+      if (!current.isPersistent() && account.getLoggedIn().isPersistent())
       {
          messages.error("Oops! We couldn't find that project. Want to create one instead?");
          return "/pages/project/create";
@@ -88,9 +98,9 @@ public class Projects implements Serializable
 
    public String create()
    {
-      projectService.create(profiles.getLoggedIn(), current);
+      projectService.create(account.getLoggedIn(), current);
       return UrlConstants.PROJECT_VIEW + "&project=" + current.getSlug() + "&profile="
-               + profiles.getLoggedIn().getUsername();
+               + account.getLoggedIn().getUsername();
    }
 
    public long getCount()
@@ -101,6 +111,36 @@ public class Projects implements Serializable
    public List<Project> getAll()
    {
       List<Project> result = projectService.findAll();
+      return result;
+   }
+
+   public int getAssignedTaskCount(final Profile profile, final Project project)
+   {
+      // TODO this is super inefficient, figure this out
+      int count = 0;
+      for (Story s : project.getStories()) {
+         count += stories.getAssignedTaskCount(profile, s);
+      }
+      return count;
+   }
+
+   public int getAssignedStoryCount(final Profile profile, final Project project)
+   {
+      int count = getAssignedStories(profile, project).size();
+      return count;
+   }
+
+   public List<Story> getAssignedStories(final Profile profile, final Project project)
+   {
+      List<Story> result = new ArrayList<Story>();
+      for (Story s : project.getStories()) {
+         for (Task t : s.getTasks()) {
+            if (profile.getUsername().equals(t.getAssignee().getUsername()))
+            {
+               result.add(s);
+            }
+         }
+      }
       return result;
    }
 

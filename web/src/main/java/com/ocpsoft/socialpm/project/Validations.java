@@ -30,7 +30,7 @@ import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
 import com.ocpsoft.socialpm.model.project.ValidationService;
-import com.ocpsoft.socialpm.security.Profiles;
+import com.ocpsoft.socialpm.security.Account;
 
 /**
  * @author <a href="mailto:bleathem@gmail.com">Brian Leathem</a>
@@ -44,7 +44,7 @@ public class Validations implements Serializable
 
    private Stories stories;
 
-   private Profiles profiles;
+   private Account profiles;
 
    private ProfileService prs;
 
@@ -57,10 +57,10 @@ public class Validations implements Serializable
 
    @Inject
    public Validations(final @Web EntityManager em, final ValidationService vs, final ProfileService prs,
-            final Profiles profiles,
+            final Account account,
             final Stories stories)
    {
-      this.profiles = profiles;
+      this.profiles = account;
       this.stories = stories;
       this.prs = prs;
       this.vs = vs;

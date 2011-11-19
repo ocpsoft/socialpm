@@ -55,6 +55,7 @@ import org.hibernate.annotations.Formula;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.Project;
+import com.ocpsoft.socialpm.domain.project.stories.Status;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.StoryBurner;
 import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
@@ -82,6 +83,9 @@ public class Iteration extends PersistentObject<Iteration>
 
    @Temporal(TemporalType.TIMESTAMP)
    private Date committedOn;
+
+   @Temporal(TemporalType.TIMESTAMP)
+   private Date closedOn;
 
    @Column(length = 2048)
    private String goals;
@@ -114,6 +118,28 @@ public class Iteration extends PersistentObject<Iteration>
       this.title = title;
       this.startDate = startDate;
       this.endDate = endDate;
+   }
+
+   public Status getStatus()
+   {
+      Status result = Status.NOT_STARTED;
+      if (committedOn != null)
+      {
+         result = Status.IN_PROGRESS;
+         if (closedOn != null)
+         {
+            result = Status.DONE;
+         }
+      }
+
+      for (Story s : getStories()) {
+         if (s.isImpeded())
+         {
+            result = Status.IMPEDED;
+            break;
+         }
+      }
+      return result;
    }
 
    public IterationStatistics getCommitmentStats() throws IllegalStateException
@@ -276,12 +302,21 @@ public class Iteration extends PersistentObject<Iteration>
 
       if (isDefault())
       {
-         result = false;
+         boolean defaultIsInProgress = true;
+         Set<Iteration> iterations = project.getAvailableIterations();
+         for (Iteration iteration : iterations) {
+            if (!iteration.isDefault() && iteration.isInProgress())
+            {
+               defaultIsInProgress = false;
+            }
+         }
+         result = defaultIsInProgress;
       }
       else if (Dates.isInPrecisionRange(startDate, endDate, now, Calendar.DATE))
       {
          result = true;
       }
+
       return result;
    }
 
@@ -433,6 +468,16 @@ public class Iteration extends PersistentObject<Iteration>
    public void setNumber(final int number)
    {
       this.number = number;
+   }
+
+   public Date getClosedOn()
+   {
+      return closedOn;
+   }
+
+   public void setClosedOn(final Date closedOn)
+   {
+      this.closedOn = closedOn;
    }
 
 }

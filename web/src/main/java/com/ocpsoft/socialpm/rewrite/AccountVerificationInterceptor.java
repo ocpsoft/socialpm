@@ -16,6 +16,8 @@
 package com.ocpsoft.socialpm.rewrite;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 
 import com.ocpsoft.rewrite.config.Configuration;
@@ -26,7 +28,7 @@ import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import com.ocpsoft.rewrite.servlet.config.rule.Join;
 import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.security.Profiles;
+import com.ocpsoft.socialpm.security.Account;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -34,13 +36,17 @@ import com.ocpsoft.socialpm.security.Profiles;
 public class AccountVerificationInterceptor extends HttpConfigurationProvider
 {
    @Inject
-   private Profiles profiles;
+   private Account account;
+
+   @PersistenceContext
+   private EntityManager em;
 
    @Override
    public Configuration getConfiguration(final ServletContext context)
    {
       ConfigurationBuilder config = ConfigurationBuilder.begin();
-      Profile current = profiles.getLoggedIn();
+      account.setEntityManager(em);
+      Profile current = account.getLoggedIn();
       if (current.isPersistent() && !current.isUsernameConfirmed())
       {
          return config.defineRule()

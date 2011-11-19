@@ -36,8 +36,10 @@
 		<h:form id="bootcamp" rendered="#{userProfile.showBootcamp}">
 			<div style="margin-bottom: 15px;">
 				<h1 class="header">SocialPM Bootcamp <span>If you are still new to things, we’ve provided a few walkthroughs to get you started.</span>
-		  			<h:commandLink id="close" class="fr" action="#{profiles.dismissBootcamp()}" 
-		  				style="color: white; padding:2px; position: relative; top:-2px; right: -2px;">×</h:commandLink>
+		  			<h:commandLink id="close" class="fr" action="#{account.dismissBootcampAjax()}" 
+		  				style="color: white; padding:2px; position: relative; top:-2px; right: -2px;" value="×">
+		  					<f:ajax execute="@this" render="@form"/>
+		  				</h:commandLink>
 		  		</h1>
 		  		<ocp:tooltip for="bootcamp:close" title="Hide this tutorial forever" placement="left" trigger="hover" />
 				<div class="body">
@@ -73,7 +75,7 @@
 		<div class="row">
 			<div class="span8 columns">
 				<div class="hanger">
-				<b>Welcome to SocialPM! What's next?</b> (just now)
+					<b>Welcome to SocialPM! What's next?</b> (just now)
 					<p><h:link value="Start a project" /><br/>
 					<h:link value="Tell us about yourself" /><br/>
 					<h:link value="Browse interesting projects" /><br/>
@@ -86,7 +88,7 @@
 					<h3>Your Projects (${projects.count})</h3>
 					
 					<ul class="plain clear">
-						<ui:repeat var="p" value="#{projects.all}">
+						<ui:repeat var="p" value="#{projects.all}" varStatus="i">
 							<li>
 								<div class="box" style="margin-bottom: 8px;">
 								
@@ -102,11 +104,17 @@
 											</span>
 										</div>
 										<div class="span1 columns">
-											<a href="#" class="btn warn fr">Entered</a>
 										</div>
 									</div>
 									
-									<p>Your assignments: <a href="#">3 stories</a> totaling <a href="#">4 tasks</a></p>
+									<p>Your assignments: <ocp:tooltip placement="right" title="over #{projects.getAssignedStoryCount(userProfile, p)} stories" trigger="hover">
+									<h:link id="assignments" value="#{projects.getAssignedTaskCount(userProfile, p)} tasks" 
+										outcome="/pages/project/view">
+										<f:param name="profile" value="#{p.owner.username}" />
+										<f:param name="project" value="#{p.slug}" />
+									</h:link>
+									</ocp:tooltip></p>
+									
 								</div>
 							</li>
 						</ui:repeat>

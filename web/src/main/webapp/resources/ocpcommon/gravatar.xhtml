@@ -47,13 +47,13 @@
 		<h:outputLink value="http://gravatar.com/emails/" 
 			title="Change your avatar at gravatar.com &#160;&#187;&#160;" 
 			target="_blank"
-			style="margin: 0px; padding: 0px; ${cc.attrs.style}"
+			style="margin: 0px; padding: 0px; #{cc.attrs.style}; background-color: #ddd;"
 			styleClass="${cc.attrs.styleClass}"
 			rendered="#{cc.attrs.updatable and cc.attrs.email != null}">
 			<h:graphicImage value="#{gravatars.getURLFor(cc.attrs.email, cc.attrs.size)}" 
-				height="#{cc.attrs.size}" 
-				width="#{cc.attrs.size}" 
-				style="padding: 2px; 
+				style="padding: 2px;
+				height: #{cc.attrs.size}px; 
+				width: #{cc.attrs.size}px;
 				border-solid: #ccc; 
 				background-color: #eee;" />
 		</h:outputLink>

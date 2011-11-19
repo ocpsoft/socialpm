@@ -52,7 +52,7 @@
 		$(document).ready(function () {
 
 			var id = "${cc.attrs.for}";
-			if(!id)	id = "${cc.id}:content";
+			if(!id)	id = "${cc.clientId}:content";
 			id = id.replace(/:/g,"\\:");
 			var options = { 
 					trigger: '${cc.attrs.trigger}', offset: ${cc.attrs.offset}, animate: true,

@@ -16,6 +16,7 @@
 package com.ocpsoft.socialpm.project;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +35,8 @@ import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.Points;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.stories.Task;
+import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.project.StoryService;
 import com.ocpsoft.socialpm.web.ParamsBean;
 
@@ -97,6 +100,21 @@ public class Stories implements Serializable
          }
       }
       return null;
+   }
+
+   public int getAssignedTaskCount(final Profile p, final Story s)
+   {
+      return getAssignedTasks(p, s).size();
+   }
+
+   public List<Task> getAssignedTasks(final Profile p, final Story s)
+   {
+      List<Task> result = new ArrayList<Task>();
+      for (Task t : s.getTasks()) {
+         if (p.getUsername().equals(t.getAssignee().getUsername()))
+            result.add(t);
+      }
+      return result;
    }
 
    @TransactionAttribute

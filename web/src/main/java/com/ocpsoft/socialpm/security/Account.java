@@ -18,6 +18,7 @@ package com.ocpsoft.socialpm.security;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
@@ -25,18 +26,20 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import org.jboss.seam.security.Identity;
+
+import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
-import com.ocpsoft.socialpm.web.ParamsBean;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-@Named("profiles")
+@Named("account")
 @RequestScoped
-public class Profiles implements Serializable
+public class Account implements Serializable
 {
    private static final long serialVersionUID = 8474539305281711165L;
 
@@ -45,10 +48,10 @@ public class Profiles implements Serializable
    private EntityManager em;
 
    @Inject
-   private ProfileService ps;
+   private Identity identity;
 
    @Inject
-   private ParamsBean params;
+   private ProfileService ps;
 
    @PostConstruct
    public void init()
@@ -56,27 +59,55 @@ public class Profiles implements Serializable
       ps.setEntityManager(em);
    }
 
-   private Profile current = new Profile();
+   Profile loggedIn = new Profile();
 
    @Produces
-   @Named("profile")
+   @LoggedIn
    @RequestScoped
-   public Profile getCurrent()
+   @Named("userProfile")
+   public Profile getLoggedIn()
    {
-      if (!current.isPersistent())
+      if (identity.isLoggedIn() && !loggedIn.isPersistent())
       {
          try {
-            current = ps.getProfileByUsername(params.getProfileUsername());
+            loggedIn = ps.getProfileByIdentityKey(identity.getUser().getKey());
          }
          catch (NoResultException e) {
-            // not an error
+            throw e;
          }
       }
-      return current;
+      else if (!identity.isLoggedIn())
+      {}
+      return loggedIn;
+   }
+
+   @TransactionAttribute
+   public void saveAjax()
+   {
+      Profile current = getLoggedIn();
+      ps.save(current);
+   }
+
+   @TransactionAttribute
+   public void displayBootcampAjax()
+   {
+      Profile current = getLoggedIn();
+      current.setShowBootcamp(true);
+      ps.save(current);
+   }
+
+   @TransactionAttribute
+   public void dismissBootcampAjax()
+   {
+      Profile current = getLoggedIn();
+      current.setShowBootcamp(false);
+      ps.save(current);
    }
 
    public void setEntityManager(final EntityManager em)
    {
       this.em = em;
+      ps.setEntityManager(em);
    }
+
 }
