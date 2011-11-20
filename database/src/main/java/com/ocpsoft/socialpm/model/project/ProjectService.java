@@ -63,7 +63,7 @@ public class ProjectService extends PersistenceUtil
 
       Iteration unassigned = new Iteration();
       unassigned.setProject(p);
-      unassigned.setTitle("Unassigned");
+      unassigned.setTitle("Backlog");
       p.getIterations().add(unassigned);
 
       Feature bugFixes = new Feature();
@@ -90,6 +90,11 @@ public class ProjectService extends PersistenceUtil
 
       super.create(new ProjectCreated(owner, p));
       return p;
+   }
+
+   public void save(final Project p)
+   {
+      super.save(p);
    }
 
    public List<Project> findAll()

@@ -61,7 +61,7 @@ public class IterationStatistics extends PersistentObject<IterationStatistics>
    private Date date;
 
    /* remaining */
-   private int totalHours;
+   private int hoursRemain;
    private int totalTasks;
    private int totalStories;
    private int totalPoints;
@@ -79,7 +79,7 @@ public class IterationStatistics extends PersistentObject<IterationStatistics>
       return "IterationStatistics [id=" + getId() + ", version=" + getVersion() + ", completedPoints="
                + completedPoints + ", completedStories=" + completedStories + ", completedTasks=" + completedTasks
                + ", completedValue=" + completedValue + ", date=" + date + ", storiesAdded=" + ", totalHours="
-               + totalHours + ", totalPoints=" + totalPoints + ", totalStories=" + totalStories + ", totalTasks="
+               + hoursRemain + ", totalPoints=" + totalPoints + ", totalStories=" + totalStories + ", totalTasks="
                + totalTasks + ", totalValue=" + totalValue + "]";
    }
 
@@ -110,14 +110,14 @@ public class IterationStatistics extends PersistentObject<IterationStatistics>
       this.date = date;
    }
 
-   public int getTotalHours()
+   public int getHoursRemain()
    {
-      return totalHours;
+      return hoursRemain;
    }
 
-   public void setTotalHours(final int totalHours)
+   public void setHoursRemain(final int totalHours)
    {
-      this.totalHours = totalHours;
+      this.hoursRemain = totalHours;
    }
 
    public int getTotalTasks()

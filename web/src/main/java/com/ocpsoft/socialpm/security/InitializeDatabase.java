@@ -120,22 +120,25 @@ public class InitializeDatabase
          Project project = new Project();
          project.setName("Social Project Management");
          project.setSlug("socialpm");
+
+         ps.setEntityManager(entityManager);
+         ps.create(p, project);
+
          Iteration i = new Iteration();
          i.setStartDate(new Date());
-         i.setEndDate(new Date(System.currentTimeMillis() + 36000));
+         i.setEndDate(new Date(System.currentTimeMillis() + (60 * 1000 * 60 * 24 * 2)));
          i.setProject(project);
          i.setTitle("Another");
          project.getIterations().add(i);
 
          i = new Iteration();
-         i.setStartDate(new Date(System.currentTimeMillis() + 36000));
-         i.setEndDate(new Date(System.currentTimeMillis() + 72000));
+         i.setStartDate(new Date(System.currentTimeMillis() + (60 * 1000 * 60 * 24 * 3)));
+         i.setEndDate(new Date(System.currentTimeMillis() + (+60 * 1000 * 60 * 24 * 10)));
          i.setProject(project);
          i.setTitle("Another2");
          project.getIterations().add(i);
 
-         ps.setEntityManager(entityManager);
-         ps.create(p, project);
+         ps.save(project);
       }
    }
 

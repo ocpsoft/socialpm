@@ -44,6 +44,64 @@
 		<link rel="icon" href="#{resource['favicon.ico']}" />
 		<link rel="shortcut icon" type="image/x-icon" href="#{resource['favicon.ico']}" />
 	</ui:define>
+	
+	<ui:define name="topnav-title">
+		<h:link outcome="/pages/home.xhtml" value="${sitename}" />
+	</ui:define>
+	
+	<ui:define name="topnav-left">
+
+		<h:panelGroup rendered="#{!identity.loggedIn}">					
+			<li><h:link outcome="/pages/signup" value="Join the party" /></li>
+		</h:panelGroup>
+		
+		<ui:insert name="topnav-post-template"/>
+	</ui:define>
+	
+	<ui:define name="topnav-right">
+		<h:panelGroup rendered="#{!identity.loggedIn}">
+			<li>
+				<h:link outcome="/pages/login" value="Sign in with your Open ID" />
+			</li>
+		</h:panelGroup>
+		
+		<h:panelGroup rendered="#{!identity.loggedIn}">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('#login\\:username').attr("placeholder", "username");
+				$('#login\\:password').attr("placeholder", "password");
+			});
+		</script>
+		
+		<li>
+			<h:form id="login">
+				<h:outputText value=" " />
+				<h:inputText id="username" value="#{credentials.username}" style="width: 100px;"/>
+				<h:outputText value=" " />
+				<h:inputSecret id="password" value="#{credentials.password}" style="width: 100px;"/>
+				<h:outputText value=" " />
+				<h:commandButton action="#{authentication.login}" value="Sign in">
+				</h:commandButton>
+			</h:form>
+		</li>
+		</h:panelGroup>
+		
+		
+		<h:panelGroup rendered="#{identity.loggedIn}">
+			<li><h:link outcome="/pages/account" style="margin: 0px; padding: 0px;">
+				<ocp:gravatar email="#{userProfile.email}" size="30" style="position: relative; top: 1px;"/>
+			</h:link></li>
+			<li class="menu">
+				<a href="#" class="menu">#{userProfile.username}</a>
+				<ul class="menu-dropdown">
+					<li><h:link outcome="/pages/project/create.xhtml" value="New project" /></li>
+					<li><h:link outcome="/pages/account" value="Account settings" /></li>
+					<li class="divider"></li>
+					<li><h:outputLink value="${request.contextPath}/logout">Sign out</h:outputLink></li>
+				</ul>
+			</li>
+                     </h:panelGroup>
+	</ui:define>
 
 	<ui:define name="messages">
 		<ocp:messages id="TPLmessages" />

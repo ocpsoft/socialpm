@@ -44,8 +44,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -64,6 +68,10 @@ import com.ocpsoft.socialpm.util.Dates;
 
 @Entity
 @Table(name = "iterations")
+@NamedQueries({
+         @NamedQuery(name = "Iteration.byProjectAndNumber", query = "from Iteration where project = ? and number = ?"),
+         @NamedQuery(name = "Iteration.byProjectId", query = "from Iteration where project.id = ?")
+})
 public class Iteration extends PersistentObject<Iteration>
 {
    private static final long serialVersionUID = -5063597697743935212L;
@@ -120,6 +128,19 @@ public class Iteration extends PersistentObject<Iteration>
       this.endDate = endDate;
    }
 
+   @PrePersist
+   @PreUpdate
+   public void beforeCreate()
+   {
+      updateCommitmentStats();
+   }
+
+   public int getTaskHoursRemain()
+   {
+      IterationStatistics stats = getStatistics(Dates.now());
+      return stats.getHoursRemain();
+   }
+
    public Status getStatus()
    {
       Status result = Status.NOT_STARTED;
@@ -159,31 +180,33 @@ public class Iteration extends PersistentObject<Iteration>
          }
       }
 
-      throw new IllegalStateException("The iteration does not have a commitment, or commitment stats");
+      return updateCommitmentStats();
    }
 
-   public void updateCommitmentStats() throws IllegalStateException
+   public IterationStatistics updateCommitmentStats() throws IllegalStateException
    {
-      if (this.isDefault())
+      if (!this.isDefault())
       {
-         throw new IllegalStateException("The default iteration does not have a commitment, or commitment stats");
+         IterationStatistics stats;
+         try
+         {
+            stats = getStatistics(null);
+            new StatsCalculator().update(this, stats);
+            return stats;
+         }
+         catch (NoResultException e)
+         {
+            stats = new StatsCalculator().calculate(this);
+            stats.setIteration(this);
+            statistics.add(stats);
+            return stats;
+         }
       }
 
-      IterationStatistics stats;
-      try
-      {
-         stats = getStatistics(null);
-         new StatsCalculator().update(this, stats);
-      }
-      catch (NoResultException e)
-      {
-         stats = new StatsCalculator().calculate(this);
-         stats.setIteration(this);
-         statistics.add(stats);
-      }
+      return new StatsCalculator().calculate(this);
    }
 
-   public IterationStatistics getStatistics(final Date date) throws IllegalArgumentException
+   public IterationStatistics getStatistics(final Date date) throws NoResultException
    {
       for (IterationStatistics stat : statistics)
       {
@@ -197,7 +220,7 @@ public class Iteration extends PersistentObject<Iteration>
          }
       }
 
-      throw new IllegalArgumentException("No stats exist for date: " + date);
+      throw new NoResultException("No stats exist for date: " + date);
    }
 
    public boolean isCommitted()

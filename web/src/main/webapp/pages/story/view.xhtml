@@ -6,17 +6,19 @@
 	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
-	<ui:param name="title" value="Story #{stories.current.number}" />
+<ui:composition  template="/WEB-INF/view/templates/project-active.xhtml">
 
-	<ui:define name="header">
-		<h:link value="#{projects.current.owner.username}" outcome="/pages/account" /> 
-		/ 
-		<h:link value="#{projects.current.name}" outcome="/pages/project/view">
-			<f:param name="profile" value="#{project.owner.username}" />
-			<f:param name="project" value="#{project.slug}" />
-		</h:link>
-		/ Story #{stories.current.number}
+	<ui:param name="title" value="#{project.name} | Story #{stories.current.number}" />
+
+	<ui:define name="topnav-post-project">
+		<li>
+			<div class="linkball">◗</div>
+			<a href="#"
+				onclick="return false;"
+				style="padding-left: 15px; cursor: default;">
+				Story #{stories.current.number}
+			</a>
+		</li>
 	</ui:define>
 
 	<ui:define name="header-right">

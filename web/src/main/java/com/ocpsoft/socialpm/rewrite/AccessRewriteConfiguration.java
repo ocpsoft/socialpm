@@ -42,6 +42,7 @@ public class AccessRewriteConfiguration extends HttpConfigurationProvider implem
                .addRule(Join.path("/projects/new").to("/pages/project/create.xhtml"))
 
                .addRule(Join.path("/signup").to("/pages/signup.xhtml"))
+               .addRule(Join.path("/login").to("/pages/login.xhtml"))
 
                // 404 and Error
                .addRule(Join.path("/404").to("/pages/404.xhtml"))

@@ -171,7 +171,7 @@ public class Projects implements Serializable
 
    @Produces
    @LoggedIn
-   @Named("iteration")
+   @Named("currentIteration")
    public Iteration getCurrentIteration()
    {
       Iteration iteration = getCurrent().getCurrentIteration();

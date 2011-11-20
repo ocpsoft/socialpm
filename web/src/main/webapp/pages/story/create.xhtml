@@ -6,8 +6,20 @@
 	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
-	<ui:param name="title" value="New Project" />
+<ui:composition template="/WEB-INF/view/templates/project-active.xhtml">
+
+	<ui:param name="title" value="New story" />
+
+	<ui:define name="topnav-post-project">
+		<li>
+			<div class="linkball">◗</div>
+			<a href="#"
+				onclick="return false;"
+				style="padding-left: 15px; cursor: default;">
+				New story
+			</a>
+		</li>
+	</ui:define>
 
 	<ui:define name="subnav">
 		<div class="alert-message info">

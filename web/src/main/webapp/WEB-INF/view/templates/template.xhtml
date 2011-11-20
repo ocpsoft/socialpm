@@ -18,7 +18,7 @@
 
 	<!-- Bootstrap -->
 	<h:outputStylesheet name="bootstrap/bootstrap.css" />
-	<h:outputScript name="jquery-1.6.3.js" />
+	<h:outputScript name="jquery-1.7.js" />
 	<h:outputScript name="jquery-tableSorter-min.js" />
 	<h:outputScript name="bootstrap/dropdown.js" />
 	<h:outputScript name="bootstrap/scrollspy.js" />
@@ -43,90 +43,15 @@
 			<div class="fill">
 				<div class="container">
 					<h3>
-						<h:link outcome="/pages/home.xhtml" value="${sitename}" />
+						<ui:insert name="topnav-title"/>
 					</h3>
 
 					<ul class="nav">
-	
-						<h:panelGroup rendered="#{!identity.loggedIn}">					
-							<li><h:link outcome="/pages/signup" value="Join the party" /></li>
-						</h:panelGroup>
-						
-						<h:panelGroup rendered="#{identity.loggedIn}">
-							<h:panelGroup rendered="#{project.persistent}">
-								<li><h:link outcome="/pages/project/backlog.xhtml"
-										value="Backlog">
-										<f:param name="profile" value="#{project.owner.username}" />
-										<f:param name="project" value="#{project.slug}" />
-									</h:link>
-								</li>
-							</h:panelGroup>
-						
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle">Projects</a>
-								<ul class="dropdown-menu">
-									<li><a href="#">Secondary link</a></li>
-									<li><a href="#">Something else here</a>
-									</li>
-						
-									<li class="divider"></li>
-									<li>
-									<h:link outcome="/pages/project/create.xhtml"
-										value="New Project" />
-									</li>
-								</ul>
-							</li>
-							<ui:insert name="topnav-left" />
-						</h:panelGroup>
+						<ui:insert name="topnav-left" />
 					</ul>
 
 					<ul class="nav secondary-nav">
-					
-						<ui:insert name="topnav-right">
-						
-						<h:panelGroup rendered="#{!identity.loggedIn}">
-							<li>
-								<h:link outcome="/pages/login" value="Sign in with your Open ID" />
-							</li>
-						</h:panelGroup>
-						
-						<h:panelGroup rendered="#{!identity.loggedIn}">
-						<script type="text/javascript">
-							$(document).ready(function() {
-								$('#login\\:username').attr("placeholder", "username");
-								$('#login\\:password').attr("placeholder", "password");
-							});
-						</script>
-						
-						<li>
-							<h:form id="login">
-								<h:outputText value=" " />
-								<h:inputText id="username" value="#{credentials.username}" style="width: 100px;"/>
-								<h:outputText value=" " />
-								<h:inputSecret id="password" value="#{credentials.password}" style="width: 100px;"/>
-								<h:outputText value=" " />
-								<h:commandButton action="#{authentication.login}" value="Sign in">
-								</h:commandButton>
-							</h:form>
-						</li>
-						</h:panelGroup>
-						
-						
-						<h:panelGroup rendered="#{identity.loggedIn}">
-							<li><h:link outcome="/pages/account" style="margin: 0px; padding: 0px;">
-								<ocp:gravatar email="#{userProfile.email}" size="30" style="position: relative; top: 1px;"/>
-							</h:link></li>
-							<li class="menu">
-								<a href="#" class="menu">#{userProfile.username}</a>
-								<ul class="menu-dropdown">
-									<li><h:link outcome="/pages/account" value="Account" /></li>
-									<li><a href="#">Settings</a></li>
-									<li class="divider"></li>
-									<li><h:outputLink value="${request.contextPath}/logout">Sign out</h:outputLink></li>
-								</ul>
-							</li>
-                         </h:panelGroup>
-						</ui:insert>
+						<ui:insert name="topnav-right"/>
 					</ul>
 				</div>
 			</div>
@@ -137,29 +62,13 @@
 
 		<div style="padding-top: 40px;"></div>
 
-		<div class="container">
-			<div class="row">
-				<div class="span12 columns" style="position: absolute;">
-					<div style="position: relative; top: -2px;">
-						<ui:insert name="subnav">
-						</ui:insert>
-					</div>
-				</div>
-			</div>
-		</div>
-
 		<ui:insert name="header-replace">
-			<section id="header">
-				<div class="container">
-					<div class="page-header ">
-						<h1>
-							<ui:insert name="header"><span style="visibility: hidden;">.</span></ui:insert>
-							<small class="right" style="margin-top: 15px;"><ui:insert
-									name="header-right" /> </small>
-						</h1>
-					</div>
-				</div>
-			</section>
+			<div class="container" style="margin-top: 15px; border-bottom: solid 1px #ddd; margin-bottom: 20px;">
+				<h1 class="fl"><ui:insert name="header" /></h1>
+				<h1 class="fr">
+					<small style="margin-top: 15px;"><ui:insert name="header-right" /> </small>
+				</h1>	
+			</div>
 		</ui:insert>
 
 		<div class="container">

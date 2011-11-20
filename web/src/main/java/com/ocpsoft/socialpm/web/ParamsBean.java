@@ -26,6 +26,7 @@ import javax.inject.Named;
 @RequestScoped
 public class ParamsBean
 {
+   private int iterationNumber;
    private String projectSlug;
    private String profileUsername;
    private int storyNumber;
@@ -58,5 +59,15 @@ public class ParamsBean
    public void setStoryNumber(final int storyNumber)
    {
       this.storyNumber = storyNumber;
+   }
+
+   public int getIterationNumber()
+   {
+      return iterationNumber;
+   }
+
+   public void setIterationNumber(final int iterationNumber)
+   {
+      this.iterationNumber = iterationNumber;
    }
 }

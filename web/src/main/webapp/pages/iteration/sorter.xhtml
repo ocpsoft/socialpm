@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="/WEB-INF/view/templates/project-active.xhtml">
+
+	<ui:param name="title" value="#{project.name} | #{iteration.default ? 'Backlog' : 'Iteration '.concat(iteration.number)}" />
+
+	<ui:define name="topnav-post-project">
+		<li>
+			<div class="linkball">◗</div>
+			<a href="#"
+				onclick="return false;"
+				style="padding-left: 15px; cursor: default;">
+				#{iteration.default ? 'Backlog' : 'Iteration '.concat(iteration.number)}
+			</a>
+		</li>
+	</ui:define>
+
+	<ui:define name="header">
+		#{iteration.default ? 'Backlog' : 'Iteration '.concat(iteration.number)}
+	</ui:define>
+
+	<ui:define name="header-right">
+		<b><h:link class="btn" value="+1"/></b>
+	</ui:define>
+
+	<ui:define name="content">
+	
+		<ui:repeat var="i" value="#{project.iterations}">
+			<div class="fl">
+				<h:link
+					outcome="/pages/iteration/sorter" 
+					style="font-weight: bold; 
+							display: block; 
+							padding: 5px; 
+							margin-right: 3px;
+							#{i.number == iteration.number ? 'height: 25px;' : ''}" 
+					class="fl #{i.status}">
+					<h:outputText value="Backlog" rendered="#{i.default}" />
+					<h:outputText value="#{i.number}" rendered="#{!i.default}" />
+					<f:param name="profile" value="#{project.owner.username}" />
+					<f:param name="project" value="#{project.slug}" />
+					<f:param name="iteration" value="#{i.number}" />
+				</h:link>
+			</div>
+		</ui:repeat>
+		<div style="clear:both;"></div>
+		<div class="#{iteration.status}"><span style="visibility: hidden;">.</span></div>
+	
+		<h:outputStylesheet>
+			/* Iteration sorter styles */
+			.alloc {
+				padding-left: 3px;
+				padding-right: 3px;
+				font-weight: bold;
+				color: #eee;
+			}
+
+			#velocity { 
+				/* fallback */
+				float: left;
+				background-color: inherit;
+				background: -moz-linear-gradient(left, #fff, #57a957);
+				background: -webkit-linear-gradient( left, #57a957, #fff); 
+				background: -webkit-gradient(linear, left top, right top, from(#fff), to(#57a957)) ;
+				background: -ms-linear-gradient(left, #57a957, #fff);
+				background: -o-linear-gradient(left, #57a957, #fff);
+			}
+			
+			#allocated { 
+				/* fallback */
+				float: left;
+				background-color: inherit;
+				background: -moz-linear-gradient(left, #fff, #C43C35);
+				background: -webkit-linear-gradient( left, #C43C35, #fff); 
+				background: -webkit-gradient(linear, left top, right top, from(#fff), to(#C43C35)) ;
+				background: -ms-linear-gradient(left, #C43C35, #fff);
+				background: -o-linear-gradient(left, #C43C35, #fff);
+			}
+		</h:outputStylesheet>
+	
+		<div id="velocity" class="alloc" style="width: 25%;"><span class="fr">Velocity</span></div>
+		<div class="fl alloc" style="color: #222; padding-left: 5px;">#{project.velocity.hours} hours</div>
+		<div style="clear:both;"></div>
+		
+		<div id="allocated" class="alloc" style="width: 50%;"><span class="fr">#{iteration.default ? 'Unallocated' : 'Allocated'}</span></div>
+		<div class="fl alloc" style="color: #222; padding-left: 5px;">#{iteration.commitmentStats.hoursRemain} hours</div>
+		<div style="clear:both;"></div>
+	
+		<div class="row" style="margin-top: 15px">
+			<div class="span4 columns">
+				<div class="well">
+				</div>
+			</div>
+			<div class="span6 columns">
+				<div class="well">
+				</div>
+			</div>
+			<div class="span6 columns">
+				<div class="well">
+				</div>
+			</div>
+		</div>
+	
+	</ui:define>
+
+</ui:composition>
+</html>

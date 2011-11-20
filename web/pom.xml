@@ -41,7 +41,7 @@
          <artifactId>rewrite-integration-faces</artifactId>
          <version>${version.rewrite}</version>
       </dependency>
-      
+
       <dependency>
          <groupId>com.ocpsoft</groupId>
          <artifactId>ocpsoft-pretty-time</artifactId>
@@ -55,12 +55,12 @@
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces-api</artifactId>
       </dependency>
-      
+
       <dependency>
          <groupId>joda-time</groupId>
          <artifactId>joda-time</artifactId>
       </dependency>
-      
+
       <dependency>
          <groupId>org.jboss.seam.security</groupId>
          <artifactId>seam-security</artifactId>

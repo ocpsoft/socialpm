@@ -87,6 +87,8 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                   {}
                })
 
+               .addRule(Join.path("/{profile}").to("/pages/profile.xhtml"))
+
                .defineRule()
                .when(
                         Direction.isInbound()
@@ -142,6 +144,32 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                .addRule(Join.path("/{profile}/{project}/story/{story}")
                         .to("/pages/story/view.xhtml")
                         .where("project").matches(PROJECT)
+                        .when(SocialPMResources.excluded())
+               )
+
+               /*
+                *  Iteration pages
+                */
+               /*
+                * Bind iteration number to EL and Load current story
+                */
+               .defineRule()
+               .when(
+                        Direction.isInbound()
+                                 .andNot(Path.matches(".*xhtml"))
+                                 .and(Direction.isInbound())
+                                 .and(Path.matches("/{profile}/{project}/iteration/{iteration}.*")
+                                          .where("profile").matches(PROJECT)
+                                          .where("project").matches(PROJECT)
+                                          .where("iteration").matches(PROJECT)
+                                          .bindsTo(El.property("params.iterationNumber")))
+               )
+               .perform(PhaseAction.retrieveFrom(El.retrievalMethod("iterations.loadCurrent")))
+
+               .addRule(Join.path("/{profile}/{project}/iteration/{iteration}")
+                        .to("/pages/iteration/sorter.xhtml")
+                        .where("project").matches(PROJECT)
+                        .where("iteration").matches("\\d+")
                         .when(SocialPMResources.excluded())
                )
 

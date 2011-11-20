@@ -6,7 +6,7 @@
 	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
+<ui:composition template="/WEB-INF/view/templates/project-active.xhtml">
 	<ui:param name="title" value="View Project" />
 
 	<ui:define name="header">
@@ -31,9 +31,9 @@
 
 				
 					<h:panelGroup id="status">
-					<h3>Open Stories (${iteration.numOpenFrontShelfStories})</h3>
+					<h3>Open Stories (${currentIteration.numOpenFrontShelfStories})</h3>
 					<ul class="plain clear">
-						<ui:repeat var="s" value="#{iteration.frontShelfStories}">
+						<ui:repeat var="s" value="#{currentIteration.frontShelfStories}">
 							<li>
 								<div class="box" style="margin-bottom: 8px;">
 								
@@ -69,20 +69,20 @@
 							</li>
 						</ui:repeat>
 						
-						<h:panelGroup layout="block" rendered="${iteration.numFrontShelfStories == 0}" styleClass="box">
+						<h:panelGroup layout="block" rendered="${currentIteration.numFrontShelfStories == 0}" styleClass="box">
 							Looks like you could use stories to work on. You can 
 							<h:link outcome="/pages/story/create" value="add a new story">
 								<f:param name="profile" value="#{project.owner.username}" />
 								<f:param name="project" value="#{project.slug}" />
 							</h:link>
-							<h:panelGroup rendered="#{iteration.numBackShelfStories > 0}">, <h:outputText rendered="#{iteration.numBackShelfStories > 0}" value="or"/> move some stories to the front shelf</h:panelGroup>
-							<h:panelGroup rendered="#{project.numOpenStories - iteration.numStories > 0}">, or pull some stories from the project backlog</h:panelGroup>
+							<h:panelGroup rendered="#{currentIteration.numBackShelfStories > 0}">, <h:outputText rendered="#{currentIteration.numBackShelfStories > 0}" value="or"/> move some stories to the front shelf</h:panelGroup>
+							<h:panelGroup rendered="#{project.numOpenStories - currentIteration.numStories > 0}">, or pull some stories from the project backlog</h:panelGroup>
 							 to get going.
 						</h:panelGroup>
 					</ul>
 					</h:panelGroup>
 					
-					<ui:repeat var="s" value="#{iteration.frontShelfStories}">
+					<ui:repeat var="s" value="#{currentIteration.frontShelfStories}">
 						<ocp:modal forceId="impediments#{s.number}" title="Story #{s.number} - As a #{s.role}, I want #{s.objective}, so that #{s.result}." hidden="false">
 							<h:form prependId="false" id="stories">
 								<p/>
@@ -145,13 +145,26 @@
 
 				<ocp:box title="Iterations">
 					<f:facet name="content">
+						<div>
+							<h:outputText rendered="#{project.currentIteration.default}" 
+								value="Not currently working on any Iteration" />
+						</div>
 						<ui:repeat var="i" value="#{project.iterations}">
 							<div class="fl">
-								<span style="font-weight: bold; display: block; padding: 5px; margin-right: 3px;" class="fl #{i.status}">#{i.number}
-									<h:panelGroup style="text-decoration: bold; color: #111;" rendered="#{i.inProgress}">
+								<h:link
+									outcome="/pages/iteration/sorter" 
+									style="font-weight: bold; display: block; padding: 5px; margin-right: 3px;" class="fl #{i.status}">
+									<h:outputText value="(#{i.number})" rendered="#{i.default}" />
+									<h:outputText value="#{i.number}" rendered="#{!i.default}" />
+									<f:param name="profile" value="#{project.owner.username}" />
+									<f:param name="project" value="#{project.slug}" />
+									<f:param name="iteration" value="#{i.number}" />
+									<h:panelGroup 
+										style="text-decoration: bold; color: #111; #{i.default ? 'position: relative; left: 3px;' : ''}" 
+										rendered="#{i.inProgress}">
 										<br/>^
 									</h:panelGroup>
-								</span>
+								</h:link>
 							</div>
 						</ui:repeat>
 					</f:facet>

@@ -113,6 +113,13 @@ public class Project extends DeletableObject<Project>
       return name;
    }
 
+   public Velocity getVelocity()
+   {
+      Velocity velocity = new Velocity();
+      velocity.setHours(25);
+      return velocity;
+   }
+
    public boolean isIterationActive()
    {
       Iteration currentIteration = getCurrentIteration();

@@ -33,10 +33,10 @@ package com.ocpsoft.socialpm.model.project.iteration;
 
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.iteration.IterationStatistics;
+import com.ocpsoft.socialpm.domain.project.stories.Status;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
-import com.ocpsoft.socialpm.domain.project.stories.Status;
 
 public class StatsCalculator
 {
@@ -49,7 +49,7 @@ public class StatsCalculator
       int completedPoints = 0;
       int completedTasks = 0;
       int completedValue = 0;
-      int totalHours = 0;
+      int hoursRemain = 0;
       int totalPoints = 0;
       int totalTasks = 0;
       int totalValue = 0;
@@ -72,7 +72,7 @@ public class StatsCalculator
             totalTasks++;
          }
 
-         totalHours += story.getTotalTaskHoursRemaining();
+         hoursRemain += story.getTotalTaskHoursRemaining();
          totalPoints += story.getStoryPoints().getValue();
          totalValue += story.getBusinessValue().getValue();
       }
@@ -82,7 +82,7 @@ public class StatsCalculator
       ns.setCompletedTasks(completedTasks);
       ns.setCompletedValue(completedValue);
 
-      ns.setTotalHours(totalHours);
+      ns.setHoursRemain(hoursRemain);
       ns.setTotalPoints(totalPoints);
       ns.setTotalStories(iteration.getStories().size());
       ns.setTotalTasks(totalTasks);
@@ -99,7 +99,7 @@ public class StatsCalculator
       stat.setCompletedTasks(ns.getCompletedTasks());
       stat.setCompletedValue(ns.getCompletedValue());
 
-      stat.setTotalHours(ns.getTotalHours());
+      stat.setHoursRemain(ns.getHoursRemain());
       stat.setTotalPoints(ns.getTotalPoints());
       stat.setTotalStories(ns.getTotalStories());
       stat.setTotalTasks(ns.getTotalTasks());

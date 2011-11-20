@@ -31,12 +31,14 @@
 
 package com.ocpsoft.socialpm.model.project;
 
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
 import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Project;
@@ -163,6 +165,34 @@ public class IterationService extends PersistenceUtil
 
       iteration.getProject().getIterations().remove(iteration);
       delete(iteration);
+   }
+
+   public Iteration findByProjectAndNumber(final Project project, final int iterationNumber)
+   {
+      return findUniqueByNamedQuery("Iteration.byProjectAndNumber", project, iterationNumber);
+   }
+
+   public int getIterationNumber(final Iteration created)
+   {
+      Query query = em.createNativeQuery(
+               "(SELECT count(i.id) + 1 FROM iterations i WHERE i.project_id = :pid AND i.id < :iid)");
+      query.setParameter("pid", created.getProject().getId());
+      query.setParameter("iid", created.getId());
+      return ((BigInteger) query.getSingleResult()).intValue();
+   }
+
+   public Iteration create(final Project p, final Iteration i)
+   {
+      i.setProject(p);
+      p.getIterations().add(i);
+
+      super.create(i);
+      return i;
+   }
+
+   public void save(final Iteration i)
+   {
+      super.save(i);
    }
 
 }
