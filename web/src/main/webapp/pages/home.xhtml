@@ -38,7 +38,8 @@
 					</h:link>
 				</div>
 				<div class="span4 columns">
-					<h4>Hi there, ${userProfile.username}.</h4>
+					<h4>Hi there, 
+					<h:link outcome="/pages/account" title="View your account" value="${userProfile.username}"/>.</h4>
 					<p>What are you going to accomplish today?</p>
 				</div>
 				<div class="span6 columns offset4">
