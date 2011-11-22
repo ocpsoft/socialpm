@@ -195,4 +195,9 @@ public class IterationService extends PersistenceUtil
       super.save(i);
    }
 
+   public Iteration findById(final Long id)
+   {
+      return findById(Iteration.class, id);
+   }
+
 }

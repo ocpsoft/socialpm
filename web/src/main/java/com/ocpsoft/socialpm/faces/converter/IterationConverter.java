@@ -27,28 +27,52 @@
  * 
  * Optionally, customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
- */ 
+ */
+package com.ocpsoft.socialpm.faces.converter;
 
-package com.ocpsoft.socialpm.domain.project.stories;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.FacesConverter;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.ocpsoft.socialpm.cdi.Web;
+import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
+import com.ocpsoft.socialpm.model.project.IterationService;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public enum StoryStatus {
-    OPEN("Open"), CLOSED("Closed");
+/**
+ * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
+ * 
+ */
+@FacesConverter(forClass = Iteration.class)
+public class IterationConverter implements Converter
+{
+   @Inject
+   @Web
+   private EntityManager em;
 
-    private String value;
+   @Inject
+   private IterationService is;
 
-    StoryStatus(final String value)
-    {
-        this.value = value;
-    }
+   @Override
+   public Object getAsObject(final FacesContext arg0, final UIComponent arg1, final String value)
+   {
+      try {
+         is.setEntityManager(em);
+         return is.findById(Long.valueOf(value));
+      }
+      catch (NoResultException e) {
+         return new Iteration();
+      }
+   }
 
-    public String getValue()
-    {
-        return value;
-    }
+   @Override
+   public String getAsString(final FacesContext arg0, final UIComponent arg1, final Object iteration)
+   {
+      Long id = ((Iteration) iteration).getId();
+      return id == null ? "" : id.toString();
+   }
+
 }

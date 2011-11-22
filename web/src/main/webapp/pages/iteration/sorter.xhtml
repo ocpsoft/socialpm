@@ -3,6 +3,7 @@
 <html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <ui:composition template="/WEB-INF/view/templates/project-active.xhtml">
@@ -21,7 +22,7 @@
 	</ui:define>
 
 	<ui:define name="header">
-		#{iteration.default ? 'Backlog' : 'Iteration '.concat(iteration.number)}
+		<h2>#{iteration.default ? 'Backlog' : 'Iteration '.concat(iteration.number)}</h2>
 	</ui:define>
 
 	<ui:define name="header-right">
@@ -92,19 +93,114 @@
 		<div style="clear:both;"></div>
 	
 		<div class="row" style="margin-top: 15px">
-			<div class="span4 columns">
-				<div class="well">
-				</div>
+			<div class="span16 columns">
+				
+				
+				<ocp:tabs>
+					<f:facet name="tabs">
+						<ocp:tab anchor="sorter" title="Sorter" active="true" />
+						<ocp:tab anchor="charts" title="Charts" />
+						<ocp:tab anchor="team" title="Team" />
+					</f:facet>
+					<f:facet name="panes">
+						<ocp:tabPane anchor="sorter" active="true">
+							<div class="row">
+								<div class="span4 columns">
+									<div class="well">
+										<h3>Features</h3>
+										<ul>
+											<ui:repeat var="f" value="#{project.features}">
+												<li>#{f.name}</li>
+											</ui:repeat>
+										</ul>
+									</div>
+								</div>
+								<div class="span6 columns">
+									<div class="well">
+										<h3>#{iteration.default ? 'Backlog' : 'Iteration '.concat(iteration.number)}</h3>
+										<ul class="plain clear">
+											<ui:repeat var="s" value="#{iteration.storyList}">
+												<li>
+													<div class="box" style="margin-bottom: 8px;">
+													
+														<div class="row">
+															<div class="span1 columns">
+																<span id="number#{s.number}" style="font-size: 20px;">#{s.number}</span><br/>
+																<span id="priority#{s.number}" style="padding: 5px; padding-left: 0px; color: #bbb;">#{s.priority}</span>
+															</div>
+															<div class="span4 columns">
+																<span style="font-size: 16px; margin-top: 10px;">
+																	<h:link outcome="/pages/story/view" value="As a #{s.role}, I want #{s.objective}, so that #{s.result}.">
+																		<f:param name="profile" value="#{project.owner.username}" />
+																		<f:param name="project" value="#{project.slug}" />
+																		<f:param name="story" value="#{s.number}" />
+																	 </h:link>
+																</span>
+															</div>
+															<div class="span2 columns fr" style="margin-left: 0px;">
+																<h:panelGroup class="fr #{s.validated ? 'ACCEPTED' : 'PENDING' }" style="padding: 5px;" rendered="#{s.validationCount > 0}">
+																	#{s.validated ? '✓' : '✗' }
+																</h:panelGroup>
+																<h:panelGroup class="fr #{s.progressStatus}" style="padding: 5px;">
+																	#{s.progressStatus.status}
+																</h:panelGroup>
+															</div>
+														</div>
+													</div>
+												</li>
+											</ui:repeat>
+										</ul>
+									</div>
+								</div>
+								<div class="span6 columns">
+									<div class="well">
+										<h3>Backlog</h3>
+										<ul class="plain clear">
+											<ui:repeat var="s" value="#{projects.current.defaultIteration.storyList}">
+												<li>
+													<div class="box" style="margin-bottom: 8px;">
+														<div class="row">
+															<div class="span1 columns">
+																<span id="number#{s.number}" style="font-size: 20px;">#{s.number}</span><br/>
+																<span id="priority#{s.number}" style="padding: 5px; padding-left: 0px; color: #bbb;">#{s.priority}</span>
+															</div>
+															<div class="span4 columns">
+																<span style="font-size: 16px; margin-top: 10px;">
+																	<h:link outcome="/pages/story/view" value="As a #{s.role}, I want #{s.objective}, so that #{s.result}.">
+																		<f:param name="profile" value="#{project.owner.username}" />
+																		<f:param name="project" value="#{project.slug}" />
+																		<f:param name="story" value="#{s.number}" />
+																	 </h:link>
+																</span>
+															</div>
+															<div class="span2 columns fr" style="margin-left: 0px;">
+																<h:panelGroup class="fr #{s.validated ? 'ACCEPTED' : 'PENDING' }" style="padding: 5px;" rendered="#{s.validationCount > 0}">
+																	#{s.validated ? '✓' : '✗' }
+																</h:panelGroup>
+																<h:panelGroup class="fr #{s.progressStatus}" style="padding: 5px;">
+																	#{s.progressStatus.status}
+																</h:panelGroup>
+															</div>
+														</div>
+													</div>
+												</li>
+											</ui:repeat>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</ocp:tabPane>
+						<ocp:tabPane anchor="charts">
+							Charts here
+						</ocp:tabPane>
+						<ocp:tabPane anchor="team">
+							Team info here
+						</ocp:tabPane>
+					</f:facet>
+				</ocp:tabs>
+				
 			</div>
-			<div class="span6 columns">
-				<div class="well">
-				</div>
-			</div>
-			<div class="span6 columns">
-				<div class="well">
-				</div>
-			</div>
-		</div>
+		</div>	
 	
 	</ui:define>
 

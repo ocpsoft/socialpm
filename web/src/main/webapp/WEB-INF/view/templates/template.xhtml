@@ -22,6 +22,7 @@
 	<h:outputScript name="jquery-tableSorter-min.js" />
 	<h:outputScript name="bootstrap/dropdown.js" />
 	<h:outputScript name="bootstrap/scrollspy.js" />
+	<h:outputScript name="bootstrap/tabs.js" />
 	<h:outputScript name="bootstrap/modal.js" />
 	<h:outputScript name="bootstrap/twipsy.js" />
 	<h:outputScript name="bootstrap/popover.js" />
@@ -63,11 +64,10 @@
 		<div style="padding-top: 40px;"></div>
 
 		<ui:insert name="header-replace">
-			<div class="container" style="margin-top: 15px; border-bottom: solid 1px #ddd; margin-bottom: 20px;">
-				<h1 class="fl"><ui:insert name="header" /></h1>
-				<h1 class="fr">
-					<small style="margin-top: 15px;"><ui:insert name="header-right" /> </small>
-				</h1>	
+			<div id="header" class="container" style="margin-top: 15px; border-bottom: solid 1px #ddd; margin-bottom: 20px;">
+				<div class="fl"><ui:insert name="header" /></div>
+				<div class="fr"><ui:insert name="header-right" /></div>
+				<div style="clear:both; margin-bottom: 15px;"></div>
 			</div>
 		</ui:insert>
 

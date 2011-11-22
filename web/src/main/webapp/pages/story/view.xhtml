@@ -21,8 +21,19 @@
 		</li>
 	</ui:define>
 
+	<ui:define name="header">
+		<h2 style="display: inline;">Story #{story.number}</h2>
+	</ui:define>
+
 	<ui:define name="header-right">
-		Big news here.
+		<h:form>
+			<h:commandLink value="Close" action="#{stories.closeStoryAjax}" styleClass="btn primary" rendered="#{story.open}">
+				<f:ajax execute="@this" render="@form"/>
+			</h:commandLink>
+			<h:commandLink value="Reopen" action="#{stories.openStoryAjax}" styleClass="btn secondary" rendered="#{!story.open}">
+				<f:ajax execute="@this" render="@form"/>
+			</h:commandLink>
+		</h:form>
 	</ui:define>
 
 	<ui:define name="content">
@@ -35,7 +46,7 @@
 						 <h3>As a #{story.role}, I want #{story.objective}, so that #{story.result}.</h3>
 					</div>
 				
-					<h3>Validation Criteria ( #{stories.current.validationCount} ) <ocp:modalControl text="+1" for="addVC" styleClass="fr"/></h3>
+					<h3>Validation Criteria ( #{stories.current.validationCount} ) <ocp:modalControl text="+1" for="addVC" styleClass="fr btn"/></h3>
 				
 					<h:panelGroup id="list">
 						<ul class="plain clear">
@@ -55,7 +66,12 @@
 												#{v.text}
 											</div>
 											<div class="span2 columns" style="padding-top: 5px;">
-												<b></b>
+												<h:panelGroup rendered="#{v.accepted}">
+												<b>Approved by </b> 
+													<h:link outcome="/pages/profile" value="#{v.acceptedBy}">
+														<f:param name="profile" value="#{v.acceptedBy}" />
+													</h:link>
+												</h:panelGroup>
 											</div>
 										</div>
 									</div>
@@ -71,7 +87,7 @@
 				</h:form>
 				
 				<h:form id="tasks">
-					<h3>Tasks ( #{stories.current.taskCount} ) <ocp:modalControl text="+1" for="addTasks" styleClass="fr"/></h3>
+					<h3>Tasks ( #{stories.current.taskCount} ) <ocp:modalControl text="+1" for="addTasks" styleClass="fr btn"/></h3>
 				
 					<ul class="plain clear">
 						<ui:repeat var="t" value="#{stories.current.tasks}">
@@ -89,7 +105,10 @@
 										</div>
 										<div class="span2 columns" style="padding-top: 5px;">
 											<b>#{t.hoursRemain} hours remain</b><br/>
-											for #{t.assignee}
+											for 
+											<h:link outcome="/pages/profile" value="#{t.assignee}">
+												<f:param name="profile" value="#{t.assignee}" />
+											</h:link>
 										</div>
 									</div>
 									<h:panelGroup layout="block" styleClass="row" rendered="#{t.status == 'IMPEDED'}">
@@ -146,15 +165,15 @@
 					</f:facet>
 					
 					<f:facet name="content">
-						<h:form prependId="false">
+						<h:form prependId="false" styleClass="form-stacked">
 						
 							<h:panelGroup id="pr" layout="block" class="clearfix">
 								<label for="priority">Priority</label>
 								<div class="input">
 									<h:inputText id="priority" value="#{stories.current.priority}" class="span1">
-										<f:ajax execute="@this save" render="@this"/>
+										<f:ajax execute="@this save" render="pr"/>
 									</h:inputText>
-									<span class="help-inline"><br/><ocp:message for="priority" /></span>
+									<span class="help-inline"><br/><ocp:message id="prmsg" for="priority" /></span>
 								</div>
 							</h:panelGroup>
 						
@@ -162,9 +181,9 @@
 								<label for="burner">Front burner</label>
 								<div class="input">
 									<h:selectBooleanCheckbox id="burner" value="#{stories.current.frontBurner}">
-										<f:ajax execute="@this save" render="@this"/>
+										<f:ajax execute="@this save" render="br" />
 									</h:selectBooleanCheckbox>
-									<span class="help-inline"><br/><ocp:message for="burner" /></span>
+									<span class="help-inline"><br/><ocp:message id="brmsg" for="burner" /></span>
 								</div>
 							</h:panelGroup>
 						
@@ -173,9 +192,9 @@
 								<div class="input">
 									<h:selectOneMenu id="points" value="#{stories.current.storyPoints}" style="width: 65px;">
 										<f:selectItems value="#{points}" />
-										<f:ajax execute="@this save" render="@this" />
+										<f:ajax execute="@this save" render="sp"/>
 									</h:selectOneMenu>
-									<span class="help-inline"><br/><ocp:message for="points" /></span>
+									<span class="help-inline"><br/><ocp:message id="spmsg" for="points" /></span>
 								</div>
 							</h:panelGroup>
 						
@@ -184,13 +203,25 @@
 								<div class="input">
 									<h:selectOneMenu id="value" value="#{stories.current.businessValue}" style="width: 65px;">
 										<f:selectItems value="#{points}" />
-										<f:ajax execute="@this save" render="@this" />
+										<f:ajax execute="@this save" render="bv"/>
 									</h:selectOneMenu>
-									<span class="help-inline"><br/><ocp:message for="value" /></span>
+									<span class="help-inline"><br/><ocp:message id="bvmsg" for="value" /></span>
+								</div>
+							</h:panelGroup>
+						
+							<h:panelGroup id="iter" layout="block" class="clearfix">
+								<label for="value">Iteration</label>
+								<div class="input">
+									<h:selectOneMenu id="iteration" value="#{stories.current.iteration}">
+										<f:selectItems value="#{stories.current.project.iterations}" itemLabel="#{i.number} - #{i.title}" itemValue="#{i}" var="i" />
+										<f:ajax execute="@this saveIteration" render="iter"/>
+									</h:selectOneMenu>
+									<span class="help-inline"><br/><ocp:message id="itrmsg" for="iteration" /></span>
 								</div>
 							</h:panelGroup>
 
-							<h:commandLink id="save" value="Save" action="#{stories.saveAjax()}" style="display: none;" />							
+							<h:commandLink id="saveIteration" value="SaveIteration" action="#{stories.saveIterationAjax()}" style="display: none;" />
+							<h:commandLink id="save" value="Save" action="#{stories.saveAjax()}" style="display:none;"/>							
 						</h:form>
 					</f:facet>
 					
@@ -203,38 +234,39 @@
 
 
 
-		<ocp:modal id="addVC" title="Add validation criteria" hidden="false">
+		<ocp:modal id="addVC" title="Add validation criteria" fade="true" focusId="desc">
 			<h:form prependId="false" id="VCmodal">
 				<p/>					
 				<h:panelGroup id="dscp" layout="block" class="clearfix">
 					<label for="desc">Description<br/><span class="help-inline"><br/><ocp:message for="desc" /></span></label>
 					<div class="input">
-						<h:inputTextarea id="desc" required="true" 
+						<h:inputTextarea id="desc" required="true" tabindex="100"
 							value="#{validation.text}" styleClass="span6" style="margin-left: 15px;" />
 					</div>
 				</h:panelGroup>
 
-				<div style="margin-bottom: 20px;">
-					<div class="fr">
-						<h:commandLink value="Do it!" action="#{validations.createAjax}" styleClass="btn primary">
-							<f:ajax execute="desc @this" render=":validations dscp" />
-						</h:commandLink>
-						<a class="btn secondary" onclick="$('#addVC').modal('hide');">Cancel</a>
-					</div>
-					<div style="clear: none;"></div>
+				<br/>
+				<div class="fr">
+					<h:commandLink value="Do it!" action="#{validations.createAjax}" styleClass="btn primary"
+						tabindex="101">
+						<f:ajax execute="desc @this" render=":validations dscp" />
+					</h:commandLink>
+					<a class="btn secondary" tabindex="102" onclick="$('#addVC').modal('hide');">Cancel</a>
 				</div>
+				<div style="clear:both;"></div>
 			</h:form>
 			<f:facet name="footer">
 			</f:facet>
 		</ocp:modal>
 	
-		<ocp:modal id="addTasks" title="Add tasks">
+		<ocp:modal id="addTasks" title="Add tasks" focusId="desc">
 			<h:form prependId="false" id="TaskModal">
 				<p/>					
 				<h:panelGroup id="dscp" layout="block" class="clearfix">
 					<label for="desc">Description</label>
 					<div class="input">
-						<h:inputTextarea id="desc" value="#{tasks.current.text}" styleClass="span6" required="true"/>
+						<h:inputTextarea id="desc" value="#{tasks.current.text}" styleClass="span6" required="true"
+							tabindex="200"/>
 						<span class="help-inline"><br/><ocp:message for="desc" /></span>
 					</div>
 				</h:panelGroup>
@@ -244,7 +276,8 @@
 						<h:panelGroup id="hrp" layout="block" class="clearfix">
 							<label for="hrs">Hours Remaining</label>
 							<div class="input">
-								<h:inputText id="hrs" value="#{tasks.current.initialHours}" styleClass="span1" />
+								<h:inputText id="hrs" value="#{tasks.current.initialHours}" styleClass="span1" 
+									tabindex="201"/>
 								<span class="help-inline"><br/><ocp:message for="hrs" /></span>
 							</div>
 						</h:panelGroup>
@@ -254,7 +287,8 @@
 						<h:panelGroup id="asp" layout="block" styleClass="clearfix" style="position: relative; right: 60px;">
 							<label for="assignee">Assignee</label>
 							<div class="input">
-								<h:selectOneMenu id="assignee" value="${tasks.current.assignee}" style="width: 160px">
+								<h:selectOneMenu id="assignee" value="${tasks.current.assignee}" style="width: 160px" 
+									tabindex="202">
 									<f:selectItems value="#{assignees}" /> 
 								</h:selectOneMenu>
 								<span class="help-inline"><br/><ocp:message for="assignee" /></span>
@@ -264,10 +298,11 @@
 				</div>
 				
 				<div class="fr">
-					<h:commandLink value="Do it!" action="#{tasks.createAjax}" styleClass="btn primary">
+					<h:commandLink value="Do it!" action="#{tasks.createAjax}" styleClass="btn primary"
+						tabindex="203">
 						<f:ajax execute="@form" render="@form :tasks" />
 					</h:commandLink>
-					<a class="btn secondary" onclick="$('#addTasks').modal('hide');">Cancel</a>
+					<a class="btn secondary" onclick="$('#addTasks').modal('hide');" tabindex="204">Cancel</a>
 				</div>
 			</h:form>
 			

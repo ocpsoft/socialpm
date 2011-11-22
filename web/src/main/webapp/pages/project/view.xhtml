@@ -10,7 +10,7 @@
 	<ui:param name="title" value="View Project" />
 
 	<ui:define name="header">
-		<h:link value="#{projects.current.owner.username}" outcome="/pages/account" /> / #{projects.current.name}
+		<h2 style="display: inline;">#{project.name}</h2>
 	</ui:define>
 
 	<ui:define name="header-right">

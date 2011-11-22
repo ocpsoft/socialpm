@@ -29,7 +29,6 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
 
-import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
@@ -170,7 +169,6 @@ public class Projects implements Serializable
    }
 
    @Produces
-   @LoggedIn
    @Named("currentIteration")
    public Iteration getCurrentIteration()
    {

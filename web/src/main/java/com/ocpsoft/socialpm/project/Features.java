@@ -17,7 +17,6 @@ package com.ocpsoft.socialpm.project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.ejb.TransactionAttribute;
@@ -32,14 +31,12 @@ import javax.persistence.NoResultException;
 import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.socialpm.cdi.Web;
-import com.ocpsoft.socialpm.domain.project.Points;
+import com.ocpsoft.socialpm.domain.project.Feature;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
 import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.model.project.IterationService;
-import com.ocpsoft.socialpm.model.project.StoryService;
-import com.ocpsoft.socialpm.security.Profiles;
+import com.ocpsoft.socialpm.model.project.FeatureService;
 import com.ocpsoft.socialpm.web.ParamsBean;
 
 /**
@@ -48,7 +45,7 @@ import com.ocpsoft.socialpm.web.ParamsBean;
  */
 @Named
 @ConversationScoped
-public class Stories implements Serializable
+public class Features implements Serializable
 {
    private static final long serialVersionUID = -6828711689148386870L;
 
@@ -56,41 +53,26 @@ public class Stories implements Serializable
 
    private Projects projects;
 
-   private StoryService ss;
-
-   private IterationService is;
+   private FeatureService fs;
 
    private ParamsBean params;
 
-   private Profiles profiles;
-
-   public Stories()
+   public Features()
    {}
 
    @Inject
-   public Stories(final @Web EntityManager em, final Profiles profiles, final StoryService ss, final Projects projects,
+   public Features(final @Web EntityManager em, final FeatureService fs, final Projects projects,
             final Messages messages,
-            final IterationService is,
             final ParamsBean params)
    {
       this.params = params;
       this.messages = messages;
-      this.profiles = profiles;
       this.projects = projects;
-      this.ss = ss;
-      this.ss.setEntityManager(em);
-      this.is = is;
-      this.is.setEntityManager(em);
+      this.fs = fs;
+      this.fs.setEntityManager(em);
    }
 
-   @Produces
-   @Named("points")
-   public List<Points> getPointsList()
-   {
-      return Arrays.asList(Points.values());
-   }
-
-   private Story current = new Story();
+   private Feature current = new Feature();
 
    public String loadCurrent()
    {
@@ -98,13 +80,13 @@ public class Stories implements Serializable
 
       if (project.isPersistent())
       {
-         if (params.getStoryNumber() != 0)
+         if ((current != null) && (params.getFeatureNumber() != 0))
          {
             try {
-               current = ss.findByProjectAndNumber(project, params.getStoryNumber());
+               current = fs.findByProjectAndNumber(project, params.getFeatureNumber());
             }
             catch (NoResultException e) {
-               messages.error("Oops! We couldn't find that Story.");
+               messages.error("Oops! We couldn't find that Feature.");
                return "/pages/project/view?faces-redirect=true&profile=" + project.getOwner().getUsername()
                         + "&project=" + project.getSlug();
             }
@@ -113,17 +95,20 @@ public class Stories implements Serializable
       return null;
    }
 
-   public int getAssignedTaskCount(final Profile p, final Story s)
+   public int getAssignedTaskCount(final Profile p, final Feature f)
    {
-      return getAssignedTasks(p, s).size();
+      return getAssignedTasks(p, f).size();
    }
 
-   public List<Task> getAssignedTasks(final Profile p, final Story s)
+   public List<Task> getAssignedTasks(final Profile p, final Feature f)
    {
       List<Task> result = new ArrayList<Task>();
-      for (Task t : s.getTasks()) {
-         if (p.getUsername().equals(t.getAssignee().getUsername()))
-            result.add(t);
+      // FIXME Super slow - query-ify this!
+      for (Story s : f.getStories()) {
+         for (Task t : s.getTasks()) {
+            if (p.getUsername().equals(t.getAssignee().getUsername()))
+               result.add(t);
+         }
       }
       return result;
    }
@@ -131,49 +116,27 @@ public class Stories implements Serializable
    @TransactionAttribute
    public String create()
    {
-      Story created = ss.create(projects.getCurrent(), current);
-      return "/pages/story/view?faces-redirect=true&project=" + projects.getCurrent().getSlug() + "&profile="
+      Feature created = fs.create(projects.getCurrent(), current);
+      return "/pages/feature/view?faces-redirect=true&project=" + projects.getCurrent().getSlug() + "&profile="
                + current.getProject().getOwner().getUsername()
-               + "&story=" + ss.getStoryNumber(created);
+               + "&feature=" + fs.getFeatureNumber(created);
    }
 
    @TransactionAttribute
    public void saveAjax()
    {
-      ss.save(current);
-   }
-
-   @TransactionAttribute
-   public void saveIterationAjax()
-   {
-      is.changeStoryIteration(current.getIteration(), current);
-   }
-
-   @TransactionAttribute
-   public void closeStoryAjax()
-   {
-      ss.closeStory(current, profiles.getCurrent());
-   }
-
-   @TransactionAttribute
-   public void openStoryAjax()
-   {
-      ss.openStory(current, profiles.getCurrent());
+      fs.save(current);
    }
 
    @Produces
-   @Named("story")
+   @Named("feature")
    @RequestScoped
-   public Story getCurrent()
+   public Feature getCurrent()
    {
-      if (!current.isPersistent())
-      {
-         current.setIteration(projects.getCurrentIteration());
-      }
       return current;
    }
 
-   public void setCurrent(final Story current)
+   public void setCurrent(final Feature current)
    {
       this.current = current;
    }

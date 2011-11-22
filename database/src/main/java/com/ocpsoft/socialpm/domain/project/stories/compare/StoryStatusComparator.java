@@ -40,11 +40,11 @@ public class StoryStatusComparator implements Comparator<Story>
    @Override
    public int compare(final Story l, final Story r)
    {
-      if (l.getStatus().ordinal() > r.getStatus().ordinal())
+      if (l.getProgressStatus().isStrongerThan(r.getProgressStatus()))
       {
          return 1;
       }
-      else if (l.getStatus().ordinal() < r.getStatus().ordinal())
+      else if (r.getProgressStatus().isStrongerThan(l.getProgressStatus()))
       {
          return -1;
       }

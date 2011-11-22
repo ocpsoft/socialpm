@@ -56,10 +56,9 @@ import com.ocpsoft.socialpm.domain.project.Milestone;
 import com.ocpsoft.socialpm.domain.project.Points;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
-import com.ocpsoft.socialpm.domain.project.stories.Task;
 import com.ocpsoft.socialpm.domain.project.stories.Status;
+import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.stories.Task;
 import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.project.IterationService;
@@ -71,7 +70,7 @@ public class ProjectResource extends PersistenceUtil
    private static final long serialVersionUID = 8078531824053093624L;
 
    @Override
-   public void setEntityManager(EntityManager em)
+   public void setEntityManager(final EntityManager em)
    {
       this.em = em;
    }
@@ -221,7 +220,6 @@ public class ProjectResource extends PersistenceUtil
 
       project.getStories().add(s);
       s.setBurner(story.getBurner());
-      s.setStatus(StoryStatus.OPEN);
 
       if (story.getStoryPoints() == null)
       {

@@ -37,6 +37,7 @@
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
+	<composite:attribute name="focusId" required="false" type="String" />
 	<composite:attribute name="forceId" required="false" type="String" />
 	<composite:attribute name="closeable" required="false" type="Boolean" default="true"/>
 	<composite:attribute name="hidden" required="false" type="Boolean" default="true"/>
@@ -58,6 +59,17 @@
 			<composite:renderFacet name="footer" />
 		</div>
 	</div>
+	
+	<h:outputScript rendered="#{cc.attrs.focusId != null}">
+		var	id = "#{cc.attrs.forceId == null ? cc.clientId : cc.attrs.forceId}";
+		id = id.replace(/:/g,"\\:");
+
+		$('#' + id).bind('shown', function () {
+			var focus = "#{cc.attrs.forceId == null ? cc.clientId : cc.attrs.forceId}:#{cc.attrs.focusId}";
+			focus = focus.replace(/:/g,"\\:");
+			$('#' + focus).focus();
+		})
+	</h:outputScript>
 
 </composite:implementation>
 

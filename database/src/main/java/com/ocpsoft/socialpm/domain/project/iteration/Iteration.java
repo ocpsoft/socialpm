@@ -34,7 +34,7 @@ package com.ocpsoft.socialpm.domain.project.iteration;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -62,7 +62,6 @@ import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.stories.Status;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.StoryBurner;
-import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.model.project.iteration.StatsCalculator;
 import com.ocpsoft.socialpm.util.Dates;
 
@@ -103,10 +102,10 @@ public class Iteration extends PersistentObject<Iteration>
    private String title;
 
    @OneToMany(mappedBy = "iteration", fetch = FetchType.LAZY)
-   private final Set<Story> stories = new HashSet<Story>();
+   private final Set<Story> stories = new LinkedHashSet<Story>();
 
    @OneToMany(fetch = FetchType.LAZY, mappedBy = "iteration", cascade = { CascadeType.ALL }, orphanRemoval = true)
-   private Set<IterationStatistics> statistics = new HashSet<IterationStatistics>();
+   private Set<IterationStatistics> statistics = new LinkedHashSet<IterationStatistics>();
 
    public Iteration()
    {}
@@ -114,9 +113,7 @@ public class Iteration extends PersistentObject<Iteration>
    @Override
    public String toString()
    {
-      return "Iteration [committedOn=" + committedOn + ", endDate=" + endDate + ", goals=" + goals + ", number="
-               + number + ", project=" + project + ", startDate=" + startDate + ", statistics=" + statistics
-               + ", title=" + title + "]";
+      return getNumber() + " - " + getTitle();
    }
 
    public Iteration(final String title, final Date startDate, final Date endDate)
@@ -305,7 +302,7 @@ public class Iteration extends PersistentObject<Iteration>
       List<Story> result = new ArrayList<Story>();
       for (Story s : stories)
       {
-         if (StoryStatus.OPEN.equals(s.getStatus()) && shelf.equals(s.getBurner()))
+         if (s.isOpen() && shelf.equals(s.getBurner()))
          {
             result.add(s);
          }
@@ -424,6 +421,11 @@ public class Iteration extends PersistentObject<Iteration>
    public Set<Story> getStories()
    {
       return stories;
+   }
+
+   public List<Story> getStoryList()
+   {
+      return new ArrayList<Story>(getStories());
    }
 
    public Set<IterationStatistics> getStatistics()

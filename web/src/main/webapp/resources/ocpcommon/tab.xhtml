@@ -33,18 +33,21 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
-	<composite:attribute name="for" required="false" type="String" />
+	<composite:attribute name="active" required="false" type="Boolean" default="false" />
+	<composite:attribute name="anchor" required="true" type="String" />
+	<composite:attribute name="title" required="true" type="String" />
 </composite:interface>
 
 <composite:implementation> 
-	<h:panelGroup id="${cc.id}" rendered="#{empty cc.attrs.type}">
-		<h:message for="#{cc.attrs.for}"
-			showSummary="true" showDetail="false"
-			style="color: red; font-weight: bold; display: block;" />
-	</h:panelGroup>
+
+	<li id="#{cc.attrs.clientId}" class="#{cc.attrs.active ? 'active' : ''}">
+		<a href="##{cc.attrs.anchor}">#{cc.attrs.title}</a>
+	</li>
+
 </composite:implementation>
 
 </html>

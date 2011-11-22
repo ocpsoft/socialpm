@@ -56,7 +56,6 @@ import org.hibernate.annotations.Index;
 import com.ocpsoft.socialpm.domain.DeletableObject;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.util.Strings;
 
@@ -162,6 +161,7 @@ public class Project extends DeletableObject<Project>
          if (iteration.isDefault())
          {
             result = iteration;
+            break;
          }
       }
       return result;
@@ -362,6 +362,18 @@ public class Project extends DeletableObject<Project>
       this.features = features;
    }
 
+   public Feature getDefaultFeature()
+   {
+      Feature result = null;
+      for (Feature f : getFeatures()) {
+         if (f.getName() == null)
+         {
+            result = f;
+         }
+      }
+      return result;
+   }
+
    public List<Story> getStories()
    {
       return stories;
@@ -372,7 +384,7 @@ public class Project extends DeletableObject<Project>
       List<Story> result = new ArrayList<Story>();
       for (Story s : stories)
       {
-         if (StoryStatus.OPEN.equals(s.getStatus()))
+         if (s.isOpen())
          {
             result.add(s);
          }

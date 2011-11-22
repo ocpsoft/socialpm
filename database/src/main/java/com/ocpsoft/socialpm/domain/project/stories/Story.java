@@ -120,10 +120,6 @@ public class Story extends DeletableObject<Story>
    @Column(nullable = false)
    private Points businessValue = Points.NOT_POINTED;
 
-   @Column(nullable = false, length = 32)
-   @Enumerated(EnumType.STRING)
-   private StoryStatus status = StoryStatus.OPEN;
-
    @Column(nullable = false)
    @Enumerated(EnumType.STRING)
    private StoryBurner burner = StoryBurner.FRONT;
@@ -258,7 +254,12 @@ public class Story extends DeletableObject<Story>
 
    public boolean isOpen()
    {
-      return StoryStatus.OPEN.equals(status);
+      boolean result = false;
+      if ((getClosedBy() == null) && (getClosedOn() == null))
+      {
+         result = true;
+      }
+      return result;
    }
 
    public boolean isStarted()
@@ -276,16 +277,6 @@ public class Story extends DeletableObject<Story>
          }
       }
       return !validations.isEmpty();
-   }
-
-   public StoryStatus getStatus()
-   {
-      return status;
-   }
-
-   public void setStatus(final StoryStatus status)
-   {
-      this.status = status;
    }
 
    public Points getStoryPoints()
@@ -357,7 +348,7 @@ public class Story extends DeletableObject<Story>
    public int hashCode()
    {
       final int prime = 31;
-      long result = getId() + 1;
+      long result = (getId() == null ? 0 : getId()) + 1;
       result = (prime * result) + ((project == null) ? 0 : project.hashCode());
       return (int) result;
    }

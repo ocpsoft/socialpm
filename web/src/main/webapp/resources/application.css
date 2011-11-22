@@ -44,6 +44,11 @@
 	color: #ddd;
 }
 
+/* Header Styles */
+#header form, #header h1, #header h2, #header h3, #header h4, #header h5 {
+	margin: 0px;
+}
+
 /*
   Bootstrap's documentation styles
   Special styles for presenting Bootstrap's documentation and examples

@@ -35,7 +35,6 @@ import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.iteration.IterationStatistics;
 import com.ocpsoft.socialpm.domain.project.stories.Status;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.StoryStatus;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
 
 public class StatsCalculator
@@ -56,7 +55,7 @@ public class StatsCalculator
 
       for (Story story : iteration.getStories())
       {
-         if (StoryStatus.CLOSED.equals(story.getStatus()))
+         if (!story.isOpen())
          {
             completedStories++;
             completedPoints += story.getStoryPoints().getValue();

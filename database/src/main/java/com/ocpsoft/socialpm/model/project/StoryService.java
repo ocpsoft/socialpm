@@ -62,8 +62,11 @@ import javax.persistence.Query;
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Points;
 import com.ocpsoft.socialpm.domain.project.Project;
+import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
+import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.util.Dates;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -100,9 +103,11 @@ public class StoryService extends PersistenceUtil
          s.setBusinessValue(Points.NOT_POINTED);
       }
 
+      Iteration iteration = p.getDefaultIteration();
       if (s.getIteration() == null)
       {
-         s.setIteration(p.getDefaultIteration());
+         s.setIteration(iteration);
+         iteration.getStories().add(s);
       }
 
       super.create(s);
@@ -134,5 +139,21 @@ public class StoryService extends PersistenceUtil
       query.setParameter("pid", created.getProject().getId());
       query.setParameter("sid", created.getId());
       return ((BigInteger) query.getSingleResult()).intValue();
+   }
+
+   @TransactionAttribute
+   public void closeStory(final Story story, final Profile profile)
+   {
+      story.setClosedBy(profile);
+      story.setClosedOn(Dates.now());
+      save(story);
+   }
+
+   @TransactionAttribute
+   public void openStory(final Story story, final Profile profile)
+   {
+      story.setClosedBy(null);
+      story.setClosedOn(null);
+      save(story);
    }
 }

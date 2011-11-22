@@ -28,52 +28,49 @@
 	</ui:define>
 
 	<ui:define name="header">
-		#{projects.current.name} &raquo; Add a New Story
+		<h1>#{projects.current.name} &raquo; Add a New Story</h1>
 	</ui:define>
 
 	<ui:define name="header-right">
-		Share yours.
+		<h1><small>Share yours.</small></h1>
 	</ui:define>
 
 	<ui:define name="content">
 
 		<div class="row">
-			<div class="span12 columns">
-				<h:form prependId="false">
-		
+			<div class="span12 columns">	
+				<h:form prependId="false" styleClass="form-stacked">
 					<div class="clearfix">
 						<label for="role">As a</label>
 						<div class="input">
-							<ocp:popover placement="right" for="role" title="Who needs it?" 
-								trigger="focus" focus="true">
-								Some content, baby!
-							</ocp:popover>
 							<h:inputText id="role" value="#{stories.current.role}"
-								styleClass="xxLarge"/>
+								styleClass="xxLarge span2"/>
 						</div>
 					</div>
 
 					<div class="clearfix">
 						<label for="objective">I want</label>
 						<div class="input">
-							<ocp:popover placement="right" for="objective" title="What is the objective?" 
-								trigger="focus">
-								Some content, baby!
-							</ocp:popover>
 							<h:inputTextarea id="objective" value="#{stories.current.objective}"
-								styleClass="xxLarge"/>
+								styleClass="xxLarge span11"/>
 						</div>
 					</div>
 
 					<div class="clearfix">
 						<label for="result">so that</label>
-						<ocp:popover placement="right" for="result" title="What is the result?" 
-							trigger="focus">
-							Some content, baby!
-						</ocp:popover>
 						<div class="input">
 							<h:inputTextarea id="result" value="#{stories.current.result}"
-								styleClass="xxLarge"/>
+								styleClass="xxLarge span11"/>
+						</div>
+					</div>
+					
+					<div class="clearfix">
+						<label for="iteration">Iteration</label>
+						<div class="input">
+							<h:selectOneMenu id="iteration" value="#{stories.current.iteration}">
+								<f:selectItems value="#{projects.current.iterations}" itemLabel="#{i.number} - #{i.title}" itemValue="#{i}" var="i"/>
+							</h:selectOneMenu>
+							<span class="help-inline"><br/><ocp:message id="itrmsg" for="iteration" /></span>
 						</div>
 					</div>
 

@@ -26,6 +26,7 @@ import javax.inject.Named;
 @RequestScoped
 public class ParamsBean
 {
+   private int featureNumber;
    private int iterationNumber;
    private String projectSlug;
    private String profileUsername;
@@ -69,5 +70,15 @@ public class ParamsBean
    public void setIterationNumber(final int iterationNumber)
    {
       this.iterationNumber = iterationNumber;
+   }
+
+   public int getFeatureNumber()
+   {
+      return featureNumber;
+   }
+
+   public void setFeatureNumber(final int featureNumber)
+   {
+      this.featureNumber = featureNumber;
    }
 }
