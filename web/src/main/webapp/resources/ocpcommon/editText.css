@@ -1,0 +1,39 @@
+.editClass {
+}
+
+.editLayer {
+	background: #cccccc;
+}
+
+.editLink {
+	display: inline;
+	margin: 2px;
+}
+
+.editInput {
+	height: 100%;
+}
+
+a.editLink {
+	color: #2f2f2f;
+	padding: 4px 2px;
+}
+
+a.editLink:hover {
+	padding: 3px 1px;
+	text-decoration: none;
+	border: solid 1px #dddddd;
+	background: #fcfcfc;
+}
+
+a.editLink:link {
+	text-decoration: none
+}
+
+a.editLink:visited {
+	text-decoration: none
+}
+
+a.editLink:active {
+	text-decoration: none
+}

@@ -1,0 +1,72 @@
+<!--
+
+  This file is part of SocialPM: Agile Project Management Tools (SocialPM) 
+ 
+  Copyright (c)2010 Lincoln Baxter, III <lincoln@ocpsoft.com> (OcpSoft)
+  
+  If you are developing and distributing open source applications under 
+  the GPL Licence, then you are free to use SocialPM under the GPL 
+  License:
+ 
+  SocialPM is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+ 
+  SocialPM is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+ 
+  You should have received a copy of the GNU General Public License
+  along with SocialPM.  If not, see <http://www.gnu.org/licenses/>.
+   
+  For OEMs, ISVs, and VARs who distribute SocialPM with their products, 
+  or host SocialPM online, OcpSoft provides flexible OEM commercial 
+  Licences:
+  
+  To purchase a License, contact OcpSoft (http://ocpsoft.com)
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:cc="http://java.sun.com/jsf/composite"
+	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon">
+
+<cc:interface name="editText" displayName="Editable Text Component"
+	shortDescription="Editable Text Component">
+	<cc:attribute name="value" required="true" type="String" />
+	<cc:attribute name="escape" required="false" type="Boolean" default="true" />
+	<cc:actionSource name="submit" />
+	<cc:attribute name="action" required="false" targets="submit"/>
+	<cc:editableValueHolder name="value" targets="editInput" />
+	<cc:valueHolder name="output" targets="output" />
+</cc:interface>
+
+<cc:implementation>
+	<h:outputScript name="jsf.js" library="javax.faces" target="head" />
+	<h:outputScript name="ocpcommon/ajax.js" target="head" />
+	<h:outputStylesheet name="ocpcommon/editText.css" />
+	
+	
+	<h:panelGroup id="edit1" layout="inline">
+		<h:outputLink id="editLink" title="Click to edit" styleClass="editLink" onclick="return edittext.linkClick('#{cc.clientId}');">
+			<h:outputText escape="#{cc.attrs.escape}" id="output" value="#{cc.attrs.value eq '' ? '---' : cc.attrs.value}" />
+		</h:outputLink>
+	</h:panelGroup>
+	<h:panelGroup id="edit2" styleClass="editLayer" style="display:none;" layout="inline">
+		<h:panelGroup id="error" layout="inline">
+			<ocp:message for="editInput" />
+		</h:panelGroup>
+		<h:inputText id="editInput" value="#{cc.attrs.value}" styleClass="editInput" />
+		<h:commandButton value="Submit" id="submit" onclick="edittext.submitButton('#{cc.clientId}', event);" 
+			action="#{cc.attrs.action}">
+			<f:ajax execute="editInput submit" render="edit1 edit2 error" />
+		</h:commandButton>
+		<h:commandButton value="Cancel" id="cancel" styleClass="faded" onclick="return edittext.cancelButton('#{cc.clientId}');" />
+	</h:panelGroup>
+</cc:implementation>
+
+</html>

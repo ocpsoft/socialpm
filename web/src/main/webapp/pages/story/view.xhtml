@@ -43,7 +43,7 @@
 				
 				<h:form id="validations" prependId="false">
 					<div class="well">
-						 <h3>As a #{story.role}, I want #{story.objective}, so that #{story.result}.</h3>
+						 <h3>As a <ocp:editText value="#{story.role}" action="#{stories.saveAjax()}" />, I want <ocp:editText value="#{story.objective}" action="#{stories.saveAjax()}" />, so that <ocp:editText value="#{story.result}" action="#{stories.saveAjax()}" />.</h3>
 					</div>
 				
 					<h3>Validation Criteria ( #{stories.current.validationCount} ) <ocp:modalControl text="+1" for="addVC" styleClass="fr btn"/></h3>
