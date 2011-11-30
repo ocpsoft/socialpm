@@ -32,7 +32,9 @@ import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.Project;
+import com.ocpsoft.socialpm.domain.project.Velocity;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
+import com.ocpsoft.socialpm.domain.project.iteration.IterationStatistics;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
 import com.ocpsoft.socialpm.domain.user.Profile;
@@ -139,5 +141,23 @@ public class Iterations implements Serializable
    public void setCurrent(final Iteration current)
    {
       this.current = current;
+   }
+
+   /* Velocity Visualization */
+   public int getVelocityPercentage()
+   {
+      return 50;
+   }
+
+   public int getAllocationPercentage()
+   {
+      IterationStatistics commitmentStats = current.getCommitmentStats();
+      Project project = projects.getCurrent();
+      Velocity velocity = project.getVelocity();
+      double allocated = commitmentStats.getHoursRemain() == 0 ? 1 : commitmentStats.getHoursRemain();
+      double velocityHours = velocity.getHours();
+      double result = (allocated / velocityHours) * 100;
+      System.out.println(result);
+      return (int) ((result / 100) * getVelocityPercentage());
    }
 }

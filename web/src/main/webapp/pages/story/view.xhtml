@@ -42,8 +42,8 @@
 			<div class="span11 columns">
 				
 				<h:form id="validations" prependId="false">
-					<div class="well">
-						 <h3>As a <ocp:editText value="#{story.role}" action="#{stories.saveAjax()}" />, I want <ocp:editText value="#{story.objective}" action="#{stories.saveAjax()}" />, so that <ocp:editText value="#{story.result}" action="#{stories.saveAjax()}" />.</h3>
+					<div class="well edit-container">
+						 <h3>As a <ocp:editText value="#{story.role}" action="#{stories.saveAjax}" />, I want <ocp:editText value="#{story.objective}" action="#{stories.saveAjax}" />, so that <ocp:editText value="#{story.result}" action="#{stories.saveAjax}" />.</h3>
 					</div>
 				
 					<h3>Validation Criteria ( #{stories.current.validationCount} ) <ocp:modalControl text="+1" for="addVC" styleClass="fr btn"/></h3>
@@ -52,7 +52,7 @@
 						<ul class="plain clear">
 							<ui:repeat var="v" value="#{stories.current.validations}">
 								<li>
-									<div class="box" style="margin-bottom: 8px;">
+									<div class="box edit-container" style="margin-bottom: 8px;">
 										<div class="row">
 											<div class="span1 columns">
 												<h:commandLink id="approveVC" action="#{validations.acceptAjax(v)}" value="Pending" rendered="${!v.accepted}" styleClass="btn info">
@@ -63,7 +63,7 @@
 												</h:commandLink>
 											</div>
 											<div class="span6 columns offset1" style="padding-top: 5px;">
-												#{v.text}
+												<ocp:editText value="#{v.text}" action="#{stories.saveAjax}" execute="@form" />
 											</div>
 											<div class="span2 columns" style="padding-top: 5px;">
 												<h:panelGroup rendered="#{v.accepted}">
@@ -92,7 +92,7 @@
 					<ul class="plain clear">
 						<ui:repeat var="t" value="#{stories.current.tasks}">
 							<li>
-								<div class="box" style="margin-bottom: 8px;">
+								<div class="box edit-container" style="margin-bottom: 8px;">
 									<div class="row">
 										<div class="span1 columns">
 											<h:selectOneMenu id="status" value="#{t.status}" style="width: 100px;" styleClass="#{t.status}">
@@ -101,7 +101,7 @@
 											</h:selectOneMenu>
 										</div>
 										<div class="span6 columns offset1" style="padding-top: 5px;">
-											#{t.text}
+											<ocp:editText value="#{t.text}" execute="@form :tasks:saveTask" />
 										</div>
 										<div class="span2 columns" style="padding-top: 5px;">
 											<b>#{t.hoursRemain} hours remain</b><br/>

@@ -1,74 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-   <display-name>socialpm</display-name>
-   
-   <context-param>
-      <param-name>javax.faces.PROJECT_STAGE</param-name>
-      <param-value>Development</param-value>
-   </context-param>
-   <context-param>
-      <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-      <param-value>client</param-value>
-   </context-param>
-   <context-param>
-      <param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
-      <param-value>false</param-value>
-   </context-param>
-   
-   
-   <!-- End Faces Standard Config Filter Config -->
-   <filter>
-      <filter-name>ResponseTimeLoggingFilter</filter-name>
-      <filter-class>com.ocpsoft.socialpm.web.filter.ResponseTimeLoggingFilter</filter-class>
-   </filter>
-   <!-- Begin ResponseHeader Config -->
-   <filter>
-      <filter-name>ResponseHeaderFilter</filter-name>
-      <filter-class>com.ocpsoft.socialpm.web.filter.ResponseHeaderFilter</filter-class>
-      <init-param>
-         <param-name>Cache-Control</param-name>
-         <param-value>max-age=3600</param-value>
-      </init-param>
-      <init-param>
-         <param-name>Expires</param-name>
-         <param-value>Thu, 14 Aug 2020 12:00:00 GMT</param-value>
-      </init-param>
-   </filter>
-   <filter-mapping>
-      <filter-name>ResponseTimeLoggingFilter</filter-name>
-      <url-pattern>/*</url-pattern>
-      <dispatcher>FORWARD</dispatcher>
-      <dispatcher>ERROR</dispatcher>
-   </filter-mapping>
-   <filter-mapping>
-      <filter-name>ResponseHeaderFilter</filter-name>
-      <url-pattern>/javax.faces.resource/*</url-pattern>
-   </filter-mapping>
-   <filter-mapping>
-      <filter-name>ResponseHeaderFilter</filter-name>
-      <url-pattern>/images/*</url-pattern>
-   </filter-mapping>
-   <filter-mapping>
-      <filter-name>ResponseHeaderFilter</filter-name>
-      <url-pattern>*.ico</url-pattern>
-   </filter-mapping>
-   <!-- Begin Faces Standard Config -->
-   <servlet>
-      <servlet-name>Faces Servlet</servlet-name>
-      <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-   </servlet>
-   <servlet-mapping>
-      <servlet-name>Faces Servlet</servlet-name>
-      <url-pattern>*.xhtml</url-pattern>
-   </servlet-mapping>
-   <session-config>
-      <session-timeout>0</session-timeout>
-   </session-config>
-   
-   <mime-mapping>
-      <extension>ico</extension>
-      <mime-type>image/x-icon</mime-type>
-   </mime-mapping>
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+ <display-name>socialpm</display-name>
+ <context-param>
+  <param-name>com.sun.faces.enableMissingResourceLibraryDetection</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
+  <param-value>false</param-value>
+ </context-param>
+ <context-param>
+  <param-name>javax.faces.PROJECT_STAGE</param-name>
+  <param-value>Development</param-value>
+ </context-param>
+ <context-param>
+  <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+  <param-value>client</param-value>
+ </context-param>
+ <!-- End Faces Standard Config Filter Config -->
+ <filter>
+  <filter-name>ResponseTimeLoggingFilter</filter-name>
+  <filter-class>com.ocpsoft.socialpm.web.filter.ResponseTimeLoggingFilter</filter-class>
+ </filter>
+ <!-- Begin ResponseHeader Config -->
+ <filter>
+  <filter-name>ResponseHeaderFilter</filter-name>
+  <filter-class>com.ocpsoft.socialpm.web.filter.ResponseHeaderFilter</filter-class>
+  <init-param>
+   <param-name>Cache-Control</param-name>
+   <param-value>max-age=3600</param-value>
+  </init-param>
+  <init-param>
+   <param-name>Expires</param-name>
+   <param-value>Thu, 14 Aug 2020 12:00:00 GMT</param-value>
+  </init-param>
+ </filter>
+ <filter-mapping>
+  <filter-name>ResponseTimeLoggingFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+  <dispatcher>FORWARD</dispatcher>
+  <dispatcher>ERROR</dispatcher>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>ResponseHeaderFilter</filter-name>
+  <url-pattern>/javax.faces.resource/*</url-pattern>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>ResponseHeaderFilter</filter-name>
+  <url-pattern>/images/*</url-pattern>
+ </filter-mapping>
+ <filter-mapping>
+  <filter-name>ResponseHeaderFilter</filter-name>
+  <url-pattern>*.ico</url-pattern>
+ </filter-mapping>
+ <!-- Begin Faces Standard Config -->
+ <servlet>
+  <servlet-name>Faces Servlet</servlet-name>
+  <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>Faces Servlet</servlet-name>
+  <url-pattern>*.xhtml</url-pattern>
+ </servlet-mapping>
+ <session-config>
+  <session-timeout>0</session-timeout>
+ </session-config>
+ <mime-mapping>
+  <extension>ico</extension>
+  <mime-type>image/x-icon</mime-type>
+ </mime-mapping>
 </web-app>
