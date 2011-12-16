@@ -17,6 +17,7 @@ package com.ocpsoft.socialpm.project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.TransactionAttribute;
@@ -76,6 +77,8 @@ public class Iterations implements Serializable
 
    private Iteration current = new Iteration();
 
+   private final Iteration newiter = new Iteration();
+
    public String loadCurrent()
    {
       Project project = projects.getCurrent();
@@ -89,8 +92,8 @@ public class Iterations implements Serializable
             }
             catch (NoResultException e) {
                messages.error("Oops! We couldn't find that Iteration.");
-               return "/pages/project/view?faces-redirect=true&profile=" + project.getOwner().getUsername()
-                        + "&project=" + project.getSlug();
+               return "/pages/iteration/sorter?faces-redirect=true&profile=" + project.getOwner().getUsername()
+                        + "&project=" + project.getSlug() + "&iteration=1";
             }
          }
       }
@@ -118,9 +121,11 @@ public class Iterations implements Serializable
    @TransactionAttribute
    public String create()
    {
-      Iteration created = is.create(projects.getCurrent(), current);
+      newiter.setStartDate(new Date());
+      newiter.setEndDate(new Date());
+      Iteration created = is.create(projects.getCurrent(), newiter);
       return "/pages/iteration/sorter?faces-redirect=true&project=" + projects.getCurrent().getSlug() + "&profile="
-               + current.getProject().getOwner().getUsername()
+               + newiter.getProject().getOwner().getUsername()
                + "&iteration=" + is.getIterationNumber(created);
    }
 
@@ -141,6 +146,14 @@ public class Iterations implements Serializable
    public void setCurrent(final Iteration current)
    {
       this.current = current;
+   }
+
+   @Produces
+   @Named("newiteration")
+   @RequestScoped
+   public Iteration getNewIteration()
+   {
+      return newiter;
    }
 
    /* Velocity Visualization */

@@ -26,7 +26,31 @@
 	</ui:define>
 
 	<ui:define name="header-right">
-		<b><h:link class="btn" value="+1"/></b>
+		<ocp:modalControl text="Add Iteration" for="addIterations" styleClass="btn" />
+		<ocp:modal forceId="addIterations" title="Add Iteration" hidden="false">
+			<h:form prependId="false" id="stories" styleClass="form-stacked">
+				<div class="clearfix">
+					<label for="title">Title</label>
+					<div class="input">
+						<h:inputText id="title" value="#{newiteration.title}"
+							styleClass="xxLarge span8"/>
+					</div>
+				</div>
+				
+				<div class="clearfix">
+					<label for="goals">Goals</label>
+					<div class="input">
+						<h:inputTextarea id="goals" value="#{newiteration.goals}"
+							styleClass="xxLarge span8"/>
+					</div>
+				</div>
+
+				<div class="actions">
+					<h:commandButton id="go" action="#{iterations.create}" value="Add"
+						styleClass="btn primary" />
+				</div>
+			</h:form>
+		</ocp:modal>
 	</ui:define>
 
 	<ui:define name="content">

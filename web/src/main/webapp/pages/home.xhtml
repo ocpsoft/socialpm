@@ -50,41 +50,43 @@
 	</ui:define>
 	
 	<ui:define name="content-pre">
-		<h:form id="bootcamp" rendered="#{userProfile.showBootcamp}">
-			<div style="margin-bottom: 15px;">
-				<h1 class="header">SocialPM Bootcamp <span>If you are still new to things, we’ve provided a few walkthroughs to get you started.</span>
-		  			<h:commandLink id="close" class="fr" action="#{account.dismissBootcampAjax()}" 
-		  				style="color: white; padding:2px; position: relative; top:-2px; right: -2px;" value="×">
-		  					<f:ajax execute="@this" render="@form"/>
-		  				</h:commandLink>
-		  		</h1>
-		  		<ocp:tooltip for="bootcamp:close" title="Hide this tutorial forever" placement="left" trigger="hover" />
-				<div class="body">
-					<div class="row">
-						<h:link>
-							<div class="span4 columns" style="margin-left: 21px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
-								Start A New Project
-							</div></div>
-						</h:link>
-						<h:link>
-							<div class="span4 columns" style="margin-left: 12px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
-								Enter Your Stories
-							</div></div>
-						</h:link>
-						<h:link>
-							<div class="span4 columns" style="margin-left: 12px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
-								Join An Organization
-							</div></div>
-						</h:link>
-						<h:link>
-							<div class="span4 columns" style="margin-left: 12px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
-								Connect With Colleagues
-							</div></div>
-						</h:link>
+		<h:panelGroup id="bootcamp" >
+			<h:form rendered="#{userProfile.showBootcamp}">
+				<div style="margin-bottom: 15px;">
+					<h1 class="header">SocialPM Bootcamp <span>If you are still new to things, we’ve provided a few walkthroughs to get you started.</span>
+			  			<h:commandLink id="close" class="fr" action="#{account.dismissBootcampAjax()}" 
+			  				style="color: white; padding:2px; position: relative; top:-2px; right: -2px;" value="×">
+			  					<f:ajax execute="@this" render=":bootcamp"/>
+			  				</h:commandLink>
+			  		</h1>
+			  		<ocp:tooltip for="bootcamp:close" title="Hide this tutorial forever" placement="left" trigger="hover" />
+					<div class="body">
+						<div class="row">
+							<h:link>
+								<div class="span4 columns" style="margin-left: 21px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
+									Start A New Project
+								</div></div>
+							</h:link>
+							<h:link>
+								<div class="span4 columns" style="margin-left: 12px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
+									Enter Your Stories
+								</div></div>
+							</h:link>
+							<h:link>
+								<div class="span4 columns" style="margin-left: 12px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
+									Join An Organization
+								</div></div>
+							</h:link>
+							<h:link>
+								<div class="span4 columns" style="margin-left: 12px;"><div class="well" style="height: 175px; margin-bottom: 0px;">
+									Connect With Colleagues
+								</div></div>
+							</h:link>
+						</div>
 					</div>
 				</div>
-			</div>
-		</h:form>
+			</h:form>
+		</h:panelGroup>
 	</ui:define>
 	
 	<ui:define name="content">

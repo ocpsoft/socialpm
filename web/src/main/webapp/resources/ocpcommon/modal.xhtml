@@ -55,7 +55,7 @@
 		<div class="modal-body">
 			<composite:insertChildren />			
 		</div>
-		<div class="modal-footer">
+		<div id="#{cc.attrs.forceId}-footer" class="modal-footer">
 			<composite:renderFacet name="footer" />
 		</div>
 	</div>
@@ -69,6 +69,16 @@
 			focus = focus.replace(/:/g,"\\:");
 			$('#' + focus).focus();
 		})
+	</h:outputScript>
+	
+	<h:outputScript>
+		var	id = "#{cc.attrs.forceId == null ? cc.clientId : cc.attrs.forceId}";
+		id = id.replace(/:/g,"\\:");
+		
+		if(!$.trim( $('#' + id + '-footer').html() ).length)
+		{
+			$('#' + id + '-footer').remove();
+		}
 	</h:outputScript>
 
 </composite:implementation>
