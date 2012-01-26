@@ -15,8 +15,6 @@
    <name>SocialPM - Web</name>
 
    <properties>
-      <seam.version>3.1.0.Beta5</seam.version>
-      <version.seam-conversation>3.0.0.CR2</version.seam-conversation>
       <version.rewrite>1.0.0-SNAPSHOT</version.rewrite>
    </properties>
 
@@ -85,6 +83,7 @@
          <type>pom</type>
          <scope>provided</scope>
       </dependency>
+      
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-entitymanager</artifactId>
