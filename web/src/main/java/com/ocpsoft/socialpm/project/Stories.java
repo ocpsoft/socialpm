@@ -31,6 +31,7 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
 
+import com.ocpsoft.socialpm.cdi.Current;
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.Points;
 import com.ocpsoft.socialpm.domain.project.Project;
@@ -84,6 +85,7 @@ public class Stories implements Serializable
    }
 
    @Produces
+   @Current
    @Named("points")
    public List<Points> getPointsList()
    {
@@ -162,6 +164,7 @@ public class Stories implements Serializable
    }
 
    @Produces
+   @Current
    @Named("story")
    @RequestScoped
    public Story getCurrent()

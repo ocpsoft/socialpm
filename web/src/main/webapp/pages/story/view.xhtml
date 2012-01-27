@@ -55,22 +55,27 @@
 									<div class="box edit-container" style="margin-bottom: 8px;">
 										<div class="row">
 											<div class="span1 columns">
-												<h:commandLink id="approveVC" action="#{validations.acceptAjax(v)}" value="Pending" rendered="${!v.accepted}" styleClass="btn info">
-													<f:ajax execute="@this @form" render="@form" />
-												</h:commandLink>
-												<h:commandLink id="rejectVC" action="#{validations.rejectAjax(v)}" value="Approved" rendered="${v.accepted}" styleClass="btn success">
-													<f:ajax execute="@this @form" render="@form" />
-												</h:commandLink>
+    								    		<h:commandLink id="approveVC" action="#{validations.acceptAjax(v)}" value="Pending" rendered="${!v.accepted}" styleClass="btn info" title="Click to Approve">
+    							    				<f:ajax execute="@this @form" render="@form" />
+    									    	</h:commandLink>
+    											<h:commandLink id="rejectVC" action="#{validations.rejectAjax(v)}" value="Approved" rendered="${v.accepted}" styleClass="btn success" title="Click to Reject">
+    												<f:ajax execute="@this @form" render="@form" />
+        										</h:commandLink>
 											</div>
 											<div class="span6 columns offset1" style="padding-top: 5px;">
 												<ocp:editText value="#{v.text}" action="#{stories.saveAjax}" execute="@form" />
 											</div>
 											<div class="span2 columns" style="padding-top: 5px;">
 												<h:panelGroup rendered="#{v.accepted}">
-												<b>Approved by </b> 
-													<h:link outcome="/pages/profile" value="#{v.acceptedBy}">
-														<f:param name="profile" value="#{v.acceptedBy}" />
-													</h:link>
+                                                    <ocp:tooltip placement="below" title="#{v.acceptedOn}" trigger="hover">
+                                                        <div>
+        												    <b>Approved by </b> 
+                                                            <ocp:profileLink profile="#{v.acceptedBy}" /> <br/>
+    			  								    		<h:outputText value="#{v.acceptedOn}" style="position: relative; top: -5px;">
+    					    								    <f:converter converterId="com.ocpsoft.PrettyTimeConverter"/>
+    				    									</h:outputText>
+				    									</div>
+													</ocp:tooltip>
 												</h:panelGroup>
 											</div>
 										</div>
@@ -97,18 +102,27 @@
 										<div class="span1 columns">
 											<h:selectOneMenu id="status" value="#{t.status}" style="width: 100px;" styleClass="#{t.status}">
 												<f:selectItems value="#{taskStatuses}"/>
-												<f:ajax execute="@form :tasks:saveTask" render="@form :impeded" />
+												<f:valueChangeListener binding="#{taskStatusChanged}"/>
+												<f:ajax execute="@form" render="@form :impeded" listener="#{taskCommandListener.save(t)}"/>
 											</h:selectOneMenu>
 										</div>
 										<div class="span6 columns offset1" style="padding-top: 5px;">
-											<ocp:editText value="#{t.text}" execute="@form :tasks:saveTask" />
+											<ocp:editText value="#{t.text}" execute="@form" action="#{taskCommandListener.save(t)}" />
 										</div>
 										<div class="span2 columns" style="padding-top: 5px;">
-											<b>#{t.hoursRemain} hours remain</b><br/>
-											for 
-											<h:link outcome="/pages/profile" value="#{t.assignee}">
-												<f:param name="profile" value="#{t.assignee}" />
-											</h:link>
+											<h:inputText value="#{t.hoursRemain}" size="3" style="width: 20px;">
+                                                <f:valueChangeListener binding="#{taskHoursChanged}" />
+												<f:ajax execute="@form " render="@form :impeded" listener="#{taskCommandListener.save(t)}" />
+											</h:inputText><b> hours remain for </b> 
+											
+                                            <ocp:profileLink profile="#{v.acceptedBy}" displayName="false" /><br/>
+                                            
+            								<h:selectOneMenu id="assignee" value="#{t.assignee}" style="width: 100px" 
+            									tabindex="202">
+            									<f:selectItems value="#{assignees}" /> 
+                                                <f:valueChangeListener binding="#{taskAssigneeChanged}" />
+												<f:ajax execute="@form " render="@form :impeded" listener="#{taskCommandListener.save(t)}" />
+            								</h:selectOneMenu>
 										</div>
 									</div>
 									<h:panelGroup layout="block" styleClass="row" rendered="#{t.status == 'IMPEDED'}">
@@ -120,7 +134,7 @@
 												<label for="imped"><b>Impeded because</b></label>
 												<div class="imped">
 													<h:inputTextarea value="#{t.impediments}" rows="2" styleClass="span8" style="margin-left: 20px; height: 40px;">
-														<f:ajax execute="@form :tasks:saveTask" render="@this" />
+														<f:ajax execute="@form" render="@this" listener="#{taskCommandListener.save(t)}" />
 													</h:inputTextarea>
 													<span class="help-inline"><br/><ocp:message for="desc" /></span>
 												</div>
@@ -133,7 +147,6 @@
 								</div>
 							</li>
 						</ui:repeat>
-						<h:commandLink id="saveTask" action="#{stories.saveAjax()}" value="saveTask" style="display:none;" />
 					</ul>
 											
 					<h:panelGroup layout="block" rendered="${empty stories.current.tasks}" styleClass="box" style="margin-bottom: 20px;">
@@ -247,11 +260,11 @@
 
 				<br/>
 				<div class="fr">
-					<h:commandLink value="Do it!" action="#{validations.createAjax}" styleClass="btn primary"
+					<h:commandLink value="Add validation" action="#{validations.createAjax}" styleClass="btn primary"
 						tabindex="101">
-						<f:ajax execute="desc @this" render=":validations dscp" />
+						<f:ajax execute="desc @this" render=":validations dscp @form" />
 					</h:commandLink>
-					<a class="btn secondary" tabindex="102" onclick="$('#addVC').modal('hide');">Cancel</a>
+					<a class="btn secondary" tabindex="102" onclick="$('#addVC').modal('hide');">Done</a>
 				</div>
 				<div style="clear:both;"></div>
 			</h:form>
@@ -298,11 +311,11 @@
 				</div>
 				
 				<div class="fr">
-					<h:commandLink value="Do it!" action="#{tasks.createAjax}" styleClass="btn primary"
+					<h:commandLink value="Add task" action="#{tasks.createAjax}" styleClass="btn primary"
 						tabindex="203">
 						<f:ajax execute="@form" render="@form :tasks" />
 					</h:commandLink>
-					<a class="btn secondary" onclick="$('#addTasks').modal('hide');" tabindex="204">Cancel</a>
+					<a class="btn secondary" onclick="$('#addTasks').modal('hide');" tabindex="204">Done</a>
 				</div>
 			</h:form>
 			

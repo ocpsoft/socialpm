@@ -40,7 +40,9 @@
 									<div class="row">
 										<div class="span1 columns">
 											<span id="number#{s.number}" style="font-size: 20px;">#{s.number}</span><br/>
-											<span id="priority#{s.number}" style="padding: 5px; padding-left: 0px; color: #bbb;">#{s.priority}</span>
+                                            <ocp:tooltip placement="below" title="Priority #{s.priority}" trigger="hover">
+											    <span id="priority#{s.number}" style="padding: 5px; padding-left: 0px; color: #bbb;">p#{s.priority}</span>
+											</ocp:tooltip>
 										</div>
 										<div class="span4 columns">
 											<span style="font-size: 16px; margin-top: 10px;">

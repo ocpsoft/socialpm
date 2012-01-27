@@ -93,6 +93,11 @@ public abstract class PersistenceUtil implements Serializable
 
    protected <T> void save(final T entity)
    {
+      if (getEntityManager() == null)
+      {
+         throw new IllegalStateException("Must initialize EntityManager before using Services!");
+      }
+
       getEntityManager().merge(entity);
    }
 

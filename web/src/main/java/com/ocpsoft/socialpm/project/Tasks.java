@@ -27,6 +27,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
+import com.ocpsoft.socialpm.cdi.Current;
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.stories.Status;
 import com.ocpsoft.socialpm.domain.project.stories.Task;
@@ -64,6 +65,7 @@ public class Tasks implements Serializable
    }
 
    @Produces
+   @Current
    @Named("assignees")
    public List<Profile> getProjectMembers()
    {
@@ -88,6 +90,7 @@ public class Tasks implements Serializable
    private Task current = new Task();
 
    @Produces
+   @Current
    @Named("task")
    @RequestScoped
    public Task getCurrent()
@@ -95,16 +98,17 @@ public class Tasks implements Serializable
       return current;
    }
 
+   public void setCurrent(final Task current)
+   {
+      this.current = current;
+   }
+
    @Produces
+   @Current
    @Named("taskStatuses")
    @RequestScoped
    public List<Status> getStatuses()
    {
       return Arrays.asList(Status.values());
-   }
-
-   public void setCurrent(final Task current)
-   {
-      this.current = current;
    }
 }
