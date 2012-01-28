@@ -8,8 +8,8 @@
 <ui:composition template="/WEB-INF/view/templates/socialpm.xhtml">
 	<ui:param name="title" value="Home" />
 
-	<ui:define name="header">
-		<div class="alert-message info">
+	<ui:define name="header-replace">
+		<div class="alert-message info" style="margin: auto; margin-top: 15px; width: 900px;">
 			<center>
 			<h1>${statistics.userCount} people managing over ${statistics.projectCount} projects</h1>
 			<div class="alert-message block-message warning">
