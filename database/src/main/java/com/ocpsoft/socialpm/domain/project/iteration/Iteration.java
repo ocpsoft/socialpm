@@ -33,6 +33,8 @@ package com.ocpsoft.socialpm.domain.project.iteration;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -266,7 +268,43 @@ public class Iteration extends PersistentObject<Iteration>
 
    public List<Story> getFrontShelfStories()
    {
-      return getStoriesByShelf(StoryBurner.FRONT);
+      List<Story> result = getStoriesByShelf(StoryBurner.FRONT);
+
+      Collections.sort(result, new Comparator<Story>() {
+         @Override
+         public int compare(Story left, Story right)
+         {
+            Integer l = left.getPriority();
+            Integer r = right.getPriority();
+
+            if (l != null)
+            {
+               return l.compareTo(r);
+            }
+            if (r != null)
+            {
+               return 1;
+            }
+            return 0;
+         }
+      });
+
+      Collections.sort(result, new Comparator<Story>() {
+         @Override
+         public int compare(Story left, Story right)
+         {
+            if (left.isOpen() && !right.isOpen())
+               return 0;
+            if (left.isOpen())
+               return -1;
+            if (right.isOpen())
+               return 1;
+            else
+               return 0;
+         }
+      });
+
+      return result;
    }
 
    public List<Story> getOpenFrontShelfStories()

@@ -27,10 +27,8 @@ import javax.persistence.EntityManager;
 
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.Task;
-import com.ocpsoft.socialpm.faces.listener.events.TaskCommand;
+import com.ocpsoft.socialpm.faces.listener.events.StoryCommand;
 import com.ocpsoft.socialpm.model.project.StoryService;
-import com.ocpsoft.socialpm.project.Stories;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -38,36 +36,33 @@ import com.ocpsoft.socialpm.project.Stories;
  */
 @Named
 @RequestScoped
-public class TaskCommandListener
+public class StoryCommandListener
 {
    private StoryService ss;
-   private final List<TaskCommand> commands = new ArrayList<TaskCommand>();
-   private Story story;
+   private final List<StoryCommand> commands = new ArrayList<StoryCommand>();
 
-   protected TaskCommandListener()
+   protected StoryCommandListener()
    {}
 
    @Inject
-   public TaskCommandListener(@Web EntityManager em, StoryService ss,
-            Stories stories)
+   public StoryCommandListener(@Web EntityManager em, StoryService ss)
    {
       ss.setEntityManager(em);
       this.ss = ss;
-      this.story = stories.getCurrent();
    }
 
-   public void capture(@Observes TaskCommand command)
+   public void capture(@Observes StoryCommand command)
    {
       this.commands.add(command);
    }
 
    @TransactionAttribute
-   public void save(Task t)
+   public void save(Story s)
    {
-      for (TaskCommand c : commands) {
-         c.perform(t);
+      for (StoryCommand c : commands) {
+         c.perform(s);
       }
-      ss.save(story);
+      ss.save(s);
    }
 
 }

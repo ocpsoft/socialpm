@@ -23,44 +23,31 @@ import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.ocpsoft.socialpm.domain.project.stories.Task;
-import com.ocpsoft.socialpm.faces.listener.events.TaskCommand;
+import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.faces.listener.events.StoryCommand;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
 @RequestScoped
-@Named("taskHoursChanged")
-public class TaskHoursChanged implements ValueChangeListener
+@Named("storyPriorityChanged")
+public class StoryPriorityChanged implements ValueChangeListener
 {
    @Inject
-   private Event<TaskCommand> changeEvent;
+   private Event<StoryCommand> changeEvent;
 
    @Override
    public void processValueChange(final ValueChangeEvent event) throws AbortProcessingException
    {
-      TaskCommand command = new TaskCommand() {
+      StoryCommand command = new StoryCommand() {
 
-         private Integer newVal = (Integer) event.getNewValue();
-         private final Integer oldVal = (Integer) event.getOldValue();
+         private final Integer newVal = (Integer) event.getNewValue();
 
          @Override
-         public void perform(Task task)
+         public void perform(Story story)
          {
-            if (newVal == null)
-            {
-               newVal = 0;
-            }
-
-            if (newVal == 0 && !task.isImpeded() && oldVal > 0)
-            {
-               task.close();
-            }
-            else if (newVal > 0 && task.isDone())
-            {
-               task.reopen();
-            }
+            story.setPriority(newVal);
          }
       };
 

@@ -146,6 +146,12 @@ public class Stories implements Serializable
    }
 
    @TransactionAttribute
+   public void saveAjax(Story s)
+   {
+      ss.save(s);
+   }
+
+   @TransactionAttribute
    public void saveIterationAjax()
    {
       is.changeStoryIteration(current.getIteration(), current);

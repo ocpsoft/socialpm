@@ -184,7 +184,8 @@
 								<label for="priority">Priority</label>
 								<div class="input">
 									<h:inputText id="priority" value="#{stories.current.priority}" class="span1">
-										<f:ajax execute="@this save" render="pr"/>
+                                        <f:valueChangeListener binding="#{storyPriorityChanged}"/>
+										<f:ajax execute="@form" render="pr" listener="#{storyCommandListener.save(stories.current)}" />
 									</h:inputText>
 									<span class="help-inline"><br/><ocp:message id="prmsg" for="priority" /></span>
 								</div>

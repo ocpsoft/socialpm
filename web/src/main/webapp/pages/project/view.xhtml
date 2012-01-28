@@ -33,15 +33,18 @@
 					<h:panelGroup id="status">
 					<h3>Open Stories (${currentIteration.numOpenFrontShelfStories})</h3>
 					<ul class="plain clear">
+						<h:form>
 						<ui:repeat var="s" value="#{currentIteration.frontShelfStories}">
 							<li>
-								<div class="box" style="margin-bottom: 8px;">
-								
+								<div class="box" style="margin-bottom: 8px; #{s.open ? '' : 'background-color: #ddd;'}">
 									<div class="row">
 										<div class="span1 columns">
 											<span id="number#{s.number}" style="font-size: 20px;">#{s.number}</span><br/>
                                             <ocp:tooltip placement="below" title="Priority #{s.priority}" trigger="hover">
-											    <span id="priority#{s.number}" style="padding: 5px; padding-left: 0px; color: #bbb;">p#{s.priority}</span>
+                                                <h:inputText id="priority" value="#{s.priority}" size="2" style="width: 20px;">
+                                                    <f:valueChangeListener binding="#{storyPriorityChanged}"/>
+    												<f:ajax execute="@form" render="@form :status" listener="#{storyCommandListener.save(s)}" />
+    											</h:inputText>
 											</ocp:tooltip>
 										</div>
 										<div class="span4 columns">
@@ -54,22 +57,37 @@
 											</span>
 										</div>
 										<div class="span2 columns fr" style="margin-left: 0px;">
-											<h:link class="fr #{s.validated ? 'ACCEPTED' : 'PENDING' }" style="padding: 5px;" outcome="/pages/story/view" value="#{s.validated ? '✓' : '✗' }" rendered="#{s.validationCount > 0}">
-												<f:param name="profile" value="#{project.owner.username}" />
-												<f:param name="project" value="#{project.slug}" />
-												<f:param name="story" value="#{s.number}" />
-											</h:link>
-											<h:link class="fr #{s.progressStatus}" style="padding: 5px;" outcome="/pages/story/view" value="#{s.progressStatus.status}" rendered="#{!s.impeded}">
-												<f:param name="profile" value="#{project.owner.username}" />
-												<f:param name="project" value="#{project.slug}" />
-												<f:param name="story" value="#{s.number}" />
-											</h:link>
-											<ocp:modalControl text="#{s.progressStatus.status}" for="impediments#{s.number}" styleClass="fr #{s.progressStatus}" style="padding: 5px;" rendered="#{s.impeded}"/>
+                                            <h:panelGroup rendered="#{s.open}">
+    											<h:link class="fr #{s.validated ? 'ACCEPTED' : 'PENDING' }" style="padding: 5px;" outcome="/pages/story/view" value="#{s.validated ? '✓' : '✗' }" rendered="#{s.validationCount > 0}">
+    												<f:param name="profile" value="#{project.owner.username}" />
+    												<f:param name="project" value="#{project.slug}" />
+    												<f:param name="story" value="#{s.number}" />
+    											</h:link>
+    											<h:link class="fr #{s.progressStatus}" style="padding: 5px;" outcome="/pages/story/view" value="#{s.progressStatus.status}" rendered="#{!s.impeded}">
+    												<f:param name="profile" value="#{project.owner.username}" />
+    												<f:param name="project" value="#{project.slug}" />
+    												<f:param name="story" value="#{s.number}" />
+    											</h:link>
+    											<ocp:modalControl text="#{s.progressStatus.status}" for="impediments#{s.number}" styleClass="fr #{s.progressStatus}" style="padding: 5px;" rendered="#{s.impeded}"/>
+                                            </h:panelGroup>
+                                            
+                                            <br/>
+                                            <br/>
+                                    		<div class="fr">
+                                    			<h:commandLink value="close" action="#{stories.closeStoryAjax}" rendered="#{s.open}">
+                                    				<f:ajax execute="@this" render="@form :status" listener="#{stories.setCurrent(s)}"/>
+                                    			</h:commandLink>
+                                    			<h:commandLink value="reopen" action="#{stories.openStoryAjax}" rendered="#{!s.open}">
+                                    				<f:ajax execute="@this" render="@form :status" listener="#{stories.setCurrent(s)}"/>
+                                    			</h:commandLink>
+                                    		</div>
 										</div>
+                                        
 									</div>
 								</div>
 							</li>
-						</ui:repeat>
+						</ui:repeat> 
+						</h:form>
 						
 						<h:panelGroup layout="block" rendered="${currentIteration.numFrontShelfStories == 0}" styleClass="box">
 							Looks like you could use stories to work on. You can 
