@@ -32,7 +32,7 @@
 					</h:inputText>
 					<h:graphicImage value="#{resource['success.gif']}" rendered="#{account.loggedIn.email != null}"
 						styleClass="validation-status" />
-					<span class="help-inline"><br/>We promise <b>never</b> to share your email address. <ocp:message for="email" /></span>
+					<span class="help-inline"><br/>We promise <b>never</b> to share your email address. <ocp:message forId="email" /></span>
 				</div>
 			</h:panelGroup>
 			
@@ -54,7 +54,7 @@
 					</h:inputTextarea>
 					<h:graphicImage value="#{resource['success.gif']}" rendered="#{account.loggedIn.bio != null}"
 						styleClass="validation-status" />
-					<span class="help-inline"><br/>Who and what are you? <ocp:message for="bio" /></span>
+					<span class="help-inline"><br/>Who and what are you? <ocp:message forId="bio" /></span>
 				</div>
 			</h:panelGroup>
 

@@ -68,7 +68,7 @@
     												<f:param name="project" value="#{project.slug}" />
     												<f:param name="story" value="#{s.number}" />
     											</h:link>
-    											<ocp:modalControl text="#{s.progressStatus.status}" for="impediments#{s.number}" styleClass="fr #{s.progressStatus}" style="padding: 5px;" rendered="#{s.impeded}"/>
+    											<ocp:modalControl text="#{s.progressStatus.status}" forId="impediments#{s.number}" styleClass="fr #{s.progressStatus}" style="padding: 5px;" rendered="#{s.impeded}"/>
                                             </h:panelGroup>
                                             
                                             <br/>
@@ -201,7 +201,7 @@
 					<f:param name="project" value="#{project.slug}" />
 				
 					<f:facet name="content">
-				  		<ocp:tooltip for="refresh" title="Refresh" placement="left" trigger="hover" />
+				  		<ocp:tooltip forId="refresh" title="Refresh" placement="left" trigger="hover" />
 						<div class="body" style="padding: 0px; height: 345px;">
 							<h:graphicImage width="458" value="#{resource['burndown.jpg']}" />
 						</div>

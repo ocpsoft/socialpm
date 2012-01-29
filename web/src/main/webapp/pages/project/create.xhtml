@@ -54,7 +54,7 @@
 					<div class="clearfix">
 						<label for="name">Project name</label>
 						<div class="input">
-							<ocp:message id="nameMsg" for="name" />
+							<ocp:message id="nameMsg" forId="name" />
 							<h:inputText id="name" value="#{projects.current.name}"
 								styleClass="xLarge" required="true">
 							</h:inputText>
@@ -65,7 +65,7 @@
 					<div class="clearfix">
 						<label for="slug">Link slug</label>
 						<div class="input">
-							<ocp:message id="slugMsg" for="slug" />
+							<ocp:message id="slugMsg" forId="slug" />
 							<h:inputText id="slug" value="#{projects.current.slug}"
 								styleClass="xLarge" style="text-transform: lowercase;"
 								required="true">
@@ -78,7 +78,7 @@
 						<label for="name">Vision statement
 							<span class="help-inline">(optional)</span></label>
 						<div class="input">
-							<ocp:message id="visionMsg" for="vision" />
+							<ocp:message id="visionMsg" forId="vision" />
 							<h:inputTextarea id="vision" value="#{projects.current.vision}"
 								styleClass="xLarge">
 							</h:inputTextarea>

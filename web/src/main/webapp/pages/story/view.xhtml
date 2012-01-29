@@ -46,7 +46,7 @@
 						 <h3>As a <ocp:editText value="#{story.role}" action="#{stories.saveAjax}" />, I want <ocp:editText value="#{story.objective}" action="#{stories.saveAjax}" />, so that <ocp:editText value="#{story.result}" action="#{stories.saveAjax}" />.</h3>
 					</div>
 				
-					<h3>Validation Criteria ( #{stories.current.validationCount} ) <ocp:modalControl text="+1" for="addVC" styleClass="fr btn"/></h3>
+					<h3>Validation Criteria ( #{stories.current.validationCount} ) <ocp:modalControl text="+1" forId="addVC" styleClass="fr btn"/></h3>
 				
 					<h:panelGroup id="list">
 						<ul class="plain clear">
@@ -86,13 +86,13 @@
 					</h:panelGroup>
 											
 					<h:panelGroup layout="block" rendered="${empty stories.current.validations}" styleClass="box" style="margin-bottom: 20px;">
-						This story has no validation criteria. You should <ocp:modalControl text="add one" for="addVC" />  to get started.
+						This story has no validation criteria. You should <ocp:modalControl text="add one" forId="addVC" />  to get started.
 					</h:panelGroup>
 					
 				</h:form>
 				
 				<h:form id="tasks">
-					<h3>Tasks ( #{stories.current.taskCount} ) <ocp:modalControl text="+1" for="addTasks" styleClass="fr btn"/></h3>
+					<h3>Tasks ( #{stories.current.taskCount} ) <ocp:modalControl text="+1" forId="addTasks" styleClass="fr btn"/></h3>
 				
 					<ul class="plain clear">
 						<ui:repeat var="t" value="#{stories.current.tasks}">
@@ -136,7 +136,7 @@
 													<h:inputTextarea value="#{t.impediments}" rows="2" styleClass="span8" style="margin-left: 20px; height: 40px;">
 														<f:ajax execute="@form" render="@this" listener="#{taskCommandListener.save(t)}" />
 													</h:inputTextarea>
-													<span class="help-inline"><br/><ocp:message for="desc" /></span>
+													<span class="help-inline"><br/><ocp:message forId="desc" /></span>
 												</div>
 											</h:panelGroup>
 										
@@ -151,7 +151,7 @@
 											
 					<h:panelGroup layout="block" rendered="${empty stories.current.tasks}" styleClass="box" style="margin-bottom: 20px;">
 						This story has no tasks. You should 
-						<ocp:modalControl text="add one" for="addTasks" /> to get started.
+						<ocp:modalControl text="add one" forId="addTasks" /> to get started.
 					</h:panelGroup>
 					
 				</h:form>
@@ -187,7 +187,7 @@
                                         <f:valueChangeListener binding="#{storyPriorityChanged}"/>
 										<f:ajax execute="@form" render="pr" listener="#{storyCommandListener.save(stories.current)}" />
 									</h:inputText>
-									<span class="help-inline"><br/><ocp:message id="prmsg" for="priority" /></span>
+									<span class="help-inline"><br/><ocp:message id="prmsg" forId="priority" /></span>
 								</div>
 							</h:panelGroup>
 						
@@ -197,7 +197,7 @@
 									<h:selectBooleanCheckbox id="burner" value="#{stories.current.frontBurner}">
 										<f:ajax execute="@this save" render="br" />
 									</h:selectBooleanCheckbox>
-									<span class="help-inline"><br/><ocp:message id="brmsg" for="burner" /></span>
+									<span class="help-inline"><br/><ocp:message id="brmsg" forId="burner" /></span>
 								</div>
 							</h:panelGroup>
 						
@@ -208,7 +208,7 @@
 										<f:selectItems value="#{points}" />
 										<f:ajax execute="@this save" render="sp"/>
 									</h:selectOneMenu>
-									<span class="help-inline"><br/><ocp:message id="spmsg" for="points" /></span>
+									<span class="help-inline"><br/><ocp:message id="spmsg" forId="points" /></span>
 								</div>
 							</h:panelGroup>
 						
@@ -219,7 +219,7 @@
 										<f:selectItems value="#{points}" />
 										<f:ajax execute="@this save" render="bv"/>
 									</h:selectOneMenu>
-									<span class="help-inline"><br/><ocp:message id="bvmsg" for="value" /></span>
+									<span class="help-inline"><br/><ocp:message id="bvmsg" forId="value" /></span>
 								</div>
 							</h:panelGroup>
 						
@@ -230,7 +230,7 @@
 										<f:selectItems value="#{stories.current.project.iterations}" itemLabel="#{i.number} - #{i.title}" itemValue="#{i}" var="i" />
 										<f:ajax execute="@this saveIteration" render="iter"/>
 									</h:selectOneMenu>
-									<span class="help-inline"><br/><ocp:message id="itrmsg" for="iteration" /></span>
+									<span class="help-inline"><br/><ocp:message id="itrmsg" forId="iteration" /></span>
 								</div>
 							</h:panelGroup>
 
@@ -252,7 +252,7 @@
 			<h:form prependId="false" id="VCmodal">
 				<p/>					
 				<h:panelGroup id="dscp" layout="block" class="clearfix">
-					<label for="desc">Description<br/><span class="help-inline"><br/><ocp:message for="desc" /></span></label>
+					<label for="desc">Description<br/><span class="help-inline"><br/><ocp:message forId="desc" /></span></label>
 					<div class="input">
 						<h:inputTextarea id="desc" required="true" tabindex="100"
 							value="#{validation.text}" styleClass="span6" style="margin-left: 15px;" />
@@ -281,7 +281,7 @@
 					<div class="input">
 						<h:inputTextarea id="desc" value="#{tasks.current.text}" styleClass="span6" required="true"
 							tabindex="200"/>
-						<span class="help-inline"><br/><ocp:message for="desc" /></span>
+						<span class="help-inline"><br/><ocp:message forId="desc" /></span>
 					</div>
 				</h:panelGroup>
 				
@@ -292,7 +292,7 @@
 							<div class="input">
 								<h:inputText id="hrs" value="#{tasks.current.initialHours}" styleClass="span1" 
 									tabindex="201"/>
-								<span class="help-inline"><br/><ocp:message for="hrs" /></span>
+								<span class="help-inline"><br/><ocp:message forId="hrs" /></span>
 							</div>
 						</h:panelGroup>
 					</div>
@@ -305,7 +305,7 @@
 									tabindex="202">
 									<f:selectItems value="#{assignees}" /> 
 								</h:selectOneMenu>
-								<span class="help-inline"><br/><ocp:message for="assignee" /></span>
+								<span class="help-inline"><br/><ocp:message forId="assignee" /></span>
 							</div>
 						</h:panelGroup>
 					</div>

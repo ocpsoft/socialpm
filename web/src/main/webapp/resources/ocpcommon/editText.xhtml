@@ -59,7 +59,7 @@
 	</h:panelGroup>
 	<h:panelGroup id="edit2" styleClass="editLayer" style="display:none;" layout="inline">
 		<h:panelGroup id="error" layout="inline">
-			<ocp:message for="editInput" />
+			<ocp:message forId="editInput" />
 		</h:panelGroup>
 		<h:inputText id="editInput" value="#{cc.attrs.value}" styleClass="editInput" />
 		<h:commandButton value="Submit" id="submit" onclick="edittext.submitButton('#{cc.clientId}', event);" 

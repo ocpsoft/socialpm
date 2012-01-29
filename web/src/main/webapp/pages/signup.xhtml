@@ -46,7 +46,7 @@
 							</h:inputText>
 							<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.username != null}"
 								styleClass="validation-status" />
-							<span class="help-inline"><br/>Your username, <b>not</b> your company. (We will get to that later.) <ocp:message for="username" /></span>
+							<span class="help-inline"><br/>Your username, <b>not</b> your company. (We will get to that later.) <ocp:message forId="username" /></span>
 						</div>
 					</h:panelGroup>
 
@@ -60,7 +60,7 @@
 							</h:inputText>
 							<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.email != null}"
 								styleClass="validation-status" />
-							<span class="help-inline"><br/>We promise <b>never</b> to share your email address. <ocp:message for="email" /></span>
+							<span class="help-inline"><br/>We promise <b>never</b> to share your email address. <ocp:message forId="email" /></span>
 						</div>
 					</h:panelGroup>
 
@@ -75,7 +75,7 @@
 							<h:panelGroup id="pwg">
 								<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.password != null}"
 									styleClass="validation-status"/>
-								<span class="help-inline"><ocp:message id="pm"  for="password" /></span>
+								<span class="help-inline"><ocp:message id="pm"  forId="password" /></span>
 							</h:panelGroup>
 						</div>
 					</div>
@@ -91,7 +91,7 @@
 							<h:panelGroup id="pwcg">
 								<h:graphicImage value="#{resource['success.gif']}" rendered="#{registration.passwordConfirm != null}"
 									styleClass="validation-status"/>
-								<span class="help-inline"><ocp:message for="passwordConfirm" /></span>
+								<span class="help-inline"><ocp:message forId="passwordConfirm" /></span>
 							</h:panelGroup>
 						</div>
 					</div>

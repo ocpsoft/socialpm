@@ -38,7 +38,7 @@
 <composite:interface>
 	<composite:attribute name="delayIn" required="false" type="int" default="0" />
 	<composite:attribute name="delayOut" required="false" type="int" default="0" />
-	<composite:attribute name="for" required="false" type="String" />
+	<composite:attribute name="forId" required="false" type="String" />
 	<composite:attribute name="offset" required="false" type="String" default="2" />
 	<composite:attribute name="placement" required="true" type="String" />
 	<!-- Possible placement values: above, left, right, below -->
@@ -51,7 +51,7 @@
 	<script type="text/javascript">
 		$(document).ready(function () {
 
-			var id = "${cc.attrs.for}";
+			var id = "${cc.attrs.forIdId}";
 			if(!id)	id = "${cc.clientId}:content";
 			id = id.replace(/:/g,"\\:");
 			var options = { 

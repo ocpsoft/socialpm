@@ -70,7 +70,7 @@
 							<h:selectOneMenu id="iteration" value="#{stories.current.iteration}">
 								<f:selectItems value="#{projects.current.iterations}" itemLabel="#{i.number} - #{i.title}" itemValue="#{i}" var="i"/>
 							</h:selectOneMenu>
-							<span class="help-inline"><br/><ocp:message id="itrmsg" for="iteration" /></span>
+							<span class="help-inline"><br/><ocp:message id="itrmsg" forId="iteration" /></span>
 						</div>
 					</div>
 
@@ -79,7 +79,7 @@
 						<h:commandButton id="go" action="#{stories.create}" value="Ok, let's go!"
 							styleClass="btn primary" />
 						&nbsp;
-						<ocp:tooltip placement="right" title="Really? Ok..." for="cancel" />
+						<ocp:tooltip placement="right" title="Really? Ok..." forId="cancel" />
 						<h:commandButton action="/pages/home.xhtml?faces-redirect=true"
 							id="cancel" value="Cancel" styleClass="btn" />
 					</div>

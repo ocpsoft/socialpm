@@ -39,7 +39,7 @@
 	<composite:attribute name="delayIn" required="false" type="int" default="0" />
 	<composite:attribute name="delayOut" required="false" type="int" default="0" />
 	<composite:attribute name="focus" required="false" type="boolean" default="false" />
-	<composite:attribute name="for" required="true" type="String" />
+	<composite:attribute name="forId" required="true" type="String" />
 	<composite:attribute name="offset" required="false" type="String" default="10" />
 	<composite:attribute name="placement" required="true" type="String" />
 	<composite:attribute name="title" required="true" type="String"/>
@@ -50,7 +50,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () {
-			var id= "${cc.attrs.for}".replace(/:/g, "\\:");
+			var id= "${cc.attrs.forId}".replace(/:/g, "\\:");
 			$('#' + id).attr("data-original-title", "${cc.attrs.title}");
 			$('#' + id).attr("data-content", $('#${cc.clientId}:content'.replace(/:/g, "\\:")).html());
 			$('#' + id).attr("rel", "popover");

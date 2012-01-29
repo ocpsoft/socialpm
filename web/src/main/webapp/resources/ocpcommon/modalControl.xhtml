@@ -40,14 +40,14 @@
 	<composite:attribute name="style" required="false" type="String" />
 	<composite:attribute name="styleClass" required="false" type="String" />
 	<composite:attribute name="backdrop" required="false" type="Boolean" default="true"/>
-	<composite:attribute name="for" required="true" type="String"/>
+	<composite:attribute name="forId" required="true" type="String"/>
 	<composite:attribute name="keyboard" required="false" type="Boolean" default="true"/>
 	<composite:attribute name="text" required="true" type="String" />
 </composite:interface>
 
 <composite:implementation> 
 	
-		<a data-controls-modal="#{cc.attrs.for}" 
+		<a data-controls-modal="#{cc.attrs.forId}" 
 			data-backdrop="#{cc.attrs.backdrop}"
 			data-keyboard="#{cc.attrs.keyboard}" 
 			style="cursor: pointer; #{cc.attrs.style}"

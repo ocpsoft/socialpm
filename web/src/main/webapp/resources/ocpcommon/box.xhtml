@@ -74,8 +74,8 @@
 				
   			</h1>
 		</h:form>
-  		<ocp:tooltip for="${cc.clientId}:actionForm:action" title="${cc.attrs.tooltip}" placement="left" trigger="hover" rendered="${cc.attrs.action != null}"/>
-  		<ocp:tooltip for="${cc.clientId}:actionForm:outcome" title="${cc.attrs.tooltip}" placement="left" trigger="hover" rendered="${cc.attrs.outcome != null}"/>
+  		<ocp:tooltip forId="${cc.clientId}:actionForm:action" title="${cc.attrs.tooltip}" placement="left" trigger="hover" rendered="${cc.attrs.action != null}"/>
+  		<ocp:tooltip forId="${cc.clientId}:actionForm:outcome" title="${cc.attrs.tooltip}" placement="left" trigger="hover" rendered="${cc.attrs.outcome != null}"/>
   		
 		<div class="body" style="padding: ${cc.attrs.padding}px; ${cc.attrs.height != null ? 'height: ' + cc.attrs.height + ';' : ''}">
 			<composite:renderFacet name="content" required="true" />

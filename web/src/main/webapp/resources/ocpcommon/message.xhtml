@@ -36,12 +36,12 @@
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
-	<composite:attribute name="for" required="false" type="String" />
+	<composite:attribute name="forId" required="false" type="String" />
 </composite:interface>
 
 <composite:implementation> 
 	<h:panelGroup id="${cc.id}" rendered="#{empty cc.attrs.type}">
-		<h:message for="#{cc.attrs.for}"
+		<h:message for="#{cc.attrs.forId}"
 			showSummary="true" showDetail="false"
 			style="color: red; font-weight: bold; display: block;" />
 	</h:panelGroup>
