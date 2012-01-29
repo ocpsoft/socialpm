@@ -8,7 +8,7 @@
 
 <ui:composition template="/WEB-INF/view/templates/project-active.xhtml">
 
-	<ui:param name="title" value="#{project.name} | #{iteration.default ? 'Backlog' : 'Iteration '.concat(iteration.number)}" />
+	<ui:param name="title" value="#{project.name} | #{iteration.isDefault() ? 'Backlog' : 'Iteration '.concat(iteration.number)}" />
 
 	<ui:define name="topnav-post-project">
 		<li>
@@ -16,13 +16,13 @@
 			<a href="#"
 				onclick="return false;"
 				style="padding-left: 15px; cursor: default;">
-				#{iteration.default ? 'Backlog' : 'Iteration '.concat(iteration.number)}
+				#{iteration.isDefault() ? 'Backlog' : 'Iteration '.concat(iteration.number)}
 			</a>
 		</li>
 	</ui:define>
 
 	<ui:define name="header">
-		<h2>#{iteration.default ? 'Backlog' : 'Iteration '.concat(iteration.number)}</h2>
+		<h2>#{iteration.isDefault() ? 'Backlog' : 'Iteration '.concat(iteration.number)}</h2>
 	</ui:define>
 
 	<ui:define name="header-right">
@@ -65,8 +65,8 @@
 							margin-right: 3px;
 							#{i.number == iteration.number ? 'height: 25px;' : ''}" 
 					class="fl #{i.status}">
-					<h:outputText value="Backlog" rendered="#{i.default}" />
-					<h:outputText value="#{i.number}" rendered="#{!i.default}" />
+					<h:outputText value="Backlog" rendered="#{i.isDefault()}" />
+					<h:outputText value="#{i.number}" rendered="#{!i.isDefault()}" />
 					<f:param name="profile" value="#{project.owner.username}" />
 					<f:param name="project" value="#{project.slug}" />
 					<f:param name="iteration" value="#{i.number}" />
@@ -133,7 +133,7 @@
 							<div class="fl alloc" style="color: #222; padding-left: 5px;">#{project.velocity.hours} hours</div>
 							<div style="clear:both;"></div>
 							
-							<div id="allocated" class="alloc #{iterations.allocationPercentage > iterations.velocityPercentage ? 'over' : 'under'}" style="width: #{iterations.allocationPercentage lt 90 ? iterations.allocationPercentage : 90}%; min-width: 10%;"><span class="fr">#{iteration.default ? 'Unallocated' : 'Allocated'}</span></div>
+							<div id="allocated" class="alloc #{iterations.allocationPercentage > iterations.velocityPercentage ? 'over' : 'under'}" style="width: #{iterations.allocationPercentage lt 90 ? iterations.allocationPercentage : 90}%; min-width: 10%;"><span class="fr">#{iteration.isDefault() ? 'Unallocated' : 'Allocated'}</span></div>
 							<div class="fl alloc" style="color: #222; padding-left: 5px;">#{iteration.commitmentStats.hoursRemain} hours</div>
 							<div style="clear:both; margin-bottom: 20px;"></div>
 						
@@ -150,7 +150,7 @@
 								</div>
 								<div class="span6 columns">
 									<div class="well">
-										<h3>#{iteration.default ? 'Backlog' : 'Iteration '.concat(iteration.number)}</h3>
+										<h3>#{iteration.isDefault() ? 'Backlog' : 'Iteration '.concat(iteration.number)}</h3>
 										<ul class="plain clear">
 											<ui:repeat var="s" value="#{iteration.storyList}">
 												<li>

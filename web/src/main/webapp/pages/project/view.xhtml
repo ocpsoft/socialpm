@@ -166,7 +166,7 @@
 				<ocp:box title="Iterations">
 					<f:facet name="content">
 						<div>
-							<h:outputText rendered="#{project.currentIteration.default}" 
+							<h:outputText rendered="#{project.currentIteration.isDefault()}" 
 								value="Not currently working on any Iteration" />
 						</div>
 						<ui:repeat var="i" value="#{project.iterations}">
@@ -174,13 +174,13 @@
 								<h:link
 									outcome="/pages/iteration/sorter" 
 									style="font-weight: bold; display: block; padding: 5px; margin-right: 3px;" class="fl #{i.status}">
-									<h:outputText value="(#{i.number})" rendered="#{i.default}" />
-									<h:outputText value="#{i.number}" rendered="#{!i.default}" />
+									<h:outputText value="(#{i.number})" rendered="#{i.isDefault()}" />
+									<h:outputText value="#{i.number}" rendered="#{!i.isDefault()}" />
 									<f:param name="profile" value="#{project.owner.username}" />
 									<f:param name="project" value="#{project.slug}" />
 									<f:param name="iteration" value="#{i.number}" />
 									<h:panelGroup 
-										style="text-decoration: bold; color: #111; #{i.default ? 'position: relative; left: 3px;' : ''}" 
+										style="text-decoration: bold; color: #111; #{i.isDefault() ? 'position: relative; left: 3px;' : ''}" 
 										rendered="#{i.inProgress}">
 										<br/>^
 									</h:panelGroup>
