@@ -103,19 +103,28 @@ public class Iterations implements Serializable
 
       if (project.isPersistent())
       {
-         if ((current != null) && (params.getIterationNumber() != 0))
+         int iterationNumber = params.getIterationNumber();
+         if ((current != null) && (iterationNumber != 0))
          {
             try {
-               current = is.findByProjectAndNumber(project, params.getIterationNumber());
+               current = is.findByProjectAndNumber(project, iterationNumber);
+               return null;
             }
             catch (NoResultException e) {
                messages.error("Oops! We couldn't find that Iteration.");
-               return "/pages/iteration/sorter?faces-redirect=true&profile=" + project.getOwner().getUsername()
-                        + "&project=" + project.getSlug() + "&iteration=1";
+               // TODO How do you show a 404 page with Rewrite?
+               return "rewrite:404";
+               // return "/pages/iteration/sorter?faces-redirect=true&profile=" + project.getOwner().getUsername()
+               // + "&project=" + project.getSlug() + "&iteration=1";
             }
          }
+         else
+         {
+            return "/pages/project/view?profile=" + project.getOwner().getUsername() + "&project=" + project.getSlug()
+                     + "&faces-redirect=true";
+         }
       }
-      return null;
+      return "/pages/home?faces-redirect=true";
    }
 
    public int getAssignedTaskCount(final Profile p, final Iteration i)

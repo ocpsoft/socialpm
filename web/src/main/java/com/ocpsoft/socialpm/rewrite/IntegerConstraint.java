@@ -33,52 +33,54 @@
  */
 package com.ocpsoft.socialpm.rewrite;
 
-import javax.servlet.ServletContext;
-
-import com.ocpsoft.common.services.NonEnriching;
-import com.ocpsoft.rewrite.bind.El;
-import com.ocpsoft.rewrite.config.Configuration;
-import com.ocpsoft.rewrite.config.ConfigurationBuilder;
-import com.ocpsoft.rewrite.config.Direction;
-import com.ocpsoft.rewrite.config.Invoke;
-import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
-import com.ocpsoft.rewrite.servlet.config.Path;
-import com.ocpsoft.rewrite.servlet.config.Redirect;
-import com.ocpsoft.rewrite.servlet.config.Response;
-import com.ocpsoft.rewrite.servlet.config.rule.Join;
+import com.ocpsoft.common.util.Assert;
+import com.ocpsoft.rewrite.context.EvaluationContext;
+import com.ocpsoft.rewrite.event.Rewrite;
+import com.ocpsoft.rewrite.param.Constraint;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
+ * 
  */
-public class AccessRewriteConfiguration extends HttpConfigurationProvider implements NonEnriching
+public class IntegerConstraint implements Constraint<String>
 {
-   @Override
-   public Configuration getConfiguration(final ServletContext context)
+   private final Integer min;
+   private final Integer max;
+
+   public IntegerConstraint(final Integer min, final Integer max)
    {
-      return ConfigurationBuilder.begin()
-
-               .addRule(Join.path("/").to("/pages/home.xhtml"))
-               .addRule(Join.path("/projects/new").to("/pages/project/create.xhtml"))
-
-               .addRule(Join.path("/signup").to("/pages/signup.xhtml"))
-               .addRule(Join.path("/login").to("/pages/login.xhtml"))
-
-               // 404 and Error
-               .addRule(Join.path("/404").to("/pages/404.xhtml").perform(Response.setCode(404)))
-               .addRule(Join.path("/error").to("/pages/error.xhtml"))
-
-               // Authentication
-               .defineRule()
-               .when(Direction.isInbound().and(Path.matches("/logout")))
-               .perform(Invoke.binding(El.retrievalMethod("authentication.logout"))
-                        .and(Redirect.temporary(context.getContextPath() + "/")))
-
-      ;
+      Assert.assertTrue(!((min == null) && (max == null)), "Must specify either a min or max value or both.");
+      this.min = min;
+      this.max = max;
    }
 
    @Override
-   public int priority()
+   public boolean isSatisfiedBy(final Rewrite event, final EvaluationContext context, final String value)
    {
-      return 10;
+      if (value == null)
+      {
+         return false;
+      }
+      try {
+         int integer = Integer.parseInt(value);
+         if ((min != null) && (integer >= min) && (max != null) && (integer <= max))
+         {
+            return true;
+         }
+         if ((min == null) && (max != null) && (integer <= max))
+         {
+            return true;
+         }
+         if ((min != null) && (integer >= min) && (max == null))
+         {
+            return true;
+         }
+      }
+      catch (NumberFormatException e)
+      {
+         return false;
+      }
+
+      return false;
    }
 }

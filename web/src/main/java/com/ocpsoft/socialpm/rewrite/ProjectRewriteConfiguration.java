@@ -59,7 +59,8 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
    @Override
    public Configuration getConfiguration(final ServletContext context)
    {
-      return ConfigurationBuilder.begin()
+      return ConfigurationBuilder
+               .begin()
 
                // Canonicalize project name TODO support outbound
                .defineRule()
@@ -180,6 +181,7 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                                           .where("profile").matches(PROJECT)
                                           .where("project").matches(PROJECT)
                                           .where("iteration").matches(PROJECT)
+                                          .constrainedBy(new IntegerConstraint(1, null))
                                           .bindsTo(El.property("params.iterationNumber")))
                )
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("iterations.loadCurrent")))
@@ -188,6 +190,7 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                         .to("/pages/iteration/sorter.xhtml")
                         .where("project").matches(PROJECT)
                         .where("iteration").matches("\\d+")
+                        .constrainedBy(new IntegerConstraint(1, null))
                         .when(SocialPMResources.excluded())
                )
 
