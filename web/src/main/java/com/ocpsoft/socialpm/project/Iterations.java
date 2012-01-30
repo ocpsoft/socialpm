@@ -49,6 +49,7 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
 
+import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.Velocity;
@@ -97,7 +98,7 @@ public class Iterations implements Serializable
 
    private final Iteration newiter = new Iteration();
 
-   public String loadCurrent()
+   public Object loadCurrent()
    {
       Project project = projects.getCurrent();
 
@@ -111,11 +112,9 @@ public class Iterations implements Serializable
                return null;
             }
             catch (NoResultException e) {
-               messages.error("Oops! We couldn't find that Iteration.");
                // TODO How do you show a 404 page with Rewrite?
-               return "rewrite:404";
-               // return "/pages/iteration/sorter?faces-redirect=true&profile=" + project.getOwner().getUsername()
-               // + "&project=" + project.getSlug() + "&iteration=1";
+               messages.error("Oops! We couldn't find that Iteration.");
+               return Forward.to("/404");
             }
          }
          else
