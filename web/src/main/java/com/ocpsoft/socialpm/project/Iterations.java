@@ -112,8 +112,6 @@ public class Iterations implements Serializable
                return null;
             }
             catch (NoResultException e) {
-               // TODO How do you show a 404 page with Rewrite?
-               messages.error("Oops! We couldn't find that Iteration.");
                return Forward.to("/404");
             }
          }
