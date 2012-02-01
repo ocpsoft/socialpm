@@ -58,7 +58,7 @@ import org.hibernate.annotations.Index;
 
 import com.ocpsoft.socialpm.domain.DeletableObject;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.story.Story;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.util.Strings;
 

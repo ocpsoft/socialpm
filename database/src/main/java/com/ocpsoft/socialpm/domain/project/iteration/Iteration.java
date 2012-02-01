@@ -64,9 +64,9 @@ import org.hibernate.annotations.Formula;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
 import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.project.stories.Status;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.StoryBurner;
+import com.ocpsoft.socialpm.domain.project.story.Status;
+import com.ocpsoft.socialpm.domain.project.story.Story;
+import com.ocpsoft.socialpm.domain.project.story.StoryBurner;
 import com.ocpsoft.socialpm.model.project.iteration.StatsCalculator;
 import com.ocpsoft.socialpm.util.Dates;
 
@@ -275,12 +275,12 @@ public class Iteration extends PersistentObject<Iteration>
 
       Collections.sort(result, new Comparator<Story>() {
          @Override
-         public int compare(Story left, Story right)
+         public int compare(final Story left, final Story right)
          {
             Integer l = left.getPriority();
             Integer r = right.getPriority();
 
-            if (l != null)
+            if ((l != null) && (r != null))
             {
                return l.compareTo(r);
             }
@@ -294,7 +294,7 @@ public class Iteration extends PersistentObject<Iteration>
 
       Collections.sort(result, new Comparator<Story>() {
          @Override
-         public int compare(Story left, Story right)
+         public int compare(final Story left, final Story right)
          {
             if (left.isOpen() && !right.isOpen())
                return 0;

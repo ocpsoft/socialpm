@@ -41,8 +41,8 @@ import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.ocpsoft.socialpm.domain.project.stories.Status;
-import com.ocpsoft.socialpm.domain.project.stories.Task;
+import com.ocpsoft.socialpm.domain.project.story.Status;
+import com.ocpsoft.socialpm.domain.project.story.Task;
 import com.ocpsoft.socialpm.faces.listener.events.TaskCommand;
 
 /**

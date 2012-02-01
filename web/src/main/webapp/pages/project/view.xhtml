@@ -40,12 +40,10 @@
 									<div class="row">
 										<div class="span1 columns">
 											<span id="number#{s.number}" style="font-size: 20px;">#{s.number}</span><br/>
-                                            <ocp:tooltip placement="below" title="Priority #{s.priority}" trigger="hover">
-                                                <h:inputText id="priority" value="#{s.priority}" size="2" style="width: 20px;">
-                                                    <f:valueChangeListener binding="#{storyPriorityChanged}"/>
-    												<f:ajax execute="@form" render="@form :status" listener="#{storyCommandListener.save(s)}" />
-    											</h:inputText>
-											</ocp:tooltip>
+                                            <h:inputText id="priority" value="#{s.priority}" size="2" style="width: 20px;" title="priority" autocomplete="false">
+                                                <f:valueChangeListener binding="#{storyPriorityChanged}"/>
+												<f:ajax execute="@this" render="@form :status" listener="#{storyCommandListener.save(s)}" />
+											</h:inputText>
 										</div>
 										<div class="span4 columns">
 											<span style="font-size: 16px; margin-top: 10px;">

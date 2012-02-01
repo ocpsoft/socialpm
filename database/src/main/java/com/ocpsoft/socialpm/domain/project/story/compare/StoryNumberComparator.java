@@ -32,11 +32,11 @@
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
-package com.ocpsoft.socialpm.domain.project.stories.compare;
+package com.ocpsoft.socialpm.domain.project.story.compare;
 
 import java.util.Comparator;
 
-import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.story.Story;
 
 // TODO test me (easy)
 /**

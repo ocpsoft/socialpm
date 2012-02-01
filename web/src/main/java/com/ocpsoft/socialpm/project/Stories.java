@@ -49,12 +49,13 @@ import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
 
+import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.socialpm.cdi.Current;
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.Points;
 import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.Task;
+import com.ocpsoft.socialpm.domain.project.story.Story;
+import com.ocpsoft.socialpm.domain.project.story.Task;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.project.IterationService;
 import com.ocpsoft.socialpm.model.project.StoryService;
@@ -112,7 +113,7 @@ public class Stories implements Serializable
 
    private Story current = new Story();
 
-   public String loadCurrent()
+   public Object loadCurrent()
    {
       Project project = projects.getCurrent();
 
@@ -124,9 +125,9 @@ public class Stories implements Serializable
                current = ss.findByProjectAndNumber(project, params.getStoryNumber());
             }
             catch (NoResultException e) {
-               messages.error("Oops! We couldn't find that Story.");
-               return "/pages/project/view?faces-redirect=true&profile=" + project.getOwner().getUsername()
-                        + "&project=" + project.getSlug();
+               return Forward.to("/404");
+               // return "/pages/project/view?faces-redirect=true&profile=" + project.getOwner().getUsername()
+               // + "&project=" + project.getSlug();
             }
          }
       }
@@ -164,7 +165,7 @@ public class Stories implements Serializable
    }
 
    @TransactionAttribute
-   public void saveAjax(Story s)
+   public void saveAjax(final Story s)
    {
       ss.save(s);
    }

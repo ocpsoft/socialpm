@@ -33,7 +33,7 @@
  */
 package com.ocpsoft.socialpm.faces.listener.events;
 
-import com.ocpsoft.socialpm.domain.project.stories.Task;
+import com.ocpsoft.socialpm.domain.project.story.Task;
 import com.ocpsoft.socialpm.pattern.Command;
 
 /**

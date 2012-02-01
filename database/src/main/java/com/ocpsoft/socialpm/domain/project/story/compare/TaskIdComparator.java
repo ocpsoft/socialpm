@@ -31,45 +31,33 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.faces.listener;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.event.Event;
-import javax.faces.event.AbortProcessingException;
-import javax.faces.event.ValueChangeEvent;
-import javax.faces.event.ValueChangeListener;
-import javax.inject.Inject;
-import javax.inject.Named;
+package com.ocpsoft.socialpm.domain.project.story.compare;
+
+import java.util.Comparator;
 
 import com.ocpsoft.socialpm.domain.project.story.Task;
-import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.faces.listener.events.TaskCommand;
 
-/**
- * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
- * 
- */
-@RequestScoped
-@Named("taskAssigneeChanged")
-public class TaskAssigneeChanged implements ValueChangeListener
+// TODO test me (easy)
+public class TaskIdComparator implements Comparator<Task>
 {
-   @Inject
-   private Event<TaskCommand> changeEvent;
-
    @Override
-   public void processValueChange(final ValueChangeEvent event) throws AbortProcessingException
+   public int compare(final Task l, final Task r)
    {
-      TaskCommand command = new TaskCommand() {
-
-         private final Profile newVal = (Profile) event.getNewValue();
-
-         @Override
-         public void perform(Task task)
-         {
-            task.setAssignee(newVal);
-         }
-      };
-
-      changeEvent.fire(command);
+      Long left = l.getId();
+      Long right = r.getId();
+      if ((left != null) && (right != null))
+      {
+         return left.compareTo(right);
+      }
+      else if (left != null)
+      {
+         return -1;
+      }
+      else if (right != null)
+      {
+         return 1;
+      }
+      return 0;
    }
 }

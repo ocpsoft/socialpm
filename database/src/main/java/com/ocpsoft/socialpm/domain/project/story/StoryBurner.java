@@ -32,31 +32,37 @@
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
-package com.ocpsoft.socialpm.domain.project.stories.compare;
+package com.ocpsoft.socialpm.domain.project.story;
 
-import java.util.Comparator;
 
-import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
-
-public class ValidationIdComparator implements Comparator<ValidationCriteria>
+public enum StoryBurner
 {
-   @Override
-   public int compare(final ValidationCriteria l, final ValidationCriteria r)
+   FRONT("Front"), BACK("Back");
+
+   private String value;
+
+   StoryBurner(final String value)
    {
-      Long left = l.getId();
-      Long right = r.getId();
-      if ((left != null) && (right != null))
+      this.value = value;
+   }
+
+   public String getValue()
+   {
+      return value;
+   }
+
+   /**
+    * If frontShelf is true, return Shelf.FRONT, otherwise return Shelf.BACK
+    * 
+    * @param frontShelf
+    * @return
+    */
+   public static StoryBurner valueOf(final boolean frontShelf)
+   {
+      if (frontShelf)
       {
-         return left.compareTo(right);
+         return FRONT;
       }
-      else if (left != null)
-      {
-         return -1;
-      }
-      else if (right != null)
-      {
-         return 1;
-      }
-      return 0;
+      return BACK;
    }
 }

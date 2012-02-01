@@ -44,8 +44,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import com.ocpsoft.socialpm.cdi.Web;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.Task;
+import com.ocpsoft.socialpm.domain.project.story.Story;
+import com.ocpsoft.socialpm.domain.project.story.Task;
 import com.ocpsoft.socialpm.faces.listener.events.TaskCommand;
 import com.ocpsoft.socialpm.model.project.StoryService;
 import com.ocpsoft.socialpm.project.Stories;
