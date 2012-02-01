@@ -32,41 +32,72 @@
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
-package com.ocpsoft.socialpm.domain.project.stories;
+package com.ocpsoft.socialpm.domain.project.story;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-public enum Status
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Index;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.ocpsoft.socialpm.domain.PersistentObject;
+import com.ocpsoft.socialpm.domain.user.Profile;
+
+@Entity
+@Table(name = "story_comments")
+public class StoryComment extends PersistentObject<StoryComment>
 {
-   NOT_STARTED("Not Started"),
-   DONE("Done", NOT_STARTED),
-   IN_PROGRESS("In Progress", NOT_STARTED, DONE),
-   IMPEDED("Impeded", IN_PROGRESS, DONE, NOT_STARTED);
+   private static final long serialVersionUID = -7877352379663554907L;
 
-   private String status;
-   private List<Status> strongerThan;
+   @OneToOne
+   @JoinColumn(updatable = false, nullable = false)
+   @Cascade(value = CascadeType.REFRESH)
+   @Index(name = "commentAuthorIndex")
+   private Profile author;
 
-   private Status(final String status, final Status... weaker)
+   @Column(nullable = false, length = 2048)
+   private String text;
+
+   @ManyToOne
+   @Index(name = "commentStoryIndex")
+   @JoinColumn(updatable = false, nullable = false)
+   @OnDelete(action = OnDeleteAction.CASCADE)
+   private Story story;
+
+   public Profile getAuthor()
    {
-      this.status = status;
-      this.strongerThan = weaker == null ? new ArrayList<Status>() : Arrays.asList(weaker);
+      return author;
    }
 
-   public String getStatus()
+   public void setAuthor(final Profile author)
    {
-      return status;
+      this.author = author;
    }
 
-   @Override
-   public String toString()
+   public String getText()
    {
-      return status;
+      return text;
    }
 
-   public boolean isStrongerThan(final Status result)
+   public void setText(final String text)
    {
-      return strongerThan.contains(result);
+      this.text = text;
+   }
+
+   public void setStory(final Story story)
+   {
+      this.story = story;
+   }
+
+   public Story getStory()
+   {
+      return story;
    }
 }

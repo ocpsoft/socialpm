@@ -54,7 +54,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.story.Story;
 
 @Entity
 @Table(name = "features", uniqueConstraints = { @UniqueConstraint(columnNames = { "name", "project_id" }) })

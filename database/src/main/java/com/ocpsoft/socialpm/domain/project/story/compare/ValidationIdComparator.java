@@ -32,24 +32,19 @@
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
-package com.ocpsoft.socialpm.domain.project.stories.compare;
+package com.ocpsoft.socialpm.domain.project.story.compare;
 
 import java.util.Comparator;
 
-import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.story.ValidationCriteria;
 
-// TODO test me (easy)
-/**
- * Sort on priority - the lower the priority, the greater the sort value eg: the
- * priority value 1 > 2
- */
-public class StoryPriorityComparator implements Comparator<Story>
+public class ValidationIdComparator implements Comparator<ValidationCriteria>
 {
    @Override
-   public int compare(final Story l, final Story r)
+   public int compare(final ValidationCriteria l, final ValidationCriteria r)
    {
-      Integer left = l.getPriority();
-      Integer right = r.getPriority();
+      Long left = l.getId();
+      Long right = r.getId();
       if ((left != null) && (right != null))
       {
          return left.compareTo(right);

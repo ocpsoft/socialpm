@@ -44,7 +44,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import com.ocpsoft.socialpm.cdi.Web;
-import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
+import com.ocpsoft.socialpm.domain.project.story.ValidationCriteria;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
 import com.ocpsoft.socialpm.model.project.ValidationService;

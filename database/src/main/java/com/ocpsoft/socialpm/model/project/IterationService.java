@@ -46,7 +46,7 @@ import javax.persistence.Query;
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.story.Story;
 import com.ocpsoft.socialpm.model.project.iteration.DailyStatsChain;
 import com.ocpsoft.socialpm.util.Dates;
 

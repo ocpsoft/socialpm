@@ -60,8 +60,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.Task;
+import com.ocpsoft.socialpm.domain.project.story.Story;
+import com.ocpsoft.socialpm.domain.project.story.Task;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>

@@ -44,7 +44,7 @@ import javax.persistence.Query;
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
 import com.ocpsoft.socialpm.domain.project.Feature;
 import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.story.Story;
 
 @TransactionAttribute
 public class FeatureService extends PersistenceUtil

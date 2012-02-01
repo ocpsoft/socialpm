@@ -59,8 +59,8 @@ import javax.ejb.TransactionAttribute;
 import javax.persistence.EntityManager;
 
 import com.ocpsoft.socialpm.domain.PersistenceUtil;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.ValidationCriteria;
+import com.ocpsoft.socialpm.domain.project.story.Story;
+import com.ocpsoft.socialpm.domain.project.story.ValidationCriteria;
 import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**

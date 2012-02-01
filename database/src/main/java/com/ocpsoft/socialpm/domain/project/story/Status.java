@@ -32,32 +32,41 @@
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
-package com.ocpsoft.socialpm.domain.project.stories.compare;
+package com.ocpsoft.socialpm.domain.project.story;
 
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import com.ocpsoft.socialpm.domain.project.stories.Task;
-
-// TODO test me (easy)
-public class TaskIdComparator implements Comparator<Task>
+public enum Status
 {
-   @Override
-   public int compare(final Task l, final Task r)
+   NOT_STARTED("Not Started"),
+   DONE("Done", NOT_STARTED),
+   IN_PROGRESS("In Progress", NOT_STARTED, DONE),
+   IMPEDED("Impeded", IN_PROGRESS, DONE, NOT_STARTED);
+
+   private String status;
+   private List<Status> strongerThan;
+
+   private Status(final String status, final Status... weaker)
    {
-      Long left = l.getId();
-      Long right = r.getId();
-      if ((left != null) && (right != null))
-      {
-         return left.compareTo(right);
-      }
-      else if (left != null)
-      {
-         return -1;
-      }
-      else if (right != null)
-      {
-         return 1;
-      }
-      return 0;
+      this.status = status;
+      this.strongerThan = weaker == null ? new ArrayList<Status>() : Arrays.asList(weaker);
+   }
+
+   public String getStatus()
+   {
+      return status;
+   }
+
+   @Override
+   public String toString()
+   {
+      return status;
+   }
+
+   public boolean isStrongerThan(final Status result)
+   {
+      return strongerThan.contains(result);
    }
 }

@@ -44,7 +44,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import com.ocpsoft.socialpm.cdi.Web;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.story.Story;
 import com.ocpsoft.socialpm.faces.listener.events.StoryCommand;
 import com.ocpsoft.socialpm.model.project.StoryService;
 
@@ -63,24 +63,25 @@ public class StoryCommandListener
    {}
 
    @Inject
-   public StoryCommandListener(@Web EntityManager em, StoryService ss)
+   public StoryCommandListener(@Web final EntityManager em, final StoryService ss)
    {
       ss.setEntityManager(em);
       this.ss = ss;
    }
 
-   public void capture(@Observes StoryCommand command)
+   public void capture(@Observes final StoryCommand command)
    {
       this.commands.add(command);
    }
 
    @TransactionAttribute
-   public void save(Story s)
+   public void save(final Story s)
    {
       for (StoryCommand c : commands) {
          c.perform(s);
       }
       ss.save(s);
+      // ss.refresh(s);
    }
 
 }

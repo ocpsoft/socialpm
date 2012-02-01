@@ -41,7 +41,7 @@ import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.story.Story;
 import com.ocpsoft.socialpm.faces.listener.events.StoryCommand;
 
 /**
@@ -60,12 +60,12 @@ public class StoryPriorityChanged implements ValueChangeListener
    {
       StoryCommand command = new StoryCommand() {
 
-         private final Integer newVal = (Integer) event.getNewValue();
+         private final Integer newValue = (Integer) event.getNewValue();
 
          @Override
-         public void perform(Story story)
+         public void perform(final Story story)
          {
-            story.setPriority(newVal);
+            story.setPriority(newValue);
          }
       };
 

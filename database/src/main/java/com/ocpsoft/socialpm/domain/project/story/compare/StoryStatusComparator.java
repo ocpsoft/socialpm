@@ -32,37 +32,25 @@
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
-package com.ocpsoft.socialpm.domain.project.stories;
+package com.ocpsoft.socialpm.domain.project.story.compare;
 
+import java.util.Comparator;
 
-public enum StoryBurner
+import com.ocpsoft.socialpm.domain.project.story.Story;
+
+public class StoryStatusComparator implements Comparator<Story>
 {
-   FRONT("Front"), BACK("Back");
-
-   private String value;
-
-   StoryBurner(final String value)
+   @Override
+   public int compare(final Story l, final Story r)
    {
-      this.value = value;
-   }
-
-   public String getValue()
-   {
-      return value;
-   }
-
-   /**
-    * If frontShelf is true, return Shelf.FRONT, otherwise return Shelf.BACK
-    * 
-    * @param frontShelf
-    * @return
-    */
-   public static StoryBurner valueOf(final boolean frontShelf)
-   {
-      if (frontShelf)
+      if (l.getProgressStatus().isStrongerThan(r.getProgressStatus()))
       {
-         return FRONT;
+         return 1;
       }
-      return BACK;
+      else if (r.getProgressStatus().isStrongerThan(l.getProgressStatus()))
+      {
+         return -1;
+      }
+      return 0;
    }
 }

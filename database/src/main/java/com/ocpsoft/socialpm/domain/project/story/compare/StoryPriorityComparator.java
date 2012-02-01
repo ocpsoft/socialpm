@@ -32,24 +32,35 @@
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
-package com.ocpsoft.socialpm.domain.project.stories.compare;
+package com.ocpsoft.socialpm.domain.project.story.compare;
 
 import java.util.Comparator;
 
-import com.ocpsoft.socialpm.domain.project.stories.Story;
+import com.ocpsoft.socialpm.domain.project.story.Story;
 
-public class StoryStatusComparator implements Comparator<Story>
+// TODO test me (easy)
+/**
+ * Sort on priority - the lower the priority, the greater the sort value eg: the
+ * priority value 1 > 2
+ */
+public class StoryPriorityComparator implements Comparator<Story>
 {
    @Override
    public int compare(final Story l, final Story r)
    {
-      if (l.getProgressStatus().isStrongerThan(r.getProgressStatus()))
+      Integer left = l.getPriority();
+      Integer right = r.getPriority();
+      if ((left != null) && (right != null))
       {
-         return 1;
+         return left.compareTo(right);
       }
-      else if (r.getProgressStatus().isStrongerThan(l.getProgressStatus()))
+      else if (left != null)
       {
          return -1;
+      }
+      else if (right != null)
+      {
+         return 1;
       }
       return 0;
    }

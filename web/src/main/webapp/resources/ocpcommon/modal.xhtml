@@ -48,31 +48,31 @@
 <composite:implementation> 
 
 	<!-- Modal -->
-	<div id="#{cc.attrs.forIdceId == null ? cc.clientId : cc.attrs.forIdceId}" class="modal #{cc.attrs.hidden ? 'hide' : '' } #{cc.attrs.fade ? 'fade' : '' }">
+	<div id="#{cc.attrs.forceId == null ? cc.clientId : cc.attrs.forceId}" class="modal #{cc.attrs.hidden ? 'hide' : '' } #{cc.attrs.fade ? 'fade' : '' }">
 		<div class="modal-header">
 			<h3>${cc.attrs.title} <h:panelGroup styleClass="fr" rendered="${cc.attrs.closeable}"><a href="#" class="close">×</a></h:panelGroup></h3>
 		</div>
 		<div class="modal-body">
 			<composite:insertChildren />			
 		</div>
-		<div id="#{cc.attrs.forIdceId}-footer" class="modal-footer">
+		<div id="#{cc.attrs.forceId}-footer" class="modal-footer">
 			<composite:renderFacet name="footer" />
 		</div>
 	</div>
 	
 	<h:outputScript rendered="#{cc.attrs.focusId != null}">
-		var	id = "#{cc.attrs.forIdceId == null ? cc.clientId : cc.attrs.forIdceId}";
+		var	id = "#{cc.attrs.forceId == null ? cc.clientId : cc.attrs.forceId}";
 		id = id.replace(/:/g,"\\:");
 
 		$('#' + id).bind('shown', function () {
-			var focus = "#{cc.attrs.forIdceId == null ? cc.clientId : cc.attrs.forIdceId}:#{cc.attrs.focusId}";
+			var focus = "#{cc.attrs.forceId == null ? cc.clientId : cc.attrs.forceId}:#{cc.attrs.focusId}";
 			focus = focus.replace(/:/g,"\\:");
 			$('#' + focus).focus();
 		})
 	</h:outputScript>
 	
 	<h:outputScript>
-		var	id = "#{cc.attrs.forIdceId == null ? cc.clientId : cc.attrs.forIdceId}";
+		var	id = "#{cc.attrs.forceId == null ? cc.clientId : cc.attrs.forceId}";
 		id = id.replace(/:/g,"\\:");
 		
 		if(!$.trim( $('#' + id + '-footer').html() ).length)

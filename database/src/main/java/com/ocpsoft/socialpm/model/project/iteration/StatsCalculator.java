@@ -36,9 +36,9 @@ package com.ocpsoft.socialpm.model.project.iteration;
 
 import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.project.iteration.IterationStatistics;
-import com.ocpsoft.socialpm.domain.project.stories.Status;
-import com.ocpsoft.socialpm.domain.project.stories.Story;
-import com.ocpsoft.socialpm.domain.project.stories.Task;
+import com.ocpsoft.socialpm.domain.project.story.Status;
+import com.ocpsoft.socialpm.domain.project.story.Story;
+import com.ocpsoft.socialpm.domain.project.story.Task;
 
 public class StatsCalculator
 {

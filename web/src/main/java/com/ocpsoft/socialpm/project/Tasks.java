@@ -47,8 +47,8 @@ import javax.persistence.EntityManager;
 
 import com.ocpsoft.socialpm.cdi.Current;
 import com.ocpsoft.socialpm.cdi.Web;
-import com.ocpsoft.socialpm.domain.project.stories.Status;
-import com.ocpsoft.socialpm.domain.project.stories.Task;
+import com.ocpsoft.socialpm.domain.project.story.Status;
+import com.ocpsoft.socialpm.domain.project.story.Task;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
 import com.ocpsoft.socialpm.model.project.TaskService;

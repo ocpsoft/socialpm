@@ -32,7 +32,7 @@
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
-package com.ocpsoft.socialpm.domain.project.stories;
+package com.ocpsoft.socialpm.domain.project.story;
 
 import java.util.ArrayList;
 import java.util.Date;
