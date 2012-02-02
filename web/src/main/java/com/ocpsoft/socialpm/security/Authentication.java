@@ -33,6 +33,8 @@
  */
 package com.ocpsoft.socialpm.security;
 
+import java.io.IOException;
+
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.faces.application.NavigationHandler;
@@ -54,6 +56,7 @@ import org.jboss.seam.security.management.IdmAuthenticator;
 import org.picketlink.idm.api.User;
 
 import com.ocpsoft.logging.Logger;
+import com.ocpsoft.rewrite.servlet.http.event.HttpInboundServletRewrite;
 import com.ocpsoft.rewrite.servlet.impl.HttpInboundRewriteImpl;
 
 /**
@@ -83,23 +86,25 @@ public class Authentication
    public void loginSuccess(@Observes final LoggedInEvent event, final NavigationHandler navigation,
             final FacesContext context,
             final HttpServletRequest request,
-            final HttpServletResponse response)
+            final HttpServletResponse response) throws IOException
    {
       User user = event.getUser();
       logger.info("User logged in [{}, {}]", user.getId(), user.getKey());
-
-      String result = "/pages/home";
 
       String viewId = context.getViewRoot().getViewId();
       if (!"/pages/signup.xhtml".equals(viewId))
       {
          // TODO need a better way to navigate: this doesn't work with AJAX requests
-         HttpInboundRewriteImpl rewrite = new HttpInboundRewriteImpl(request, response);
-         rewrite.redirectTemporary(rewrite.getContextPath() + rewrite.getURL());
+         HttpInboundServletRewrite rewrite = new HttpInboundRewriteImpl(request, response);
+
+         response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+         response.setHeader("Location", rewrite.getContextPath() + rewrite.getURL());
+         response.flushBuffer();
+
          return;
       }
       else {
-         result = "/pages/home";
+         String result = "/pages/home";
          navigation.handleNavigation(context, null, result + "?faces-redirect=true");
       }
    }

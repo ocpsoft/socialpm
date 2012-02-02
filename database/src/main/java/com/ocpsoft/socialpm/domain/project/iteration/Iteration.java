@@ -35,7 +35,6 @@
 package com.ocpsoft.socialpm.domain.project.iteration;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -121,13 +120,11 @@ public class Iteration extends PersistentObject<Iteration>
       return getNumber() + " - " + getTitle();
    }
 
-   public Iteration(final String title, final Date startDate, final Date endDate)
+   public Iteration(final String title)
    {
       super();
 
       this.title = title;
-      this.startDate = startDate;
-      this.endDate = endDate;
    }
 
    @PrePersist
@@ -154,7 +151,7 @@ public class Iteration extends PersistentObject<Iteration>
             result = Status.DONE;
          }
       }
-      else if (isInProgress())
+      else if (startDate != null)
       {
          result = Status.IN_PROGRESS;
       }
@@ -236,7 +233,7 @@ public class Iteration extends PersistentObject<Iteration>
 
    public boolean isDefault()
    {
-      return isPersistent() && (startDate == null) && (endDate == null);
+      return isPersistent() && (getNumber() == 0);
    }
 
    public List<Story> getBackShelfStories()
@@ -363,7 +360,6 @@ public class Iteration extends PersistentObject<Iteration>
    public boolean isInProgress()
    {
       boolean result = false;
-      Date now = Dates.now();
 
       if (isDefault())
       {
@@ -377,7 +373,7 @@ public class Iteration extends PersistentObject<Iteration>
          }
          result = defaultIsInProgress;
       }
-      else if (Dates.isInPrecisionRange(startDate, endDate, now, Calendar.DATE))
+      else if ((startDate != null) && (closedOn == null))
       {
          result = true;
       }
@@ -392,7 +388,7 @@ public class Iteration extends PersistentObject<Iteration>
       {
          result = false;
       }
-      else if (!Dates.isSameDay(new Date(), startDate) && new Date().before(startDate))
+      else if (committedOn == null)
       {
          result = true;
       }

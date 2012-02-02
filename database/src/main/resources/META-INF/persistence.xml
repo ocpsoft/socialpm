@@ -8,7 +8,10 @@
     <properties>
       <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
       <property name="hibernate.transaction.flush_before_completion" value="true"/>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+      <!--
+       TODO implement custom JDBC datasource configuration 
+      <property name="hibernate.connection.provider_class" value="com.ocpsoft.socialpm.config.ConfigurableConnectionProvider"/>
+       -->
     </properties>
   </persistence-unit>
 </persistence>
