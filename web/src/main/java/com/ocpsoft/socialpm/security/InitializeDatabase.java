@@ -157,6 +157,25 @@ public class InitializeDatabase
          project.getIterations().add(i);
 
          ps.save(project);
+         entityManager.flush();
+      }
+
+      /*
+       * Create test user (kenfinnigan)
+       */
+      if (session.getPersistenceManager().findUser("kenfinnigan") == null) {
+         User u = session.getPersistenceManager().createUser("kenfinnigan");
+         session.getAttributesManager().updatePassword(u, "password");
+         session.getAttributesManager().addAttribute(u, "email", "ken@kenfinnigan.me");
+
+         Profile p = new Profile();
+         p.setEmail("ken@kenfinnigan.me");
+         p.setUsername("kenfinnigan");
+         p.getKeys().add(u.getKey());
+         p.setUsernameConfirmed(true);
+         p.setShowBootcamp(true);
+         entityManager.persist(p);
+         entityManager.flush();
       }
    }
 
