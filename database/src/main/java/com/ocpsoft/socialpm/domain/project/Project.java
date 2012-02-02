@@ -410,6 +410,20 @@ public class Project extends DeletableObject<Project>
       return iterations;
    }
 
+   public List<Iteration> getOpenIterations()
+   {
+      List<Iteration> result = new ArrayList<Iteration>();
+
+      for (Iteration iteration : iterations) {
+         if (!iteration.isEnded())
+         {
+            result.add(iteration);
+         }
+      }
+
+      return result;
+   }
+
    public void setIterations(final List<Iteration> iterations)
    {
       this.iterations = iterations;

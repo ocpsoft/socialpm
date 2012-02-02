@@ -471,57 +471,6 @@ public class Iteration extends PersistentObject<Iteration>
       this.statistics = statistics;
    }
 
-   @Override
-   public int hashCode()
-   {
-      final int prime = 31;
-      int result = 1;
-      result = (prime * result) + ((project == null) ? 0 : project.hashCode());
-      result = (prime * result) + ((title == null) ? 0 : title.hashCode());
-      return result;
-   }
-
-   @Override
-   public boolean equals(final Object obj)
-   {
-      if (this == obj)
-      {
-         return true;
-      }
-      if (obj == null)
-      {
-         return false;
-      }
-      if (getClass() != obj.getClass())
-      {
-         return false;
-      }
-      Iteration other = (Iteration) obj;
-      if (project == null)
-      {
-         if (other.project != null)
-         {
-            return false;
-         }
-      }
-      else if (!project.equals(other.project))
-      {
-         return false;
-      }
-      if (title == null)
-      {
-         if (other.title != null)
-         {
-            return false;
-         }
-      }
-      else if (!title.equals(other.title))
-      {
-         return false;
-      }
-      return true;
-   }
-
    public int getNumber()
    {
       return number;
@@ -540,6 +489,37 @@ public class Iteration extends PersistentObject<Iteration>
    public void setClosedOn(final Date closedOn)
    {
       this.closedOn = closedOn;
+   }
+
+   @Override
+   public int hashCode()
+   {
+      final int prime = 31;
+      int result = 1;
+      result = (prime * result) + number;
+      result = (prime * result) + ((project == null) ? 0 : project.hashCode());
+      return result;
+   }
+
+   @Override
+   public boolean equals(final Object obj)
+   {
+      if (this == obj)
+         return true;
+      if (obj == null)
+         return false;
+      if (getClass() != obj.getClass())
+         return false;
+      Iteration other = (Iteration) obj;
+      if (number != other.number)
+         return false;
+      if (project == null) {
+         if (other.project != null)
+            return false;
+      }
+      else if (!project.equals(other.project))
+         return false;
+      return true;
    }
 
 }

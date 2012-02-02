@@ -39,7 +39,19 @@
 
 		<div class="row">
 			<div class="span12 columns">	
+            
 				<h:form prependId="false" styleClass="form-stacked">
+				
+                    <h:panelGroup id="iterationInProgressWarning" styleClass="alert-message warning" layout="block" rendered="#{stories.current.iteration.inProgress and !stories.current.iteration.isDefault()}">
+                        <b>Warning:</b> The iteration to which you are adding a story (  
+                        <h:link outcome="/pages/iteration/sorter" value="Iteration #{project.currentIteration.number}">
+                            <f:param name="profile" value="#{project.owner.username}"/>
+                            <f:param name="project" value="#{project.slug}"/>
+                            <f:param name="iteration" value="#{project.currentIteration.number}"/>
+                        </h:link> 
+                        ) has already been committed.
+                    </h:panelGroup>
+    				
 					<div class="clearfix">
 						<label for="role">As a</label>
 						<div class="input">
@@ -68,7 +80,8 @@
 						<label for="iteration">Iteration</label>
 						<div class="input">
 							<h:selectOneMenu id="iteration" value="#{stories.current.iteration}">
-								<f:selectItems value="#{projects.current.iterations}" itemLabel="#{i.number} - #{i.title}" itemValue="#{i}" var="i"/>
+                                <f:ajax execute="@form" render="@form" />
+								<f:selectItems value="#{projects.current.openIterations}" itemLabel="#{i.number} - #{i.title}" itemValue="#{i}" var="i"/>
 							</h:selectOneMenu>
 							<span class="help-inline"><br/><ocp:message id="itrmsg" forId="iteration" /></span>
 						</div>

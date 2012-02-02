@@ -126,8 +126,6 @@ public class Stories implements Serializable
             }
             catch (NoResultException e) {
                return Forward.to("/404");
-               // return "/pages/project/view?faces-redirect=true&profile=" + project.getOwner().getUsername()
-               // + "&project=" + project.getSlug();
             }
          }
       }
@@ -194,10 +192,6 @@ public class Stories implements Serializable
    @RequestScoped
    public Story getCurrent()
    {
-      if (!current.isPersistent())
-      {
-         current.setIteration(projects.getCurrentIteration());
-      }
       return current;
    }
 
