@@ -151,10 +151,6 @@ public class Iteration extends PersistentObject<Iteration>
             result = Status.DONE;
          }
       }
-      else if (startDate != null)
-      {
-         result = Status.IN_PROGRESS;
-      }
 
       for (Story s : getStories()) {
          if (s.isImpeded())
@@ -233,7 +229,7 @@ public class Iteration extends PersistentObject<Iteration>
 
    public boolean isDefault()
    {
-      return isPersistent() && (getNumber() == 0);
+      return isPersistent() && (getNumber() == 1);
    }
 
    public List<Story> getBackShelfStories()
@@ -352,7 +348,7 @@ public class Iteration extends PersistentObject<Iteration>
    {
       if (!isDefault())
       {
-         return Dates.isDateInPast(endDate);
+         return closedOn != null;
       }
       return false;
    }
@@ -373,7 +369,7 @@ public class Iteration extends PersistentObject<Iteration>
          }
          result = defaultIsInProgress;
       }
-      else if ((startDate != null) && (closedOn == null))
+      else if ((committedOn != null) && (closedOn == null))
       {
          result = true;
       }

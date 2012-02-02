@@ -159,6 +159,53 @@ public class Iterations implements Serializable
       is.save(current);
    }
 
+   @TransactionAttribute
+   public String commitCurrent()
+   {
+      current.setCommittedOn(new Date());
+      if (current.getStartDate() == null)
+      {
+         current.setStartDate(current.getCommittedOn());
+      }
+      is.save(current);
+      /* 
+       * TODO rewrite navigation
+       * 
+       * return Join.createBuilder("iteration-view")
+       *     .property("profile", current.getProject().getOwner().getUsername()) 
+       *     .property("project", current.getProject().getSlug())
+       *     .property("iteration", current.getNumber()).toResource();
+       */
+      return getNavigationString();
+   }
+
+   @TransactionAttribute
+   public String endCurrent()
+   {
+      current.setClosedOn(new Date());
+      if (current.getEndDate() == null)
+      {
+         current.setEndDate(current.getClosedOn());
+      }
+      is.save(current);
+      return getNavigationString();
+   }
+
+   @TransactionAttribute
+   public String reopenCurrent()
+   {
+      current.setClosedOn(null);
+      is.save(current);
+      return getNavigationString();
+   }
+
+   private String getNavigationString()
+   {
+      return "/pages/iteration/sorter?profile=" + current.getProject().getOwner().getUsername() + "&project="
+               + current.getProject().getSlug() + "&iteration=" + current.getNumber()
+               + "&faces-redirect=true";
+   }
+
    @Produces
    @Named("iteration")
    @RequestScoped

@@ -22,11 +22,46 @@
 	</ui:define>
 
 	<ui:define name="header">
-		<h2>#{iteration.isDefault() ? 'Backlog' : 'Iteration '.concat(iteration.number)}</h2>
+		<h2>
+		    #{iteration.isDefault() ? 'Backlog' : 'Iteration '.concat(iteration.number)}
+		    <h:panelGroup layout="inline" rendered="#{!iteration.isDefault()}"> 
+		    - <span class="#{iteration.status}"> #{iteration.status.toString()}</span>
+            </h:panelGroup>
+		</h2>
 	</ui:define>
 
 	<ui:define name="header-right">
-		<ocp:modalControl text="Add Iteration" forId="addIterations" styleClass="btn" />
+        <h:form>
+            <h:panelGroup rendered="#{!iterations.current.isDefault()}">
+        		<h:commandLink value="Begin" action="#{iterations.commitCurrent}" styleClass="btn primary" rendered="#{iterations.current.upcoming and iterations.current.project.defaultIteration.inProgress}" />
+        		<h:commandLink value="End" action="#{iterations.endCurrent}" styleClass="btn secondary" rendered="#{iterations.current.inProgress}" />
+        		<h:commandLink value="Re-open" action="#{iterations.reopenCurrent}" styleClass="btn secondary" rendered="#{iterations.current.ended and iterations.current.project.defaultIteration.inProgress}" />
+    		</h:panelGroup>
+		</h:form>
+	</ui:define>
+
+	<ui:define name="content">
+	
+		<ui:repeat var="i" value="#{project.iterations}">
+			<div class="fl">
+				<h:link
+					outcome="/pages/iteration/sorter" 
+					style="font-weight: bold; 
+							display: block; 
+							padding: 5px; 
+							margin-right: 3px;
+							#{i.number == iteration.number ? 'height: 25px;' : ''}" 
+					class="fl #{i.status}">
+					<h:outputText value="Backlog" rendered="#{i.isDefault()}" />
+					<h:outputText value="#{i.number}" rendered="#{!i.isDefault()}" />
+					<f:param name="profile" value="#{project.owner.username}" />
+					<f:param name="project" value="#{project.slug}" />
+					<f:param name="iteration" value="#{i.number}" />
+				</h:link>
+			</div>
+		</ui:repeat>
+        
+		<ocp:modalControl text="Add Iteration" forId="addIterations" styleClass="btn fr" />
 		<ocp:modal forceId="addIterations" title="Add Iteration" hidden="false">
 			<h:form prependId="false" id="stories" styleClass="form-stacked">
 				<div class="clearfix">
@@ -51,30 +86,15 @@
 				</div>
 			</h:form>
 		</ocp:modal>
-	</ui:define>
-
-	<ui:define name="content">
-	
-		<ui:repeat var="i" value="#{project.iterations}">
-			<div class="fl">
-				<h:link
-					outcome="/pages/iteration/sorter" 
-					style="font-weight: bold; 
-							display: block; 
-							padding: 5px; 
-							margin-right: 3px;
-							#{i.number == iteration.number ? 'height: 25px;' : ''}" 
-					class="fl #{i.status}">
-					<h:outputText value="Backlog" rendered="#{i.isDefault()}" />
-					<h:outputText value="#{i.number}" rendered="#{!i.isDefault()}" />
-					<f:param name="profile" value="#{project.owner.username}" />
-					<f:param name="project" value="#{project.slug}" />
-					<f:param name="iteration" value="#{i.number}" />
-				</h:link>
-			</div>
-		</ui:repeat>
+        
 		<div style="clear:both;"></div>
-		<div class="#{iteration.status}"><span style="visibility: hidden;">.</span></div>
+		<div class="#{iteration.status}">
+		
+	    <h:panelGroup layout="inline" rendered="#{!iteration.isDefault()}"> 
+            ( #{iteration.startDate} to #{iteration.endDate} ) 
+        </h:panelGroup>
+        
+		<span style="visibility: hidden;">.</span></div>
 	
 		<h:outputStylesheet>
 			/* Iteration sorter styles */

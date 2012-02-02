@@ -163,10 +163,9 @@
 
 				<ocp:box title="Iterations">
 					<f:facet name="content">
-						<div>
-							<h:outputText rendered="#{project.currentIteration.isDefault()}" 
-								value="Not currently working on any Iteration" />
-						</div>
+						<h:panelGroup rendered="#{project.currentIteration.isDefault()}" layout="block" style="margin-bottom: 15px;" class="alert-message warning">
+							<h:outputText value="Displaying Backlog - not currently working on an Iteration" />
+						</h:panelGroup>
 						<ui:repeat var="i" value="#{project.iterations}">
 							<div class="fl">
 								<h:link

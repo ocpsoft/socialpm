@@ -191,7 +191,7 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                         .where("project").matches(PROJECT)
                         .where("iteration").matches("\\d+")
                         .constrainedBy(new IntegerConstraint(1, null))
-                        .when(SocialPMResources.excluded())
+                        .when(SocialPMResources.excluded()).withId("iteration-view")
                )
 
       ;
