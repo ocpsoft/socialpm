@@ -4,7 +4,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ocp="http://java.sun.com/jsf/composite/ocpcommon"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich">
 
 <ui:composition template="/WEB-INF/view/templates/project-active.xhtml">
 
@@ -134,9 +136,36 @@
 				background: -ms-linear-gradient(left, #57a957, #fff);
 				background: -o-linear-gradient(left, #57a957, #fff);
 			}
+
+            .droppable {
+                border: 1px solid blue;
+                background-color: yellow;
+            }
+
+            .draggable {
+                border: 1px solid #000000;
+                background-color: gray;
+                opacity: 0.3;
+            }
+
+            .rf-ind {
+                border: 1px dotted red;
+                background-color: blue
+            }
+
+            .rf-ind-acpt {
+                border: 1px dotted red;
+                background-color: green;
+            }
+
+            .rf-ind-rejt {
+                border: 1px dotted green;
+                background-color: red;
+            }
 		</h:outputStylesheet>
-	
-		<div class="row" style="margin-top: 15px">
+
+        <h:form>
+            <div class="row" style="margin-top: 15px">
 			<div class="span16 columns">
 				
 				
@@ -169,7 +198,9 @@
 									</div>
 								</div>
 								<div class="span6 columns">
-									<div class="well">
+                                    <a4j:outputPanel id="drp" layout="block" styleClass="droppable">
+                                    <rich:dropTarget acceptedTypes="story" dropValue="huh" dropListener="#{storyDropEvent.processDrop}" render="@form" />
+									<rich:panel styleClass="well" id="iterations">
 										<h3>#{iteration.isDefault() ? 'Backlog' : 'Iteration '.concat(iteration.number)}</h3>
 										<ul class="plain clear">
 											<ui:repeat var="s" value="#{iteration.storyList}">
@@ -203,7 +234,8 @@
 												</li>
 											</ui:repeat>
 										</ul>
-									</div>
+									</rich:panel>
+                                    </a4j:outputPanel>
 								</div>
 								<div class="span6 columns">
 									<div class="well">
@@ -212,6 +244,8 @@
 											<ui:repeat var="s" value="#{projects.current.defaultIteration.storyList}">
 												<li>
 													<div class="box" style="margin-bottom: 8px;">
+                                                        <a4j:outputPanel layout="block">
+                                                            <rich:dragSource type="story" dragValue="#{s}" />
 														<div class="row">
 															<div class="span1 columns">
 																<span id="number#{s.number}" style="font-size: 20px;">#{s.number}</span><br/>
@@ -235,6 +269,7 @@
 																</h:panelGroup>
 															</div>
 														</div>
+                                                        </a4j:outputPanel>
 													</div>
 												</li>
 											</ui:repeat>
@@ -242,6 +277,7 @@
 									</div>
 								</div>
 							</div>
+                            <h:messages id="msgs" />
 						</ocp:tabPane>
 						<ocp:tabPane anchor="charts">
 							Charts here
@@ -251,10 +287,10 @@
 						</ocp:tabPane>
 					</f:facet>
 				</ocp:tabs>
-				
+
 			</div>
 		</div>	
-	
+	    </h:form>
 	</ui:define>
 
 </ui:composition>
