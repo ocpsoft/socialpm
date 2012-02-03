@@ -1,11 +1,11 @@
 /**
- * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM) 
+ * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM)
  *
  * Copyright (c)2011 Lincoln Baxter, III <lincoln@ocpsoft.com> (OCPsoft)
  * Copyright (c)2011 OCPsoft.com (http://ocpsoft.com)
  * 
- * If you are developing and distributing open source applications under 
- * the GNU General Public License (GPL), then you are free to re-distribute SocialPM 
+ * If you are developing and distributing open source applications under
+ * the GNU General Public License (GPL), then you are free to re-distribute SocialPM
  * under the terms of the GPL, as follows:
  *
  * SocialPM is free software: you can redistribute it and/or modify
@@ -23,12 +23,12 @@
  * 
  * For individuals or entities who wish to use SocialPM privately, or
  * internally, the following terms do not apply:
- *  
- * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their 
- * products, or host their product online, OCPsoft provides flexible 
+ * 
+ * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their
+ * products, or host their product online, OCPsoft provides flexible
  * OEM commercial licenses.
  * 
- * Optionally, Customers may choose a Commercial License. For additional 
+ * Optionally, Customers may choose a Commercial License. For additional
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
@@ -63,9 +63,9 @@ public class Profile extends PersistentObject<Profile>
    @Column(nullable = false, length = 128, unique = true)
    private String email;
 
-   @CollectionTable(name = "user_profiles_keys")
    @ElementCollection
-   private Set<String> keys = new HashSet<String>();
+   @CollectionTable(name = "user_profiles_keys")
+   private Set<String> identityKeys = new HashSet<String>();
 
    @Column
    private boolean emailSecret = true;
@@ -159,14 +159,14 @@ public class Profile extends PersistentObject<Profile>
       this.username = username;
    }
 
-   public Set<String> getKeys()
+   public Set<String> getIdentityKeys()
    {
-      return keys;
+      return identityKeys;
    }
 
-   public void setKeys(final Set<String> keys)
+   public void setIdentityKeys(final Set<String> keys)
    {
-      this.keys = keys;
+      this.identityKeys = keys;
    }
 
    public boolean isUsernameConfirmed()

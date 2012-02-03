@@ -142,7 +142,7 @@ public class Registration
       Profile p = new Profile();
       p.setEmail(email);
       p.setUsername(username);
-      p.getKeys().add(identity.getUser().getKey());
+      p.getIdentityKeys().add(identity.getUser().getKey());
       p.setUsernameConfirmed(true);
       ps.create(p);
    }

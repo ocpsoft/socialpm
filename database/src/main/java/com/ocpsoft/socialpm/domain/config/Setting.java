@@ -19,10 +19,11 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package com.ocpsoft.socialpm.config;
+package com.ocpsoft.socialpm.domain.config;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import com.ocpsoft.socialpm.domain.PersistentObject;
 
@@ -31,20 +32,44 @@ import com.ocpsoft.socialpm.domain.PersistentObject;
  * 
  */
 @Entity
-public class Settings extends PersistentObject<Settings>
+@Table(name = "meta_information")
+public class Setting extends PersistentObject<Setting>
 {
-   private static final long serialVersionUID = -8917230159863369783L;
+   private static final long serialVersionUID = -7485883311296510018L;
 
-   @Column(nullable = false)
-   private int schemaVersion;
+   @Column(unique = true)
+   private String name;
 
-   public int getSchemaVersion()
+   @Column
+   private String value;
+
+   public Setting()
+   {}
+
+   public Setting(String name, String value)
    {
-      return schemaVersion;
+      this.name = name;
+      this.value = value;
    }
 
-   public void setSchemaVersion(final int schemaVersion)
+   public String getName()
    {
-      this.schemaVersion = schemaVersion;
+      return name;
    }
+
+   public void setName(String name)
+   {
+      this.name = name;
+   }
+
+   public String getValue()
+   {
+      return value;
+   }
+
+   public void setValue(String value)
+   {
+      this.value = value;
+   }
+
 }

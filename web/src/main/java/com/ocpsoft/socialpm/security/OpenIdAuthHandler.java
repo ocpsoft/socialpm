@@ -164,7 +164,7 @@ public class OpenIdAuthHandler implements OpenIdRelyingPartySpi
             if (!profileService.hasProfileByIdentityKey(key))
             {
                Profile p = new Profile();
-               p.getKeys().add(key);
+               p.getIdentityKeys().add(key);
                p.setEmail(email);
                p.setFullName(principal.getAttribute("firstName") + " " + principal.getAttribute("lastName"));
                p.setUsername(profileService.getRandomUsername(p.getFullName()));
