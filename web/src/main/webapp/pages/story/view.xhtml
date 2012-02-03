@@ -115,7 +115,7 @@
 												<f:ajax execute="@form " render="@form :impeded" listener="#{taskCommandListener.save(t)}" />
 											</h:inputText><b> hours remain for </b> 
 											
-                                            <ocp:profileLink profile="#{v.acceptedBy}" displayName="false" /><br/>
+                                            <ocp:profileLink profile="#{t.assignee}" displayName="false" /><br/>
                                             
             								<h:selectOneMenu id="assignee" value="#{t.assignee}" style="width: 100px" 
             									tabindex="202">

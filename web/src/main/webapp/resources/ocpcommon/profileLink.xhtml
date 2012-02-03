@@ -46,9 +46,9 @@
 <composite:implementation>
 	<h:panelGroup style="#{cc.attrs.style}" styleClass="#{cc.attrs.styleClass}">
 	    <h:link outcome="/pages/profile">
-            <ocp:gravatar email="#{profile.email}" size="15" /> 
-            <h:outputText value="#{profile}" style="position: relative; top: -5px;" rendered="#{cc.attrs.displayName}" />
-    		<f:param name="profile" value="#{profile}" />
+            <ocp:gravatar email="#{cc.attrs.profile.email}" size="15" /> 
+            <h:outputText value="#{cc.attrs.profile}" style="position: relative; top: -5px;" rendered="#{cc.attrs.displayName}" />
+    		<f:param name="profile" value="#{cc.attrs.profile}" />
 		</h:link>
 	</h:panelGroup>
 </composite:implementation>

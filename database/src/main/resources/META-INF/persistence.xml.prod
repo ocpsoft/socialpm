@@ -6,11 +6,11 @@
     <jta-data-source>java:/SocialPMDS</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="hibernate.hbm2ddl.auto" value="create"/>
       <property name="hibernate.transaction.flush_before_completion" value="true"/>
       <!--
        TODO implement custom JDBC datasource configuration 
       <property name="hibernate.connection.provider_class" value="com.ocpsoft.socialpm.config.ConfigurableConnectionProvider"/>
+      <property name="hibernate.hbm2ddl.auto" value=""/>
        -->
     </properties>
   </persistence-unit>

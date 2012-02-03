@@ -40,6 +40,7 @@ import com.ocpsoft.rewrite.bind.El;
 import com.ocpsoft.rewrite.config.Configuration;
 import com.ocpsoft.rewrite.config.ConfigurationBuilder;
 import com.ocpsoft.rewrite.config.Direction;
+import com.ocpsoft.rewrite.config.Not;
 import com.ocpsoft.rewrite.config.Operation;
 import com.ocpsoft.rewrite.context.EvaluationContext;
 import com.ocpsoft.rewrite.event.Rewrite;
@@ -105,8 +106,14 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                   public void perform(final Rewrite event, final EvaluationContext context)
                   {}
                })
-
-               .addRule(Join.path("/{profile}").to("/pages/profile.xhtml"))
+               /**
+                * <p/>
+                * TODO we need a better way to figure out if a profile does not exist, then to show something else
+                * perhaps a database validation or constraint? on the above profile property injection?
+                */
+               .addRule(Join.path("/{profile}").to("/pages/profile.xhtml")
+                        .when(Not.any(Resource.exists("/pages/{profile}.xhtml")))
+                        .perform(PhaseAction.retrieveFrom(El.retrievalMethod("profiles.verifyExists"))))
 
                .defineRule()
                .when(

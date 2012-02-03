@@ -34,6 +34,7 @@
 package com.ocpsoft.socialpm.security;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -90,9 +91,10 @@ public class Registration
    {}
 
    @Inject
-   public Registration(@LoggedIn Profile profile, ProfileService profileService, IdentitySession security,
-            Credentials credentials,
-            Identity identity, Messages msg)
+   public Registration(@LoggedIn final Profile profile, final ProfileService profileService,
+            final IdentitySession security,
+            final Credentials credentials,
+            final Identity identity, final Messages msg)
    {
       this.msg = msg;
       this.identity = identity;
@@ -113,21 +115,16 @@ public class Registration
    private String passwordConfirm;
    private String email;
 
-   public void register() throws IdentityException
+   @TransactionAttribute
+   public String register() throws IdentityException
    {
-      oidAuth.setStatus(AuthenticationStatus.FAILURE);
-      identity.setAuthenticatorClass(IdmAuthenticator.class);
-
-      // TODO validate username, email address, and user existence
-      PersistenceManager identityManager = security.getPersistenceManager();
-      User user = identityManager.createUser(username);
-
-      AttributesManager attributesManager = security.getAttributesManager();
-      attributesManager.updatePassword(user, password);
-      attributesManager.addAttribute(user, "email", email);
+      createUser();
 
       credentials.setUsername(username);
       credentials.setCredential(new PasswordCredential(password));
+
+      oidAuth.setStatus(AuthenticationStatus.FAILURE);
+      identity.setAuthenticatorClass(IdmAuthenticator.class);
 
       /*
        * Try twice to work around some state bug in Seam Security
@@ -138,15 +135,32 @@ public class Registration
          result = identity.login();
       }
 
+      return result;
+   }
+
+   @TransactionAttribute
+   private void createUser() throws IdentityException
+   {
+      // TODO validate username, email address, and user existence
+      PersistenceManager identityManager = security.getPersistenceManager();
+      User user = identityManager.createUser(username);
+
+      AttributesManager attributesManager = security.getAttributesManager();
+      attributesManager.updatePassword(user, password);
+      attributesManager.addAttribute(user, "email", email);
+
+      em.flush();
+
       // TODO figure out a good pattern for this...
       Profile p = new Profile();
       p.setEmail(email);
       p.setUsername(username);
-      p.getIdentityKeys().add(identity.getUser().getKey());
+      p.getIdentityKeys().add(user.getKey());
       p.setUsernameConfirmed(true);
       ps.create(p);
    }
 
+   @TransactionAttribute
    public void openRegister() throws IdentityException
    {
       idmAuth.setStatus(AuthenticationStatus.FAILURE);
@@ -162,6 +176,7 @@ public class Registration
       }
    }
 
+   @TransactionAttribute
    public String confirmUsername()
    {
       Profile p = ps.getProfileById(profile.getId());

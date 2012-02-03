@@ -43,6 +43,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
+import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
@@ -91,6 +92,15 @@ public class Profiles implements Serializable
          }
       }
       return current;
+   }
+
+   public Object verifyExists()
+   {
+      if (!getCurrent().isPersistent())
+      {
+         return Forward.to("/404");
+      }
+      return null;
    }
 
    public void setEntityManager(final EntityManager em)

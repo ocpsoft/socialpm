@@ -8,75 +8,43 @@
 
 <ui:composition template="/WEB-INF/view/templates/profile-active.xhtml">
 
-	<ui:param name="title" value="Account" />
+	<ui:param name="title" value="Profile - #{profile.username}" />
 
 	<ui:define name="header">
-		<ocp:gravatar email="#{account.loggedIn.email}" size="90" updatable="true" />
-		<span style="margin-left: 95px;">Your account</span>
+		<ocp:gravatar email="#{profile.email}" size="90" updatable="true" styleClass="fl" />
+        <h:panelGroup rendered="#{profile.username == account.loggedIn.username}">
+		<div style="margin-left: 115px;" >
+		
+            <h2>This is you 
+                <h:link outcome="/pages/account" styleClass="btn" value="edit">
+                </h:link>
+            </h2>
+		
+		</div>
+        </h:panelGroup>
 	</ui:define>
 
 	<ui:define name="header-right">
-		#{account.loggedIn.username}
+		#{profile.username}
 	</ui:define>
 
 	<ui:define name="content">
 		<h:form id="account">
-			<h:commandLink id="save" action="#{account.saveAjax()}" value="saveIt" style="display:hidden;" />
-	
 			<h:panelGroup id="eml" layout="block" class="clearfix">
-				<label for="email">Email Address</label>
+				<label for="email"><b>Email Address</b></label>
 				<div class="input">
-					<h:inputText id="email" value="#{account.loggedIn.email}" styleClass="xLarge" required="true">
-						<f:validator validatorId="emailValidator" />
-						<f:ajax execute="@this save" render="eml"  />
-					</h:inputText>
-					<h:graphicImage value="#{resource['success.gif']}" rendered="#{account.loggedIn.email != null}"
-						styleClass="validation-status" />
-					<span class="help-inline"><br/>We promise <b>never</b> to share your email address. <ocp:message forId="email" /></span>
-				</div>
-			</h:panelGroup>
-			
-			<h:panelGroup id="emlSecret" layout="block" class="clearfix">
-				<div class="input">
-					<h:selectBooleanCheckbox value="#{account.loggedIn.emailSecret}" styleClass="xLarge" required="true">
-						<f:ajax execute="@this save" render="emlSecret"  />
-					</h:selectBooleanCheckbox>
-					<span>Keep email secret</span>
+					<h:outputText id="email" value="#{profile.email}" rendered="#{!profile.emailSecret}"/>
+					<h:outputText value="This user has chosen to keep their email address private" rendered="#{profile.emailSecret}" />
 				</div>
 			</h:panelGroup>
 			
 			<h:panelGroup id="bio" layout="block" class="clearfix">
-				<label for="bio">Bio</label>
+				<label for="bio"><b>Bio</b></label>
 				<div class="input">
-					<h:inputTextarea id="bioIn" value="#{account.loggedIn.bio}" styleClass="xLarge span4" required="false" 
-						style="width: 400px; height: 100px;">
-						<f:ajax execute="@this save" render="bio"  />
-					</h:inputTextarea>
-					<h:graphicImage value="#{resource['success.gif']}" rendered="#{account.loggedIn.bio != null}"
-						styleClass="validation-status" />
-					<span class="help-inline"><br/>Who and what are you? <ocp:message forId="bio" /></span>
+					<h:outputText id="bioIn" value="#{profile.bio}" styleClass="span4" />
 				</div>
 			</h:panelGroup>
 
-			<div class="alert-message block-message info" style="height: 18px;">
-				<span class="fr" style="position: relative; top: 2px;">
-				( <h:panelGroup rendered="#{!account.loggedIn.showBootcamp}">
-					<h:commandLink id="showBootcamp" action="#{account.displayBootcampAjax}" value="Show bootcamp">
-						<f:ajax execute="@this" render="@form"/>
-					</h:commandLink>
-				</h:panelGroup>
-				<h:panelGroup rendered="#{account.loggedIn.showBootcamp}">
-					<h:commandLink id="dismissBootcamp" action="#{account.dismissBootcampAjax}" value="Hide bootcamp">
-						<f:ajax execute="@this" render="@form"/>
-					</h:commandLink>
-				</h:panelGroup> )</span>
-				<h3 style="position: relative; top: -10px;" class="fl">Bootcamp is #{account.loggedIn.showBootcamp ? 'enabled' : 'disabled'}
-					<h:graphicImage value="#{resource['success.gif']}" rendered="#{account.loggedIn.showBootcamp}"
-						styleClass="validation-status" />
-				</h3>
-				<p style="padding-left: 10px;" class="fl">Tutorials and tips that appear throughout the site.</p>
-			</div>
-			
 		</h:form>
 	</ui:define>
 
