@@ -18,6 +18,11 @@
   <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
   <param-value>client</param-value>
  </context-param>
+ <!-- RichFaces context-params -->
+ <context-param>
+  <param-name>org.richfaces.enableControlSkinning</param-name>
+  <param-value>false</param-value>
+ </context-param>
  <!-- End Faces Standard Config Filter Config -->
  <filter>
   <filter-name>ResponseTimeLoggingFilter</filter-name>
