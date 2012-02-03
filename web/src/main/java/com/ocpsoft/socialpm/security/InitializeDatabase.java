@@ -199,6 +199,25 @@ public class InitializeDatabase
          entityManager.persist(p);
          entityManager.flush();
       }
+
+      /*
+       * Create test user (bleathem)
+       */
+      if (session.getPersistenceManager().findUser("bleathem") == null) {
+         User u = session.getPersistenceManager().createUser("bleathem");
+         session.getAttributesManager().updatePassword(u, "password");
+         session.getAttributesManager().addAttribute(u, "email", "bleathem@gmail.com");
+
+         Profile p = new Profile();
+         p.setEmail("bleathem@gmail.com");
+         p.setUsername("bleathem");
+         p.getIdentityKeys().add(u.getKey());
+         p.setUsernameConfirmed(true);
+         p.setShowBootcamp(true);
+         entityManager.persist(p);
+         entityManager.flush();
+      }
+
    }
 
    @Inject
