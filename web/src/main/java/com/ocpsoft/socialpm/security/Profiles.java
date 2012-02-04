@@ -45,8 +45,8 @@ import javax.persistence.NoResultException;
 
 import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.socialpm.cdi.Web;
-import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.model.ProfileService;
+import com.ocpsoft.socialpm.model.user.Profile;
+import com.ocpsoft.socialpm.services.ProfileService;
 import com.ocpsoft.socialpm.web.ParamsBean;
 
 /**

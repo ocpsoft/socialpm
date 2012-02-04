@@ -44,8 +44,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import com.ocpsoft.socialpm.cdi.LoggedIn;
-import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.model.ProfileService;
+import com.ocpsoft.socialpm.model.user.Profile;
+import com.ocpsoft.socialpm.services.ProfileService;
 
 @RequestScoped
 @FacesValidator("signupUsernameAvailabilityValidator")

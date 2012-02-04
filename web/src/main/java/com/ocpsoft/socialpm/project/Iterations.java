@@ -51,14 +51,14 @@ import org.jboss.seam.international.status.Messages;
 
 import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.socialpm.cdi.Web;
-import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.project.Velocity;
-import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
-import com.ocpsoft.socialpm.domain.project.iteration.IterationStatistics;
-import com.ocpsoft.socialpm.domain.project.story.Story;
-import com.ocpsoft.socialpm.domain.project.story.Task;
-import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.model.project.IterationService;
+import com.ocpsoft.socialpm.model.project.Project;
+import com.ocpsoft.socialpm.model.project.Velocity;
+import com.ocpsoft.socialpm.model.project.iteration.Iteration;
+import com.ocpsoft.socialpm.model.project.iteration.IterationStatistics;
+import com.ocpsoft.socialpm.model.project.story.Story;
+import com.ocpsoft.socialpm.model.project.story.Task;
+import com.ocpsoft.socialpm.model.user.Profile;
+import com.ocpsoft.socialpm.services.project.IterationService;
 import com.ocpsoft.socialpm.web.ParamsBean;
 
 /**

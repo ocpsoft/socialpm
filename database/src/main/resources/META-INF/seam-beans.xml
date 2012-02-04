@@ -6,11 +6,11 @@
 
    <plidm:JpaIdentityStoreConfiguration>
       <s:replaces />
-      <plidm:identityClass>com.ocpsoft.socialpm.domain.security.IdentityObject</plidm:identityClass>
-      <plidm:credentialClass>com.ocpsoft.socialpm.domain.security.IdentityObjectCredential</plidm:credentialClass>
-      <plidm:relationshipClass>com.ocpsoft.socialpm.domain.security.IdentityObjectRelationship</plidm:relationshipClass>
-      <plidm:roleTypeClass>com.ocpsoft.socialpm.domain.security.IdentityRoleName</plidm:roleTypeClass>
-      <plidm:attributeClass>com.ocpsoft.socialpm.domain.security.IdentityObjectAttribute</plidm:attributeClass>
+      <plidm:identityClass>com.ocpsoft.socialpm.model.security.IdentityObject</plidm:identityClass>
+      <plidm:credentialClass>com.ocpsoft.socialpm.model.security.IdentityObjectCredential</plidm:credentialClass>
+      <plidm:relationshipClass>com.ocpsoft.socialpm.model.security.IdentityObjectRelationship</plidm:relationshipClass>
+      <plidm:roleTypeClass>com.ocpsoft.socialpm.model.security.IdentityRoleName</plidm:roleTypeClass>
+      <plidm:attributeClass>com.ocpsoft.socialpm.model.security.IdentityObjectAttribute</plidm:attributeClass>
    </plidm:JpaIdentityStoreConfiguration>
 
 </beans>

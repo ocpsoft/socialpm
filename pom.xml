@@ -1,211 +1,214 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-   <modelVersion>4.0.0</modelVersion>
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
 
-   <groupId>com.ocpsoft</groupId>
-   <artifactId>socialpm-parent</artifactId>
-   <version>1.0.0-SNAPSHOT</version>
-   <packaging>pom</packaging>
+	<parent>
+		<groupId>com.ocpsoft</groupId>
+		<artifactId>ocpsoft-parent</artifactId>
+		<version>2</version>
+	</parent>
 
-   <name>SocialPM - Parent</name>
-   <url>http://ocpsoft.com/scrumshark/</url>
+	<groupId>com.ocpsoft.socialpm</groupId>
+	<artifactId>socialpm-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	
+	<packaging>pom</packaging>
+	
+	<name>SocialPM - Parent</name>
+	<url>http://ocpsoft.com/scrumshark/</url>
+	
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+	
+	<modules>
+		<module>database</module>
+		<module>web</module>
+		<module>tests</module>
+		<module>gwt</module>
+		<module>model</module>
+		<module>util</module>
+	</modules>
+	
+	<scm>
+		<connection>scm:git:git://github.com/ocpsoft/socialpm.git</connection>
+		<developerConnection>scm:git:git://github.com/ocpsoft/socialpm.git</developerConnection>
+		<url>http://github.com/ocpsoft/socialpm</url>
+	</scm>
 
-   <prerequisites>
-      <maven>3.0</maven>
-   </prerequisites>
+	<properties>
+		<prettytime.version>1.0.7</prettytime.version>
+		<rewrite.version>1.0.0-SNAPSHOT</rewrite.version>
+		<seam.version>3.1.0.Final</seam.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<junit.version>4.8.1</junit.version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.ocpsoft.socialpm</groupId>
+				<artifactId>socialpm-util</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ocpsoft.socialpm</groupId>
+				<artifactId>socialpm-model</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ocpsoft.socialpm</groupId>
+				<artifactId>socialpm-database</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ocpsoft.socialpm</groupId>
+				<artifactId>socialpm-web</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.ocpsoft</groupId>
+				<artifactId>ocpsoft-pretty-time</artifactId>
+				<version>${prettytime.version}</version>
+			</dependency>
 
-   <modules>
-      <module>database</module>
-      <module>web</module>
-      <module>tests</module>
-   </modules>
+			<dependency>
+				<groupId>com.ocpsoft.rewrite</groupId>
+				<artifactId>rewrite-servlet</artifactId>
+				<version>${rewrite.version}</version>
+			</dependency>
 
-   <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-      <junit.version>4.8.1</junit.version>
-      <prettytime.version>1.0.7</prettytime.version>
-      <seam.version>3.1.0.Final</seam.version>
-   </properties>
 
-   <dependencyManagement>
-      <dependencies>
-         <dependency>
-            <groupId>com.ocpsoft</groupId>
-            <artifactId>socialpm-database</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-         <dependency>
-            <groupId>com.ocpsoft</groupId>
-            <artifactId>socialpm-web</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-
-         <dependency>
-            <groupId>com.ocpsoft</groupId>
-            <artifactId>ocpsoft-pretty-time</artifactId>
-            <version>${prettytime.version}</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>seam-bom</artifactId>
-            <version>${seam.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
-         </dependency>
-
-         <dependency>
-            <groupId>org.jboss.solder</groupId>
-            <artifactId>solder-impl</artifactId>
-            <version>${seam.version}</version>
-            <scope>compile</scope>
-         </dependency>
-
-         <dependency>
-            <groupId>org.jboss.solder</groupId>
-            <artifactId>solder-api</artifactId>
-            <version>${seam.version}</version>
-         </dependency>
-
-         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.jboss.spec</groupId>
-            <artifactId>jboss-javaee-6.0</artifactId>
-            <version>3.0.0.Beta1</version>
-            <type>pom</type>
-         </dependency>
-
-         <!-- Utility Dependencies -->
-         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.4</version>
-         </dependency>
-         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-            <version>1.3</version>
-         </dependency>
-
-         <!-- Test Dependencies -->
-         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-         </dependency>
-      </dependencies>
-   </dependencyManagement>
-
-   <repositories>
-      <repository>
-         <id>ocpsoft</id>
-         <name>OcpSoft Releases</name>
-         <url>http://ocpsoft.com/repository/</url>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
-      </repository>
-   </repositories>
-
-   <profiles>
-      <profile>
-         <id>jboss-public-repository</id>
-         <!-- Repository is active unless explicitly disabled e.g. -P!jboss-public-repository -->
-         <activation>
-            <property>
-               <name>jboss-public-repository</name>
-               <value>!false</value>
-            </property>
-         </activation>
-         <repositories>
-            <repository>
-               <id>jboss-public-repository-group</id>
-               <name>JBoss Public Maven Repository Group</name>
-               <url>http://repository.jboss.org/nexus/content/groups/public</url>
-            </repository>
-         </repositories>
-         <pluginRepositories>
-            <pluginRepository>
-               <id>jboss-public-repository-group</id>
-               <name>JBoss Public Maven Repository Group</name>
-               <url>http://repository.jboss.org/nexus/content/groups/public</url>
-            </pluginRepository>
-         </pluginRepositories>
-      </profile>
-   </profiles>
-
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>org.zeroturnaround</groupId>
-            <artifactId>jrebel-maven-plugin</artifactId>
-            <executions>
-               <execution>
-                  <id>generate-rebel-xml</id>
-                  <phase>process-resources</phase>
-                  <goals>
-                     <goal>generate</goal>
-                  </goals>
-               </execution>
-            </executions>
-            <configuration>
-               <relativePath>../</relativePath>
-               <!-- use a custom property for specifing root directory (note 
-                  the double $) set the property in JRebel configuration or as -Dmyproject.root=c:/projects/ -->
-               <rootPath>$${myproject.root}</rootPath>
-            </configuration>
-         </plugin>
-      </plugins>
-      <pluginManagement>
-         <plugins>
-            <!--This plugin's configuration is used to store Eclipse m2e 
-               settings only. It has no influence on the Maven build itself. -->
-            <plugin>
-               <groupId>org.eclipse.m2e</groupId>
-               <artifactId>lifecycle-mapping</artifactId>
-               <version>1.0.0</version>
-               <configuration>
-                  <lifecycleMappingMetadata>
-                     <pluginExecutions>
-                        <pluginExecution>
-                           <pluginExecutionFilter>
-                              <groupId>org.zeroturnaround</groupId>
-                              <artifactId>
-                                 jrebel-maven-plugin
-                              </artifactId>
-                              <versionRange>[1.1.0,)</versionRange>
-                              <goals>
-                                 <goal>generate</goal>
-                              </goals>
-                           </pluginExecutionFilter>
-                           <action>
-                              <ignore></ignore>
-                           </action>
-                        </pluginExecution>
-                     </pluginExecutions>
-                  </lifecycleMappingMetadata>
-               </configuration>
-            </plugin>
-         </plugins>
-      </pluginManagement>
-   </build>
-
-   <scm>
-      <connection>scm:git:git://github.com/ocpsoft/socialpm.git</connection>
-      <developerConnection>scm:git:git://github.com/ocpsoft/socialpm.git</developerConnection>
-      <url>http://github.com/ocpsoft/socialpm</url>
-   </scm>
-
-   <distributionManagement>
-      <repository>
-         <id>ocpsoft.ftp.public</id>
-         <url>ftp://ocpsoft.com/ocpsoft.com/repository</url>
-      </repository>
-   </distributionManagement>
+			<dependency>
+				<groupId>org.jboss.seam</groupId>
+				<artifactId>seam-bom</artifactId>
+				<version>${seam.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.solder</groupId>
+				<artifactId>solder-impl</artifactId>
+				<version>${seam.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.solder</groupId>
+				<artifactId>solder-api</artifactId>
+				<version>${seam.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.validation</groupId>
+				<artifactId>validation-api</artifactId>
+				<version>1.0.0.GA</version>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.spec</groupId>
+				<artifactId>jboss-javaee-6.0</artifactId>
+				<version>3.0.0.Beta1</version>
+				<type>pom</type>
+			</dependency>
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>2.4</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.3</version>
+			</dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<id>ocpsoft</id>
+			<name>OcpSoft Releases</name>
+			<url>http://ocpsoft.com/repository/</url>
+		</repository>
+	</repositories>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.zeroturnaround</groupId>
+										<artifactId>jrebel-maven-plugin</artifactId>
+										<versionRange>[1.1.0,)</versionRange>
+										<goals>
+											<goal>generate</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.zeroturnaround</groupId>
+				<artifactId>jrebel-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-rebel-xml</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<relativePath>../</relativePath>
+					<rootPath>$${myproject.root}</rootPath>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<profile>
+			<id>jboss-public-repository</id>
+			<activation>
+				<property>
+					<name>jboss-public-repository</name>
+					<value>!false</value>
+				</property>
+			</activation>
+			<repositories>
+				<repository>
+					<id>jboss-public-repository-group</id>
+					<name>JBoss Public Maven Repository Group</name>
+					<url>http://repository.jboss.org/nexus/content/groups/public</url>
+				</repository>
+			</repositories>
+			<pluginRepositories>
+				<pluginRepository>
+					<id>jboss-public-repository-group</id>
+					<name>JBoss Public Maven Repository Group</name>
+					<url>http://repository.jboss.org/nexus/content/groups/public</url>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
 </project>

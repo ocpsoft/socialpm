@@ -45,7 +45,7 @@ import com.ocpsoft.rewrite.servlet.config.DispatchType;
 import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import com.ocpsoft.rewrite.servlet.config.rule.Join;
-import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.model.user.Profile;
 import com.ocpsoft.socialpm.security.Account;
 
 /**

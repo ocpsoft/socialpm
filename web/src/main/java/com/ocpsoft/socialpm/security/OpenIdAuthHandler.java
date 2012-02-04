@@ -55,8 +55,8 @@ import org.jboss.seam.security.external.spi.OpenIdRelyingPartySpi;
 import org.jboss.seam.security.management.picketlink.IdentitySessionProducer;
 import org.jboss.seam.transaction.Transactional;
 
-import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.model.ProfileService;
+import com.ocpsoft.socialpm.model.user.Profile;
+import com.ocpsoft.socialpm.services.ProfileService;
 
 @TransactionAttribute
 public class OpenIdAuthHandler implements OpenIdRelyingPartySpi

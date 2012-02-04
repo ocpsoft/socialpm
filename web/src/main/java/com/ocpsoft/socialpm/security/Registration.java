@@ -57,8 +57,8 @@ import org.picketlink.idm.impl.api.PasswordCredential;
 
 import com.ocpsoft.logging.Logger;
 import com.ocpsoft.socialpm.cdi.LoggedIn;
-import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.model.ProfileService;
+import com.ocpsoft.socialpm.model.user.Profile;
+import com.ocpsoft.socialpm.services.ProfileService;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>

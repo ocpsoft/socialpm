@@ -1,74 +1,85 @@
-<?xml version="1.0"?>
 <project
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-   <modelVersion>4.0.0</modelVersion>
-   <parent>
-      <artifactId>socialpm-parent</artifactId>
-      <groupId>com.ocpsoft</groupId>
-      <version>1.0.0-SNAPSHOT</version>
-   </parent>
-   <artifactId>socialpm-database</artifactId>
-   <name>SocialPM - Database</name>
-   <dependencies>
-      <dependency>
-         <groupId>org.hibernate</groupId>
-         <artifactId>hibernate-entitymanager</artifactId>
-         <version>4.0.0.Alpha2</version>
-         <scope>provided</scope>
-      </dependency>
-      
-      <dependency>
-         <groupId>org.jboss.seam.international</groupId>
-         <artifactId>seam-international</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam.security</groupId>
-         <artifactId>seam-security</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam.security</groupId>
-         <artifactId>seam-security-api</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam.persistence</groupId>
-         <artifactId>seam-persistence</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>org.jboss.seam.transaction</groupId>
-         <artifactId>seam-transaction</artifactId>
-      </dependency>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
 
-      <dependency>
-         <groupId>org.jboss.spec</groupId>
-         <artifactId>jboss-javaee-6.0</artifactId>
-         <type>pom</type>
-         <scope>provided</scope>
-      </dependency>
-      
-      <dependency>
-         <groupId>commons-codec</groupId>
-         <artifactId>commons-codec</artifactId>
-      </dependency>
-      
-      <!-- Test Dependencies -->
-      <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <scope>test</scope>
-      </dependency>
-   </dependencies>
-   <build>
-      <plugins>
-         <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.0.2</version>
-            <configuration>
-               <source>1.6</source>
-               <target>1.6</target>
-               <encoding>UTF-8</encoding>
-            </configuration>
-         </plugin>
-      </plugins>
-   </build>
+	<parent>
+		<groupId>com.ocpsoft.socialpm</groupId>
+		<artifactId>socialpm-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>socialpm-database</artifactId>
+	<name>SocialPM - Database</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.ocpsoft.socialpm</groupId>
+			<artifactId>socialpm-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.ocpsoft.socialpm</groupId>
+			<artifactId>socialpm-model</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.0.0.Alpha2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.seam.international</groupId>
+			<artifactId>seam-international</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam.security</groupId>
+			<artifactId>seam-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam.security</groupId>
+			<artifactId>seam-security-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam.persistence</groupId>
+			<artifactId>seam-persistence</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.seam.transaction</groupId>
+			<artifactId>seam-transaction</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-6.0</artifactId>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<!-- Test Dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

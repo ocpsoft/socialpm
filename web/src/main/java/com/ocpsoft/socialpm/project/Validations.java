@@ -44,11 +44,11 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 
 import com.ocpsoft.socialpm.cdi.Web;
-import com.ocpsoft.socialpm.domain.project.story.ValidationCriteria;
-import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.model.ProfileService;
-import com.ocpsoft.socialpm.model.project.ValidationService;
+import com.ocpsoft.socialpm.model.project.story.ValidationCriteria;
+import com.ocpsoft.socialpm.model.user.Profile;
 import com.ocpsoft.socialpm.security.Account;
+import com.ocpsoft.socialpm.services.ProfileService;
+import com.ocpsoft.socialpm.services.project.ValidationService;
 
 /**
  * @author <a href="mailto:bleathem@gmail.com">Brian Leathem</a>

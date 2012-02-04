@@ -44,7 +44,7 @@ import com.ocpsoft.rewrite.servlet.config.Path;
 import com.ocpsoft.rewrite.servlet.config.Redirect;
 import com.ocpsoft.rewrite.servlet.config.rule.Join;
 import com.ocpsoft.socialpm.cdi.LoggedIn;
-import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>

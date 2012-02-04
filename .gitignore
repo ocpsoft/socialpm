@@ -9,3 +9,9 @@
 *transaction.log
 */data/*
 *~
+*/src/main/webapp/WEB-INF/lib*
+*/src/main/webapp/WEB-INF/classes*
+*/src/main/webapp/app*
+*.errai
+*.gwt
+rebel.xml

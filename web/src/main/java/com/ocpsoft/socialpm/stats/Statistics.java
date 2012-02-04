@@ -38,8 +38,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 
-import com.ocpsoft.socialpm.model.ProfileService;
-import com.ocpsoft.socialpm.model.project.ProjectService;
+import com.ocpsoft.socialpm.services.ProfileService;
+import com.ocpsoft.socialpm.services.project.ProjectService;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>

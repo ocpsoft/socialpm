@@ -41,8 +41,8 @@ import javax.faces.event.ValueChangeListener;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import com.ocpsoft.socialpm.domain.project.story.Task;
 import com.ocpsoft.socialpm.faces.listener.events.TaskCommand;
+import com.ocpsoft.socialpm.model.project.story.Task;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>

@@ -55,13 +55,13 @@ import org.picketlink.idm.api.IdentitySessionFactory;
 import org.picketlink.idm.api.User;
 import org.picketlink.idm.common.exception.IdentityException;
 
-import com.ocpsoft.socialpm.domain.config.Setting;
-import com.ocpsoft.socialpm.domain.project.Project;
-import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
-import com.ocpsoft.socialpm.domain.security.IdentityObjectCredentialType;
-import com.ocpsoft.socialpm.domain.security.IdentityObjectType;
-import com.ocpsoft.socialpm.domain.user.Profile;
-import com.ocpsoft.socialpm.model.project.ProjectService;
+import com.ocpsoft.socialpm.model.config.Setting;
+import com.ocpsoft.socialpm.model.project.Project;
+import com.ocpsoft.socialpm.model.project.iteration.Iteration;
+import com.ocpsoft.socialpm.model.security.IdentityObjectCredentialType;
+import com.ocpsoft.socialpm.model.security.IdentityObjectType;
+import com.ocpsoft.socialpm.model.user.Profile;
+import com.ocpsoft.socialpm.services.project.ProjectService;
 
 /**
  * Validates that the database contains the minimum required entities to function
