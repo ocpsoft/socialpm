@@ -25,10 +25,10 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.0.0.Alpha2</version>
-			<scope>provided</scope>
+            <version>4.0.1.Final</version>
+            <scope>provided</scope>
 		</dependency>
-
+        
 		<dependency>
 			<groupId>org.jboss.seam.international</groupId>
 			<artifactId>seam-international</artifactId>

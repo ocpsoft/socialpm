@@ -81,7 +81,7 @@ public class App
 
    public void response(@Observes Response event)
    {
-      System.out.println("Got a Response!");
+      System.out.println("Got a Response! ");
       responseLabel.setText("HelloMessage from Server: " + event.getMessage().toUpperCase());
    }
 
