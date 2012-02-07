@@ -1,4 +1,4 @@
-package com.ocpsoft.socialpm.client.local;
+package com.ocpsoft.socialpm.gwt.client.local;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Observes;

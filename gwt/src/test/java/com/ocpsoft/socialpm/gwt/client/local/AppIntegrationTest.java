@@ -1,4 +1,4 @@
-package com.ocpsoft.socialpm.client.local;
+package com.ocpsoft.socialpm.gwt.client.local;
 
 import org.jboss.errai.enterprise.client.cdi.AbstractErraiCDITest;
 import org.jboss.errai.enterprise.client.cdi.api.CDI;
