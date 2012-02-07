@@ -75,7 +75,7 @@ public class App
    void fireMessage()
    {
       String text = message.getText();
-      HelloMessage event = new HelloMessage(text + "Lincoln sys hi");
+      HelloMessage event = new HelloMessage(text);
       messageEvent.fire(event);
    }
 
