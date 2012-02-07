@@ -1,11 +1,11 @@
 /**
- * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM) 
+ * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM)
  *
  * Copyright (c)2011 Lincoln Baxter, III <lincoln@ocpsoft.com> (OCPsoft)
  * Copyright (c)2011 OCPsoft.com (http://ocpsoft.com)
  * 
- * If you are developing and distributing open source applications under 
- * the GNU General Public License (GPL), then you are free to re-distribute SocialPM 
+ * If you are developing and distributing open source applications under
+ * the GNU General Public License (GPL), then you are free to re-distribute SocialPM
  * under the terms of the GPL, as follows:
  *
  * SocialPM is free software: you can redistribute it and/or modify
@@ -23,12 +23,12 @@
  * 
  * For individuals or entities who wish to use SocialPM privately, or
  * internally, the following terms do not apply:
- *  
- * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their 
- * products, or host their product online, OCPsoft provides flexible 
+ * 
+ * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their
+ * products, or host their product online, OCPsoft provides flexible
  * OEM commercial licenses.
  * 
- * Optionally, Customers may choose a Commercial License. For additional 
+ * Optionally, Customers may choose a Commercial License. For additional
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 package com.ocpsoft.socialpm.util;
@@ -209,16 +209,16 @@ public class Dates
       public final static int SEMI_MONTH = 1001;
 
       private static final int[][] fields = {
-               { Calendar.MILLISECOND },
-               { Calendar.SECOND },
-               { Calendar.MINUTE },
-               { Calendar.HOUR_OF_DAY, Calendar.HOUR },
-               { Calendar.DATE, Calendar.DAY_OF_MONTH, Calendar.AM_PM
-               /* Calendar.DAY_OF_YEAR, Calendar.DAY_OF_WEEK, Calendar.DAY_OF_WEEK_IN_MONTH */
-               },
-               { Calendar.MONTH, DateUtils.SEMI_MONTH },
-               { Calendar.YEAR },
-               { Calendar.ERA } };
+         { Calendar.MILLISECOND },
+         { Calendar.SECOND },
+         { Calendar.MINUTE },
+         { Calendar.HOUR_OF_DAY, Calendar.HOUR },
+         { Calendar.DATE, Calendar.DAY_OF_MONTH, Calendar.AM_PM
+            /* Calendar.DAY_OF_YEAR, Calendar.DAY_OF_WEEK, Calendar.DAY_OF_WEEK_IN_MONTH */
+         },
+         { Calendar.MONTH, DateUtils.SEMI_MONTH },
+         { Calendar.YEAR },
+         { Calendar.ERA } };
 
       /**
        * A week range, starting on Sunday.
@@ -1782,6 +1782,7 @@ public class Dates
           * 
           * @return <code>true</code> if the iterator has yet to reach the end date
           */
+         @Override
          public boolean hasNext()
          {
             return spot.before(endFinal);
@@ -1792,6 +1793,7 @@ public class Dates
           * 
           * @return Object calendar for the next date
           */
+         @Override
          public Object next()
          {
             if (spot.equals(endFinal)) {
@@ -1807,6 +1809,7 @@ public class Dates
           * @throws UnsupportedOperationException
           * @see java.util.Iterator#remove()
           */
+         @Override
          public void remove()
          {
             throw new UnsupportedOperationException();

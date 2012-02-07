@@ -1,8 +1,10 @@
-package com.ocpsoft.socialpm.gwt.client.local;
+package com.ocpsoft.socialpm.client.local;
 
 import org.jboss.errai.enterprise.client.cdi.AbstractErraiCDITest;
 import org.jboss.errai.enterprise.client.cdi.api.CDI;
 import org.junit.Test;
+
+import com.ocpsoft.socialpm.gwt.client.local.App;
 
 /**
  * Tests features of the quickstart application. The primary purpose of this

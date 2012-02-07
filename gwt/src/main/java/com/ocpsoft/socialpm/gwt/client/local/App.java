@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
 import com.ocpsoft.socialpm.gwt.client.shared.Response;
+import com.ocpsoft.socialpm.model.project.Project;
 
 /**
  * Main application entry point.
@@ -81,7 +82,7 @@ public class App
 
    public void response(@Observes Response event)
    {
-      System.out.println("Got a Response! ");
+      System.out.println("Got a Response! " + new Project());
       responseLabel.setText("HelloMessage from Server: " + event.getMessage().toUpperCase());
    }
 

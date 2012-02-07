@@ -1,11 +1,11 @@
 /**
- * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM) 
+ * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM)
  *
  * Copyright (c)2011 Lincoln Baxter, III <lincoln@ocpsoft.com> (OCPsoft)
  * Copyright (c)2011 OCPsoft.com (http://ocpsoft.com)
  * 
- * If you are developing and distributing open source applications under 
- * the GNU General Public License (GPL), then you are free to re-distribute SocialPM 
+ * If you are developing and distributing open source applications under
+ * the GNU General Public License (GPL), then you are free to re-distribute SocialPM
  * under the terms of the GPL, as follows:
  *
  * SocialPM is free software: you can redistribute it and/or modify
@@ -23,12 +23,12 @@
  * 
  * For individuals or entities who wish to use SocialPM privately, or
  * internally, the following terms do not apply:
- *  
- * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their 
- * products, or host their product online, OCPsoft provides flexible 
+ * 
+ * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their
+ * products, or host their product online, OCPsoft provides flexible
  * OEM commercial licenses.
  * 
- * Optionally, Customers may choose a Commercial License. For additional 
+ * Optionally, Customers may choose a Commercial License. For additional
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
@@ -57,7 +57,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import com.ocpsoft.socialpm.model.PersistentObject;
 import com.ocpsoft.socialpm.model.user.Profile;
-import com.ocpsoft.socialpm.util.Dates;
 
 @Entity
 @Table(name = "tasks")
@@ -126,14 +125,18 @@ public class Task extends PersistentObject<Task>
    {
       TaskHours currentHours = getCurrentHours();
       Date today = new Date(System.currentTimeMillis());
-      if ((currentHours == null) || !Dates.isSameDay(today, currentHours.getDate()))
+      if ((currentHours != null) && currentHours.getHoursRemain() == hoursRemain)
+      {
+         return;
+      }
+      else
       {
          currentHours = new TaskHours();
          currentHours.setDate(today);
          currentHours.setTask(this);
          hours.add(currentHours);
+         currentHours.setHoursRemain(hoursRemain);
       }
-      currentHours.setHoursRemain(hoursRemain);
    }
 
    private TaskHours getCurrentHours()

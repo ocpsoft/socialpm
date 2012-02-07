@@ -1,4 +1,4 @@
-package com.ocpsoft.socialpm.gwt.client.local;
+package com.ocpsoft.socialpm.client.local;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Observes;
@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.jboss.errai.enterprise.client.cdi.api.CDI;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 
+import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
 import com.ocpsoft.socialpm.gwt.client.shared.Response;
 

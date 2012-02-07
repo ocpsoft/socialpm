@@ -1,0 +1,40 @@
+
+
+   public IterationStatistics getCommitmentStats() throws IllegalStateException
+   {
+      if (!isDefault())
+      {
+         for (IterationStatistics stat : statistics)
+         {
+            if (stat.isCommitmentStats())
+            {
+               return stat;
+            }
+         }
+      }
+
+      return updateCommitmentStats();
+   }
+
+   public IterationStatistics updateCommitmentStats() throws IllegalStateException
+   {
+      if (!this.isDefault())
+      {
+         IterationStatistics stats;
+         try
+         {
+            stats = getLatestStatistics();
+            new StatsCalculator().update(this, stats);
+            return stats;
+         }
+         catch (NoResultException e)
+         {
+            stats = new StatsCalculator().calculate(this);
+            stats.setIteration(this);
+            statistics.add(stats);
+            return stats;
+         }
+      }
+
+      return new StatsCalculator().calculate(this);
+   }

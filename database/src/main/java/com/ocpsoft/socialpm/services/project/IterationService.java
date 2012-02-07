@@ -45,7 +45,6 @@ import javax.persistence.Query;
 
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.project.iteration.Iteration;
-import com.ocpsoft.socialpm.model.project.iteration.util.DailyStatsChain;
 import com.ocpsoft.socialpm.model.project.story.Story;
 import com.ocpsoft.socialpm.services.PersistenceUtil;
 import com.ocpsoft.socialpm.util.Dates;
@@ -78,7 +77,6 @@ public class IterationService extends PersistenceUtil
       else if (!iteration.isDefault()
                && Dates.isInPrecisionRange(iteration.getStartDate(), iteration.getEndDate(), today, Calendar.DATE))
       {
-         iteration.updateCommitmentStats();
          iteration.setCommittedOn(Dates.now());
          save(iteration);
       }
@@ -152,7 +150,6 @@ public class IterationService extends PersistenceUtil
    public void updateIterationStatistics(final Iteration iteration)
             throws IllegalStateException
    {
-      DailyStatsChain.getInstance().update(iteration);
       save(iteration);
    }
 

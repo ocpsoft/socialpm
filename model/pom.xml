@@ -14,11 +14,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.ocpsoft.socialpm</groupId>
-			<artifactId>socialpm-util</artifactId>
-		</dependency>
-        
-		<dependency>
 			<groupId>org.jboss.seam.security</groupId>
 			<artifactId>seam-security-api</artifactId>
             <scope>compile</scope>

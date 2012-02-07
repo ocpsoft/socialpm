@@ -39,12 +39,28 @@
 			<groupId>com.ocpsoft.socialpm</groupId>
 			<artifactId>socialpm-model</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.ocpsoft.socialpm</groupId>
+			<artifactId>socialpm-model</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+            <scope>provided</scope>
+            <type>jar</type>
+		</dependency>
         
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
             <version>4.0.1.Final</version>
             <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.0.1.Final</version>
+			<classifier>sources</classifier>
+            <scope>provided</scope>
+            <type>jar</type>
 		</dependency>
 
 		<dependency>

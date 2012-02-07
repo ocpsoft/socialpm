@@ -1,11 +1,11 @@
 /**
- * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM) 
+ * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM)
  *
  * Copyright (c)2011 Lincoln Baxter, III <lincoln@ocpsoft.com> (OCPsoft)
  * Copyright (c)2011 OCPsoft.com (http://ocpsoft.com)
  * 
- * If you are developing and distributing open source applications under 
- * the GNU General Public License (GPL), then you are free to re-distribute SocialPM 
+ * If you are developing and distributing open source applications under
+ * the GNU General Public License (GPL), then you are free to re-distribute SocialPM
  * under the terms of the GPL, as follows:
  *
  * SocialPM is free software: you can redistribute it and/or modify
@@ -23,12 +23,12 @@
  * 
  * For individuals or entities who wish to use SocialPM privately, or
  * internally, the following terms do not apply:
- *  
- * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their 
- * products, or host their product online, OCPsoft provides flexible 
+ * 
+ * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their
+ * products, or host their product online, OCPsoft provides flexible
  * OEM commercial licenses.
  * 
- * Optionally, Customers may choose a Commercial License. For additional 
+ * Optionally, Customers may choose a Commercial License. For additional
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
@@ -60,14 +60,13 @@ import com.ocpsoft.socialpm.model.DeletableObject;
 import com.ocpsoft.socialpm.model.project.iteration.Iteration;
 import com.ocpsoft.socialpm.model.project.story.Story;
 import com.ocpsoft.socialpm.model.user.Profile;
-import com.ocpsoft.socialpm.util.Strings;
 
 @Entity
 @Table(name = "projects", uniqueConstraints = { @UniqueConstraint(columnNames = { "owner_id", "slug" }) })
 @NamedQueries({
-         @NamedQuery(name = "project.byProfileAndSlug", query = "FROM Project WHERE owner = ? AND slug = ?"),
-         @NamedQuery(name = "project.count", query = "select count(*) from Project"),
-         @NamedQuery(name = "project.list", query = "from Project p order by p.slug asc") })
+   @NamedQuery(name = "project.byProfileAndSlug", query = "FROM Project WHERE owner = ? AND slug = ?"),
+   @NamedQuery(name = "project.count", query = "select count(*) from Project"),
+   @NamedQuery(name = "project.list", query = "from Project p order by p.slug asc") })
 public class Project extends DeletableObject<Project>
 {
    private static final long serialVersionUID = 719438791700341079L;
@@ -537,7 +536,7 @@ public class Project extends DeletableObject<Project>
    {
       if (slug != null)
       {
-         slug = Strings.canonicalize(slug);
+         slug = canonicalize(slug);
          slug = slug.toLowerCase();
       }
       this.slug = slug;
@@ -551,6 +550,16 @@ public class Project extends DeletableObject<Project>
    public void setOwner(final Profile owner)
    {
       this.owner = owner;
+   }
+
+   public static String canonicalize(final String name)
+   {
+      String result = null;
+      if (name != null)
+      {
+         result = name.toLowerCase().replace(' ', '-').replaceAll("[^a-z0-9-]*", "").replaceAll("-+", "-");
+      }
+      return result;
    }
 
 }

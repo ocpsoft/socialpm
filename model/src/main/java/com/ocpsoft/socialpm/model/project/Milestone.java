@@ -57,7 +57,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import com.ocpsoft.socialpm.model.PersistentObject;
 import com.ocpsoft.socialpm.model.project.story.Story;
-import com.ocpsoft.socialpm.util.Dates;
 
 @Entity
 @Table(name = "milestones", uniqueConstraints = { @UniqueConstraint(columnNames = { "name", "targetDate", "project_id" }) })
@@ -97,7 +96,7 @@ public class Milestone extends PersistentObject<Milestone>
 
    public boolean isUpcoming()
    {
-      return Dates.isDateInFuture(targetDate);
+      return new Date().before(targetDate);
    }
 
    public String getName()

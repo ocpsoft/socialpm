@@ -1,11 +1,11 @@
 /**
- * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM) 
+ * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM)
  *
  * Copyright (c)2011 Lincoln Baxter, III <lincoln@ocpsoft.com> (OCPsoft)
  * Copyright (c)2011 OCPsoft.com (http://ocpsoft.com)
  * 
- * If you are developing and distributing open source applications under 
- * the GNU General Public License (GPL), then you are free to re-distribute SocialPM 
+ * If you are developing and distributing open source applications under
+ * the GNU General Public License (GPL), then you are free to re-distribute SocialPM
  * under the terms of the GPL, as follows:
  *
  * SocialPM is free software: you can redistribute it and/or modify
@@ -23,12 +23,12 @@
  * 
  * For individuals or entities who wish to use SocialPM privately, or
  * internally, the following terms do not apply:
- *  
- * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their 
- * products, or host their product online, OCPsoft provides flexible 
+ * 
+ * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their
+ * products, or host their product online, OCPsoft provides flexible
  * OEM commercial licenses.
  * 
- * Optionally, Customers may choose a Commercial License. For additional 
+ * Optionally, Customers may choose a Commercial License. For additional
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
@@ -50,7 +50,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.NoResultException;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -63,17 +62,15 @@ import org.hibernate.annotations.Formula;
 
 import com.ocpsoft.socialpm.model.PersistentObject;
 import com.ocpsoft.socialpm.model.project.Project;
-import com.ocpsoft.socialpm.model.project.iteration.util.StatsCalculator;
 import com.ocpsoft.socialpm.model.project.story.Status;
 import com.ocpsoft.socialpm.model.project.story.Story;
 import com.ocpsoft.socialpm.model.project.story.StoryBurner;
-import com.ocpsoft.socialpm.util.Dates;
 
 @Entity
 @Table(name = "iterations")
 @NamedQueries({
-         @NamedQuery(name = "Iteration.byProjectAndNumber", query = "from Iteration where project = ? and number = ?"),
-         @NamedQuery(name = "Iteration.byProjectId", query = "from Iteration where project.id = ?")
+   @NamedQuery(name = "Iteration.byProjectAndNumber", query = "from Iteration where project = ? and number = ?"),
+   @NamedQuery(name = "Iteration.byProjectId", query = "from Iteration where project.id = ?")
 })
 public class Iteration extends PersistentObject<Iteration>
 {
@@ -131,12 +128,11 @@ public class Iteration extends PersistentObject<Iteration>
    @PreUpdate
    public void beforeCreate()
    {
-      updateCommitmentStats();
    }
 
    public int getTaskHoursRemain()
    {
-      IterationStatistics stats = getStatistics(Dates.now());
+      IterationStatistics stats = getLatestStatistics();
       return stats.getHoursRemain();
    }
 
@@ -162,60 +158,30 @@ public class Iteration extends PersistentObject<Iteration>
       return result;
    }
 
-   public IterationStatistics getCommitmentStats() throws IllegalStateException
+   public IterationStatistics getFirstStatistics()
    {
-      if (!isDefault())
+      IterationStatistics result = null;
+      for (IterationStatistics s : statistics)
       {
-         for (IterationStatistics stat : statistics)
+         if (result == null || s.getDate().before(result.getDate()))
          {
-            if (stat.isCommitmentStats())
-            {
-               return stat;
-            }
+            result = s;
          }
       }
-
-      return updateCommitmentStats();
+      return result;
    }
 
-   public IterationStatistics updateCommitmentStats() throws IllegalStateException
+   public IterationStatistics getLatestStatistics()
    {
-      if (!this.isDefault())
+      IterationStatistics result = null;
+      for (IterationStatistics s : statistics)
       {
-         IterationStatistics stats;
-         try
+         if (result == null || result.getDate().before(s.getDate()))
          {
-            stats = getStatistics(null);
-            new StatsCalculator().update(this, stats);
-            return stats;
-         }
-         catch (NoResultException e)
-         {
-            stats = new StatsCalculator().calculate(this);
-            stats.setIteration(this);
-            statistics.add(stats);
-            return stats;
+            result = s;
          }
       }
-
-      return new StatsCalculator().calculate(this);
-   }
-
-   public IterationStatistics getStatistics(final Date date) throws NoResultException
-   {
-      for (IterationStatistics stat : statistics)
-      {
-         if ((date == null) && stat.isCommitmentStats())
-         {
-            return stat;
-         }
-         else if ((date != null) && !stat.isCommitmentStats() && Dates.isSameDay(date, stat.getDate()))
-         {
-            return stat;
-         }
-      }
-
-      throw new NoResultException("No stats exist for date: " + date);
+      return result;
    }
 
    public boolean isCommitted()
