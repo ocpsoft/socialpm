@@ -24,7 +24,7 @@
 	</prerequisites>
 
 	<modules>
-		<module>database</module>
+		<module>services</module>
 		<module>web</module>
 		<module>tests</module>
 		<module>gwt</module>
@@ -59,7 +59,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.ocpsoft.socialpm</groupId>
-				<artifactId>socialpm-database</artifactId>
+				<artifactId>socialpm-services</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>

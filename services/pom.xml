@@ -9,8 +9,8 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>socialpm-database</artifactId>
-	<name>SocialPM - Database</name>
+	<artifactId>socialpm-services</artifactId>
+	<name>SocialPM - Services</name>
 
 	<dependencies>
 		<dependency>

@@ -37,7 +37,7 @@
 
 		<dependency>
 			<groupId>com.ocpsoft.socialpm</groupId>
-			<artifactId>socialpm-database</artifactId>
+			<artifactId>socialpm-services</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.ocpsoft.socialpm</groupId>

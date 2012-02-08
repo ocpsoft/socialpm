@@ -15,24 +15,26 @@
  */
 package com.ocpsoft.socialpm.gwt.server;
 
-import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
-import com.ocpsoft.socialpm.gwt.client.shared.Response;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
+import com.ocpsoft.socialpm.gwt.client.shared.Response;
+
 /**
  * A very simple CDI based service.
  */
 @ApplicationScoped
-public class SimpleCDIService {
-  @Inject
-  private Event<Response> responseEvent;
+public class SimpleCDIService
+{
+   @Inject
+   private Event<Response> responseEvent;
 
-  public void handleMessage(@Observes HelloMessage event) {
-    System.out.println("Received HelloMessage from Client: " + event.getMessage());
-    responseEvent.fire(new Response(event.getMessage() + " @ timemillis: " + System.currentTimeMillis()));
-  }
+   public void handleMessage(@Observes HelloMessage event)
+   {
+      System.out.println("Received HelloMessage from Client: " + event.getMessage());
+      responseEvent.fire(new Response(event.getMessage() + " @ timemillis: " + System.currentTimeMillis()));
+   }
 }
