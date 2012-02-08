@@ -24,6 +24,9 @@ import org.jboss.errai.ioc.client.api.EntryPoint;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -50,6 +53,15 @@ public class App
    @PostConstruct
    public void buildUI()
    {
+      message.addKeyUpHandler(new KeyUpHandler() {
+
+         @Override
+         public void onKeyUp(KeyUpEvent event)
+         {
+            if (KeyCodes.KEY_ENTER == event.getNativeKeyCode())
+               fireMessage();
+         }
+      });
 
       button.addClickHandler(new ClickHandler() {
          @Override
@@ -84,7 +96,7 @@ public class App
    {
       Project project = new Project();
       project.setName("demoProject");
-	System.out.println("Got a Response! " + project);
+      System.out.println("Got a Response! " + project);
       responseLabel.setText("HelloMessage from Server: " + event.getMessage().toUpperCase());
    }
 
