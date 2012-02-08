@@ -51,7 +51,6 @@ import com.ocpsoft.socialpm.web.ParamsBean;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
- * 
  */
 @Named("profiles")
 @RequestScoped
