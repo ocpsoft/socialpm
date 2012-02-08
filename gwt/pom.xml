@@ -42,6 +42,11 @@
             <scope>provided</scope>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.0</version>
+        </dependency>
         
         <dependency>
             <groupId>com.ocpsoft.rewrite</groupId>
@@ -708,7 +713,7 @@
 						<configuration>
 							<warSourceDirectory>src/main/webapp</warSourceDirectory>
 							<webappDirectory>src/main/webapp</webappDirectory>
-							<webXml>src/jetty/web.xml</webXml>
+							<webXml>src/jboss/web.xml</webXml>
 							<packagingExcludes>**/javax/**/*.*,**/client/local/**/*.class</packagingExcludes>
 
 							<archive>
@@ -734,6 +739,7 @@
 
 										<delete file="src/main/webapp/WEB-INF/jetty-env.xml" />
 										<delete file="src/main/webapp/WEB-INF/classes/jndi.properties" />
+										<delete file="src/main/resources/jndi.properties" />
 									</tasks>
 								</configuration>
 								<goals>
