@@ -82,7 +82,9 @@ public class App
 
    public void response(@Observes Response event)
    {
-      System.out.println("Got a Response! " + new Project());
+      Project project = new Project();
+      project.setName("demoProject");
+	System.out.println("Got a Response! " + project);
       responseLabel.setText("HelloMessage from Server: " + event.getMessage().toUpperCase());
    }
 
