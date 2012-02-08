@@ -76,15 +76,13 @@ public class App
    void fireMessage()
    {
       String text = message.getText();
-      HelloMessage event = new HelloMessage(text);
+      HelloMessage event = new HelloMessage(text + new Project());
       messageEvent.fire(event);
    }
 
    public void response(@Observes Response event)
    {
-      Project project = new Project();
-      project.setName("demoProject");
-	System.out.println("Got a Response! " + project);
+      System.out.println("Got a Response!");
       responseLabel.setText("HelloMessage from Server: " + event.getMessage().toUpperCase());
    }
 
