@@ -26,22 +26,18 @@
 		<dependency>
 			<groupId>com.ocpsoft.rewrite</groupId>
 			<artifactId>rewrite-impl-servlet</artifactId>
-			<version>${version.rewrite}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ocpsoft.rewrite</groupId>
 			<artifactId>rewrite-integration-cdi</artifactId>
-			<version>${version.rewrite}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ocpsoft.rewrite</groupId>
 			<artifactId>rewrite-integration-faces</artifactId>
-			<version>${version.rewrite}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ocpsoft.rewrite</groupId>
 			<artifactId>rewrite-logging-jboss</artifactId>
-			<version>${version.rewrite}</version>
 		</dependency>
 
 
@@ -70,6 +66,15 @@
 		<dependency>
 			<groupId>org.jboss.seam.faces</groupId>
 			<artifactId>seam-faces-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.richfaces.ui</groupId>
+			<artifactId>richfaces-components-ui</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.richfaces.core</groupId>
+			<artifactId>richfaces-core-impl</artifactId>
 		</dependency>
 
 		<dependency>

@@ -31,7 +31,7 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.security;
+package com.ocpsoft.socialpm.security.validator;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -40,34 +40,36 @@ import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
-import com.ocpsoft.socialpm.util.StringValidations;
+import com.ocpsoft.socialpm.cdi.LoggedIn;
+import com.ocpsoft.socialpm.model.user.Profile;
+import com.ocpsoft.socialpm.services.ProfileService;
 
 @RequestScoped
-@FacesValidator("usernameValidator")
-public class UsernameValidator implements Validator
+@FacesValidator("signupEmailAvailabilityValidator")
+public class SignupEmailAvailabilityValidator implements Validator
 {
+   @Inject
+   private EntityManager em;
+
+   @Inject
+   private ProfileService ps;
+
+   @Inject
+   @LoggedIn
+   private Profile profile;
+
    @Override
    public void validate(final FacesContext context, final UIComponent comp, final Object value)
             throws ValidatorException
    {
-      if (value instanceof String) {
-         String username = (String) value;
-         if (username.length() > 30)
-            throw new ValidatorException(
-                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                              "Too long (maximum is 30 characters), may only " +
-                                       "contain alphanumeric characters or dashes, and " +
-                                       "cannot begin with a dash", null));
-
-         if (!StringValidations.isAlphanumericDash(username))
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                     "May only contain alphanumeric characters or dashes and cannot begin with a dash", null));
-
-         if (username.startsWith("-"))
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must not start with a dash",
+      if (value instanceof String && !value.equals(profile.getUsername())) {
+         ps.setEntityManager(em);
+         if (!ps.isEmailAddressAvailable((String) value))
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Already in use",
                      null));
-
       }
    }
 }

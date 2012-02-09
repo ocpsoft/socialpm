@@ -2,6 +2,7 @@
 *.project
 *.settings
 *bin/*
+*/bin/*
 *target/*
 */target/*
 *.jsfdia

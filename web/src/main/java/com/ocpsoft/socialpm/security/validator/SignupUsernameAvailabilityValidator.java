@@ -31,7 +31,7 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.security;
+package com.ocpsoft.socialpm.security.validator;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -41,30 +41,34 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
-import org.jboss.seam.faces.validation.InputElement;
+import com.ocpsoft.socialpm.cdi.LoggedIn;
+import com.ocpsoft.socialpm.model.user.Profile;
+import com.ocpsoft.socialpm.services.ProfileService;
 
 @RequestScoped
-@FacesValidator("signupValidator")
-public class SignupValidator implements Validator
+@FacesValidator("signupUsernameAvailabilityValidator")
+public class SignupUsernameAvailabilityValidator implements Validator
 {
    @Inject
-   private InputElement<String> password;
+   private EntityManager em;
+
    @Inject
-   private InputElement<String> passwordConfirm;
+   private ProfileService ps;
+
+   @Inject
+   @LoggedIn
+   private Profile profile;
 
    @Override
-   public void validate(final FacesContext context, final UIComponent comp, final Object values)
+   public void validate(final FacesContext context, final UIComponent comp, final Object value)
             throws ValidatorException
    {
-      if (((passwordConfirm.getValue() == null)
-               || ("".equals(passwordConfirm.getValue())))
-               && !(password.getValue() == null || !"".equals(password.getValue())))
-      {
-         passwordConfirm.getComponent().setValid(false);
-         passwordConfirm.getComponent().setValidatorMessage("Confirm your password");
-         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please confirm your password.",
-                  null));
+      if (value instanceof String && !value.equals(profile.getUsername())) {
+         ps.setEntityManager(em);
+         if (!ps.isUsernameAvailable((String) value))
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Not available", null));
       }
    }
 }

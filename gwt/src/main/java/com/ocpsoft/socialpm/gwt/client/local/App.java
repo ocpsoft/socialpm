@@ -20,21 +20,29 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import org.jboss.errai.bus.client.api.ErrorCallback;
+import org.jboss.errai.bus.client.api.Message;
+import org.jboss.errai.bus.client.api.RemoteCallback;
+import org.jboss.errai.ioc.client.api.Caller;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.ocpsoft.socialpm.gwt.client.local.template.BreadCrumb;
+import com.ocpsoft.socialpm.gwt.client.local.template.BreadCrumbStack;
+import com.ocpsoft.socialpm.gwt.client.local.template.HeroPanel;
+import com.ocpsoft.socialpm.gwt.client.local.template.SideNav;
 import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
 import com.ocpsoft.socialpm.gwt.client.shared.Response;
+import com.ocpsoft.socialpm.gwt.client.shared.rpc.LoginService;
 import com.ocpsoft.socialpm.model.project.Project;
+import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
  * Main application entry point.
@@ -46,66 +54,135 @@ public class App
    @Inject
    private Event<HelloMessage> messageEvent;
 
+   @Inject
+   private Caller<LoginService> loginService;
+
    private final Label responseLabel = new Label();
-   private final Button button = new Button("Send");
-   private final TextBox message = new TextBox();
+   private final TextBox messageBox = new TextBox();
+   private final Anchor anchor = new Anchor("Learn more »");
+   private final SideNav sideNav = new SideNav();
+   private final BreadCrumbStack topBreadCrumbs = new BreadCrumbStack();
+
+   private final HeroPanel hero = new HeroPanel().setHeading("Lincoln Hero!")
+            .setContent("This is a hero panel added by JAVA!")
+            .addAction(anchor);
+
+   ClickHandler sendMessage = new ClickHandler() {
+      @Override
+      public void onClick(ClickEvent event)
+      {
+         System.out.println("Handling click event!");
+         event.preventDefault();
+         fireMessage();
+      }
+   };
+
+   RemoteCallback<Profile> success = new RemoteCallback<Profile>() {
+
+      @Override
+      public void callback(Profile response)
+      {
+         System.out.println("Success!");
+      }
+
+   };
+   ErrorCallback failure = new ErrorCallback() {
+
+      @Override
+      public boolean error(Message message, Throwable throwable)
+      {
+         System.out.println("Failure!");
+         return false;
+      }
+   };
 
    @PostConstruct
    public void buildUI()
    {
-      message.addKeyUpHandler(new KeyUpHandler() {
+      buildHero();
+      buildSideNav();
+      buildBreadCrumbs();
 
-         @Override
-         public void onKeyUp(KeyUpEvent event)
-         {
-            if (KeyCodes.KEY_ENTER == event.getNativeKeyCode())
-               fireMessage();
-         }
-      });
+      HorizontalPanel login = new HorizontalPanel();
+      final TextBox username = new TextBox();
+      final TextBox password = new TextBox();
+      Button submit = new Button();
+      submit.setText("Login");
 
-      button.addClickHandler(new ClickHandler() {
+      submit.addClickHandler(new ClickHandler() {
          @Override
          public void onClick(ClickEvent event)
          {
-            System.out.println("Handling click event!");
-            fireMessage();
+
+            System.out.println("Clicked!");
+            System.out.println(username.getText() + "/" + password.getText());
+
+            Profile profile = loginService.call(success, failure).login(username.getText(), password.getText());
+            System.out.println("After RPC!");
+
+            System.out.println("Profile = " + profile);
          }
       });
 
-      HorizontalPanel horizontalPanel = new HorizontalPanel();
-      horizontalPanel.add(message);
-      horizontalPanel.add(button);
-      horizontalPanel.add(responseLabel);
+      login.add(username);
+      login.add(password);
+      login.add(submit);
 
-      RootPanel.get().add(horizontalPanel);
+      RootPanel.get("account").add(login);
 
       System.out.println("UI Constructed!");
    }
 
-   /**
-    * Fires a CDI HelloMessage with the current contents of the message textbox.
-    */
+   private void buildHero()
+   {
+      anchor.addStyleName("btn btn-primary btn-large");
+      anchor.setHref("/learn");
+      anchor.addClickHandler(sendMessage);
+      RootPanel.get("content").add(hero);
+   }
+
+   private void buildBreadCrumbs()
+   {
+      topBreadCrumbs.push(new BreadCrumb().setWidget(new Anchor("Home")));
+      topBreadCrumbs.push(new BreadCrumb().setWidget(new Anchor("Lincoln")));
+      topBreadCrumbs.push(new BreadCrumb().setWidget(new Anchor("SocialPM")));
+      BreadCrumb temp = topBreadCrumbs.pop();
+      topBreadCrumbs.push(temp);
+      RootPanel.get("breadcrumbs").add(topBreadCrumbs);
+   }
+
+   private void buildSideNav()
+   {
+      sideNav.addSectionHeader("Projects");
+      sideNav.addLink(new Anchor("SocialPM"));
+      sideNav.addLink(new Anchor("Rewrite"), true);
+      sideNav.addLink(new Anchor("PrettyFaces"));
+      sideNav.addLink(new Anchor("PrettyTime"));
+      RootPanel.get("sidenav").add(sideNav);
+   }
+
    void fireMessage()
    {
-      String text = message.getText();
-      HelloMessage event = new HelloMessage(text);
-      messageEvent.fire(event);
+      String text = messageBox.getText();
+      Project project = new Project();
+      project.setName("foo");
+      HelloMessage event1 = new HelloMessage(text + project);
+      messageEvent.fire(event1);
    }
 
    public void response(@Observes Response event)
    {
-      Project project = new Project();
-      project.setName("demoProject");
-      System.out.println("Got a Response! " + project);
+      System.out.println("Got a Response!");
       responseLabel.setText("HelloMessage from Server: " + event.getMessage().toUpperCase());
+      hero.setContent(event.getMessage());
    }
 
    /**
     * Returns the "Send" button. Exposed for testing.
     */
-   Button getSendButton()
+   Anchor getSendButton()
    {
-      return button;
+      return anchor;
    }
 
    /**
@@ -121,6 +198,6 @@ public class App
     */
    TextBox getMessageBox()
    {
-      return message;
+      return messageBox;
    }
 }
