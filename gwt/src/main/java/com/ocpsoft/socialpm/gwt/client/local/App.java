@@ -120,7 +120,10 @@ public class App
             Profile profile = loginService.call(success, failure).login(username.getText(), password.getText());
             System.out.println("After RPC!");
 
-            System.out.println("Profile = " + profile);
+            if (profile != null)
+               System.out.println("Profile = " + profile.getUsername());
+            else
+               System.out.println("Profile was null!");
          }
       });
 
