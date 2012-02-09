@@ -66,7 +66,7 @@ import com.ocpsoft.socialpm.services.project.ProjectService;
 /**
  * Validates that the database contains the minimum required entities to function
  * 
- * @author Shane Bryzak
+ * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 @Transactional(TransactionPropagation.REQUIRED)
 public class InitializeDatabase

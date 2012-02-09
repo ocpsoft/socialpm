@@ -31,7 +31,7 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.security;
+package com.ocpsoft.socialpm.security.validator;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -41,35 +41,43 @@ import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
-import com.ocpsoft.socialpm.cdi.LoggedIn;
-import com.ocpsoft.socialpm.model.user.Profile;
-import com.ocpsoft.socialpm.services.ProfileService;
+import org.jboss.seam.faces.validation.InputElement;
 
 @RequestScoped
-@FacesValidator("signupEmailAvailabilityValidator")
-public class SignupEmailAvailabilityValidator implements Validator
+@FacesValidator("passwordConfirm")
+public class PasswordConfirmValidator implements Validator
 {
    @Inject
-   private EntityManager em;
+   private InputElement<String> password;
 
    @Inject
-   private ProfileService ps;
-
-   @Inject
-   @LoggedIn
-   private Profile profile;
+   private InputElement<String> passwordConfirm;
 
    @Override
-   public void validate(final FacesContext context, final UIComponent comp, final Object value)
+   public void validate(final FacesContext context, final UIComponent comp, final Object values)
             throws ValidatorException
    {
-      if (value instanceof String && !value.equals(profile.getUsername())) {
-         ps.setEntityManager(em);
-         if (!ps.isEmailAddressAvailable((String) value))
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Already in use",
-                     null));
+      String passwordValue = password.getValue();
+      String passwordConfirmValue = passwordConfirm.getValue();
+
+      boolean ignore = false;
+      if ((passwordValue == null) || "".equals(passwordValue))
+      {
+         password.getComponent().setValid(false);
+         ignore = true;
+      }
+
+      if ((passwordConfirmValue == null) || ("".equals(passwordConfirmValue)))
+      {
+         passwordConfirm.getComponent().setValid(false);
+         ignore = true;
+      }
+
+      if (!ignore && !passwordValue.equals(passwordConfirmValue))
+      {
+         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords do not match.",
+                  null));
       }
    }
 }

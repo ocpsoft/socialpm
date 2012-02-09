@@ -31,7 +31,7 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.security;
+package com.ocpsoft.socialpm.security.validator;
 
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -45,12 +45,11 @@ import javax.inject.Inject;
 import org.jboss.seam.faces.validation.InputElement;
 
 @RequestScoped
-@FacesValidator("passwordConfirm")
-public class PasswordConfirmValidator implements Validator
+@FacesValidator("signupValidator")
+public class SignupValidator implements Validator
 {
    @Inject
    private InputElement<String> password;
-
    @Inject
    private InputElement<String> passwordConfirm;
 
@@ -58,25 +57,13 @@ public class PasswordConfirmValidator implements Validator
    public void validate(final FacesContext context, final UIComponent comp, final Object values)
             throws ValidatorException
    {
-      String passwordValue = password.getValue();
-      String passwordConfirmValue = passwordConfirm.getValue();
-
-      boolean ignore = false;
-      if ((passwordValue == null) || "".equals(passwordValue))
-      {
-         password.getComponent().setValid(false);
-         ignore = true;
-      }
-
-      if ((passwordConfirmValue == null) || ("".equals(passwordConfirmValue)))
+      if (((passwordConfirm.getValue() == null)
+               || ("".equals(passwordConfirm.getValue())))
+               && !(password.getValue() == null || !"".equals(password.getValue())))
       {
          passwordConfirm.getComponent().setValid(false);
-         ignore = true;
-      }
-
-      if (!ignore && !passwordValue.equals(passwordConfirmValue))
-      {
-         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Passwords do not match.",
+         passwordConfirm.getComponent().setValidatorMessage("Confirm your password");
+         throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Please confirm your password.",
                   null));
       }
    }

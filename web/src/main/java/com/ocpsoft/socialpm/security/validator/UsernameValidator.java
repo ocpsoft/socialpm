@@ -31,32 +31,42 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.security;
+package com.ocpsoft.socialpm.security.validator;
 
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
+import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.FacesValidator;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 
-import org.jboss.seam.security.Identity;
-import org.jboss.seam.security.events.PostAuthenticateEvent;
-import org.jboss.seam.security.external.openid.OpenIdUser;
-import org.jboss.seam.transaction.Transactional;
-import org.picketlink.idm.common.exception.IdentityException;
+import com.ocpsoft.socialpm.util.StringValidations;
 
 @RequestScoped
-public class PostAuthenticateObserver
+@FacesValidator("usernameValidator")
+public class UsernameValidator implements Validator
 {
-   @Inject
-   private Identity identity;
-
-   public @Transactional
-   void observePostAuthenticate(@Observes final PostAuthenticateEvent event) throws IdentityException
+   @Override
+   public void validate(final FacesContext context, final UIComponent comp, final Object value)
+            throws ValidatorException
    {
-      Object user = identity.getUser();
+      if (value instanceof String) {
+         String username = (String) value;
+         if (username.length() > 30)
+            throw new ValidatorException(
+                     new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                              "Too long (maximum is 30 characters), may only " +
+                                       "contain alphanumeric characters or dashes, and " +
+                                       "cannot begin with a dash", null));
 
-      if (user instanceof OpenIdUser) {}
-      else
-      {
+         if (!StringValidations.isAlphanumericDash(username))
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                     "May only contain alphanumeric characters or dashes and cannot begin with a dash", null));
+
+         if (username.startsWith("-"))
+            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Must not start with a dash",
+                     null));
 
       }
    }

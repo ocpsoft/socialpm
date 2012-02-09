@@ -26,22 +26,18 @@
 		<dependency>
 			<groupId>com.ocpsoft.rewrite</groupId>
 			<artifactId>rewrite-impl-servlet</artifactId>
-			<version>${version.rewrite}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ocpsoft.rewrite</groupId>
 			<artifactId>rewrite-integration-cdi</artifactId>
-			<version>${version.rewrite}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ocpsoft.rewrite</groupId>
 			<artifactId>rewrite-integration-faces</artifactId>
-			<version>${version.rewrite}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ocpsoft.rewrite</groupId>
 			<artifactId>rewrite-logging-jboss</artifactId>
-			<version>${version.rewrite}</version>
 		</dependency>
 
 

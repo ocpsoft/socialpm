@@ -31,7 +31,7 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.security;
+package com.ocpsoft.socialpm.security.authentication;
 
 import java.io.IOException;
 

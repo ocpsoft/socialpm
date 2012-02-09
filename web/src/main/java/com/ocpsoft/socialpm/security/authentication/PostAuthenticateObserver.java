@@ -31,44 +31,33 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.security;
+package com.ocpsoft.socialpm.security.authentication;
 
 import javax.enterprise.context.RequestScoped;
-import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.FacesValidator;
-import javax.faces.validator.Validator;
-import javax.faces.validator.ValidatorException;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
-import com.ocpsoft.socialpm.cdi.LoggedIn;
-import com.ocpsoft.socialpm.model.user.Profile;
-import com.ocpsoft.socialpm.services.ProfileService;
+import org.jboss.seam.security.Identity;
+import org.jboss.seam.security.events.PostAuthenticateEvent;
+import org.jboss.seam.security.external.openid.OpenIdUser;
+import org.jboss.seam.transaction.Transactional;
+import org.picketlink.idm.common.exception.IdentityException;
 
 @RequestScoped
-@FacesValidator("signupUsernameAvailabilityValidator")
-public class SignupUsernameAvailabilityValidator implements Validator
+public class PostAuthenticateObserver
 {
    @Inject
-   private EntityManager em;
+   private Identity identity;
 
-   @Inject
-   private ProfileService ps;
-
-   @Inject
-   @LoggedIn
-   private Profile profile;
-
-   @Override
-   public void validate(final FacesContext context, final UIComponent comp, final Object value)
-            throws ValidatorException
+   public @Transactional
+   void observePostAuthenticate(@Observes final PostAuthenticateEvent event) throws IdentityException
    {
-      if (value instanceof String && !value.equals(profile.getUsername())) {
-         ps.setEntityManager(em);
-         if (!ps.isUsernameAvailable((String) value))
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Not available", null));
+      Object user = identity.getUser();
+
+      if (user instanceof OpenIdUser) {}
+      else
+      {
+
       }
    }
 }
