@@ -65,7 +65,7 @@ public class App
       horizontalPanel.add(button);
       horizontalPanel.add(responseLabel);
 
-      RootPanel.get().add(horizontalPanel);
+      RootPanel.get("messages").add(horizontalPanel);
 
       System.out.println("UI Constructed!");
    }
