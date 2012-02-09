@@ -1,0 +1,22 @@
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:s="urn:java:ee" 
+   xmlns:openid="urn:java:org.jboss.seam.security.external.openid"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
+
+   <openid:OpenIdRpInApplicationScopeProducer>
+      <s:modifies/>
+   </openid:OpenIdRpInApplicationScopeProducer>
+   
+   <openid:OpenIdConfiguration>
+      <s:modifies/>
+      <openid:hostName>scrumshark.com</openid:hostName>
+      <openid:port>80</openid:port>
+      <openid:protocol>http</openid:protocol>
+   </openid:OpenIdConfiguration>   
+   
+   <openid:OpenIdRpInApplicationScopeProducer>
+      <s:modifies/>
+   </openid:OpenIdRpInApplicationScopeProducer>
+
+</beans>
