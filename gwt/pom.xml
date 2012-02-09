@@ -1518,6 +1518,7 @@
 					<extraJvmArgs>-Xmx512m</extraJvmArgs>
 					<soyc>false</soyc>
 					<hostedWebapp>src/main/webapp</hostedWebapp>
+                    <webappDirectory>src/main/webapp</webappDirectory>
 					<noServer>true</noServer>
 				</configuration>
 				<executions>

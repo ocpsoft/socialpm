@@ -3,6 +3,7 @@ package com.ocpsoft.socialpm.gwt.server.rpc;
 import java.io.IOException;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -24,6 +25,7 @@ import com.ocpsoft.socialpm.gwt.client.shared.rpc.LoginService;
 import com.ocpsoft.socialpm.model.user.Profile;
 import com.ocpsoft.socialpm.services.ProfileService;
 
+@RequestScoped
 @Service
 public class LoginServiceImpl implements LoginService
 {
