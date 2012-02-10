@@ -130,8 +130,6 @@ public class App
          {
             String historyToken = event.getValue();
 
-            Window.alert(historyToken);
-
          }
       });
    }

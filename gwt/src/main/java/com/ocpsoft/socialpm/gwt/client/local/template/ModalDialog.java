@@ -7,6 +7,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -117,13 +118,14 @@ public class ModalDialog extends Composite
    }-*/;
 
    private native void activate(String id) /*-{
+      var modal = this;
 	      
       $wnd.$("#" + id).on('shown', function () {
-			this.@com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog::handleOnDisplay();
+			modal.@com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog::handleOnDisplay()();
       });
 	   
 		$wnd.$("#" + id).on('hidden', function () {
-		   this.@com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog::handleOnHide();
+		   modal.@com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog::handleOnHide()();
 		});
 		
    }-*/;
