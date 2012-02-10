@@ -36,8 +36,4 @@
         <param-value>/WEB-INF/users.properties</param-value>
     </context-param>
     
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
-
 </web-app>

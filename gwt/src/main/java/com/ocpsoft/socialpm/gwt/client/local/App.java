@@ -104,6 +104,7 @@ public class App
    private void initHistory()
    {
       History.addValueChangeHandler(new ValueChangeHandler<String>() {
+         @Override
          public void onValueChange(ValueChangeEvent<String> event)
          {
             String historyToken = event.getValue();
@@ -119,7 +120,7 @@ public class App
          public void onClick(ClickEvent event)
          {
             final ModalDialog loginDialog = new ModalDialog();
-            
+
             HorizontalPanel login = new HorizontalPanel();
             final TextBox username = new TextBox();
             final PasswordTextBox password = new PasswordTextBox();
@@ -179,7 +180,7 @@ public class App
             loginDialog.addFooter(submit);
 
             RootPanel.get().add(loginDialog);
-            
+
             loginDialog.addOnHideHandler(new OnHideHandler() {
                @Override
                public void handleOnHide(HideEvent source)
@@ -187,15 +188,15 @@ public class App
                   History.back();
                }
             });
-            
+
             loginDialog.addDisplayHandler(new DisplayHandler() {
                @Override
                public void handleOnDisplay(DisplayEvent source)
                {
-                  History.newItem("login");
+                  History.newItem("login/foo");
                }
             });
-            
+
             loginDialog.display();
             // auth.setSignedIn("Foobar");
          }

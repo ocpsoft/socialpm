@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<% String contextPath = getServletContext().getContextPath(); %>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -12,7 +13,7 @@
     <![endif]-->
 
 <!-- Le styles -->
-<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="<%= contextPath %>/bootstrap/css/bootstrap.css" rel="stylesheet">
 <style type="text/css">
 body {
 	padding-top: 60px;
@@ -23,18 +24,18 @@ body {
 	padding: 9px 0;
 }
 </style>
-<link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="<%= contextPath %>/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
 <!-- Le fav and touch icons -->
-<link rel="shortcut icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="favicon.ico">
+<link rel="shortcut icon" href="<%= contextPath %>/favicon.ico">
+<link rel="apple-touch-icon" href="<%= contextPath %>/favicon.ico">
 
 <link rel="apple-touch-icon" sizes="72x72"
-	href="images/apple-touch-icon-72x72.png">
+	href="<%= contextPath %>/images/apple-touch-icon-72x72.png">
 <link rel="apple-touch-icon" sizes="114x114"
-	href="images/apple-touch-icon-114x114.png">
+	href="<%= contextPath %>/images/apple-touch-icon-114x114.png">
     
-    <script type="text/javascript" language="javascript" src="app/app.nocache.js"></script>    
+    <script type="text/javascript" language="javascript" src="<%= contextPath %>/app/app.nocache.js"></script>    
 </head>
 
 <body>
@@ -90,22 +91,21 @@ body {
 	<!-- Le javascript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/jquery.dump.js"></script>
-	<script src="bootstrap/js/bootstrap-transition.js"></script>
-	<script src="bootstrap/js/bootstrap-alert.js"></script>
+	<script src="<%= contextPath %>/js/jquery.min.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-transition.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-alert.js"></script>
 
-	<script src="bootstrap/js/bootstrap-modal.js"></script>
-	<script src="bootstrap/js/bootstrap-dropdown.js"></script>
-	<script src="bootstrap/js/bootstrap-scrollspy.js"></script>
-	<script src="bootstrap/js/bootstrap-tab.js"></script>
-	<script src="bootstrap/js/bootstrap-tooltip.js"></script>
-	<script src="bootstrap/js/bootstrap-popover.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-modal.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-dropdown.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-scrollspy.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-tab.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-tooltip.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-popover.js"></script>
 
-	<script src="bootstrap/js/bootstrap-button.js"></script>
-	<script src="bootstrap/js/bootstrap-collapse.js"></script>
-	<script src="bootstrap/js/bootstrap-carousel.js"></script>
-	<script src="bootstrap/js/bootstrap-typeahead.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-button.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-collapse.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-carousel.js"></script>
+	<script src="<%= contextPath %>/bootstrap/js/bootstrap-typeahead.js"></script>
 
 </body>
 </html>
