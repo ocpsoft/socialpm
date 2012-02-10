@@ -107,7 +107,6 @@ public class App
          public void onValueChange(ValueChangeEvent<String> event)
          {
             String historyToken = event.getValue();
-
          }
       });
    }
