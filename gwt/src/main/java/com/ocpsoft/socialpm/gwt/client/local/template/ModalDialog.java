@@ -1,5 +1,8 @@
 package com.ocpsoft.socialpm.gwt.client.local.template;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -7,6 +10,10 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.ocpsoft.socialpm.gwt.client.local.template.events.DisplayEvent;
+import com.ocpsoft.socialpm.gwt.client.local.template.events.DisplayHandler;
+import com.ocpsoft.socialpm.gwt.client.local.template.events.HideEvent;
+import com.ocpsoft.socialpm.gwt.client.local.template.events.OnHideHandler;
 
 /**
  * A splash screen
@@ -31,11 +38,14 @@ public class ModalDialog extends Composite
    @UiField
    HTMLPanel footer;
 
+   private List<OnHideHandler> onHideHandlers = new ArrayList<OnHideHandler>();
+
+   private List<DisplayHandler> onDisplayHandlers = new ArrayList<DisplayHandler>();
+
    public ModalDialog()
    {
       initWidget(binder.createAndBindUi(this));
       getWidget().getElement().setId(DOM.createUniqueId());
-      activate(getId());
    }
 
    public String getId()
@@ -63,20 +73,58 @@ public class ModalDialog extends Composite
 
    public void display()
    {
+      activate(getId());
       display(getId());
    }
 
+   public ModalDialog addOnHideHandler(OnHideHandler handler)
+   {
+      onHideHandlers.add(handler);
+      return this;
+   }
+
+   public ModalDialog addDisplayHandler(DisplayHandler handler)
+   {
+      onDisplayHandlers.add(handler);
+      return this;
+   }
+
+   private void handleOnDisplay()
+   {
+      DisplayEvent event = new DisplayEvent(this);
+      for (DisplayHandler handler : onDisplayHandlers) {
+         handler.handleOnDisplay(event);
+      }
+   }
+
+   private void handleOnHide()
+   {
+      HideEvent event = new HideEvent(this);
+      for (OnHideHandler handler : onHideHandlers) {
+         handler.handleOnHide(event);
+      }
+   }
+   
    /*
     * Native Methods
     */
    private native void display(String id) /*-{
 		$wnd.$('#' + id).modal('show')
+	}-*/;
+   
+   private native void hide(String id) /*-{
+      $wnd.$('#' + id).modal('hide')
    }-*/;
 
    private native void activate(String id) /*-{
-		$wnd.$('#' + id).modal({
-			keyboard : false
-		})
+	      
+      $wnd.$("#" + id).on('shown', function () {
+			this.@com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog::handleOnDisplay();
+      });
+	   
+		$wnd.$("#" + id).on('hidden', function () {
+		   this.@com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog::handleOnHide();
+		});
+		
    }-*/;
-
 }

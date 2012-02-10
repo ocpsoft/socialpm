@@ -28,6 +28,10 @@ import org.jboss.errai.ioc.client.api.EntryPoint;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -42,6 +46,10 @@ import com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog;
 import com.ocpsoft.socialpm.gwt.client.local.template.SideNav;
 import com.ocpsoft.socialpm.gwt.client.local.template.SigninStatus;
 import com.ocpsoft.socialpm.gwt.client.local.template.Span;
+import com.ocpsoft.socialpm.gwt.client.local.template.events.DisplayEvent;
+import com.ocpsoft.socialpm.gwt.client.local.template.events.DisplayHandler;
+import com.ocpsoft.socialpm.gwt.client.local.template.events.HideEvent;
+import com.ocpsoft.socialpm.gwt.client.local.template.events.OnHideHandler;
 import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
 import com.ocpsoft.socialpm.gwt.client.shared.Response;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
@@ -106,12 +114,26 @@ public class App
    @PostConstruct
    public void buildUI()
    {
+      initHistory();
       buildHero();
       buildSideNav();
       buildBreadCrumbs();
       buildAuthentication();
 
       System.out.println("UI Constructed!");
+   }
+
+   private void initHistory()
+   {
+      History.addValueChangeHandler(new ValueChangeHandler<String>() {
+         public void onValueChange(ValueChangeEvent<String> event)
+         {
+            String historyToken = event.getValue();
+
+            Window.alert(historyToken);
+
+         }
+      });
    }
 
    private void buildAuthentication()
@@ -121,7 +143,6 @@ public class App
          @Override
          public void onClick(ClickEvent event)
          {
-
             HorizontalPanel login = new HorizontalPanel();
             final TextBox username = new TextBox();
             final PasswordTextBox password = new PasswordTextBox();
@@ -132,6 +153,7 @@ public class App
                @Override
                public void onClick(ClickEvent event)
                {
+                  // TODO history controlled by AppController
 
                   System.out.println("Clicked!");
                   System.out.println(username.getText() + "/" + password.getText());
@@ -154,6 +176,23 @@ public class App
             loginDialog.addFooter(submit);
 
             RootPanel.get().add(loginDialog);
+            
+            loginDialog.addOnHideHandler(new OnHideHandler() {
+               @Override
+               public void handleOnHide(HideEvent source)
+               {
+                  History.back();
+               }
+            });
+            
+            loginDialog.addDisplayHandler(new DisplayHandler() {
+               @Override
+               public void handleOnDisplay(DisplayEvent source)
+               {
+                  History.newItem("login");
+               }
+            });
+            
             loginDialog.display();
             // auth.setSignedIn("Foobar");
          }
