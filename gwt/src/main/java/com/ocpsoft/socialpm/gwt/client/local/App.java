@@ -34,15 +34,19 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.template.BreadCrumb;
 import com.ocpsoft.socialpm.gwt.client.local.template.BreadCrumbStack;
 import com.ocpsoft.socialpm.gwt.client.local.template.HeroPanel;
 import com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog;
+import com.ocpsoft.socialpm.gwt.client.local.template.NavBar;
+import com.ocpsoft.socialpm.gwt.client.local.template.NavLink;
 import com.ocpsoft.socialpm.gwt.client.local.template.SideNav;
 import com.ocpsoft.socialpm.gwt.client.local.template.SigninStatus;
 import com.ocpsoft.socialpm.gwt.client.local.template.Span;
@@ -95,10 +99,22 @@ public class App
       initHistory();
       buildHero();
       buildSideNav();
+      buildTopNav();
       buildBreadCrumbs();
-      buildAuthentication();
+      // buildAuthentication();
 
       System.out.println("UI Constructed!");
+   }
+
+   private void buildTopNav()
+   {
+      NavBar topNav = new NavBar().setFixedTop(true);
+
+      topNav.addBrand(new Hyperlink("SocialPM", HistoryConstants.HOME));
+      topNav.add(new NavLink("Join the party", HistoryConstants.SIGNUP));
+      topNav.addRight(buildAuthentication());
+
+      RootPanel.get("topnav").add(topNav);
    }
 
    private void initHistory()
@@ -112,7 +128,7 @@ public class App
       });
    }
 
-   private void buildAuthentication()
+   private SigninStatus buildAuthentication()
    {
       final SigninStatus auth = new SigninStatus();
       auth.addSigninClickHandler(new ClickHandler() {
@@ -193,7 +209,7 @@ public class App
                @Override
                public void handleOnDisplay(DisplayEvent source)
                {
-                  History.newItem("login/foo");
+                  History.newItem("login");
                }
             });
 
@@ -201,7 +217,7 @@ public class App
             // auth.setSignedIn("Foobar");
          }
       });
-      RootPanel.get("authentication").add(auth);
+      return auth;
    }
 
    private void buildHero()
@@ -225,10 +241,10 @@ public class App
    private void buildSideNav()
    {
       sideNav.addSectionHeader("Projects");
-      sideNav.addLink(new Anchor("SocialPM"));
-      sideNav.addLink(new Anchor("Rewrite"), true);
-      sideNav.addLink(new Anchor("PrettyFaces"));
-      sideNav.addLink(new Anchor("PrettyTime"));
+      sideNav.add(new Anchor("SocialPM"));
+      sideNav.add(new Anchor("Rewrite"), true);
+      sideNav.add(new Anchor("PrettyFaces"));
+      sideNav.add(new Anchor("PrettyTime"));
       RootPanel.get("sidenav").add(sideNav);
    }
 

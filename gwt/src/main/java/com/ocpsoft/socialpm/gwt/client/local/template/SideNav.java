@@ -3,7 +3,6 @@ package com.ocpsoft.socialpm.gwt.client.local.template;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -34,22 +33,20 @@ public class SideNav extends Composite
       return this;
    }
 
-   public SideNav addListItem(ListItem item)
+   public SideNav add(Widget w)
    {
-      list.add(item);
-      return this;
+      return add(w, false);
    }
 
-   public SideNav addLink(Anchor link)
+   public SideNav add(Widget w, boolean active)
    {
-      return addLink(link, false);
-   }
+      Widget li = w;
+      if (!(w instanceof ListItem))
+      {
+         li = new ListItem(w);
+      }
 
-   public SideNav addLink(Anchor link, boolean active)
-   {
-      ListItem li = new ListItem(link);
-
-      if(active)
+      if (active)
          li.setStyleName("active");
 
       list.add(li);

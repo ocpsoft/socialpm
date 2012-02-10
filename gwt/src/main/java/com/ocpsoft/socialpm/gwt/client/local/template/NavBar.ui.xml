@@ -1,0 +1,27 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.template'>
+
+	<g:HTMLPanel ui:field="navbar" styleName="navbar">
+		<div class="navbar-inner">
+			<div class="container-fluid">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+				</a> 
+				
+                <g:HTMLPanel ui:field="brand"></g:HTMLPanel>
+                <g:HTMLPanel ui:field="contents" styleName="nav-collapse">
+                
+                    <t:UnorderedList ui:field="list" styleName="nav"></t:UnorderedList>
+    					
+                    <g:HTMLPanel ui:field="right" styleName="pull-right"></g:HTMLPanel>
+                
+                </g:HTMLPanel>
+    				
+			</div>
+		</div>
+	</g:HTMLPanel>
+    
+</ui:UiBinder>
