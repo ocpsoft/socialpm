@@ -1,9 +1,10 @@
 package com.ocpsoft.socialpm.gwt.server.rpc;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -21,15 +22,16 @@ import org.jboss.seam.security.management.IdmAuthenticator;
 import org.picketlink.idm.api.User;
 
 import com.ocpsoft.logging.Logger;
-import com.ocpsoft.socialpm.gwt.client.shared.rpc.LoginService;
+import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
 import com.ocpsoft.socialpm.model.user.Profile;
 import com.ocpsoft.socialpm.services.ProfileService;
 
-@RequestScoped
+@SessionScoped
 @Service
-public class LoginServiceImpl implements LoginService
+public class AuthenticationServiceImpl implements Serializable, AuthenticationService
 {
-   static Logger logger = Logger.getLogger(LoginServiceImpl.class);
+   private static final long serialVersionUID = -4014251052694227076L;
+   static Logger logger = Logger.getLogger(AuthenticationServiceImpl.class);
 
    @PersistenceContext
    private EntityManager em;
@@ -66,16 +68,7 @@ public class LoginServiceImpl implements LoginService
          outcome = identity.login();
       }
 
-      if (!Identity.RESPONSE_LOGIN_SUCCESS.equals(outcome))
-      {
-         try {
-            Thread.sleep(500);
-         }
-         catch (InterruptedException e) {
-            throw new RuntimeException(e);
-         }
-      }
-      else
+      if (Identity.RESPONSE_LOGIN_SUCCESS.equals(outcome))
       {
          result = profiles.getProfileByIdentityKey(identity.getUser().getKey());
       }

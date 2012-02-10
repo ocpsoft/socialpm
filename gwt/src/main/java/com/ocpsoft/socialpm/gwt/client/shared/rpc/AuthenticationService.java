@@ -5,7 +5,7 @@ import org.jboss.errai.bus.server.annotations.Remote;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 @Remote
-public interface LoginService
+public interface AuthenticationService
 {
    public Profile login(String username, String password);
 }

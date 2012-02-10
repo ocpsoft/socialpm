@@ -1,0 +1,10 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.template'>
+    
+	<g:HTMLPanel>
+		<t:Span ui:field="signedIn"></t:Span>
+		<t:Span ui:field="signedOut"></t:Span>
+	</g:HTMLPanel>
+    
+</ui:UiBinder>

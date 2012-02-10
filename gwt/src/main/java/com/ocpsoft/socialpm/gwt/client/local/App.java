@@ -29,18 +29,22 @@ import org.jboss.errai.ioc.client.api.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.ocpsoft.socialpm.gwt.client.local.template.BreadCrumb;
 import com.ocpsoft.socialpm.gwt.client.local.template.BreadCrumbStack;
 import com.ocpsoft.socialpm.gwt.client.local.template.HeroPanel;
+import com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog;
 import com.ocpsoft.socialpm.gwt.client.local.template.SideNav;
+import com.ocpsoft.socialpm.gwt.client.local.template.SigninStatus;
+import com.ocpsoft.socialpm.gwt.client.local.template.Span;
 import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
 import com.ocpsoft.socialpm.gwt.client.shared.Response;
-import com.ocpsoft.socialpm.gwt.client.shared.rpc.LoginService;
+import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -55,7 +59,7 @@ public class App
    private Event<HelloMessage> messageEvent;
 
    @Inject
-   private Caller<LoginService> loginService;
+   private Caller<AuthenticationService> loginService;
 
    private final Label responseLabel = new Label();
    private final TextBox messageBox = new TextBox();
@@ -63,7 +67,7 @@ public class App
    private final SideNav sideNav = new SideNav();
    private final BreadCrumbStack topBreadCrumbs = new BreadCrumbStack();
 
-   private final HeroPanel hero = new HeroPanel().setHeading("Lincoln Hero!")
+   private final HeroPanel hero = new HeroPanel().setHeading("Social Agile Hero!")
             .setContent("This is a hero panel added by JAVA!")
             .addAction(anchor);
 
@@ -105,33 +109,56 @@ public class App
       buildHero();
       buildSideNav();
       buildBreadCrumbs();
+      buildAuthentication();
 
-      HorizontalPanel login = new HorizontalPanel();
-      final TextBox username = new TextBox();
-      final TextBox password = new TextBox();
-      Button submit = new Button();
-      submit.setText("Login");
+      System.out.println("UI Constructed!");
+   }
 
-      submit.addClickHandler(new ClickHandler() {
+   private void buildAuthentication()
+   {
+      final SigninStatus auth = new SigninStatus();
+      auth.addSigninClickHandler(new ClickHandler() {
          @Override
          public void onClick(ClickEvent event)
          {
 
-            System.out.println("Clicked!");
-            System.out.println(username.getText() + "/" + password.getText());
+            HorizontalPanel login = new HorizontalPanel();
+            final TextBox username = new TextBox();
+            final PasswordTextBox password = new PasswordTextBox();
+            Anchor submit = new Anchor("Login");
+            submit.setStyleName("btn primary");
 
-            Profile profile = loginService.call(success, failure).login(username.getText(), password.getText());
-            System.out.println("After RPC!");
+            submit.addClickHandler(new ClickHandler() {
+               @Override
+               public void onClick(ClickEvent event)
+               {
+
+                  System.out.println("Clicked!");
+                  System.out.println(username.getText() + "/" + password.getText());
+
+                  loginService.call(success, failure).login(username.getText(), password.getText());
+                  System.out.println("After RPC!");
+               }
+            });
+
+            VerticalPanel left = new VerticalPanel();
+            left.add(new Label("Username"));
+            left.add(username);
+            left.add(new Label("Password"));
+            left.add(password);
+            login.add(left);
+
+            ModalDialog loginDialog = new ModalDialog();
+            loginDialog.addHeader(new Span("Sign in"));
+            loginDialog.addContent(login);
+            loginDialog.addFooter(submit);
+
+            RootPanel.get().add(loginDialog);
+            loginDialog.display();
+            // auth.setSignedIn("Foobar");
          }
       });
-
-      login.add(username);
-      login.add(password);
-      login.add(submit);
-
-      RootPanel.get("account").add(login);
-
-      System.out.println("UI Constructed!");
+      RootPanel.get("authentication").add(auth);
    }
 
    private void buildHero()
