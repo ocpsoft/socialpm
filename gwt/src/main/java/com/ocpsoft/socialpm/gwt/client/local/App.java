@@ -34,7 +34,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -110,7 +109,7 @@ public class App
    {
       NavBar topNav = new NavBar().setFixedTop(true);
 
-      topNav.addBrand(new Hyperlink("SocialPM", HistoryConstants.HOME));
+      topNav.addBrand(new Anchor("SocialPM", HistoryConstants.HOME));
       topNav.add(new NavLink("Join the party", HistoryConstants.SIGNUP));
       topNav.addRight(buildAuthentication());
 
