@@ -89,28 +89,6 @@ public class App
       }
    };
 
-   RemoteCallback<Profile> success = new RemoteCallback<Profile>() {
-
-      @Override
-      public void callback(Profile profile)
-      {
-         if (profile != null)
-            System.out.println("Profile = " + profile.getUsername());
-         else
-            System.out.println("Profile was null!");
-      }
-
-   };
-   ErrorCallback failure = new ErrorCallback() {
-
-      @Override
-      public boolean error(Message message, Throwable throwable)
-      {
-         System.out.println("Failure!");
-         return false;
-      }
-   };
-
    @PostConstruct
    public void buildUI()
    {
@@ -141,6 +119,8 @@ public class App
          @Override
          public void onClick(ClickEvent event)
          {
+            final ModalDialog loginDialog = new ModalDialog();
+            
             HorizontalPanel login = new HorizontalPanel();
             final TextBox username = new TextBox();
             final PasswordTextBox password = new PasswordTextBox();
@@ -151,7 +131,34 @@ public class App
                @Override
                public void onClick(ClickEvent event)
                {
-                  // TODO history controlled by AppController
+                  RemoteCallback<Profile> success = new RemoteCallback<Profile>() {
+
+                     @Override
+                     public void callback(Profile profile)
+                     {
+                        if (profile != null)
+                        {
+                           System.out.println("Profile = " + profile.getUsername());
+                           auth.setSignedIn(profile.getUsername());
+                           loginDialog.hide();
+                        }
+                        else
+                        {
+                           Window.alert("WRONG! Try again...");
+                           System.out.println("Profile was null!");
+                        }
+                     }
+
+                  };
+                  ErrorCallback failure = new ErrorCallback() {
+
+                     @Override
+                     public boolean error(Message message, Throwable throwable)
+                     {
+                        System.out.println("Failure!");
+                        return false;
+                     }
+                  };
 
                   System.out.println("Clicked!");
                   System.out.println(username.getText() + "/" + password.getText());
@@ -168,7 +175,6 @@ public class App
             left.add(password);
             login.add(left);
 
-            ModalDialog loginDialog = new ModalDialog();
             loginDialog.addHeader(new Span("Sign in"));
             loginDialog.addContent(login);
             loginDialog.addFooter(submit);

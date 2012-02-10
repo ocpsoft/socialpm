@@ -77,6 +77,11 @@ public class ModalDialog extends Composite
       activate(getId());
       display(getId());
    }
+   
+   public void hide()
+   {
+      hide(getId());
+   }
 
    public ModalDialog addOnHideHandler(OnHideHandler handler)
    {
