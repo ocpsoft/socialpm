@@ -80,9 +80,12 @@ public class App
    RemoteCallback<Profile> success = new RemoteCallback<Profile>() {
 
       @Override
-      public void callback(Profile response)
+      public void callback(Profile profile)
       {
-         System.out.println("Success!");
+         if (profile != null)
+            System.out.println("Profile = " + profile.getUsername());
+         else
+            System.out.println("Profile was null!");
       }
 
    };
@@ -119,11 +122,6 @@ public class App
 
             Profile profile = loginService.call(success, failure).login(username.getText(), password.getText());
             System.out.println("After RPC!");
-
-            if (profile != null)
-               System.out.println("Profile = " + profile.getUsername());
-            else
-               System.out.println("Profile was null!");
          }
       });
 
