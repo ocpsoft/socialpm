@@ -1,24 +1,24 @@
-package com.ocpsoft.socialpm.gwt.client.local.template;
+package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ListItem extends ComplexPanel
+public class Span extends ComplexPanel
 {
-   public ListItem()
+   public Span()
    {
-      setElement((Element) Document.get().createLIElement().cast());
+      setElement((Element) Document.get().createSpanElement().cast());
    }
 
-   public ListItem(String s)
+   public Span(String s)
    {
       this();
       getElement().setInnerText(s);
    }
 
-   public ListItem(Widget w)
+   public Span(Widget w)
    {
       this();
       super.add(w, getElement());

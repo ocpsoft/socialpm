@@ -1,4 +1,4 @@
-package com.ocpsoft.socialpm.gwt.client.local.template;
+package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,11 +125,11 @@ public class ModalDialog extends Composite
       var modal = this;
 	      
       $wnd.$("#" + id).on('shown', function () {
-			modal.@com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog::handleOnDisplay()();
+			modal.@com.ocpsoft.socialpm.gwt.client.local.view.component.ModalDialog::handleOnDisplay()();
       });
 	   
 		$wnd.$("#" + id).on('hidden', function () {
-		   modal.@com.ocpsoft.socialpm.gwt.client.local.template.ModalDialog::handleOnHide()();
+		   modal.@com.ocpsoft.socialpm.gwt.client.local.view.component.ModalDialog::handleOnHide()();
 		});
 		
    }-*/;

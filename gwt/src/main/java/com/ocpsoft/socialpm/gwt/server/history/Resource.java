@@ -44,11 +44,11 @@ import com.ocpsoft.rewrite.servlet.config.HttpCondition;
 import com.ocpsoft.rewrite.servlet.http.event.HttpServletRewrite;
 
 /**
+ * TODO move to rewrite proper
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 public class Resource extends HttpCondition
 {
-   // TODO move to rewrite proper
    private static final Logger log = Logger.getLogger(Resource.class);
 
    private final ParameterizedPattern resource;

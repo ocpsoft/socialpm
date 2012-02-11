@@ -1,4 +1,4 @@
-package com.ocpsoft.socialpm.gwt.client.local.template;
+package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.HeadingElement;
@@ -15,8 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class HeroPanel extends Composite
 {
    interface HeroBinder extends UiBinder<Widget, HeroPanel>
-   {
-   }
+   {}
 
    private static HeroBinder binder = GWT.create(HeroBinder.class);
 
@@ -27,11 +26,19 @@ public class HeroPanel extends Composite
    ParagraphElement content;
 
    @UiField
+   HTMLPanel under;
+   
+   @UiField
    HTMLPanel action;
 
    public HeroPanel()
    {
       initWidget(binder.createAndBindUi(this));
+   }
+   
+   public HTMLPanel getUnder()
+   {
+      return under;
    }
 
    public HeroPanel setContent(String text)

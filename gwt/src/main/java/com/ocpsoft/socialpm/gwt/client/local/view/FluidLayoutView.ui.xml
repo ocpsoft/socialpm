@@ -1,0 +1,30 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.view.component'>
+
+	<g:HTMLPanel ui:field="all">
+	
+	    <g:HTMLPanel ui:field="header"></g:HTMLPanel>
+	    
+		<g:HTMLPanel ui:field="container" styleName="container-fluid">
+			<t:FluidRow ui:field="subheader"></t:FluidRow>    
+	        
+			<t:FluidRow>
+				<g:HTMLPanel ui:field="topnav" styleName="span3">
+					<g:HTMLPanel ui:field="side"></g:HTMLPanel>
+				</g:HTMLPanel>
+				<g:HTMLPanel ui:field="content" styleName="span9"></g:HTMLPanel>
+			</t:FluidRow>
+	
+			<hr/>
+	
+			<footer>
+				<g:HTMLPanel ui:field="footer"></g:HTMLPanel>
+			</footer>
+	
+		</g:HTMLPanel>
+	
+	</g:HTMLPanel>
+    
+</ui:UiBinder>

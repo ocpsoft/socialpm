@@ -40,25 +40,7 @@ body {
 
 <body>
 
-    <div id="topnav"></div>
-    
-	<div class="container-fluid">
-		<div id="breadcrumbs" class="row-fluid"></div>    
-        
-		<div class="row-fluid">
-			<div class="span3">
-                <div id="sidenav"></div>
-			</div>
-			<div class="span9" id="content"></div>
-		</div>
-
-		<hr>
-
-		<footer>
-			<p>&copy; OCPsoft 2012</p>
-		</footer>
-
-	</div>
+	<div id="rootPanel"></div>
 
 	<iframe src="javascript:''" id="__gwt_historyFrame"
 		style="width: 0; height: 0; border: 0"></iframe>

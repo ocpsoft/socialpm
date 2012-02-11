@@ -1,4 +1,4 @@
-package com.ocpsoft.socialpm.gwt.client.local.template;
+package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
 import com.google.gwt.user.client.ui.Widget;
 

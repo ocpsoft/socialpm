@@ -16,7 +16,7 @@ public class AppIntegrationTest extends AbstractErraiCDITest
     * Reference to the CDI-managed application object {@code CDITestHelper.instance.app}. Initialized in each individual
     * test case in a {@code CDI.addPostInitTask()} block.
     */
-   private App app;
+   private AppOTW app;
 
    @Override
    public String getModuleName()

@@ -3,11 +3,18 @@
         "http://google-web-toolkit.googlecode.com/svn/releases/1.6/distro-source/core/src/gwt-module.dtd">
 <module rename-to="app">
 	<inherits name="com.ocpsoft.socialpm.Model" />
-
+	
 	<inherits name="org.jboss.errai.common.ErraiCommon" />
 	<inherits name="org.jboss.errai.bus.ErraiBus" />
 	<inherits name="org.jboss.errai.ioc.Container" />
 	<inherits name="org.jboss.errai.enterprise.CDI" />
+
+	<inherits name='com.google.gwt.activity.Activity' /> 
+	
+    <!-- Use ClientFactoryImpl by default -->
+    <replace-with class="com.ocpsoft.socialpm.gwt.client.local.ClientFactoryImpl">
+	    <when-type-is class="com.ocpsoft.socialpm.gwt.client.local.ClientFactory"/>
+    </replace-with>
 
 	<!-- History Push State Implementation -->
 	<define-property name="history.push.state" values="supported, notsupported" />

@@ -44,7 +44,7 @@ public class CDITestHelper
    static boolean cdiInitialized = false;
 
    @Inject
-   App app;
+   AppOTW app;
 
    @PostConstruct
    public void saveStaticReference()
