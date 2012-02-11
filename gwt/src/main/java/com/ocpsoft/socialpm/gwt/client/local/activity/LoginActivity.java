@@ -6,37 +6,33 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
-import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.FluidLayout;
-import com.ocpsoft.socialpm.gwt.client.local.view.HomeView;
+import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
 
-public class HomeActivity extends AbstractActivity implements FluidLayout.Presenter
+public class LoginActivity extends AbstractActivity implements FluidLayout.Presenter
 {
    private final ClientFactory clientFactory;
 
-   public HomeActivity(HomePlace place, ClientFactory clientFactory)
+   public LoginActivity(LoginPlace place, ClientFactory clientFactory)
    {
-      System.out.println("Created HomeActivity");
+      System.out.println("Created LoginActivity");
       this.clientFactory = clientFactory;
    }
 
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      HomeView homeView = clientFactory.getHomeView();
-      homeView.setPresenter(this);
+      LoginView loginView = clientFactory.getLoginView();
+      loginView.setPresenter(this);
 
-      System.out.println("Started HomeActivity");
+      System.out.println("Started LoginActivity");
 
-      homeView.getBrandLink().setText("SocialPM");
-      homeView.getBrandLink().setHref(HistoryConstants.HOME);
-      homeView.getBrandLink().setEnabled(false);
+      loginView.getBrandLink().setText("SocialPM");
+      loginView.getBrandLink().setHref(HistoryConstants.HOME);
+      loginView.getBrandLink().setEnabled(false);
 
-      homeView.getGreeting().setHeading("Wilkommen!");
-      homeView.getGreeting().setContent("Type a message and click to get started.");
-
-
-      containerWidget.setWidget(homeView.asWidget());
+      containerWidget.setWidget(loginView.asWidget());
    }
 
    @Override

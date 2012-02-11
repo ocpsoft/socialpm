@@ -16,7 +16,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.TextBox;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.LoginModal;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavBar;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
 import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
@@ -24,7 +23,7 @@ import com.ocpsoft.socialpm.gwt.client.shared.Response;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
 
 @ApplicationScoped
-public class HomeView extends FixedLayoutView
+public class LoginView extends FixedLayoutView
 {
    HeroPanel greeting = new HeroPanel();
    NavBar topnav = new NavBar();
@@ -35,17 +34,13 @@ public class HomeView extends FixedLayoutView
 
    @Inject
    private Caller<AuthenticationService> loginService;
-   private final LoginModal loginModal;
 
-   public HomeView()
+   public LoginView()
    {
-      loginModal = new LoginModal(loginService);
-
       topnav.setFixedTop(true);
       topnav.addBrand(brandLink);
 
       topnav.add(signupLink);
-      topnav.addRight(loginModal);
 
       header.add(topnav);
       content.add(greeting);
@@ -110,11 +105,6 @@ public class HomeView extends FixedLayoutView
       return greeting;
    }
 
-   public LoginModal getLoginModal()
-   {
-      return loginModal;
-   }
-
    @Inject
    private Event<HelloMessage> messageEvent;
 
@@ -123,5 +113,9 @@ public class HomeView extends FixedLayoutView
       System.out.println("Observed response " + event.getMessage());
       getGreeting().setContent("Message from server: " + event.getMessage());
    }
+
+   /*
+    * Builders
+    */
 
 }

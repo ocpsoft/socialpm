@@ -22,7 +22,6 @@ import org.jboss.errai.ioc.client.api.EntryPoint;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -40,11 +39,14 @@ import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 @EntryPoint
 public class App
 {
-   private Place defaultPlace = new HomePlace("");
-   private SimplePanel app = new SimplePanel();
-   
+   private final Place defaultPlace = new HomePlace("");
+   private final SimplePanel app = new SimplePanel();
+
    @Inject
    private ClientFactory clientFactory;
+
+   @Inject
+   AppPlaceHistoryMapper historyMapper;
 
    @PostConstruct
    public void setup()
@@ -58,7 +60,6 @@ public class App
       activityManager.setDisplay(app);
 
       // Start PlaceHistoryHandler with our PlaceHistoryMapper
-      AppPlaceHistoryMapper historyMapper = GWT.create(AppPlaceHistoryMapper.class);
       PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
       historyHandler.register(placeController, eventBus, defaultPlace);
 
