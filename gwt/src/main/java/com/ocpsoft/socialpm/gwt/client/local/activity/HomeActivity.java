@@ -29,7 +29,7 @@ public class HomeActivity extends AbstractActivity implements FluidLayout.Presen
       System.out.println("Started HomeActivity");
 
       homeView.getBrandLink().setText("SocialPM");
-      homeView.getBrandLink().setHref(HistoryConstants.HOME);
+      homeView.getBrandLink().setHref(HistoryConstants.HOME());
       homeView.getBrandLink().setEnabled(false);
 
       homeView.getGreeting().setHeading("Wilkommen!");

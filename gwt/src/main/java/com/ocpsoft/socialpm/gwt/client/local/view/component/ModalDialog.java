@@ -10,10 +10,10 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.ocpsoft.socialpm.gwt.client.local.template.events.DisplayEvent;
-import com.ocpsoft.socialpm.gwt.client.local.template.events.DisplayHandler;
-import com.ocpsoft.socialpm.gwt.client.local.template.events.HideEvent;
-import com.ocpsoft.socialpm.gwt.client.local.template.events.OnHideHandler;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.DisplayEvent;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.DisplayHandler;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.HideEvent;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.OnHideHandler;
 
 /**
  * A splash screen

@@ -1,6 +1,5 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
@@ -15,47 +14,34 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.TextBox;
-import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.LoginModal;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.NavBar;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.SignedInHandler;
 import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
 import com.ocpsoft.socialpm.gwt.client.shared.Response;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
+import com.ocpsoft.socialpm.model.user.Profile;
 
 @ApplicationScoped
 public class HomeView extends FixedLayoutView
 {
    HeroPanel greeting = new HeroPanel();
-   NavBar topnav = new NavBar();
-   NavLink brandLink = new NavLink();
-   NavLink signupLink = new NavLink("Join the party", HistoryConstants.SIGNUP);
    private final Anchor sendMessageButton = new Anchor("Send it »");
    private final TextBox messageBox = new TextBox();
 
    @Inject
-   private Caller<AuthenticationService> loginService;
-   private LoginModal loginModal;
-
-   public HomeView()
+   public HomeView(Caller<AuthenticationService> loginService)
    {
-      System.out.println("Construct homeview");
-   }
+      super(loginService);
+      System.out.println("Post-Construct HomeView");
 
-   @PostConstruct
-   public void setup()
-   {
-      System.out.println("Post-Construct homeview");
-      loginModal = new LoginModal(loginService);
+      getLoginModal().addSignedInHandler(new SignedInHandler() {
+         @Override
+         public void handleSignedIn(Profile profile)
+         {
+            content.remove(greeting);
+         }
+      });
 
-      topnav.setFixedTop(true);
-      topnav.addBrand(brandLink);
-
-      topnav.add(signupLink);
-      topnav.addRight(loginModal);
-
-      header.add(topnav);
       content.add(greeting);
 
       setupInputs();
@@ -100,36 +86,18 @@ public class HomeView extends FixedLayoutView
       System.out.println("Done handling click event!");
    }
 
-   /*
-    * Getters & Setters
-    */
-   public NavLink getBrandLink()
-   {
-      return brandLink;
-   }
-
-   public NavLink getSignupLink()
-   {
-      return signupLink;
-   }
-
-   public HeroPanel getGreeting()
-   {
-      return greeting;
-   }
-
-   public LoginModal getLoginModal()
-   {
-      return loginModal;
-   }
-
    @Inject
    private Event<HelloMessage> messageEvent;
 
    public void response(@Observes Response event)
    {
       System.out.println("Observed response " + event.getMessage());
-      getGreeting().setContent("Message from server: " + event.getMessage());
+      greeting.setContent("Message from server: " + event.getMessage());
+   }
+
+   public HeroPanel getGreeting()
+   {
+      return greeting;
    }
 
 }

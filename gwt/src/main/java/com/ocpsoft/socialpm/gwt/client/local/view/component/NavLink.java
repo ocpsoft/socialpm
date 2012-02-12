@@ -8,21 +8,6 @@ import com.google.gwt.user.client.ui.Anchor;
 
 public class NavLink extends Anchor
 {
-
-   public NavLink()
-   {
-      super();
-      setEnabled(true);
-   }
-
-   public NavLink(String text, String target)
-   {
-      super(target, target);
-      setEnabled(true);
-   }
-
-   private HandlerRegistration registeredHandler;
-
    ClickHandler handler = new ClickHandler() {
 
       @Override
@@ -42,11 +27,29 @@ public class NavLink extends Anchor
       }
    };
 
-   private void pushHistory()
+   private HandlerRegistration registeredHandler;
+   private String target;
+
+   public NavLink()
    {
-      History.newItem(getHref());
+      super();
+      setEnabled(true);
    }
 
+   public NavLink(String text)
+   {
+      super(text);
+      setEnabled(true);
+   }
+
+   public NavLink(String text, String target)
+   {
+      super(text, target);
+      this.target = target;
+      setEnabled(true);
+   }
+
+   @Override
    public void setEnabled(boolean enabled)
    {
       if (registeredHandler != null)
@@ -54,7 +57,7 @@ public class NavLink extends Anchor
          registeredHandler.removeHandler();
          registeredHandler = null;
       }
-      
+
       super.setEnabled(enabled);
       if (enabled)
       {
@@ -68,4 +71,22 @@ public class NavLink extends Anchor
       }
    }
 
+   public NavLink setTargetHistoryToken(String token)
+   {
+      this.target = token;
+      return this;
+   }
+
+   public String getTargetHistoryToken()
+   {
+      return target;
+   }
+
+   /*
+    * Private methods
+    */
+   private void pushHistory()
+   {
+      History.newItem(getTargetHistoryToken());
+   }
 }

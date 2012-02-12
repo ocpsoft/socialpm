@@ -2,7 +2,6 @@ package com.ocpsoft.socialpm.gwt.client.local;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 
 import org.jboss.errai.enterprise.client.cdi.api.CDI;
 import org.jboss.errai.ioc.client.api.EntryPoint;
@@ -42,9 +41,6 @@ public class CDITestHelper
    static int messageEventCount = 0;
    static int responseEventCount = 0;
    static boolean cdiInitialized = false;
-
-   @Inject
-   AppOTW app;
 
    @PostConstruct
    public void saveStaticReference()

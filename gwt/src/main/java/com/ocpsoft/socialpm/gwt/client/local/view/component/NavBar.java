@@ -77,4 +77,9 @@ public class NavBar extends Composite
       return this;
    }
 
+   public boolean remove(Widget w)
+   {
+      return list.remove(w);
+   }
+
 }

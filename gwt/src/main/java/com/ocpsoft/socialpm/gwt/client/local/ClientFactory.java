@@ -4,6 +4,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.PlaceController;
 import com.ocpsoft.socialpm.gwt.client.local.view.HomeView;
 import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
+import com.ocpsoft.socialpm.gwt.client.local.view.ViewProfileView;
 
 public interface ClientFactory
 {
@@ -14,4 +15,6 @@ public interface ClientFactory
    HomeView getHomeView();
 
    LoginView getLoginView();
+
+   ViewProfileView getViewProfileView();
 }

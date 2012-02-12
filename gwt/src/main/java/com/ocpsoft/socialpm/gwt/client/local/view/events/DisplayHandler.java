@@ -1,4 +1,4 @@
-package com.ocpsoft.socialpm.gwt.client.local.template.events;
+package com.ocpsoft.socialpm.gwt.client.local.view.events;
 
 import com.google.gwt.event.shared.EventHandler;
 

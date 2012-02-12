@@ -1,5 +1,8 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jboss.errai.bus.client.api.ErrorCallback;
 import org.jboss.errai.bus.client.api.Message;
 import org.jboss.errai.bus.client.api.RemoteCallback;
@@ -16,15 +19,18 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.ocpsoft.socialpm.gwt.client.local.template.events.DisplayEvent;
-import com.ocpsoft.socialpm.gwt.client.local.template.events.DisplayHandler;
-import com.ocpsoft.socialpm.gwt.client.local.template.events.HideEvent;
-import com.ocpsoft.socialpm.gwt.client.local.template.events.OnHideHandler;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.DisplayEvent;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.DisplayHandler;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.HideEvent;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.OnHideHandler;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.SignedInHandler;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 public class LoginModal extends SigninStatus
 {
+   private final List<SignedInHandler> signinHandlers = new ArrayList<SignedInHandler>();
+
    public LoginModal(final Caller<AuthenticationService> service)
    {
       addSigninClickHandler(new ClickHandler() {
@@ -50,14 +56,16 @@ public class LoginModal extends SigninStatus
                      {
                         if (profile != null)
                         {
-                           System.out.println("Profile = " + profile.getUsername());
-                           setSignedIn(profile.getUsername());
+                           for (SignedInHandler handler : signinHandlers) {
+                              handler.handleSignedIn(profile);
+                           }
+
+                           setSignedIn(profile);
                            loginDialog.hide();
                         }
                         else
                         {
                            Window.alert("WRONG! Try again...");
-                           System.out.println("Profile was null!");
                         }
                      }
 
@@ -72,12 +80,7 @@ public class LoginModal extends SigninStatus
                      }
                   };
 
-                  System.out.println("Clicked!");
-                  System.out.println(" Logging in " + username.getText() + "/" + password.getText() + " With service "
-                           + service);
-
                   service.call(success, failure).login(username.getText(), password.getText());
-                  System.out.println("After RPC!");
                }
             });
 
@@ -98,7 +101,9 @@ public class LoginModal extends SigninStatus
                @Override
                public void handleOnHide(HideEvent source)
                {
+                  System.out.println("Closed Login Modal");
                   History.back();
+                  RootPanel.get().remove(loginDialog);
                }
             });
 
@@ -106,14 +111,18 @@ public class LoginModal extends SigninStatus
                @Override
                public void handleOnDisplay(DisplayEvent source)
                {
-                  History.newItem("login");
+                  System.out.println("Displayed Login Modal");
                }
             });
 
             loginDialog.display();
-            // auth.setSignedIn("Foobar");
          }
       });
+   }
+
+   public void addSignedInHandler(SignedInHandler handler)
+   {
+      this.signinHandlers.add(handler);
    }
 
 }

@@ -29,8 +29,8 @@ public class LoginActivity extends AbstractActivity implements FluidLayout.Prese
       System.out.println("Started LoginActivity");
 
       loginView.getBrandLink().setText("SocialPM");
-      loginView.getBrandLink().setHref(HistoryConstants.HOME);
-      loginView.getBrandLink().setEnabled(false);
+      loginView.getBrandLink().setHref(HistoryConstants.HOME());
+      loginView.getBrandLink().setEnabled(true);
 
       containerWidget.setWidget(loginView.asWidget());
    }

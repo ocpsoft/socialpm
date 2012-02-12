@@ -10,6 +10,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.ViewProfilePlace;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -22,6 +23,7 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper
    @Override
    public Place getPlace(String token)
    {
+      System.out.println("Parsing place token " + token);
       if (!token.contains("/"))
       {
          token = "prefix/" + token;
@@ -48,7 +50,7 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper
 
          if (!list.isEmpty())
          {
-            String place = list.get(0);
+            String place = list.remove(0);
             if ("".equals(place))
             {
                System.out.println("Going home: " + place);
@@ -59,6 +61,12 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper
             {
                System.out.println("Going login: " + place);
                return new LoginPlace();
+            }
+
+            if (list.isEmpty())
+            {
+               System.out.println("Going view profile: " + place);
+               return new ViewProfilePlace(place);
             }
          }
       }

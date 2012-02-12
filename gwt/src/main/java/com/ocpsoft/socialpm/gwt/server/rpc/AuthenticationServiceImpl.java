@@ -88,9 +88,6 @@ public class AuthenticationServiceImpl implements Serializable, AuthenticationSe
       logger.info("User logged in [{}, {}]", user.getId(), user.getKey());
    }
 
-   /*
-    * This is called outside of the JSF lifecycle.
-    */
    public static void openLoginSuccess(@Observes final DeferredAuthenticationEvent event)
    {
       if (event.isSuccess())
@@ -115,7 +112,7 @@ public class AuthenticationServiceImpl implements Serializable, AuthenticationSe
             logger.error(
                      "Login failed due to exception" + identity.getAuthenticatorName() + ", "
                               + identity.getAuthenticatorClass()
-                              + ", " + identity); // TODO , exception );
+                              + ", " + identity);
          }
          try {
             Thread.sleep(500);

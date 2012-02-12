@@ -7,6 +7,8 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
+import com.ocpsoft.socialpm.model.user.Profile;
 
 public class SigninStatus extends Composite
 {
@@ -22,8 +24,8 @@ public class SigninStatus extends Composite
    @UiField
    Span signedOut;
 
-   private final Anchor profileLink = new Anchor();
-   private final Anchor signinLink = new Anchor("Sign in");
+   private final NavLink profileLink = new NavLink();
+   private final NavLink signinLink = new NavLink("Sign in", HistoryConstants.LOGIN());
 
    public SigninStatus()
    {
@@ -37,15 +39,16 @@ public class SigninStatus extends Composite
       signedOut.setVisible(true);
    }
 
-   public SigninStatus setSignedIn(String username)
+   public SigninStatus setSignedIn(Profile profile)
    {
-      profileLink.setText(username);
+      profileLink.setText(profile.getUsername());
+      profileLink.setTargetHistoryToken(HistoryConstants.PROFILE(profile));
       signedIn.setVisible(true);
       signedOut.setVisible(false);
       return this;
    }
 
-   public SigninStatus setSignedOut(String text)
+   public SigninStatus setSignedOut()
    {
       signedIn.setVisible(false);
       signedOut.setVisible(true);
@@ -55,6 +58,16 @@ public class SigninStatus extends Composite
    public void addSigninClickHandler(ClickHandler clickHandler)
    {
       signinLink.addClickHandler(clickHandler);
+   }
+
+   public Anchor getProfileLink()
+   {
+      return profileLink;
+   }
+
+   public Anchor getSigninLink()
+   {
+      return signinLink;
    }
 
 }

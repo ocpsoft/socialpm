@@ -1,7 +1,26 @@
 package com.ocpsoft.socialpm.gwt.client.local.history;
 
-public interface HistoryConstants
+import com.ocpsoft.socialpm.model.user.Profile;
+
+public class HistoryConstants
 {
-   String HOME = "";
-   String SIGNUP = "signup";
+   public static final String HOME()
+   {
+      return "";
+   }
+
+   public static final String SIGNUP()
+   {
+      return "signup";
+   }
+
+   public static final String LOGIN()
+   {
+      return "login";
+   }
+
+   public static final String PROFILE(Profile profile)
+   {
+      return profile.getUsername();
+   }
 }
