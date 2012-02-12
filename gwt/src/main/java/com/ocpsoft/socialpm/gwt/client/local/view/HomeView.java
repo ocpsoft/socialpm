@@ -1,5 +1,6 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
@@ -35,10 +36,17 @@ public class HomeView extends FixedLayoutView
 
    @Inject
    private Caller<AuthenticationService> loginService;
-   private final LoginModal loginModal;
+   private LoginModal loginModal;
 
    public HomeView()
    {
+      System.out.println("Construct homeview");
+   }
+
+   @PostConstruct
+   public void setup()
+   {
+      System.out.println("Post-Construct homeview");
       loginModal = new LoginModal(loginService);
 
       topnav.setFixedTop(true);

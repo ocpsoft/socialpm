@@ -73,7 +73,8 @@ public class LoginModal extends SigninStatus
                   };
 
                   System.out.println("Clicked!");
-                  System.out.println(username.getText() + "/" + password.getText());
+                  System.out.println(" Logging in " + username.getText() + "/" + password.getText() + " With service "
+                           + service);
 
                   service.call(success, failure).login(username.getText(), password.getText());
                   System.out.println("After RPC!");
