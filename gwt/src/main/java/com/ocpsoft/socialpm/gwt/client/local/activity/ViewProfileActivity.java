@@ -53,12 +53,12 @@ public class ViewProfileActivity extends AbstractActivity implements ProfileView
          @Override
          public void run()
          {
-
             profileService.call(new RemoteCallback<Profile>() {
 
                @Override
                public void callback(Profile response)
                {
+                  System.out.println("Fetched profile: " + username);
                   profileView.setProfile(response);
                }
 
@@ -70,7 +70,6 @@ public class ViewProfileActivity extends AbstractActivity implements ProfileView
                   System.out.println("Failed to fetch profile: " + username);
                   return false;
                }
-
             });
          }
       });
