@@ -1,5 +1,7 @@
 package com.ocpsoft.socialpm.gwt.client.local.activity;
 
+import org.jboss.errai.ioc.client.api.Caller;
+
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
@@ -7,14 +9,15 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
-import com.ocpsoft.socialpm.gwt.client.local.view.FluidLayout;
 import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
+import com.ocpsoft.socialpm.gwt.client.local.view.LoginViewImpl;
+import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
 
-public class LoginActivity extends AbstractActivity implements FluidLayout.Presenter
+public class LoginActivity extends AbstractActivity implements LoginViewImpl.Presenter
 {
    private final ClientFactory clientFactory;
 
-   public LoginActivity(LoginPlace place, ClientFactory clientFactory)
+   public LoginActivity(LoginPlace place, ClientFactory clientFactory, Caller<AuthenticationService> authService)
    {
       System.out.println("Created LoginActivity");
       this.clientFactory = clientFactory;

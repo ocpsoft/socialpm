@@ -1,7 +1,5 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
-import org.jboss.errai.ioc.client.api.Caller;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -15,7 +13,6 @@ import com.ocpsoft.socialpm.gwt.client.local.view.component.LoginModal;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavBar;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.SignedInHandler;
-import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
@@ -46,8 +43,6 @@ public abstract class FixedLayoutView extends Composite implements FluidLayout
    @UiField
    protected HTMLPanel footer = new HTMLPanel("");
 
-   protected Presenter presenter;
-
    /*
     * Non-template fields
     */
@@ -57,10 +52,10 @@ public abstract class FixedLayoutView extends Composite implements FluidLayout
    private final NavLink signupLink = new NavLink("Join the party", HistoryConstants.SIGNUP());
    private final LoginModal loginModal;
 
-   public FixedLayoutView(Caller<AuthenticationService> loginService)
+   public FixedLayoutView()
    {
       initWidget(binder.createAndBindUi(this));
-      loginModal = new LoginModal(loginService);
+      loginModal = new LoginModal();
       loginModal.addSignedInHandler(new SignedInHandler() {
 
          @Override
@@ -98,11 +93,5 @@ public abstract class FixedLayoutView extends Composite implements FluidLayout
    public LoginModal getLoginModal()
    {
       return loginModal;
-   }
-
-   @Override
-   public void setPresenter(Presenter presenter)
-   {
-      this.presenter = presenter;
    }
 }

@@ -35,16 +35,8 @@ public abstract class FluidLayoutView extends Composite implements FluidLayout
    @UiField
    protected HTMLPanel footer = new HTMLPanel("");
    
-   protected Presenter presenter;
-   
    public FluidLayoutView()
    {
       initWidget(binder.createAndBindUi(this));
-   }
-
-   @Override
-   public void setPresenter(Presenter presenter)
-   {
-      this.presenter = presenter;
    }
 }

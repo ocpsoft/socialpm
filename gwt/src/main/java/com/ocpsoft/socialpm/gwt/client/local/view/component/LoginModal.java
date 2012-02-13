@@ -30,8 +30,9 @@ import com.ocpsoft.socialpm.model.user.Profile;
 public class LoginModal extends SigninStatus
 {
    private final List<SignedInHandler> signinHandlers = new ArrayList<SignedInHandler>();
+   private Caller<AuthenticationService> authService;
 
-   public LoginModal(final Caller<AuthenticationService> service)
+   public LoginModal()
    {
       addSigninClickHandler(new ClickHandler() {
          @Override
@@ -46,6 +47,7 @@ public class LoginModal extends SigninStatus
             submit.setStyleName("btn primary");
 
             submit.addClickHandler(new ClickHandler() {
+
                @Override
                public void onClick(ClickEvent event)
                {
@@ -80,7 +82,7 @@ public class LoginModal extends SigninStatus
                      }
                   };
 
-                  service.call(success, failure).login(username.getText(), password.getText());
+                  authService.call(success, failure).login(username.getText(), password.getText());
                }
             });
 
@@ -123,6 +125,11 @@ public class LoginModal extends SigninStatus
    public void addSignedInHandler(SignedInHandler handler)
    {
       this.signinHandlers.add(handler);
+   }
+
+   public void setAuthService(Caller<AuthenticationService> authService)
+   {
+      this.authService = authService;
    }
 
 }

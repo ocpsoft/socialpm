@@ -1,19 +1,18 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
 
-import org.jboss.errai.ioc.client.api.Caller;
-
-import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
-
-@ApplicationScoped
-public class LoginView extends FixedLayoutView
+public interface LoginView extends IsWidget
 {
-   @Inject
-   public LoginView(Caller<AuthenticationService> loginService)
+
+   public interface Presenter
    {
-      super(loginService);
-      System.out.println("Construct LoginView");
+      void goTo(Place place);
    }
+
+   void setPresenter(Presenter presenter);
+
+   NavLink getBrandLink();
 }

@@ -21,7 +21,6 @@ import javax.inject.Inject;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 
 import com.google.gwt.activity.shared.ActivityManager;
-import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
@@ -46,7 +45,10 @@ public class App
    private ClientFactory clientFactory;
 
    @Inject
-   AppPlaceHistoryMapper historyMapper;
+   private AppPlaceHistoryMapper historyMapper;
+
+   @Inject
+   private AppActivityMapper activityMapper;
 
    @PostConstruct
    public void setup()
@@ -55,7 +57,6 @@ public class App
       PlaceController placeController = clientFactory.getPlaceController();
 
       // Start ActivityManager for the main widget with our ActivityMapper
-      ActivityMapper activityMapper = new AppActivityMapper(clientFactory);
       ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
       activityManager.setDisplay(app);
 
