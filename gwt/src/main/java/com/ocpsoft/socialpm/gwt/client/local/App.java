@@ -18,6 +18,7 @@ package com.ocpsoft.socialpm.gwt.client.local;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.jboss.errai.enterprise.client.cdi.api.CDI;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 
 import com.google.gwt.activity.shared.ActivityManager;
@@ -61,7 +62,7 @@ public class App
       activityManager.setDisplay(app);
 
       // Start PlaceHistoryHandler with our PlaceHistoryMapper
-      PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
+      final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
       historyHandler.register(placeController, eventBus, defaultPlace);
 
       RootPanel.get("rootPanel").add(app);
@@ -75,7 +76,14 @@ public class App
          }
       });
 
-      historyHandler.handleCurrentHistory();
+      CDI.addPostInitTask(new Runnable() {
+         @Override
+         public void run()
+         {
+            System.out.println("Running history handler");
+            historyHandler.handleCurrentHistory();
+         }
+      });
    }
 
 }

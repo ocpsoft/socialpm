@@ -3,12 +3,12 @@ package com.ocpsoft.socialpm.gwt.server.rpc;
 import java.io.IOException;
 import java.io.Serializable;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 
 import org.jboss.errai.bus.server.annotations.Service;
 import org.jboss.seam.security.Authenticator.AuthenticationStatus;
@@ -23,18 +23,25 @@ import org.picketlink.idm.api.User;
 
 import com.ocpsoft.logging.Logger;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
+import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProfileService;
+import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
 import com.ocpsoft.socialpm.model.user.Profile;
-import com.ocpsoft.socialpm.services.ProfileService;
 
 @SessionScoped
 @Service
-public class AuthenticationServiceImpl implements Serializable, AuthenticationService
+public class AuthenticationServiceImpl extends PersistenceUtil implements Serializable, AuthenticationService
 {
    private static final long serialVersionUID = -4014251052694227076L;
    static Logger logger = Logger.getLogger(AuthenticationServiceImpl.class);
 
-   @PersistenceContext
-   private EntityManager em;
+   @PersistenceContext(type = PersistenceContextType.EXTENDED)
+   protected EntityManager em;
+
+   @Override
+   public EntityManager getEntityManager()
+   {
+      return em;
+   }
 
    @Inject
    private Identity identity;
@@ -43,13 +50,7 @@ public class AuthenticationServiceImpl implements Serializable, AuthenticationSe
    private CredentialsImpl credential;
 
    @Inject
-   private ProfileService profiles;
-
-   @PostConstruct
-   public void setup()
-   {
-      profiles.setEntityManager(em);
-   }
+   private ProfileService profileService;
 
    @Override
    public Profile login(String username, String password)
@@ -70,7 +71,7 @@ public class AuthenticationServiceImpl implements Serializable, AuthenticationSe
 
       if (Identity.RESPONSE_LOGIN_SUCCESS.equals(outcome))
       {
-         result = profiles.getProfileByIdentityKey(identity.getUser().getKey());
+         result = profileService.getProfileByIdentityKey(identity.getUser().getKey());
       }
 
       return result;

@@ -55,13 +55,13 @@ import org.picketlink.idm.api.IdentitySessionFactory;
 import org.picketlink.idm.api.User;
 import org.picketlink.idm.common.exception.IdentityException;
 
+import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
 import com.ocpsoft.socialpm.model.config.Setting;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.project.iteration.Iteration;
 import com.ocpsoft.socialpm.model.security.IdentityObjectCredentialType;
 import com.ocpsoft.socialpm.model.security.IdentityObjectType;
 import com.ocpsoft.socialpm.model.user.Profile;
-import com.ocpsoft.socialpm.services.project.ProjectService;
 
 /**
  * Validates that the database contains the minimum required entities to function
@@ -69,13 +69,21 @@ import com.ocpsoft.socialpm.services.project.ProjectService;
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 @Transactional(TransactionPropagation.REQUIRED)
-public class InitializeDatabase
+public class InitializeDatabase extends PersistenceUtil
 {
-   @PersistenceContext(type = PersistenceContextType.EXTENDED)
-   private EntityManager entityManager;
+   private static final long serialVersionUID = 6137356331338475261L;
 
    @Inject
    private IdentitySessionFactory identitySessionFactory;
+
+   @PersistenceContext(type = PersistenceContextType.EXTENDED)
+   protected EntityManager em;
+
+   @Override
+   public EntityManager getEntityManager()
+   {
+      return em;
+   }
 
    @Transactional
    public void validate(@Observes @Initialized final WebApplication webapp) throws IdentityException
@@ -89,14 +97,14 @@ public class InitializeDatabase
    {
       Setting singleResult = null;
       try {
-         TypedQuery<Setting> query = entityManager.createQuery("from Setting s where s.name='schemaVersion'",
+         TypedQuery<Setting> query = getEntityManager().createQuery("from Setting s where s.name='schemaVersion'",
                   Setting.class);
          singleResult = query.getSingleResult();
       }
       catch (NoResultException e) {
          singleResult = new Setting("schemaVersion", "0");
-         entityManager.persist(singleResult);
-         entityManager.flush();
+         getEntityManager().persist(singleResult);
+         getEntityManager().flush();
       }
 
       System.out.println("Current database schema version is [" + singleResult.getValue() + "]");
@@ -105,39 +113,39 @@ public class InitializeDatabase
 
    private void validateIdentityObjectTypes()
    {
-      if (entityManager.createQuery("select t from IdentityObjectType t where t.name = :name")
+      if (getEntityManager().createQuery("select t from IdentityObjectType t where t.name = :name")
                .setParameter("name", "USER")
                .getResultList().size() == 0) {
 
          IdentityObjectType user = new IdentityObjectType();
          user.setName("USER");
-         entityManager.persist(user);
+         getEntityManager().persist(user);
       }
 
-      if (entityManager.createQuery("select t from IdentityObjectType t where t.name = :name")
+      if (getEntityManager().createQuery("select t from IdentityObjectType t where t.name = :name")
                .setParameter("name", "GROUP")
                .getResultList().size() == 0) {
 
          IdentityObjectType group = new IdentityObjectType();
          group.setName("GROUP");
-         entityManager.persist(group);
+         getEntityManager().persist(group);
       }
    }
 
    private void validateSecurity() throws IdentityException
    {
       // Validate credential types
-      if (entityManager.createQuery("select t from IdentityObjectCredentialType t where t.name = :name")
+      if (getEntityManager().createQuery("select t from IdentityObjectCredentialType t where t.name = :name")
                .setParameter("name", "PASSWORD")
                .getResultList().size() == 0) {
 
          IdentityObjectCredentialType PASSWORD = new IdentityObjectCredentialType();
          PASSWORD.setName("PASSWORD");
-         entityManager.persist(PASSWORD);
+         getEntityManager().persist(PASSWORD);
       }
 
       Map<String, Object> sessionOptions = new HashMap<String, Object>();
-      sessionOptions.put(IdentitySessionProducer.SESSION_OPTION_ENTITY_MANAGER, entityManager);
+      sessionOptions.put(IdentitySessionProducer.SESSION_OPTION_ENTITY_MANAGER, getEntityManager());
 
       IdentitySession session = identitySessionFactory.createIdentitySession("default", sessionOptions);
 
@@ -155,14 +163,14 @@ public class InitializeDatabase
          p.getIdentityKeys().add(u.getKey());
          p.setUsernameConfirmed(true);
          p.setShowBootcamp(true);
-         entityManager.persist(p);
+         create(p);
 
          Project project = new Project();
          project.setName("Social Project Management");
          project.setSlug("socialpm");
+         project.setOwner(p);
 
-         ps.setEntityManager(entityManager);
-         ps.create(p, project);
+         create(project);
 
          Iteration i = new Iteration();
          i.setStartDate(new Date());
@@ -178,8 +186,7 @@ public class InitializeDatabase
          i.setTitle("Another2");
          project.getIterations().add(i);
 
-         ps.save(project);
-         entityManager.flush();
+         save(project);
       }
 
       /*
@@ -196,8 +203,7 @@ public class InitializeDatabase
          p.getIdentityKeys().add(u.getKey());
          p.setUsernameConfirmed(true);
          p.setShowBootcamp(true);
-         entityManager.persist(p);
-         entityManager.flush();
+         create(p);
       }
 
       /*
@@ -214,12 +220,9 @@ public class InitializeDatabase
          p.getIdentityKeys().add(u.getKey());
          p.setUsernameConfirmed(true);
          p.setShowBootcamp(true);
-         entityManager.persist(p);
-         entityManager.flush();
+         create(p);
       }
 
    }
 
-   @Inject
-   private ProjectService ps;
 }

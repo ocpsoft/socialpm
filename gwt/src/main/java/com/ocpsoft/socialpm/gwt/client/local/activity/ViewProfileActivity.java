@@ -3,7 +3,6 @@ package com.ocpsoft.socialpm.gwt.client.local.activity;
 import org.jboss.errai.bus.client.api.ErrorCallback;
 import org.jboss.errai.bus.client.api.Message;
 import org.jboss.errai.bus.client.api.RemoteCallback;
-import org.jboss.errai.enterprise.client.cdi.api.CDI;
 import org.jboss.errai.ioc.client.api.Caller;
 
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -49,30 +48,24 @@ public class ViewProfileActivity extends AbstractActivity implements ProfileView
 
       profileView.getGreeting().setHeading("Loading...");
 
-      CDI.addPostInitTask(new Runnable() {
+      profileService.call(new RemoteCallback<Profile>() {
+
          @Override
-         public void run()
+         public void callback(Profile response)
          {
-            profileService.call(new RemoteCallback<Profile>() {
-
-               @Override
-               public void callback(Profile response)
-               {
-                  System.out.println("Fetched profile: " + username);
-                  profileView.setProfile(response);
-               }
-
-            }, new ErrorCallback() {
-
-               @Override
-               public boolean error(Message message, Throwable throwable)
-               {
-                  System.out.println("Failed to fetch profile: " + username);
-                  return false;
-               }
-            });
+            profileView.setProfile(response);
          }
-      });
+
+      }, new ErrorCallback() {
+
+         @Override
+         public boolean error(Message message, Throwable throwable)
+         {
+            throwable.printStackTrace();
+            return false;
+         }
+
+      }).getProfileByUsername(username);
 
       containerWidget.setWidget(profileView.asWidget());
       System.out.println("Finished Startup ViewProfileActivity");
