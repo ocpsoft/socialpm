@@ -1,10 +1,14 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import com.google.gwt.user.client.ui.Label;
+import com.ocpsoft.socialpm.gwt.client.local.EventsFactory;
+import com.ocpsoft.socialpm.gwt.client.local.ServiceFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 @ApplicationScoped
@@ -14,10 +18,16 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
    private Presenter presenter;
 
    @Inject
-   public ProfileViewImpl()
+   public ProfileViewImpl(ServiceFactory serviceFactory, EventsFactory eventFactory)
    {
+      super(serviceFactory, eventFactory);
       System.out.println("Construct ViewProfileView");
       content.add(greeting);
+   }
+
+   public void onLogin(@Observes LoginEvent event)
+   {
+      presenter.handleLogin(event);
    }
 
    @Override
@@ -26,6 +36,7 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
       this.presenter = presenter;
    }
 
+   @Override
    public void setProfile(final Profile profile)
    {
       greeting.setHeading("This is " + profile.getUsername() + "!");
@@ -36,6 +47,7 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
    /*
     * Getters & Setters
     */
+   @Override
    public HeroPanel getGreeting()
    {
       return greeting;

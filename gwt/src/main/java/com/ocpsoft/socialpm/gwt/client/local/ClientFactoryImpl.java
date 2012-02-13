@@ -17,13 +17,10 @@ public class ClientFactoryImpl implements ClientFactory
    private final PlaceController placeController = new PlaceController(eventBus);
 
    @Inject
-   private HomeView homeView;
+   private EventsFactory eventFactory;
 
    @Inject
-   private LoginView loginView;
-
-   @Inject
-   private ProfileView viewProfileView;
+   private ServiceFactory serviceFactory;
 
    @Override
    public PlaceController getPlaceController()
@@ -37,9 +34,31 @@ public class ClientFactoryImpl implements ClientFactory
       return eventBus;
    }
 
+   @Override
+   public EventsFactory getEventFactory()
+   {
+      return eventFactory;
+   }
+
+   @Override
+   public ServiceFactory getServiceFactory()
+   {
+      return serviceFactory;
+   }
+
    /*
     * Views
     */
+
+   @Inject
+   private HomeView homeView;
+
+   @Inject
+   private LoginView loginView;
+
+   @Inject
+   private ProfileView viewProfileView;
+
    @Override
    public HomeView getHomeView()
    {

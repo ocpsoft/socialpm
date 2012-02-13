@@ -1,7 +1,5 @@
 package com.ocpsoft.socialpm.gwt.client.local.activity;
 
-import org.jboss.errai.ioc.client.api.Caller;
-
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
@@ -11,13 +9,13 @@ import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
 import com.ocpsoft.socialpm.gwt.client.local.view.LoginViewImpl;
-import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 
 public class LoginActivity extends AbstractActivity implements LoginViewImpl.Presenter
 {
    private final ClientFactory clientFactory;
 
-   public LoginActivity(LoginPlace place, ClientFactory clientFactory, Caller<AuthenticationService> authService)
+   public LoginActivity(LoginPlace place, ClientFactory clientFactory)
    {
       System.out.println("Created LoginActivity");
       this.clientFactory = clientFactory;
@@ -48,5 +46,11 @@ public class LoginActivity extends AbstractActivity implements LoginViewImpl.Pre
    public void goTo(Place place)
    {
       clientFactory.getPlaceController().goTo(place);
+   }
+
+   @Override
+   public void handleLogin(LoginEvent event)
+   {
+
    }
 }

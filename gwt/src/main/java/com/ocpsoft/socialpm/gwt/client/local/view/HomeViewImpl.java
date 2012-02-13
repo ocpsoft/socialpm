@@ -7,7 +7,10 @@ import javax.inject.Inject;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.ocpsoft.socialpm.gwt.client.local.EventsFactory;
+import com.ocpsoft.socialpm.gwt.client.local.ServiceFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.shared.Response;
 
 @ApplicationScoped
@@ -19,9 +22,15 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    private final TextBox messageBox = new TextBox();
 
    @Inject
-   public HomeViewImpl()
+   public HomeViewImpl(ServiceFactory serviceFactory, EventsFactory eventFactory)
    {
+      super(serviceFactory, eventFactory);
       System.out.println("Construct HomeView");
+   }
+
+   public void onLogin(@Observes LoginEvent event)
+   {
+      presenter.handleLogin(event);
    }
 
    public void response(@Observes Response event)

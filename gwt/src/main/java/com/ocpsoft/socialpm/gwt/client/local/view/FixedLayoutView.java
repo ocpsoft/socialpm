@@ -7,13 +7,13 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.ocpsoft.socialpm.gwt.client.local.EventsFactory;
+import com.ocpsoft.socialpm.gwt.client.local.ServiceFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.FluidRow;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.LoginModal;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavBar;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.SignedInHandler;
-import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -52,30 +52,17 @@ public abstract class FixedLayoutView extends Composite implements FluidLayout
    private final NavLink signupLink = new NavLink("Join the party", HistoryConstants.SIGNUP());
    private final LoginModal loginModal;
 
-   public FixedLayoutView()
+   public FixedLayoutView(ServiceFactory serviceFactory, EventsFactory eventFactory)
    {
       initWidget(binder.createAndBindUi(this));
-      loginModal = new LoginModal();
-      loginModal.addSignedInHandler(new SignedInHandler() {
-
-         @Override
-         public void handleSignedIn(Profile profile)
-         {
-            topnav.remove(signupLink);
-         }
-
-      });
 
       topnav.setFixedTop(true);
       topnav.addBrand(brandLink);
-
       topnav.add(signupLink);
-      topnav.addRight(loginModal);
-
       header.add(topnav);
-
+      loginModal = new LoginModal(serviceFactory, eventFactory);
+      topnav.addRight(loginModal);
    }
-
 
    /*
     * Getters & Setters

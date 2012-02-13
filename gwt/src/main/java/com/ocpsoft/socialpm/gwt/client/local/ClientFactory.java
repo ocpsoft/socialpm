@@ -17,4 +17,8 @@ public interface ClientFactory
    LoginView getLoginView();
 
    ProfileView getViewProfileView();
+
+   EventsFactory getEventFactory();
+
+   ServiceFactory getServiceFactory();
 }

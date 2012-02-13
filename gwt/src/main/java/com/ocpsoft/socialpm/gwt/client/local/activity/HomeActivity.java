@@ -1,9 +1,5 @@
 package com.ocpsoft.socialpm.gwt.client.local.activity;
 
-import javax.enterprise.event.Event;
-
-import org.jboss.errai.ioc.client.api.Caller;
-
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -17,30 +13,24 @@ import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.HomeView;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.SignedInHandler;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
-import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
-import com.ocpsoft.socialpm.model.user.Profile;
 
 public class HomeActivity extends AbstractActivity implements HomeView.Presenter
 {
    private final ClientFactory clientFactory;
-   private final Caller<AuthenticationService> authService;
-   private final Event<HelloMessage> messageEvent;
 
-   public HomeActivity(HomePlace place, ClientFactory clientFactory, Caller<AuthenticationService> authService,
-            Event<HelloMessage> messageEvent)
+   public HomeActivity(HomePlace place, ClientFactory clientFactory)
    {
-      this.authService = authService;
-      System.out.println("Created HomeActivity");
       this.clientFactory = clientFactory;
-      this.messageEvent = messageEvent;
+      System.out.println("Created HomeActivity");
    }
 
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
       final HomeView homeView = clientFactory.getHomeView();
+      System.out.println("HomeView is " + homeView);
       homeView.setPresenter(this);
 
       System.out.println("Started HomeActivity");
@@ -51,15 +41,6 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
 
       homeView.getGreeting().setHeading("Wilkommen!");
       homeView.getGreeting().setContent("Type a message and click to get started.");
-
-      homeView.getLoginModal().setAuthService(authService);
-      homeView.getLoginModal().addSignedInHandler(new SignedInHandler() {
-         @Override
-         public void handleSignedIn(Profile profile)
-         {
-            homeView.getContent().remove(homeView.getGreeting());
-         }
-      });
 
       homeView.getContent().add(homeView.getGreeting());
       setupInputs(homeView);
@@ -89,7 +70,6 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
          {
             if (KeyCodes.KEY_ENTER == event.getCharCode())
             {
-               System.out.println("Handling enter event! " + messageEvent);
                event.preventDefault();
                fireMessage(homeView.getMessageBox().getText());
             }
@@ -101,7 +81,6 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
          @Override
          public void onClick(ClickEvent event)
          {
-            System.out.println("Handling click event! " + messageEvent);
             event.preventDefault();
 
             fireMessage(homeView.getMessageBox().getText());
@@ -113,7 +92,13 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
    private void fireMessage(String text)
    {
       HelloMessage msg = new HelloMessage(text);
-      messageEvent.fire(msg);
+      clientFactory.getEventFactory().getMessageEvent().fire(msg);
       System.out.println("Done handling click event!");
+   }
+
+   @Override
+   public void handleLogin(LoginEvent event)
+   {
+
    }
 }
