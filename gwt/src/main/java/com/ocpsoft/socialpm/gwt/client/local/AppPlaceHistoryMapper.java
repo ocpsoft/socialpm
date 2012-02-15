@@ -8,8 +8,11 @@ import javax.enterprise.context.ApplicationScoped;
 
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.SignupPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.ViewProfilePlace;
 
 /**
@@ -23,56 +26,47 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper
    @Override
    public Place getPlace(String token)
    {
-      System.out.println("Parsing place token " + token);
-      if (!token.contains("/"))
-      {
-         token = "prefix/" + token;
-      }
-      if (token.startsWith("/"))
-      {
-         token = token.substring(1);
-      }
-      if (token.endsWith("/"))
-      {
-         token = token.substring(0, token.length() - 1);
-      }
-      String[] tokens = token.split(delimiter, -1);
+      token = token.replaceFirst("[^/]+://[^/]+/", "");
 
+      if (HistoryConstants.HOME().equals(token))
+      {
+         return new HomePlace(token);
+      }
+
+      String contextPath = HistoryStateImpl.getContextPath();
+      if (token.startsWith(contextPath))
+      {
+         token = token.substring(contextPath.length());
+      }
+
+      String[] tokens = token.split(delimiter, -1);
       List<String> list = new ArrayList<String>(Arrays.asList(tokens));
 
       if (!list.isEmpty())
       {
-         System.out.println(list);
-         list.remove(0);
-         for (String t : list) {
-            System.out.println("Token: " + t);
+         String place = list.remove(0);
+
+         if ("login".equals(place))
+         {
+            return new LoginPlace();
+         }
+         else if ("signup".equals(place))
+         {
+            return new SignupPlace();
          }
 
          if (!list.isEmpty())
          {
-            String place = list.remove(0);
-            if ("".equals(place))
-            {
-               System.out.println("Going home: " + place);
-               return new HomePlace();
-            }
-
-            if ("login".equals(place))
-            {
-               System.out.println("Going login: " + place);
-               return new LoginPlace();
-            }
+            place = list.remove(0);
 
             if (list.isEmpty())
             {
-               System.out.println("Going view profile: " + place);
                return new ViewProfilePlace(place);
             }
          }
       }
 
-      System.out.println("Going default");
-      return new HomePlace();
+      return null;
    }
 
    @Override

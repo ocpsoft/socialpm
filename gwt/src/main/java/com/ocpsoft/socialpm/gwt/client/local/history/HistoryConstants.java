@@ -6,7 +6,7 @@ public class HistoryConstants
 {
    public static final String HOME()
    {
-      return "";
+      return HistoryStateImpl.getContextPath();
    }
 
    public static final String SIGNUP()

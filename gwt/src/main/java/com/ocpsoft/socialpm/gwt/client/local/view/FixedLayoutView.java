@@ -7,13 +7,14 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.EventsFactory;
 import com.ocpsoft.socialpm.gwt.client.local.ServiceFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.FluidRow;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.LoginModal;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavBar;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.SigninStatus;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -48,9 +49,9 @@ public abstract class FixedLayoutView extends Composite implements FluidLayout
     */
 
    private final NavBar topnav = new NavBar();
-   private final NavLink brandLink = new NavLink();
+   private final NavLink brandLink = new NavLink(App.NAME, HistoryConstants.HOME());
    private final NavLink signupLink = new NavLink("Join the party", HistoryConstants.SIGNUP());
-   private final LoginModal loginModal;
+   private final SigninStatus signinStatus = new SigninStatus();
 
    public FixedLayoutView(ServiceFactory serviceFactory, EventsFactory eventFactory)
    {
@@ -58,10 +59,13 @@ public abstract class FixedLayoutView extends Composite implements FluidLayout
 
       topnav.setFixedTop(true);
       topnav.addBrand(brandLink);
+
+      signupLink.setTargetHistoryToken(HistoryConstants.LOGIN());
       topnav.add(signupLink);
+
+      topnav.addRight(signinStatus);
+
       header.add(topnav);
-      loginModal = new LoginModal(serviceFactory, eventFactory);
-      topnav.addRight(loginModal);
    }
 
    /*
@@ -77,8 +81,8 @@ public abstract class FixedLayoutView extends Composite implements FluidLayout
       return signupLink;
    }
 
-   public LoginModal getLoginModal()
+   public SigninStatus getSigninStatus()
    {
-      return loginModal;
+      return signinStatus;
    }
 }

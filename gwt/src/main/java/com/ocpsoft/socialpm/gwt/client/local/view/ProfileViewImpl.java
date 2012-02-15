@@ -27,7 +27,8 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
 
    public void onLogin(@Observes LoginEvent event)
    {
-      presenter.handleLogin(event);
+      if (presenter != null)
+         presenter.handleLogin(event);
    }
 
    @Override

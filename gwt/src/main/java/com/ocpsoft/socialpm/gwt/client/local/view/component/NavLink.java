@@ -44,7 +44,7 @@ public class NavLink extends Anchor
 
    public NavLink(String text, String target)
    {
-      super(text, target);
+      super(text);
       this.target = target;
       setEnabled(true);
    }
@@ -74,6 +74,7 @@ public class NavLink extends Anchor
    public NavLink setTargetHistoryToken(String token)
    {
       this.target = token;
+      this.setHref(token);
       return this;
    }
 

@@ -15,14 +15,13 @@ import com.ocpsoft.socialpm.gwt.client.local.view.ProfileView;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.model.user.Profile;
 
-public class ViewProfileActivity extends AbstractActivity implements ProfileView.Presenter
+public class ProfileActivity extends AbstractActivity implements ProfileView.Presenter
 {
    private final ClientFactory clientFactory;
    private final String username;
 
-   public ViewProfileActivity(ViewProfilePlace place, ClientFactory clientFactory)
+   public ProfileActivity(ViewProfilePlace place, ClientFactory clientFactory)
    {
-      System.out.println("Created ViewProfileActivity");
       this.clientFactory = clientFactory;
       this.username = place.getUsername();
    }
@@ -33,10 +32,9 @@ public class ViewProfileActivity extends AbstractActivity implements ProfileView
       final ProfileView profileView = clientFactory.getViewProfileView();
       profileView.setPresenter(this);
 
-      System.out.println("Started ViewProfileActivity");
-
       profileView.getBrandLink().setText("SocialPM");
       profileView.getBrandLink().setHref(HistoryConstants.HOME());
+      profileView.getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
       profileView.getBrandLink().setEnabled(true);
 
       profileView.getGreeting().setHeading("Loading...");

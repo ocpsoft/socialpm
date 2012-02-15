@@ -22,15 +22,13 @@ import org.jboss.errai.enterprise.client.cdi.api.CDI;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 
 import com.google.gwt.activity.shared.ActivityManager;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 
 /**
@@ -39,7 +37,9 @@ import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 @EntryPoint
 public class App
 {
-   private final Place defaultPlace = new HomePlace("");
+   public static final String NAME = "SocialPM";
+
+   private final Place defaultPlace = new HomePlace(HistoryStateImpl.getContextPath());
    private final SimplePanel app = new SimplePanel();
 
    @Inject
@@ -66,15 +66,6 @@ public class App
       historyHandler.register(placeController, eventBus, defaultPlace);
 
       RootPanel.get("rootPanel").add(app);
-
-      History.addValueChangeHandler(new ValueChangeHandler<String>() {
-         @Override
-         public void onValueChange(ValueChangeEvent<String> event)
-         {
-            String historyToken = event.getValue();
-            System.out.println("History changed to: " + historyToken);
-         }
-      });
 
       CDI.addPostInitTask(new Runnable() {
          @Override

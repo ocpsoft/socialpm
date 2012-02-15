@@ -30,7 +30,8 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
 
    public void onLogin(@Observes LoginEvent event)
    {
-      presenter.handleLogin(event);
+      if (presenter != null)
+         presenter.handleLogin(event);
    }
 
    public void response(@Observes Response event)
@@ -61,12 +62,6 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    public TextBox getMessageBox()
    {
       return messageBox;
-   }
-
-   @Override
-   public void setBrandName(String text)
-   {
-      getBrandLink().setText(text);
    }
 
    @Override

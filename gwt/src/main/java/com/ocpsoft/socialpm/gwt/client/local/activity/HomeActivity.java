@@ -23,17 +23,13 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
    public HomeActivity(HomePlace place, ClientFactory clientFactory)
    {
       this.clientFactory = clientFactory;
-      System.out.println("Created HomeActivity");
    }
 
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
       final HomeView homeView = clientFactory.getHomeView();
-      System.out.println("HomeView is " + homeView);
       homeView.setPresenter(this);
-
-      System.out.println("Started HomeActivity");
 
       homeView.getBrandLink().setText("SocialPM");
       homeView.getBrandLink().setHref(HistoryConstants.HOME());

@@ -17,7 +17,6 @@ public class LoginActivity extends AbstractActivity implements LoginViewImpl.Pre
 
    public LoginActivity(LoginPlace place, ClientFactory clientFactory)
    {
-      System.out.println("Created LoginActivity");
       this.clientFactory = clientFactory;
    }
 
@@ -27,10 +26,8 @@ public class LoginActivity extends AbstractActivity implements LoginViewImpl.Pre
       LoginView loginView = clientFactory.getLoginView();
       loginView.setPresenter(this);
 
-      System.out.println("Started LoginActivity");
-
       loginView.getBrandLink().setText("SocialPM");
-      loginView.getBrandLink().setHref(HistoryConstants.HOME());
+      loginView.getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
       loginView.getBrandLink().setEnabled(true);
 
       containerWidget.setWidget(loginView.asWidget());
