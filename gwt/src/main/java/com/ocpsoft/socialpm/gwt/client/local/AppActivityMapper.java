@@ -11,7 +11,7 @@ import com.ocpsoft.socialpm.gwt.client.local.activity.LoginActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.ProfileActivity;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
-import com.ocpsoft.socialpm.gwt.client.local.places.ViewProfilePlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
 
 @ApplicationScoped
 public class AppActivityMapper implements ActivityMapper
@@ -28,12 +28,15 @@ public class AppActivityMapper implements ActivityMapper
    @Override
    public Activity getActivity(Place place)
    {
+      Activity result = null;
       if (place instanceof HomePlace)
-         return new HomeActivity((HomePlace) place, clientFactory);
+         result = new HomeActivity((HomePlace) place, clientFactory);
       if (place instanceof LoginPlace)
-         return new LoginActivity((LoginPlace) place, clientFactory);
-      if (place instanceof ViewProfilePlace)
-         return new ProfileActivity((ViewProfilePlace) place, clientFactory);
-      return null;
+         result = new LoginActivity((LoginPlace) place, clientFactory);
+      if (place instanceof ProfilePlace)
+         result = new ProfileActivity((ProfilePlace) place, clientFactory);
+
+      System.out.println("Returning Activity " + result);
+      return result;
    }
 }

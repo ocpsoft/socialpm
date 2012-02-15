@@ -15,8 +15,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<errai.version>2.0-SNAPSHOT</errai.version>
-		<errai.cdi.version>2.0-SNAPSHOT</errai.cdi.version>
+		<errai.cdi.version>2.0.Beta1</errai.cdi.version>
+		<errai.version>2.0.Beta1</errai.version>
 		<gwt.version>2.3.0</gwt.version>
 		<hsqldb.version>1.8.0.7</hsqldb.version>
 		<weld.version>1.1.0.Final</weld.version>

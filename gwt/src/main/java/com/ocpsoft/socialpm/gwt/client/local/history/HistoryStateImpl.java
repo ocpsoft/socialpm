@@ -26,6 +26,7 @@ public class HistoryStateImpl extends HistoryImpl
 		var path = $wnd.location.pathname;
 		if (path.length > 0) {
 			token = historyImpl.@com.google.gwt.user.client.impl.HistoryImpl::decodeFragment(Ljava/lang/String;)(path);
+			token = historyImpl.@com.ocpsoft.socialpm.gwt.client.local.history.HistoryStateImpl::cleanToken(Ljava/lang/String;)(token);
 		}
 
 		@com.google.gwt.user.client.impl.HistoryImpl::setToken(Ljava/lang/String;)(token);
@@ -55,6 +56,8 @@ public class HistoryStateImpl extends HistoryImpl
       String contextPath = HistoryStateImpl.getContextPath();
       if (!contextPath.equals(historyToken) && historyToken.startsWith(contextPath))
          historyToken = historyToken.substring(contextPath.length());
+
+      System.out.println("History.pop() = [" + historyToken + "]");
       return historyToken;
    }
 
@@ -64,6 +67,8 @@ public class HistoryStateImpl extends HistoryImpl
       String contextPath = HistoryStateImpl.getContextPath();
       if (!contextPath.equals(historyToken))
          historyToken = contextPath + historyToken;
+
+      System.out.println("History.push(" + historyToken + ")");
       update(historyToken);
    }
 

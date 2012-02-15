@@ -28,6 +28,7 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
+      System.out.println("Starting HomeActivity");
       final HomeView homeView = clientFactory.getHomeView();
       homeView.setPresenter(this);
 
@@ -47,6 +48,7 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
    @Override
    public String mayStop()
    {
+      System.out.println("Stopping HomeActivity");
       return null;
    }
 

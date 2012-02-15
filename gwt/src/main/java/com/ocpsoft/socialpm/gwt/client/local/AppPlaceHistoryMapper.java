@@ -12,8 +12,8 @@ import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.SignupPlace;
-import com.ocpsoft.socialpm.gwt.client.local.places.ViewProfilePlace;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -26,47 +26,46 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper
    @Override
    public Place getPlace(String token)
    {
+      Place result = null;
       token = token.replaceFirst("[^/]+://[^/]+/", "");
 
       if (HistoryConstants.HOME().equals(token))
       {
-         return new HomePlace(token);
+         result = new HomePlace(token);
       }
-
-      String contextPath = HistoryStateImpl.getContextPath();
-      if (token.startsWith(contextPath))
+      else
       {
-         token = token.substring(contextPath.length());
-      }
-
-      String[] tokens = token.split(delimiter, -1);
-      List<String> list = new ArrayList<String>(Arrays.asList(tokens));
-
-      if (!list.isEmpty())
-      {
-         String place = list.remove(0);
-
-         if ("login".equals(place))
+         String contextPath = HistoryStateImpl.getContextPath();
+         if (token.startsWith(contextPath))
          {
-            return new LoginPlace();
+            token = token.substring(contextPath.length());
          }
-         else if ("signup".equals(place))
-         {
-            return new SignupPlace();
-         }
+
+         String[] tokens = token.split(delimiter, -1);
+         List<String> list = new ArrayList<String>(Arrays.asList(tokens));
 
          if (!list.isEmpty())
          {
-            place = list.remove(0);
+            String place = list.remove(0);
 
-            if (list.isEmpty())
+            if ("login".equals(place))
             {
-               return new ViewProfilePlace(place);
+               result = new LoginPlace();
+            }
+            else if ("signup".equals(place))
+            {
+               result = new SignupPlace();
+            }
+
+            else
+            {
+               result = new ProfilePlace(place);
             }
          }
       }
 
-      return null;
+      System.out.println("Mapped token [" + token + "] to place [" + result + "]");
+      return result;
    }
 
    @Override

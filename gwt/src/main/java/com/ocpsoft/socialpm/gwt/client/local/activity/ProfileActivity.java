@@ -9,8 +9,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
-import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
-import com.ocpsoft.socialpm.gwt.client.local.places.ViewProfilePlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.ProfileView;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.model.user.Profile;
@@ -20,7 +19,7 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
    private final ClientFactory clientFactory;
    private final String username;
 
-   public ProfileActivity(ViewProfilePlace place, ClientFactory clientFactory)
+   public ProfileActivity(ProfilePlace place, ClientFactory clientFactory)
    {
       this.clientFactory = clientFactory;
       this.username = place.getUsername();
@@ -29,13 +28,9 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
+      System.out.println("Starting ProfileActivity");
       final ProfileView profileView = clientFactory.getViewProfileView();
       profileView.setPresenter(this);
-
-      profileView.getBrandLink().setText("SocialPM");
-      profileView.getBrandLink().setHref(HistoryConstants.HOME());
-      profileView.getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
-      profileView.getBrandLink().setEnabled(true);
 
       profileView.getGreeting().setHeading("Loading...");
 
@@ -59,7 +54,6 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
       }).getProfileByUsername(username);
 
       containerWidget.setWidget(profileView.asWidget());
-      System.out.println("Finished Startup ViewProfileActivity");
    }
 
    @Override
@@ -72,6 +66,7 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
    @Override
    public String mayStop()
    {
+      System.out.println("Stopping ProfileActivity");
       return null;
    }
 

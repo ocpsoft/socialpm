@@ -26,6 +26,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryStateImpl;
@@ -71,8 +72,9 @@ public class App
          @Override
          public void run()
          {
-            System.out.println("Running history handler");
+            System.out.println("pre - " + History.getToken());
             historyHandler.handleCurrentHistory();
+            System.out.println("post - " + History.getToken());
          }
       });
    }
