@@ -72,7 +72,7 @@ public class ClientFactoryImpl implements ClientFactory
    }
 
    @Override
-   public ProfileView getViewProfileView()
+   public ProfileView getProfileView()
    {
       return viewProfileView;
    }

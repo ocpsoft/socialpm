@@ -32,4 +32,10 @@ public class ProfilePlace extends Place
    {
       return username;
    }
+   
+   @Override
+   public String toString()
+   {
+      return "ProfilePlace["+username+"]";
+   }
 }

@@ -29,7 +29,7 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
       System.out.println("Starting ProfileActivity");
-      final ProfileView profileView = clientFactory.getViewProfileView();
+      final ProfileView profileView = clientFactory.getProfileView();
       profileView.setPresenter(this);
 
       profileView.getGreeting().setHeading("Loading...");
@@ -54,13 +54,14 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
       }).getProfileByUsername(username);
 
       containerWidget.setWidget(profileView.asWidget());
+      System.out.println("Started ProfileActivity");
    }
 
    @Override
    public void handleLogin(LoginEvent event)
    {
-      // TODO Auto-generated method stub
-
+      ProfileView profileView = clientFactory.getProfileView();
+      profileView.getSigninStatus().setSignedIn(event.getProfile());
    }
 
    @Override

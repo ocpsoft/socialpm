@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.shared.HelloMessage;
+import com.ocpsoft.socialpm.model.user.Profile;
 
 @ApplicationScoped
 public class EventsFactory
@@ -16,13 +17,13 @@ public class EventsFactory
    @Inject
    private Event<HelloMessage> messageEvent;
 
-   public Event<LoginEvent> getLoginEvent()
+   public void fireMessage(String message)
    {
-      return loggedInEvent;
+      messageEvent.fire(new HelloMessage(message));
    }
 
-   public Event<HelloMessage> getMessageEvent()
+   public void fireLoginEvent(Profile profile)
    {
-      return messageEvent;
+      loggedInEvent.fire(new LoginEvent(profile));
    }
 }

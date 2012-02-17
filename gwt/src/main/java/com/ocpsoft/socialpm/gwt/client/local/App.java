@@ -18,6 +18,7 @@ package com.ocpsoft.socialpm.gwt.client.local;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.enterprise.client.cdi.api.CDI;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 
@@ -31,6 +32,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
+import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
  * Main application entry point.
@@ -72,9 +74,17 @@ public class App
          @Override
          public void run()
          {
-            System.out.println("pre - " + History.getToken());
-            historyHandler.handleCurrentHistory();
-            System.out.println("post - " + History.getToken());
+            clientFactory.getServiceFactory().getAuthService().call(new RemoteCallback<Profile>() {
+
+               @Override
+               public void callback(Profile profile)
+               {
+                  if(profile != null)
+                  {
+                     clientFactory.getEventFactory().fireLoginEvent(profile);
+                  }
+                  historyHandler.handleCurrentHistory();
+               }}).getLoggedInProfile();
          }
       });
    }

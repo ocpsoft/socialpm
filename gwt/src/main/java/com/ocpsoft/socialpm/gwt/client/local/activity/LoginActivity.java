@@ -50,6 +50,7 @@ public class LoginActivity extends AbstractActivity implements LoginViewImpl.Pre
    @Override
    public void handleLogin(LoginEvent event)
    {
-
+      LoginView loginView = clientFactory.getLoginView();
+      loginView.getSigninStatus().setSignedIn(event.getProfile());
    }
 }

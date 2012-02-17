@@ -19,7 +19,6 @@ public class AppActivityMapper implements ActivityMapper
    private final ClientFactory clientFactory;
 
    @Inject
-   @SuppressWarnings("cdi-ambiguous-dependency")
    public AppActivityMapper(ClientFactory clientFactory)
    {
       this.clientFactory = clientFactory;

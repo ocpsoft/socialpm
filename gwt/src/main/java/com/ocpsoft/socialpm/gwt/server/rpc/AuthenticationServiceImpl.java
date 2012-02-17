@@ -124,4 +124,15 @@ public class AuthenticationServiceImpl extends PersistenceUtil implements Serial
       }
    }
 
+   @Override
+   public Profile getLoggedInProfile()
+   {
+      Profile result = null;
+      if(identity.isLoggedIn())
+      {
+         result = profileService.getProfileByIdentityKey(identity.getUser().getKey());
+      }
+      return result;
+   }
+
 }

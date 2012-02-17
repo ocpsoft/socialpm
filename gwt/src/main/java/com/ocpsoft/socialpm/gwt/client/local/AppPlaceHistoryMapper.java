@@ -28,6 +28,7 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper
    {
       Place result = null;
       token = token.replaceFirst("[^/]+://[^/]+/", "");
+      String contextPath = HistoryStateImpl.getContextPath();
 
       if (HistoryConstants.HOME().equals(token))
       {
@@ -35,7 +36,6 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper
       }
       else
       {
-         String contextPath = HistoryStateImpl.getContextPath();
          if (token.startsWith(contextPath))
          {
             token = token.substring(contextPath.length());
@@ -79,6 +79,12 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper
       {
          return new LoginPlace.Tokenizer().getToken((LoginPlace) place);
       }
-      return "";
+      else if (place instanceof ProfilePlace)
+      {
+         return new ProfilePlace.Tokenizer().getToken((ProfilePlace) place);
+      }
+      
+      // TODO remove once stabilized?
+      throw new RuntimeException("Unknown place: " + place);
    }
 }

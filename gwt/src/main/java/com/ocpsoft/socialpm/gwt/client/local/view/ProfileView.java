@@ -4,6 +4,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.SigninStatus;
 import com.ocpsoft.socialpm.gwt.client.local.view.presenter.AuthenticationAware;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -21,5 +22,7 @@ public interface ProfileView extends IsWidget
    HeroPanel getGreeting();
 
    void setProfile(Profile response);
+
+   SigninStatus getSigninStatus();
 
 }

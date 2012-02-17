@@ -36,7 +36,7 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
       homeView.getBrandLink().setHref(HistoryConstants.HOME());
       homeView.getBrandLink().setEnabled(false);
 
-      homeView.getGreeting().setHeading("Wilkommen!");
+      homeView.getGreeting().setHeading("Welcome!");
       homeView.getGreeting().setContent("Type a message and click to get started.");
 
       homeView.getContent().add(homeView.getGreeting());
@@ -89,14 +89,15 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
 
    private void fireMessage(String text)
    {
-      HelloMessage msg = new HelloMessage(text);
-      clientFactory.getEventFactory().getMessageEvent().fire(msg);
+      clientFactory.getEventFactory().fireMessage(text);
       System.out.println("Done handling click event!");
    }
 
    @Override
    public void handleLogin(LoginEvent event)
    {
-
+      HomeView homeView = clientFactory.getHomeView();
+      homeView.getGreeting().setVisible(false);
+      homeView.getSigninStatus().setSignedIn(event.getProfile());
    }
 }

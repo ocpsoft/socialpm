@@ -7,6 +7,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.TextBox;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.SigninStatus;
 import com.ocpsoft.socialpm.gwt.client.local.view.presenter.AuthenticationAware;
 
 public interface HomeView extends IsWidget
@@ -27,5 +28,7 @@ public interface HomeView extends IsWidget
    HeroPanel getGreeting();
 
    Anchor getSendMessageButton();
+
+   SigninStatus getSigninStatus();
 
 }
