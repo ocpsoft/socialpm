@@ -33,10 +33,13 @@
  */
 package com.ocpsoft.socialpm.model.project;
 
+import org.jboss.errai.common.client.api.annotations.Portable;
+
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
+@Portable
 public class Velocity
 {
    private int hours;

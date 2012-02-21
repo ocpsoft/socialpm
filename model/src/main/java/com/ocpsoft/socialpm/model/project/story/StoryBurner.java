@@ -34,7 +34,10 @@
 
 package com.ocpsoft.socialpm.model.project.story;
 
+import org.jboss.errai.common.client.api.annotations.Portable;
 
+
+@Portable
 public enum StoryBurner
 {
    FRONT("Front"), BACK("Back");

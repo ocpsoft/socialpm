@@ -38,6 +38,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jboss.errai.common.client.api.annotations.Portable;
+
+@Portable
 public enum Status
 {
    NOT_STARTED("Not Started"),

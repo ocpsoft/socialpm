@@ -55,16 +55,20 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
+import org.jboss.errai.common.client.api.annotations.Portable;
 
 import com.ocpsoft.socialpm.model.DeletableObject;
 import com.ocpsoft.socialpm.model.project.iteration.Iteration;
 import com.ocpsoft.socialpm.model.project.story.Story;
 import com.ocpsoft.socialpm.model.user.Profile;
 
+@Portable
 @Entity
 @Table(name = "projects", uniqueConstraints = { @UniqueConstraint(columnNames = { "owner_id", "slug" }) })
 @NamedQueries({
    @NamedQuery(name = "project.byProfileAndSlug", query = "FROM Project WHERE owner = ? AND slug = ?"),
+   @NamedQuery(name = "project.byProfile", query = "FROM Project WHERE owner = ?"),
+   @NamedQuery(name = "project.byProfileName", query = "FROM Project WHERE owner.username = ?"),
    @NamedQuery(name = "project.count", query = "select count(*) from Project"),
    @NamedQuery(name = "project.list", query = "from Project p order by p.slug asc") })
 public class Project extends DeletableObject<Project>

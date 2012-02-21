@@ -54,10 +54,12 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.jboss.errai.common.client.api.annotations.Portable;
 
 import com.ocpsoft.socialpm.model.PersistentObject;
 import com.ocpsoft.socialpm.model.project.story.Story;
 
+@Portable
 @Entity
 @Table(name = "milestones", uniqueConstraints = { @UniqueConstraint(columnNames = { "name", "targetDate", "project_id" }) })
 public class Milestone extends PersistentObject<Milestone>

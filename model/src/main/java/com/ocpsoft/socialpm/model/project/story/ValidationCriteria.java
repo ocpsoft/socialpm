@@ -50,10 +50,12 @@ import javax.xml.bind.annotation.XmlElement;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.jboss.errai.common.client.api.annotations.Portable;
 
 import com.ocpsoft.socialpm.model.PersistentObject;
 import com.ocpsoft.socialpm.model.user.Profile;
 
+@Portable
 @Entity
 @Table(name = "story_validations")
 public class ValidationCriteria extends PersistentObject<ValidationCriteria>

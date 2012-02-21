@@ -16,6 +16,7 @@
 package com.ocpsoft.socialpm.gwt.client.local;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.jboss.errai.bus.client.api.RemoteCallback;
@@ -32,6 +33,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
@@ -53,6 +55,8 @@ public class App
 
    @Inject
    private AppActivityMapper activityMapper;
+
+   private static Profile loggedIn;
 
    @PostConstruct
    public void setup()
@@ -79,14 +83,26 @@ public class App
                @Override
                public void callback(Profile profile)
                {
-                  if(profile != null)
+                  if (profile != null)
                   {
                      clientFactory.getEventFactory().fireLoginEvent(profile);
                   }
                   historyHandler.handleCurrentHistory();
-               }}).getLoggedInProfile();
+               }
+            }).getLoggedInProfile();
          }
       });
+   }
+
+   public void handleLogin(@Observes LoginEvent event)
+   {
+      System.out.println("Set logged in profile: " + event.getProfile());
+      loggedIn = event.getProfile();
+   }
+
+   public static Profile getLoggedInProfile()
+   {
+      return loggedIn;
    }
 
 }

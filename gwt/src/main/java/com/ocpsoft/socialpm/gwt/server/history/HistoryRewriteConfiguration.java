@@ -48,5 +48,4 @@ public class HistoryRewriteConfiguration extends HttpConfigurationProvider
    {
       return 0;
    }
-
 }

@@ -46,10 +46,12 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.jboss.errai.common.client.api.annotations.Portable;
 
 import com.ocpsoft.socialpm.model.PersistentObject;
 import com.ocpsoft.socialpm.model.user.Profile;
 
+@Portable
 @Entity
 @Table(name = "story_comments")
 public class StoryComment extends PersistentObject<StoryComment>

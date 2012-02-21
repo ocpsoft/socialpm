@@ -59,6 +59,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Formula;
+import org.jboss.errai.common.client.api.annotations.Portable;
 
 import com.ocpsoft.socialpm.model.PersistentObject;
 import com.ocpsoft.socialpm.model.project.Project;
@@ -66,6 +67,7 @@ import com.ocpsoft.socialpm.model.project.story.Status;
 import com.ocpsoft.socialpm.model.project.story.Story;
 import com.ocpsoft.socialpm.model.project.story.StoryBurner;
 
+@Portable
 @Entity
 @Table(name = "iterations")
 @NamedQueries({

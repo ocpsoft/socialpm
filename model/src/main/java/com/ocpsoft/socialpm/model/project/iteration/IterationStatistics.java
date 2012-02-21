@@ -46,9 +46,11 @@ import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Index;
+import org.jboss.errai.common.client.api.annotations.Portable;
 
 import com.ocpsoft.socialpm.model.PersistentObject;
 
+@Portable
 @Entity
 @Table(name = "iteration_statistics", uniqueConstraints = { @UniqueConstraint(columnNames = { "iteration_id", "date" }) })
 public class IterationStatistics extends PersistentObject<IterationStatistics>

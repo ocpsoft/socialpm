@@ -61,6 +61,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.jboss.errai.common.client.api.annotations.Portable;
 
 import com.ocpsoft.socialpm.model.DeletableObject;
 import com.ocpsoft.socialpm.model.project.Feature;
@@ -70,6 +71,7 @@ import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.project.iteration.Iteration;
 import com.ocpsoft.socialpm.model.user.Profile;
 
+@Portable
 @Entity
 @Table(name = "stories")
 @NamedQueries({

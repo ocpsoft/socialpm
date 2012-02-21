@@ -1,5 +1,7 @@
 package com.ocpsoft.socialpm.gwt.client.local.activity;
 
+import java.util.List;
+
 import org.jboss.errai.bus.client.api.ErrorCallback;
 import org.jboss.errai.bus.client.api.Message;
 import org.jboss.errai.bus.client.api.RemoteCallback;
@@ -8,10 +10,13 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
+import com.ocpsoft.socialpm.gwt.client.local.view.HomeView;
 import com.ocpsoft.socialpm.gwt.client.local.view.ProfileView;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
+import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 public class ProfileActivity extends AbstractActivity implements ProfileView.Presenter
@@ -52,6 +57,25 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
          }
 
       }).getProfileByUsername(username);
+      
+
+      clientFactory.getServiceFactory().getProjectService().call(new RemoteCallback<List<Project>>() {
+
+         @Override
+         public void callback(List<Project> projects)
+         {
+            ProfileView profileView = clientFactory.getProfileView();
+            System.out.println(projects);
+            profileView.setProjects(projects);
+         }}, new ErrorCallback() {
+            
+            @Override
+            public boolean error(Message message, Throwable throwable)
+            {
+               System.out.println("error");
+               return false;
+            }
+         }).getProjectsByOwner(username);
 
       containerWidget.setWidget(profileView.asWidget());
       System.out.println("Started ProfileActivity");

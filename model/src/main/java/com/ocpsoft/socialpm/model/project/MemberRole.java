@@ -38,6 +38,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.jboss.errai.common.client.api.annotations.Portable;
+
+@Portable
 public enum MemberRole
 {
    MEMBER, ADMIN, OWNER, INVITED, REQUESTED, NOT_MEMBER;

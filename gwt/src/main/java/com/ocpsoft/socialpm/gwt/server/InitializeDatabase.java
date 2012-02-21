@@ -78,7 +78,7 @@ public class InitializeDatabase extends PersistenceUtil
 
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    protected EntityManager em;
-
+   
    @Override
    public EntityManager getEntityManager()
    {

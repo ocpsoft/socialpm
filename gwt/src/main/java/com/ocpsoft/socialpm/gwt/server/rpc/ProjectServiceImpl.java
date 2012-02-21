@@ -33,6 +33,8 @@
  */
 package com.ocpsoft.socialpm.gwt.server.rpc;
 
+import java.util.List;
+
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
@@ -41,6 +43,10 @@ import javax.persistence.PersistenceContextType;
 
 import org.jboss.errai.bus.server.annotations.Service;
 
+import com.ocpsoft.common.util.Assert;
+import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProjectService;
+import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility;
+import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility.SerializationType;
 import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
 import com.ocpsoft.socialpm.model.feed.ProjectCreated;
 import com.ocpsoft.socialpm.model.project.Feature;
@@ -53,7 +59,7 @@ import com.ocpsoft.socialpm.model.user.Profile;
  */
 @RequestScoped
 @Service
-public class ProjectServiceImpl extends PersistenceUtil
+public class ProjectServiceImpl extends PersistenceUtil implements ProjectService
 {
    private static final long serialVersionUID = 1403645951285144409L;
 
@@ -115,6 +121,25 @@ public class ProjectServiceImpl extends PersistenceUtil
 
    public Project findByProfileAndSlug(final Profile profile, final String slug)
    {
-      return findUniqueByNamedQuery("project.byProfileAndSlug", profile, slug);
+      Assert.notNull(profile, "Profile was null");
+      Assert.notNull(slug, "Project slug was null");
+
+      Project result = findUniqueByNamedQuery("project.byProfileAndSlug", profile, slug);
+      HibernateDetachUtility.nullOutUninitializedFields(result, SerializationType.SERIALIZATION);
+      return result;
+   }
+
+   @Override
+   public List<Project> getProjectsByOwner(String username)
+   {
+      Assert.notNull(username, "Username was null");
+
+      List<Project> list = findByNamedQuery("project.byProfileName", username);
+      for (Project project : list) {
+         em.detach(project);
+         HibernateDetachUtility.nullOutUninitializedFields(project, SerializationType.SERIALIZATION);
+      }
+      System.out.println(list);
+      return list;
    }
 }

@@ -34,7 +34,9 @@
 
 package com.ocpsoft.socialpm.model.project;
 
+import org.jboss.errai.common.client.api.annotations.Portable;
 
+@Portable
 public enum Points
 {
    NOT_POINTED, S1(1), S2(2), S3(3), S5(5), S8(8), S13(13), S20(20), S40(40), S100(100);

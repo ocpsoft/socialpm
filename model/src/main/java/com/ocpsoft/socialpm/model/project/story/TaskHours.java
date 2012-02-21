@@ -53,7 +53,9 @@ import javax.persistence.Version;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.jboss.errai.common.client.api.annotations.Portable;
 
+@Portable
 @Entity
 @Table(name = "task_hours", uniqueConstraints = { @UniqueConstraint(columnNames = { "task_id", "date" }) })
 public class TaskHours

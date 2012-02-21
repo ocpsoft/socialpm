@@ -34,7 +34,9 @@
 
 package com.ocpsoft.socialpm.model.project;
 
+import org.jboss.errai.common.client.api.annotations.Portable;
 
+@Portable
 public enum PrivacyLevel
 {
    PRIVATE, PUBLIC

@@ -51,10 +51,12 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Index;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.jboss.errai.common.client.api.annotations.Portable;
 
 import com.ocpsoft.socialpm.model.PersistentObject;
 import com.ocpsoft.socialpm.model.project.story.Story;
 
+@Portable
 @Entity
 @Table(name = "features", uniqueConstraints = { @UniqueConstraint(columnNames = { "name", "project_id" }) })
 public class Feature extends PersistentObject<Feature>

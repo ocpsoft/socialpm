@@ -1,5 +1,7 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
@@ -10,8 +12,11 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.ocpsoft.socialpm.gwt.client.local.EventsFactory;
 import com.ocpsoft.socialpm.gwt.client.local.ServiceFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.ListItem;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.UnorderedList;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.shared.Response;
+import com.ocpsoft.socialpm.model.project.Project;
 
 @ApplicationScoped
 public class HomeViewImpl extends FixedLayoutView implements HomeView
@@ -68,6 +73,19 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    public Anchor getSendMessageButton()
    {
       return sendMessageButton;
+   }
+
+   @Override
+   public void showDashboard(List<Project> projects)
+   {
+      getGreeting().setVisible(false);
+      UnorderedList projectList = new UnorderedList();
+      
+      for (Project project : projects) {
+         projectList.add(new ListItem(project.getName()));
+      }
+      
+      getContent().add(projectList);
    }
 
 }
