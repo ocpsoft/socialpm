@@ -87,6 +87,14 @@ public class Profile extends PersistentObject<Profile>
    @Column(length = 512)
    private String bio;
 
+   public Profile()
+   {}
+
+   public Profile(String username)
+   {
+      this.username = username;
+   }
+
    public String getScreenName()
    {
       return screenName;
