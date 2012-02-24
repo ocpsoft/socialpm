@@ -14,16 +14,7 @@
 
 <!-- Le styles -->
 <link href="<%= contextPath %>/bootstrap/css/bootstrap.css" rel="stylesheet">
-<style type="text/css">
-body {
-	padding-top: 60px;
-	padding-bottom: 40px;
-}
-
-.sidebar-nav {
-	padding: 9px 0; 
-}
-</style>
+<link href="<%= contextPath %>/css/application.css" rel="stylesheet">
 <link href="<%= contextPath %>/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 
 <!-- Le fav and touch icons -->

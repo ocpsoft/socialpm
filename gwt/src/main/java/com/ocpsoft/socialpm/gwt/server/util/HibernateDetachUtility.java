@@ -147,6 +147,12 @@ public class HibernateDetachUtility
       millisThresholdLimit = tmp_millisThresholdLimit;
       sizeThresholdLimit = tmp_sizeThresholdLimit;
    }
+   
+   private static boolean validType(Object value)
+   {
+      // TODO LB3 Extract this into a configurable SPI?
+      return value.getClass().getName().startsWith("com.ocpsoft");
+   }
 
    public static void nullOutUninitializedFields(Object value, SerializationType serializationType)
    {
@@ -556,12 +562,6 @@ public class HibernateDetachUtility
          }
       }
 
-   }
-
-   private static boolean validType(Object value)
-   {
-      // TODO LB3 Extract this into a configurable SPI?
-      return value.getClass().getName().startsWith("com.ocpsoft");
    }
 
    private static Object replaceObject(Object object)

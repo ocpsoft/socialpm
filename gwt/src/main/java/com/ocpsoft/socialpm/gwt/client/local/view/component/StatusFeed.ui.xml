@@ -1,0 +1,18 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.view.component'>
+
+	<g:HTMLPanel>
+		<div class="hanger">
+			<b>Welcome to SocialPM! What's next?</b> (just now)
+			<p>
+				<a href="/projects/new">Start a project</a><br/>
+				<a href="/" class="active">Tell us about yourself</a><br/>
+				<a href="/" class="active">Browse interesting projects</a><br/>
+				<a href="http://twitter.com/ocpsoft">Follow @ocpsoft on Twitter</a>
+			</p>
+		</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

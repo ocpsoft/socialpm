@@ -17,7 +17,7 @@ import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 @ApplicationScoped
-public class ProfileViewImpl extends FixedLayoutView implements ProfileView
+public class ProjectViewImpl extends FixedLayoutView implements ProjectView
 {
    HeroPanel greeting = new HeroPanel();
    private UnorderedList projectList = new UnorderedList();
@@ -26,7 +26,7 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
    private Label email = new Label();
 
    @Inject
-   public ProfileViewImpl(ServiceFactory serviceFactory, EventsFactory eventFactory)
+   public ProjectViewImpl(ServiceFactory serviceFactory, EventsFactory eventFactory)
    {
       super(serviceFactory, eventFactory);
       System.out.println("Construct ViewProfileView");
@@ -42,7 +42,7 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
    }
 
    @Override
-   public void setPresenter(ProfileView.Presenter presenter)
+   public void setPresenter(ProjectView.Presenter presenter)
    {
       this.presenter = presenter;
    }

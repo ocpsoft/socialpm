@@ -52,29 +52,31 @@ public class AuthenticationServiceImpl extends PersistenceUtil implements Serial
    @Inject
    private ProfileService profileService;
 
+   private Profile loggedIn;
+
    @Override
    public Profile login(String username, String password)
    {
-      Profile result = null;
-
-      identity.setAuthenticatorClass(IdmAuthenticator.class);
-      credential.setUsername(username);
-      credential.setPassword(password);
-
-      String outcome = Identity.RESPONSE_LOGIN_FAILED;
-      try {
-         outcome = identity.login();
-      }
-      catch (Exception e) {
-         outcome = identity.login();
-      }
-
-      if (Identity.RESPONSE_LOGIN_SUCCESS.equals(outcome))
+      if (loggedIn == null)
       {
-         result = profileService.getProfileByIdentityKey(identity.getUser().getKey());
-      }
+         identity.setAuthenticatorClass(IdmAuthenticator.class);
+         credential.setUsername(username);
+         credential.setPassword(password);
 
-      return result;
+         String outcome = Identity.RESPONSE_LOGIN_FAILED;
+         try {
+            outcome = identity.login();
+         }
+         catch (Exception e) {
+            outcome = identity.login();
+         }
+
+         if (Identity.RESPONSE_LOGIN_SUCCESS.equals(outcome))
+         {
+            loggedIn = profileService.getProfileByIdentityKey(identity.getUser().getKey());
+         }
+      }
+      return loggedIn;
    }
 
    public void logout()
@@ -105,7 +107,7 @@ public class AuthenticationServiceImpl extends PersistenceUtil implements Serial
             OpenIdAuthenticator openAuth)
    {
       if (!(OpenIdAuthenticator.class.equals(identity.getAuthenticatorClass())
-               && AuthenticationStatus.DEFERRED.equals(openAuth.getStatus())))
+      && AuthenticationStatus.DEFERRED.equals(openAuth.getStatus())))
       {
          Exception exception = event.getLoginException();
          if (exception != null)
@@ -128,7 +130,11 @@ public class AuthenticationServiceImpl extends PersistenceUtil implements Serial
    public Profile getLoggedInProfile()
    {
       Profile result = null;
-      if(identity.isLoggedIn())
+      if (identity.isLoggedIn() && loggedIn != null)
+      {
+         result = loggedIn;
+      }
+      else if(identity.isLoggedIn() && loggedIn == null)
       {
          result = profileService.getProfileByIdentityKey(identity.getUser().getKey());
       }

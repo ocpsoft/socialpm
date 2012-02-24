@@ -75,8 +75,14 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
                System.out.println("error");
                return false;
             }
-         }).getProjectsByOwner(username);
+         }).getByOwner(new Profile(username));
 
+      Profile loggedInProfile = App.getLoggedInProfile();
+      if(loggedInProfile != null)
+      {
+         handleLogin(new LoginEvent(loggedInProfile));
+      }
+      
       containerWidget.setWidget(profileView.asWidget());
       System.out.println("Started ProfileActivity");
    }

@@ -9,6 +9,7 @@ import com.google.gwt.place.shared.PlaceController;
 import com.ocpsoft.socialpm.gwt.client.local.view.HomeView;
 import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
 import com.ocpsoft.socialpm.gwt.client.local.view.ProfileView;
+import com.ocpsoft.socialpm.gwt.client.local.view.ProjectView;
 
 @ApplicationScoped
 public class ClientFactoryImpl implements ClientFactory
@@ -57,7 +58,10 @@ public class ClientFactoryImpl implements ClientFactory
    private LoginView loginView;
 
    @Inject
-   private ProfileView viewProfileView;
+   private ProfileView profileView;
+   
+   @Inject
+   private ProjectView projectView;
 
    @Override
    public HomeView getHomeView()
@@ -74,7 +78,12 @@ public class ClientFactoryImpl implements ClientFactory
    @Override
    public ProfileView getProfileView()
    {
-      return viewProfileView;
+      return profileView;
    }
 
+   @Override
+   public ProjectView getProjectView()
+   {
+      return projectView;
+   }
 }

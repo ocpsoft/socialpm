@@ -5,9 +5,12 @@ import java.util.List;
 import org.jboss.errai.bus.server.annotations.Remote;
 
 import com.ocpsoft.socialpm.model.project.Project;
+import com.ocpsoft.socialpm.model.user.Profile;
 
 @Remote
 public interface ProjectService
 {
-   public List<Project> getProjectsByOwner(String username);
+   public List<Project> getByOwner(Profile owner);
+   
+   public Project getByOwnerAndSlug(Profile owner, String slug);
 }

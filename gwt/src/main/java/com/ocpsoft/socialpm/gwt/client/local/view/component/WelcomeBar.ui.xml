@@ -1,0 +1,28 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.view.component'>
+
+	<g:HTMLPanel styleName="welcome">
+		<div class="container">
+			<div class="row" style="margin-top: 5px;">
+				<div class="span2 columns">
+					<a href="/account" title="View your account">
+						<img src="http://www.gravatar.com/avatar/c85313f55ac77540db29cc7246601074?s=90&amp;d=mm&amp;r=g"
+							height="90" style="padding: 2px; background-color: #eee;" width="90" />
+					</a>
+				</div>
+				<div class="span4 columns">
+					<h4>
+						Hi there, <a href="/account" title="View your account">lincoln</a> .
+					</h4>
+					<p>What are you going to accomplish today?</p>
+				</div>
+				<div class="span6 columns">
+					<h4 class="pull-right">Everything is fine.</h4>
+				</div>
+			</div>
+		</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

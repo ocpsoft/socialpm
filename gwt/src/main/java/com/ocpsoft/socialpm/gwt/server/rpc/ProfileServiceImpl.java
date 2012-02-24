@@ -13,6 +13,8 @@ import org.jboss.errai.bus.server.annotations.Service;
 
 import com.ocpsoft.logging.Logger;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProfileService;
+import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility;
+import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility.SerializationType;
 import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -50,7 +52,15 @@ public class ProfileServiceImpl extends PersistenceUtil implements Serializable,
                "SELECT p FROM Profile p JOIN p.identityKeys k WHERE k = :identityKey", Profile.class);
       query.setParameter("identityKey", key);
 
-      Profile result = query.getSingleResult();
+      Profile result = null;
+      try {
+         result = query.getSingleResult();
+         em.detach(result);
+         HibernateDetachUtility.nullOutUninitializedFields(result, SerializationType.SERIALIZATION);
+      }
+      catch (NoResultException e) {
+         logger.error("No user found for identity key ["+key+"]", e);
+      }
       return result;
    }
 

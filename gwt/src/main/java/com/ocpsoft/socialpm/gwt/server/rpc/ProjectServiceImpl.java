@@ -119,7 +119,7 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
       return count(Project.class);
    }
 
-   public Project findByProfileAndSlug(final Profile profile, final String slug)
+   public Project getByOwnerAndSlug(final Profile profile, final String slug)
    {
       Assert.notNull(profile, "Profile was null");
       Assert.notNull(slug, "Project slug was null");
@@ -130,11 +130,12 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
    }
 
    @Override
-   public List<Project> getProjectsByOwner(String username)
+   public List<Project> getByOwner(Profile profile)
    {
-      Assert.notNull(username, "Username was null");
+      Assert.notNull(profile, "Profile was null");
+      Assert.notNull(profile.getUsername(), "Username was null");
 
-      List<Project> list = findByNamedQuery("project.byProfileName", username);
+      List<Project> list = findByNamedQuery("project.byProfileName", profile.getUsername());
       for (Project project : list) {
          em.detach(project);
          HibernateDetachUtility.nullOutUninitializedFields(project, SerializationType.SERIALIZATION);

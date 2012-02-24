@@ -13,6 +13,7 @@ import com.ocpsoft.socialpm.gwt.client.local.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.SignupPlace;
 
 /**
@@ -56,7 +57,14 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper
             {
                result = new SignupPlace();
             }
-
+            else if(!list.isEmpty())
+            {
+               String sub = list.remove(0);
+               if(list.isEmpty())
+               {
+                  result = new ProjectPlace(place, sub);
+               }
+            }
             else
             {
                result = new ProfilePlace(place);
@@ -82,6 +90,10 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper
       else if (place instanceof ProfilePlace)
       {
          return new ProfilePlace.Tokenizer().getToken((ProfilePlace) place);
+      }
+      else if (place instanceof ProjectPlace)
+      {
+         return new ProjectPlace.Tokenizer().getToken((ProjectPlace) place);
       }
       
       // TODO remove once stabilized?
