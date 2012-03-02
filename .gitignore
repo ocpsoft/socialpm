@@ -15,4 +15,5 @@
 */src/main/webapp/app*
 *.errai
 *.gwt
+gwt-unitCache/
 rebel.xml

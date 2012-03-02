@@ -1,5 +1,6 @@
 package com.ocpsoft.socialpm.gwt.client.local.history;
 
+import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 public class HistoryConstants

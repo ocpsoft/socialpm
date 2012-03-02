@@ -31,7 +31,6 @@ public class ProjectActivity extends AbstractActivity implements ProjectView.Pre
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      System.out.println("Starting ProjectActivity");
       final ProjectView projectView = clientFactory.getProjectView();
       projectView.setPresenter(this);
 
@@ -53,7 +52,6 @@ public class ProjectActivity extends AbstractActivity implements ProjectView.Pre
       }
 
       containerWidget.setWidget(projectView.asWidget());
-      System.out.println("Started ProjectActivity");
    }
 
    @Override
@@ -66,7 +64,6 @@ public class ProjectActivity extends AbstractActivity implements ProjectView.Pre
    @Override
    public String mayStop()
    {
-      System.out.println("Stopping ProfileActivity");
       return null;
    }
 

@@ -33,7 +33,6 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      System.out.println("Starting ProfileActivity");
       final ProfileView profileView = clientFactory.getProfileView();
       profileView.setPresenter(this);
 
@@ -84,7 +83,6 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
       }
       
       containerWidget.setWidget(profileView.asWidget());
-      System.out.println("Started ProfileActivity");
    }
 
    @Override
@@ -97,7 +95,6 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
    @Override
    public String mayStop()
    {
-      System.out.println("Stopping ProfileActivity");
       return null;
    }
 

@@ -3,6 +3,7 @@
         "http://google-web-toolkit.googlecode.com/svn/releases/1.6/distro-source/core/src/gwt-module.dtd">
 <module rename-to="app">
 	<inherits name="com.ocpsoft.socialpm.Model" />
+	<inherits name="com.ocpsoft.rewrite.gwt.Rewrite" />
 	
 	<inherits name="org.jboss.errai.common.ErraiCommon" />
 	<inherits name="org.jboss.errai.bus.ErraiBus" />
@@ -16,23 +17,4 @@
 	    <when-type-is class="com.ocpsoft.socialpm.gwt.client.local.ClientFactory"/>
     </replace-with>
 
-	<!-- History Push State Implementation -->
-	<define-property name="history.push.state" values="supported, notsupported" />
-
-	<property-provider name="history.push.state">
-        <![CDATA[
-            if (typeof(window.history.pushState) == "function") {
-                return "supported";
-            } else {
-                return "notsupported";
-            }
-        ]]>
-	</property-provider>
-
-	<replace-with class="com.ocpsoft.socialpm.gwt.client.local.history.HistoryStateImpl">
-		<when-type-is class="com.google.gwt.user.client.impl.HistoryImpl" />
-		<all>
-			<when-property-is name="history.push.state" value="supported" />
-		</all>
-	</replace-with>
 </module>

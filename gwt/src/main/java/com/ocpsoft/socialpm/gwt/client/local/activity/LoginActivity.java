@@ -25,7 +25,6 @@ public class LoginActivity extends AbstractActivity implements LoginViewImpl.Pre
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      System.out.println("Starting LoginActivity");
       LoginView loginView = clientFactory.getLoginView();
       loginView.setPresenter(this);
 
@@ -45,7 +44,6 @@ public class LoginActivity extends AbstractActivity implements LoginViewImpl.Pre
    @Override
    public String mayStop()
    {
-      System.out.println("Stopping LoginActivity");
       return null;
    }
 

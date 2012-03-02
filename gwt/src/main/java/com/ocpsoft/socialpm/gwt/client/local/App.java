@@ -31,7 +31,7 @@ import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.ocpsoft.socialpm.gwt.client.local.history.HistoryStateImpl;
+import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.model.user.Profile;
@@ -53,9 +53,6 @@ public class App
    @Inject
    private AppPlaceHistoryMapper historyMapper;
 
-   @Inject
-   private AppActivityMapper activityMapper;
-
    private static Profile loggedIn;
 
    @PostConstruct
@@ -65,7 +62,7 @@ public class App
       PlaceController placeController = clientFactory.getPlaceController();
 
       // Start ActivityManager for the main widget with our ActivityMapper
-      ActivityManager activityManager = new ActivityManager(activityMapper, eventBus);
+      ActivityManager activityManager = new ActivityManager(historyMapper, eventBus);
       activityManager.setDisplay(app);
 
       // Start PlaceHistoryHandler with our PlaceHistoryMapper
