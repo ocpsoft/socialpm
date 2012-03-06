@@ -147,12 +147,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>org.jboss.errai</groupId>
 			<artifactId>errai-uibinder</artifactId>
 			<version>${errai.version}</version>
-			<scope>provided</scope>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>org.jboss.errai</groupId>
 			<artifactId>errai-tools</artifactId>

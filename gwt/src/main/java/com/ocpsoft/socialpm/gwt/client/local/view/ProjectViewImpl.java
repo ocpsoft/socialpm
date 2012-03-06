@@ -3,13 +3,11 @@ package com.ocpsoft.socialpm.gwt.client.local.view;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 
 import com.google.gwt.user.client.ui.Label;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ListItem;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.UnorderedList;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -28,13 +26,6 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
       content.add(greeting);
       greeting.getUnder().add(email);
       content.add(projectList);
-   }
-
-   @Override
-   public void onLogin(@Observes LoginEvent event)
-   {
-      if (presenter != null)
-         presenter.handleLogin(event);
    }
 
    @Override

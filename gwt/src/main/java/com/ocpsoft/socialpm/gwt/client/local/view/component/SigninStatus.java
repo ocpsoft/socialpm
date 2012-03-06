@@ -3,11 +3,12 @@ package com.ocpsoft.socialpm.gwt.client.local.view.component;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
@@ -18,8 +19,12 @@ import com.ocpsoft.socialpm.model.user.Profile;
 @ApplicationScoped
 public class SigninStatus extends Composite
 {
-   @Inject
-   private UiBinder<Widget, SigninStatus> binder;
+   @UiTemplate("SigninStatus.ui.xml")
+   interface SigninStatusBinder extends UiBinder<Widget, SigninStatus>
+   {
+   }
+
+   private static SigninStatusBinder binder = GWT.create(SigninStatusBinder.class);
 
    @UiField
    Span signedIn;

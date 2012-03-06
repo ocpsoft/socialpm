@@ -7,14 +7,14 @@ import com.ocpsoft.logging.Logger;
 import com.ocpsoft.rewrite.config.Configuration;
 import com.ocpsoft.rewrite.config.ConfigurationBuilder;
 import com.ocpsoft.rewrite.context.EvaluationContext;
-import com.ocpsoft.rewrite.gwt.server.history.Resource;
-import com.ocpsoft.rewrite.gwt.server.history.ServletMapping;
 import com.ocpsoft.rewrite.servlet.config.DispatchType;
 import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import com.ocpsoft.rewrite.servlet.config.HttpOperation;
 import com.ocpsoft.rewrite.servlet.config.Path;
+import com.ocpsoft.rewrite.servlet.config.Resource;
 import com.ocpsoft.rewrite.servlet.config.Response;
+import com.ocpsoft.rewrite.servlet.config.ServletMapping;
 import com.ocpsoft.rewrite.servlet.http.event.HttpServletRewrite;
 
 public class HistoryRewriteConfiguration extends HttpConfigurationProvider

@@ -4,8 +4,10 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -22,10 +24,14 @@ import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
  */
 public abstract class FixedLayoutView extends Composite implements FixedLayout
 {
-   @Inject
-   UiBinder<Widget, FixedLayoutView> binder;
+   @UiTemplate("FixedLayoutView.ui.xml")
+   interface FixedLayoutViewBinder extends UiBinder<Widget, FixedLayoutView>
+   {
+   }
 
-   protected Presenter presenter;
+   private static FixedLayoutViewBinder binder = GWT.create(FixedLayoutViewBinder.class);
+
+   private Presenter presenter;
 
    /*
     * UiBinder template fields
