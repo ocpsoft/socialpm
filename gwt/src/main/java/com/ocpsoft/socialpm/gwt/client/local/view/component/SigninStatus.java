@@ -35,19 +35,24 @@ public class SigninStatus extends Composite
    private final ProfileLink profileLink = new ProfileLink();
    private final NavLink signinLink = new NavLink("Sign in", HistoryConstants.LOGIN());
 
-   @PostConstruct
-   public void postConstruct()
+   public SigninStatus()
    {
       binder.createAndBindUi(this);
-
       signedIn.add(new Span("Signed in as "));
       signedIn.add(profileLink);
       signedIn.setVisible(false);
 
       signedOut.add(signinLink);
       signedOut.setVisible(true);
+      System.out.println("Constructed SigninStatus-" + this);
    }
-
+   
+   @PostConstruct
+   public void postConstruct()
+   {
+      System.out.println("SIgninStatus - Postconstruct" + SigninStatus.this);
+   }
+   
    public void handleLogin(@Observes LoginEvent event)
    {
       this.setSignedIn(event.getProfile());

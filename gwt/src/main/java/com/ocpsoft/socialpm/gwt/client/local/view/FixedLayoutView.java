@@ -62,11 +62,15 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
 
    protected abstract void setup();
 
+   public FixedLayoutView()
+   {
+      initWidget(binder.createAndBindUi(this));
+   }
+   
    @PostConstruct
    public void postConstruct()
    {
-      initWidget(binder.createAndBindUi(this));
-
+      System.out.println("PC - FLV" + this);
       topnav.setFixedTop(true);
       topnav.addBrand(brandLink);
 
@@ -75,7 +79,6 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
 
       topnav.addRight(signinStatus);
       header.add(topnav);
-
       setup();
    }
 

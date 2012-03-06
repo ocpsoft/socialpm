@@ -25,6 +25,13 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    private final ProjectList projectList = new ProjectList();
    private final StatusFeed statusFeed = new StatusFeed();
 
+   
+   public HomeViewImpl()
+   {
+      super();
+      System.out.println("Construct FixedLayoutView : " + this);
+   }
+
    @Override
    public void setup()
    {

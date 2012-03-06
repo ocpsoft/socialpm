@@ -20,7 +20,8 @@
 		<when-type-is class="com.ocpsoft.socialpm.gwt.client.local.ClientFactory" />
 	</replace-with>
 
-	<!-- Testing only -->
+	<!-- Testing only
 	<set-property name="user.agent" value="safari" />
+	-->
 
 </module>
