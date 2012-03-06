@@ -21,7 +21,6 @@ import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.HomeView;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
-import com.ocpsoft.socialpm.model.feed.FeedEvent;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -138,27 +137,5 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
                return false;
             }
          }).getByOwner(profile);
-   }
-   
-
-
-   private void loadStatuses(Profile profile)
-   {
-//      clientFactory.getServiceFactory().getFeedService().call(new RemoteCallback<List<Project>>() {
-//
-//         @Override
-//         public void callback(List<FeedEvent> statuses)
-//         {
-//            HomeView homeView = clientFactory.getHomeView();
-//            homeView.getStatusFeed().setStatuses(statuses);
-//         }}, new ErrorCallback() {
-//            
-//            @Override
-//            public boolean error(Message message, Throwable throwable)
-//            {
-//               System.out.println("error");
-//               return false;
-//            }
-//         }).getAggregateFeedEventsForProfile(profile);
    }
 }

@@ -9,11 +9,10 @@ import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
-import com.ocpsoft.socialpm.gwt.client.local.view.LoginViewImpl;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.model.user.Profile;
 
-public class LoginActivity extends AbstractActivity implements LoginViewImpl.Presenter
+public class LoginActivity extends AbstractActivity implements LoginView.Presenter
 {
    private final ClientFactory clientFactory;
 

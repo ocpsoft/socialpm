@@ -1,32 +1,31 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
-import com.google.gwt.core.client.GWT;
+import javax.annotation.PostConstruct;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.ocpsoft.socialpm.gwt.client.local.App;
-import com.ocpsoft.socialpm.gwt.client.local.EventsFactory;
-import com.ocpsoft.socialpm.gwt.client.local.ServiceFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.FluidRow;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavBar;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.SigninStatus;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-public abstract class FixedLayoutView extends Composite implements FluidLayout
+public abstract class FixedLayoutView extends Composite implements FixedLayout
 {
-   @UiTemplate("FixedLayoutView.ui.xml")
-   interface FixedLayoutViewBinder extends UiBinder<Widget, FixedLayoutView>
-   {
-   }
+   @Inject
+   UiBinder<Widget, FixedLayoutView> binder;
 
-   private static FixedLayoutViewBinder binder = GWT.create(FixedLayoutViewBinder.class);
+   protected Presenter presenter;
 
    /*
     * UiBinder template fields
@@ -51,9 +50,14 @@ public abstract class FixedLayoutView extends Composite implements FluidLayout
    private final NavBar topnav = new NavBar();
    private final NavLink brandLink = new NavLink(App.NAME, HistoryConstants.HOME());
    private final NavLink signupLink = new NavLink("Join the party", HistoryConstants.SIGNUP());
-   private final SigninStatus signinStatus = new SigninStatus();
 
-   public FixedLayoutView(ServiceFactory serviceFactory, EventsFactory eventFactory)
+   @Inject
+   private SigninStatus signinStatus;
+
+   protected abstract void setup();
+
+   @PostConstruct
+   public void postConstruct()
    {
       initWidget(binder.createAndBindUi(this));
 
@@ -64,8 +68,21 @@ public abstract class FixedLayoutView extends Composite implements FluidLayout
       topnav.add(signupLink);
 
       topnav.addRight(signinStatus);
-
       header.add(topnav);
+
+      setup();
+   }
+
+   @Override
+   public void setPresenter(FixedLayout.Presenter presenter)
+   {
+      this.presenter = presenter;
+   }
+
+   public void onLogin(@Observes LoginEvent event)
+   {
+      if (presenter != null)
+         presenter.handleLogin(event);
    }
 
    /*

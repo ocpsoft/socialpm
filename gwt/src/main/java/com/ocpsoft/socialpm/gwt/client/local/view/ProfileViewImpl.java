@@ -3,16 +3,11 @@ package com.ocpsoft.socialpm.gwt.client.local.view;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-import javax.inject.Inject;
 
 import com.google.gwt.user.client.ui.Label;
-import com.ocpsoft.socialpm.gwt.client.local.EventsFactory;
-import com.ocpsoft.socialpm.gwt.client.local.ServiceFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ListItem;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.UnorderedList;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -20,31 +15,16 @@ import com.ocpsoft.socialpm.model.user.Profile;
 public class ProfileViewImpl extends FixedLayoutView implements ProfileView
 {
    HeroPanel greeting = new HeroPanel();
-   private UnorderedList projectList = new UnorderedList();
-   
-   private Presenter presenter;
-   private Label email = new Label();
+   private final UnorderedList projectList = new UnorderedList();
 
-   @Inject
-   public ProfileViewImpl(ServiceFactory serviceFactory, EventsFactory eventFactory)
+   private final Label email = new Label();
+
+   @Override
+   public void setup()
    {
-      super(serviceFactory, eventFactory);
-      System.out.println("Construct ViewProfileView");
       content.add(greeting);
       greeting.getUnder().add(email);
       content.add(projectList);
-   }
-
-   public void onLogin(@Observes LoginEvent event)
-   {
-      if (presenter != null)
-         presenter.handleLogin(event);
-   }
-
-   @Override
-   public void setPresenter(ProfileView.Presenter presenter)
-   {
-      this.presenter = presenter;
    }
 
    @Override
@@ -63,7 +43,7 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
    {
       return greeting;
    }
-   
+
    @Override
    public void setProjects(List<Project> projects)
    {

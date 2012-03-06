@@ -13,7 +13,6 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
-import com.ocpsoft.socialpm.gwt.client.local.view.HomeView;
 import com.ocpsoft.socialpm.gwt.client.local.view.ProfileView;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.model.project.Project;

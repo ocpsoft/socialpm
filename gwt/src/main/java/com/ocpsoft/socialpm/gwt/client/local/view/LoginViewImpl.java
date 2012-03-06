@@ -1,7 +1,6 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import org.jboss.errai.bus.client.api.ErrorCallback;
@@ -23,18 +22,20 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.ocpsoft.socialpm.gwt.client.local.EventsFactory;
 import com.ocpsoft.socialpm.gwt.client.local.ServiceFactory;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 @ApplicationScoped
 public class LoginViewImpl extends FixedLayoutView implements LoginView
 {
-   private Presenter presenter;
+   @Inject
+   private ServiceFactory serviceFactory;
 
    @Inject
-   public LoginViewImpl(final ServiceFactory serviceFactory, final EventsFactory eventFactory)
+   private EventsFactory eventFactory;
+
+   @Override
+   public void setup()
    {
-      super(serviceFactory, eventFactory);
       System.out.println("Construct LoginView");
 
       HorizontalPanel login = new HorizontalPanel();
@@ -108,15 +109,4 @@ public class LoginViewImpl extends FixedLayoutView implements LoginView
       serviceFactory.getAuthService().call(success, failure).login(username.getText(), password.getText());
    }
 
-   @Override
-   public void setPresenter(LoginView.Presenter presenter)
-   {
-      this.presenter = presenter;
-   }
-
-   public void onLogin(@Observes LoginEvent event)
-   {
-      if (presenter != null)
-         presenter.handleLogin(event);
-   }
 }
