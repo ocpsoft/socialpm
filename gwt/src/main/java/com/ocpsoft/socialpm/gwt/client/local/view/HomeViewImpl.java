@@ -29,7 +29,6 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    public HomeViewImpl()
    {
       super();
-      System.out.println("Construct FixedLayoutView : " + this);
    }
 
    @Override
@@ -49,8 +48,6 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
       dashboard.add(left);
       dashboard.add(right);
       getContent().add(dashboard);
-
-      System.out.println("Construct HomeView");
    }
 
    public void response(@Observes Response event)

@@ -32,6 +32,11 @@ public class LoginViewImpl extends FixedLayoutView implements LoginView
 
    @Inject
    private EventsFactory eventFactory;
+   
+   public LoginViewImpl()
+   {
+      super();
+   }
 
    @Override
    public void setup()

@@ -37,14 +37,14 @@ public class SigninStatus extends Composite
 
    public SigninStatus()
    {
-      binder.createAndBindUi(this);
+      initWidget(binder.createAndBindUi(this));
+      
       signedIn.add(new Span("Signed in as "));
       signedIn.add(profileLink);
       signedIn.setVisible(false);
 
       signedOut.add(signinLink);
       signedOut.setVisible(true);
-      System.out.println("Constructed SigninStatus-" + this);
    }
    
    @PostConstruct

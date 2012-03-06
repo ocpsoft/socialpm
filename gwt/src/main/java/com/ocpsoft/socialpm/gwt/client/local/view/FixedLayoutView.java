@@ -2,6 +2,7 @@ package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.New;
 import javax.inject.Inject;
 
 import com.google.gwt.core.client.GWT;
@@ -57,7 +58,7 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
    private final NavLink brandLink = new NavLink(App.NAME, HistoryConstants.HOME());
    private final NavLink signupLink = new NavLink("Join the party", HistoryConstants.SIGNUP());
 
-   @Inject
+   @Inject @New
    private SigninStatus signinStatus;
 
    protected abstract void setup();
@@ -66,11 +67,10 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
    {
       initWidget(binder.createAndBindUi(this));
    }
-   
+
    @PostConstruct
    public void postConstruct()
    {
-      System.out.println("PC - FLV" + this);
       topnav.setFixedTop(true);
       topnav.addBrand(brandLink);
 
