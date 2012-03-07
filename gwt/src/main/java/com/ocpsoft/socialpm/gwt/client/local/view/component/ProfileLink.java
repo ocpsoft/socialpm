@@ -1,5 +1,6 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
+import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 public class ProfileLink extends NavLink
@@ -15,7 +16,7 @@ public class ProfileLink extends NavLink
 
    public ProfileLink setProfile(Profile profile)
    {
-      setTargetHistoryToken(profile.getUsername());
+      setTargetHistoryToken(new ProfilePlace.Tokenizer().getToken(new ProfilePlace(profile.getUsername())));
       setText(profile.getUsername());
       return this;
    }
