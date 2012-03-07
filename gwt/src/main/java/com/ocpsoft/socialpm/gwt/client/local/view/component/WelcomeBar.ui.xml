@@ -6,20 +6,21 @@
 	<g:HTMLPanel styleName="welcome">
 		<div class="container">
 			<div class="row" style="margin-top: 5px;">
-				<div class="span2 columns">
-					<a href="/account" title="View your account">
-						<img src="http://www.gravatar.com/avatar/c85313f55ac77540db29cc7246601074?s=90&amp;d=mm&amp;r=g"
-							height="90" style="padding: 2px; background-color: #eee;" width="90" />
-					</a>
-				</div>
-				<div class="span4 columns">
-					<h4>
-						Hi there, <a href="/account" title="View your account">lincoln</a> .
-					</h4>
-					<p>What are you going to accomplish today?</p>
-				</div>
-				<div class="span6 columns">
-					<h4 class="pull-right">Everything is fine.</h4>
+				<div class="span12 columns">
+					<div class="pull-left">
+						<t:ProfileLink ui:field="profileImageLink">
+							
+						</t:ProfileLink>
+					</div>
+					<div class="pull-left" style="margin-left: 10px;">
+						<h4>
+							Hi there, <t:ProfileLink ui:field="profileNameLink" title="View your account" />.
+						</h4>
+						<p>What are you going to accomplish today?</p>
+					</div>
+					<div class="pull-right">
+						<h4 class="pull-right"><t:Span ui:field="greeting" /></h4>
+					</div>
 				</div>
 			</div>
 		</div>

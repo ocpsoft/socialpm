@@ -15,12 +15,11 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
-import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.HomeView;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -38,24 +37,7 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
    {
       final HomeView homeView = clientFactory.getHomeView();
       homeView.setPresenter(this);
-
-      homeView.getBrandLink().setText("SocialPM");
-      homeView.getBrandLink().setHref(HistoryConstants.HOME());
-      homeView.getBrandLink().setEnabled(false);
-
-      homeView.getGreeting().setHeading("Wilkommen!");
-      homeView.getGreeting().setContent("Type a message and click to get started.");
-
-      homeView.getContent().add(homeView.getGreeting());
       setupInputs(homeView);
-
-      // TODO encapsulate this check
-      Profile loggedInProfile = App.getLoggedInProfile();
-      if(loggedInProfile != null)
-      {
-         handleLogin(new LoginEvent(loggedInProfile));
-      }
-      
       containerWidget.setWidget(homeView.asWidget());
    }
 
@@ -110,13 +92,16 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
    public void handleLogin(LoginEvent event)
    {
       HomeView homeView = clientFactory.getHomeView();
-      homeView.getSigninStatus().setSignedIn(event.getProfile());
-      
-      homeView.getWelcomeBar().setSignedIn(event.getProfile());
-      homeView.getWelcomeBar().setVisible(true);
-      homeView.showDashboard();
+      homeView.showDashboard(event.getProfile());
 
       loadProjects(event.getProfile());
+   }
+
+   @Override
+   public void handleLogout(LogoutEvent event)
+   {
+      HomeView homeView = clientFactory.getHomeView();
+      homeView.showSplash();
    }
 
    private void loadProjects(Profile profile)
@@ -126,16 +111,19 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
          @Override
          public void callback(List<Project> projects)
          {
+
             HomeView homeView = clientFactory.getHomeView();
             homeView.getProjectList().setProjects(projects);
-         }}, new ErrorCallback() {
-            
-            @Override
-            public boolean error(Message message, Throwable throwable)
-            {
-               System.out.println("error");
-               return false;
-            }
-         }).getByOwner(profile);
+
+         }
+      }, new ErrorCallback() {
+
+         @Override
+         public boolean error(Message message, Throwable throwable)
+         {
+            System.out.println("error");
+            return false;
+         }
+      }).getByOwner(profile);
    }
 }

@@ -1,7 +1,7 @@
 package com.ocpsoft.socialpm.gwt.client.local.places;
 
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.place.shared.PlaceTokenizer;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 
 public class SignupPlace extends Place
 {
@@ -12,7 +12,7 @@ public class SignupPlace extends Place
    public SignupPlace(String token)
    {}
 
-   public static class Tokenizer implements PlaceTokenizer<SignupPlace>
+   public static class Tokenizer implements TypedPlaceTokenizer<SignupPlace>
    {
       @Override
       public String getToken(SignupPlace place)
@@ -23,7 +23,15 @@ public class SignupPlace extends Place
       @Override
       public SignupPlace getPlace(String token)
       {
-         return new SignupPlace(token);
+         if (HistoryConstants.SIGNUP().equals(token))
+            return new SignupPlace(token);
+         return null;
+      }
+
+      @Override
+      public Class<SignupPlace> getPlaceType()
+      {
+         return SignupPlace.class;
       }
    }
 }

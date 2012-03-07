@@ -5,6 +5,11 @@ import com.ocpsoft.socialpm.model.user.Profile;
 
 public class HistoryConstants
 {
+   public static String DELIMETER()
+   {
+      return "/";
+   }
+
    public static final String HOME()
    {
       return HistoryStateImpl.getContextPath();
@@ -18,6 +23,11 @@ public class HistoryConstants
    public static final String LOGIN()
    {
       return "login";
+   }
+
+   public static final String NEW_PROJECT()
+   {
+      return "projects/new";
    }
 
    public static final String PROFILE(Profile profile)

@@ -8,6 +8,7 @@ import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.SigninStatus;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.WelcomeBar;
+import com.ocpsoft.socialpm.model.user.Profile;
 
 public interface HomeView extends FixedLayout
 {
@@ -29,7 +30,10 @@ public interface HomeView extends FixedLayout
 
    WelcomeBar getWelcomeBar();
 
-   void showDashboard();
+   void showDashboard(Profile profile);
+
+   void showSplash();
 
    ProjectList getProjectList();
+
 }

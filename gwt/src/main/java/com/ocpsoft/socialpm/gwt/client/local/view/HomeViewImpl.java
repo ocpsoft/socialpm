@@ -13,6 +13,7 @@ import com.ocpsoft.socialpm.gwt.client.local.view.component.Row;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.StatusFeed;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.WelcomeBar;
 import com.ocpsoft.socialpm.gwt.client.shared.Response;
+import com.ocpsoft.socialpm.model.user.Profile;
 
 @ApplicationScoped
 public class HomeViewImpl extends FixedLayoutView implements HomeView
@@ -25,7 +26,7 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    private final ProjectList projectList = new ProjectList();
    private final StatusFeed statusFeed = new StatusFeed();
 
-   
+
    public HomeViewImpl()
    {
       super();
@@ -34,8 +35,8 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    @Override
    public void setup()
    {
-      header.add(welcomeBar);
       welcomeBar.setVisible(false);
+      header.add(welcomeBar);
 
       dashboard.setVisible(false);
       Div left = new Div();
@@ -48,12 +49,36 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
       dashboard.add(left);
       dashboard.add(right);
       getContent().add(dashboard);
+
+      getGreeting().setHeading("Wilkommen!");
+      getGreeting().setContent("Type a message and click to get started.");
+      getContent().add(getGreeting());
+
+      showSplash();
    }
 
    public void response(@Observes Response event)
    {
       System.out.println("Observed response " + event.getMessage());
       greeting.setContent("Message from server: " + event.getMessage());
+   }
+
+   @Override
+   public void showDashboard(Profile profile)
+   {
+      getGreeting().setVisible(false);
+      getWelcomeBar().setProfile(profile);
+      getWelcomeBar().setVisible(true);
+      dashboard.setVisible(true);
+   }
+
+   @Override
+   public void showSplash()
+   {
+      getGreeting().setVisible(true);
+      getWelcomeBar().setVisible(false);
+      getBrandLink().setEnabled(false);
+      dashboard.setVisible(false);
    }
 
    @Override
@@ -84,13 +109,6 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    public WelcomeBar getWelcomeBar()
    {
       return welcomeBar;
-   }
-
-   @Override
-   public void showDashboard()
-   {
-      getGreeting().setVisible(false);
-      dashboard.setVisible(true);
    }
 
    @Override

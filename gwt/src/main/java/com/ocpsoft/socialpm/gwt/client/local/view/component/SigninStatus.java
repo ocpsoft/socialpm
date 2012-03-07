@@ -50,7 +50,6 @@ public class SigninStatus extends Composite
    @PostConstruct
    public void postConstruct()
    {
-      System.out.println("SIgninStatus - Postconstruct" + SigninStatus.this);
    }
    
    public void handleLogin(@Observes LoginEvent event)

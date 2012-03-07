@@ -75,6 +75,9 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
    @TransactionAttribute
    public Project create(final Profile owner, final Project p)
    {
+      Assert.notNull(owner, "Profile was null");
+      Assert.notNull(p, "Project was null");
+
       p.setOwner(owner);
       super.create(p);
 
@@ -119,12 +122,15 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
       return count(Project.class);
    }
 
+   @Override
    public Project getByOwnerAndSlug(final Profile profile, final String slug)
    {
       Assert.notNull(profile, "Profile was null");
       Assert.notNull(slug, "Project slug was null");
 
-      Project result = findUniqueByNamedQuery("project.byProfileAndSlug", profile, slug);
+      Project result = findUniqueByNamedQuery("project.byProfileAndSlug", profile.getUsername(), slug);
+
+      em.detach(result);
       HibernateDetachUtility.nullOutUninitializedFields(result, SerializationType.SERIALIZATION);
       return result;
    }

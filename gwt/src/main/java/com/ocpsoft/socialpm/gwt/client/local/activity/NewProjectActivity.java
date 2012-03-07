@@ -5,16 +5,17 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
-import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.NewProjectPlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
+import com.ocpsoft.socialpm.gwt.client.local.view.NewProjectView;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 
-public class LoginActivity extends AbstractActivity implements LoginView.Presenter
+public class NewProjectActivity extends AbstractActivity implements LoginView.Presenter
 {
    private final ClientFactory clientFactory;
 
-   public LoginActivity(LoginPlace place, ClientFactory clientFactory)
+   public NewProjectActivity(NewProjectPlace place, ClientFactory clientFactory)
    {
       this.clientFactory = clientFactory;
    }
@@ -22,10 +23,10 @@ public class LoginActivity extends AbstractActivity implements LoginView.Present
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      LoginView loginView = clientFactory.getLoginView();
-      loginView.setPresenter(this);
+      NewProjectView newProjectView = clientFactory.getNewProjectView();
+      newProjectView.setPresenter(this);
 
-      containerWidget.setWidget(loginView.asWidget());
+      containerWidget.setWidget(newProjectView.asWidget());
    }
 
    @Override

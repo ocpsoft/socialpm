@@ -1,7 +1,11 @@
 package com.ocpsoft.socialpm.gwt.client.local.places;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.place.shared.PlaceTokenizer;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 
 public class ProjectPlace extends Place
 {
@@ -10,12 +14,11 @@ public class ProjectPlace extends Place
 
    public ProjectPlace(String username, String slug)
    {
-      System.out.println("Created ProjectPlace with username [" + username + "] / slug [" + slug + "]");
       this.username = username;
       this.slug = slug;
    }
 
-   public static class Tokenizer implements PlaceTokenizer<ProjectPlace>
+   public static class Tokenizer implements TypedPlaceTokenizer<ProjectPlace>
    {
       @Override
       public String getToken(ProjectPlace place)
@@ -26,8 +29,19 @@ public class ProjectPlace extends Place
       @Override
       public ProjectPlace getPlace(String token)
       {
-         String[] split = token.split("/");
-         return new ProjectPlace(split[0], split[1]);
+         String[] tokens = token.split(HistoryConstants.DELIMETER(), -1);
+         List<String> list = new ArrayList<String>(Arrays.asList(tokens));
+         if (list.size() == 2)
+         {
+            return new ProjectPlace(list.get(0), list.get(1));
+         }
+         return null;
+      }
+
+      @Override
+      public Class<ProjectPlace> getPlaceType()
+      {
+         return ProjectPlace.class;
       }
    }
 

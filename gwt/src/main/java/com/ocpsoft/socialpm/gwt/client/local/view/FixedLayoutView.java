@@ -19,6 +19,7 @@ import com.ocpsoft.socialpm.gwt.client.local.view.component.NavBar;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.SigninStatus;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
+import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -58,6 +59,7 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
    private final NavLink brandLink = new NavLink(App.NAME, HistoryConstants.HOME());
    private final NavLink signupLink = new NavLink("Join the party", HistoryConstants.SIGNUP());
 
+   // FIXME Remove @New and replace @ApplicationScoped with @Dependent scope
    @Inject @New
    private SigninStatus signinStatus;
 
@@ -74,7 +76,11 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
       topnav.setFixedTop(true);
       topnav.addBrand(brandLink);
 
-      signupLink.setTargetHistoryToken(HistoryConstants.LOGIN());
+      getBrandLink().setText("SocialPM");
+      getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
+      getBrandLink().setEnabled(true);
+
+      signupLink.setTargetHistoryToken(HistoryConstants.SIGNUP());
       topnav.add(signupLink);
 
       topnav.addRight(signinStatus);
@@ -86,6 +92,12 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
    public void setPresenter(FixedLayout.Presenter presenter)
    {
       this.presenter = presenter;
+
+      Profile loggedInProfile = App.getLoggedInProfile();
+      if (loggedInProfile != null)
+      {
+         presenter.handleLogin(new LoginEvent(loggedInProfile));
+      }
    }
 
    public void onLogin(@Observes LoginEvent event)

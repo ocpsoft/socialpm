@@ -1,7 +1,11 @@
 package com.ocpsoft.socialpm.gwt.client.local.places;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.place.shared.PlaceTokenizer;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 
 public class ProfilePlace extends Place
 {
@@ -9,11 +13,10 @@ public class ProfilePlace extends Place
 
    public ProfilePlace(String username)
    {
-      System.out.println("Created ProfilePlace with username [" + username + "]");
       this.username = username;
    }
 
-   public static class Tokenizer implements PlaceTokenizer<ProfilePlace>
+   public static class Tokenizer implements TypedPlaceTokenizer<ProfilePlace>
    {
       @Override
       public String getToken(ProfilePlace place)
@@ -24,7 +27,19 @@ public class ProfilePlace extends Place
       @Override
       public ProfilePlace getPlace(String token)
       {
-         return new ProfilePlace(token);
+         String[] tokens = token.split(HistoryConstants.DELIMETER(), -1);
+         List<String> list = new ArrayList<String>(Arrays.asList(tokens));
+         if (list.size() == 1)
+         {
+            return new ProfilePlace(token);
+         }
+         return null;
+      }
+
+      @Override
+      public Class<ProfilePlace> getPlaceType()
+      {
+         return ProfilePlace.class;
       }
    }
 
@@ -32,10 +47,10 @@ public class ProfilePlace extends Place
    {
       return username;
    }
-   
+
    @Override
    public String toString()
    {
-      return "ProfilePlace["+username+"]";
+      return "ProfilePlace[" + username + "]";
    }
 }

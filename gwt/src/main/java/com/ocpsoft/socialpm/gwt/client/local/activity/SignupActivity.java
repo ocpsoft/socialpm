@@ -5,16 +5,16 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
-import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.SignupPlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 
-public class LoginActivity extends AbstractActivity implements LoginView.Presenter
+public class SignupActivity extends AbstractActivity implements LoginView.Presenter
 {
    private final ClientFactory clientFactory;
 
-   public LoginActivity(LoginPlace place, ClientFactory clientFactory)
+   public SignupActivity(SignupPlace place, ClientFactory clientFactory)
    {
       this.clientFactory = clientFactory;
    }

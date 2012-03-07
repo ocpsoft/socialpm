@@ -29,4 +29,9 @@ public class Span extends ComplexPanel
    {
       super.add(w, getElement());
    }
+
+   public void setText(String text)
+   {
+      getElement().setInnerText(text);
+   }
 }

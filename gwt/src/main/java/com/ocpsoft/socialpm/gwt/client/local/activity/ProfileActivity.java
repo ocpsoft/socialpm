@@ -10,11 +10,11 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.ProfileView;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -55,7 +55,6 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
          }
 
       }).getProfileByUsername(username);
-      
 
       clientFactory.getServiceFactory().getProjectService().call(new RemoteCallback<List<Project>>() {
 
@@ -65,31 +64,27 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
             ProfileView profileView = clientFactory.getProfileView();
             System.out.println(projects);
             profileView.setProjects(projects);
-         }}, new ErrorCallback() {
-            
-            @Override
-            public boolean error(Message message, Throwable throwable)
-            {
-               System.out.println("error");
-               return false;
-            }
-         }).getByOwner(new Profile(username));
+         }
+      }, new ErrorCallback() {
 
-      Profile loggedInProfile = App.getLoggedInProfile();
-      if(loggedInProfile != null)
-      {
-         handleLogin(new LoginEvent(loggedInProfile));
-      }
-      
+         @Override
+         public boolean error(Message message, Throwable throwable)
+         {
+            System.out.println("error");
+            return false;
+         }
+      }).getByOwner(new Profile(username));
+
       containerWidget.setWidget(profileView.asWidget());
    }
 
    @Override
    public void handleLogin(LoginEvent event)
-   {
-      ProfileView profileView = clientFactory.getProfileView();
-      profileView.getSigninStatus().setSignedIn(event.getProfile());
-   }
+   {}
+
+   @Override
+   public void handleLogout(LogoutEvent event)
+   {}
 
    @Override
    public String mayStop()

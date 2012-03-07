@@ -1,7 +1,7 @@
 package com.ocpsoft.socialpm.gwt.client.local.places;
 
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.place.shared.PlaceTokenizer;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 
 public class HomePlace extends Place
 {
@@ -12,7 +12,7 @@ public class HomePlace extends Place
       this.token = token;
    }
 
-   public static class Tokenizer implements PlaceTokenizer<HomePlace>
+   public static class Tokenizer implements TypedPlaceTokenizer<HomePlace>
    {
       @Override
       public String getToken(HomePlace place)
@@ -23,7 +23,18 @@ public class HomePlace extends Place
       @Override
       public HomePlace getPlace(String token)
       {
-         return new HomePlace(token);
+         if ("".equals(token) || "/".equals(token) || HistoryConstants.HOME().equals(token))
+         {
+            System.out.println("Homeplace [" + token + "]");
+            return new HomePlace(token);
+         }
+         return null;
+      }
+
+      @Override
+      public Class<HomePlace> getPlaceType()
+      {
+         return HomePlace.class;
       }
    }
 
