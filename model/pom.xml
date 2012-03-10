@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-    
+
 	<parent>
 		<artifactId>socialpm-parent</artifactId>
 		<groupId>com.ocpsoft.socialpm</groupId>
@@ -11,32 +11,32 @@
 	</parent>
 
 	<artifactId>socialpm-model</artifactId>
-    <name>SocialPM - JPA Model</name>
+	<name>SocialPM - JPA Model</name>
 
 	<dependencies>
-        <dependency>
-            <groupId>org.jboss.errai</groupId>
-            <artifactId>errai-common</artifactId>
-        </dependency>
-    
+		<dependency>
+			<groupId>org.jboss.errai</groupId>
+			<artifactId>errai-common</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.jboss.seam.security</groupId>
 			<artifactId>seam-security-api</artifactId>
-            <scope>compile</scope>
+			<scope>compile</scope>
 		</dependency>
-        
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.0.1.Final</version>
-            <scope>provided</scope>
-        </dependency>
 
-        <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.0.1.Final</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -52,5 +52,13 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/java</directory>
+			</resource>
+		</resources>
 	</build>
 </project>
