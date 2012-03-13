@@ -48,15 +48,6 @@ public class ProjectActivity extends AbstractActivity implements ProjectView.Pre
    }
 
    @Override
-   public void handleLogin(LoginEvent event)
-   {
-   }
-
-   @Override
-   public void handleLogout(LogoutEvent event)
-   {}
-
-   @Override
    public String mayStop()
    {
       return null;

@@ -8,3 +8,7 @@ Developing in JBoss Tools
 * When prompted, install the Google Dev Mode Chrome Plugin
 * You can now modify client code and refresh browser to see changes
 * Changes made to server side code may still require a re-deployment if modifying services or beans (you can use something like JRebel to avoid this)
+
+DEPLOYMENT ISSUES
+=================
+java.lang.ClassNotFoundException: org.jcp.xml.dsig.internal.dom.XMLDSigRI on JBoss AS 7.1.1.Final - https://community.jboss.org/message/723241#723241

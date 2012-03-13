@@ -8,9 +8,7 @@
 			<div class="row" style="margin-top: 5px;">
 				<div class="span12 columns">
 					<div class="pull-left">
-						<t:ProfileLink ui:field="profileImageLink">
-							
-						</t:ProfileLink>
+						<t:GravatarImage ui:field="gravatar" />
 					</div>
 					<div class="pull-left" style="margin-left: 10px;">
 						<h4>

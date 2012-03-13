@@ -79,14 +79,6 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
    }
 
    @Override
-   public void handleLogin(LoginEvent event)
-   {}
-
-   @Override
-   public void handleLogout(LogoutEvent event)
-   {}
-
-   @Override
    public String mayStop()
    {
       return null;

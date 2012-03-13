@@ -2,7 +2,6 @@ package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.event.Observes;
-import javax.enterprise.inject.New;
 import javax.inject.Inject;
 
 import com.google.gwt.core.client.GWT;
@@ -12,14 +11,11 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.ocpsoft.socialpm.gwt.client.local.App;
-import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
+import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.FluidRow;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.NavBar;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.SigninStatus;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.TopNav;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
-import com.ocpsoft.socialpm.model.user.Profile;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -32,8 +28,6 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
    }
 
    private static FixedLayoutViewBinder binder = GWT.create(FixedLayoutViewBinder.class);
-
-   private Presenter presenter;
 
    /*
     * UiBinder template fields
@@ -55,13 +49,11 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
     * Non-template fields
     */
 
-   private final NavBar topnav = new NavBar();
-   private final NavLink brandLink = new NavLink(App.NAME, HistoryConstants.HOME());
-   private final NavLink signupLink = new NavLink("Join the party", HistoryConstants.SIGNUP());
-
-   // FIXME Remove @New and replace @ApplicationScoped with @Dependent scope
-   @Inject @New
-   private SigninStatus signinStatus;
+   @Inject
+   private TopNav topnav;
+   
+   @Inject
+   private ClientFactory clientFactory;
 
    protected abstract void setup();
 
@@ -73,54 +65,22 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
    @PostConstruct
    public void postConstruct()
    {
-      topnav.setFixedTop(true);
-      topnav.addBrand(brandLink);
-
-      getBrandLink().setText("SocialPM");
-      getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
-      getBrandLink().setEnabled(true);
-
-      signupLink.setTargetHistoryToken(HistoryConstants.SIGNUP());
-      topnav.add(signupLink);
-
-      topnav.addRight(signinStatus);
       header.add(topnav);
       setup();
    }
 
+   public void handleLogin(@Observes LoginEvent event)
+   {
+   }
+   
    @Override
-   public void setPresenter(FixedLayout.Presenter presenter)
+   public void handleLogout(@Observes LogoutEvent event)
    {
-      this.presenter = presenter;
-
-      Profile loggedInProfile = App.getLoggedInProfile();
-      if (loggedInProfile != null)
-      {
-         presenter.handleLogin(new LoginEvent(loggedInProfile));
-      }
    }
-
-   public void onLogin(@Observes LoginEvent event)
+   
+   @Override
+   public TopNav getTopNav()
    {
-      if (presenter != null)
-         presenter.handleLogin(event);
-   }
-
-   /*
-    * Getters & Setters
-    */
-   public NavLink getBrandLink()
-   {
-      return brandLink;
-   }
-
-   public NavLink getSignupLink()
-   {
-      return signupLink;
-   }
-
-   public SigninStatus getSigninStatus()
-   {
-      return signinStatus;
+      return topnav;
    }
 }

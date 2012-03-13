@@ -8,13 +8,13 @@ import com.google.gwt.user.client.ui.Anchor;
 
 public class NavLink extends Anchor
 {
-   ClickHandler handler = new ClickHandler() {
+   ClickHandler enabledHandler = new ClickHandler() {
 
       @Override
       public void onClick(ClickEvent event)
       {
          event.preventDefault();
-         pushHistory();
+         History.newItem(getTargetHistoryToken());
       }
    };
 
@@ -38,14 +38,16 @@ public class NavLink extends Anchor
 
    public NavLink(String text)
    {
-      super(text);
+      super();
+      setText(text);
       setEnabled(true);
    }
 
    public NavLink(String text, String target)
    {
-      super(text);
-      this.target = target;
+      super();
+      setText(text);
+      setTargetHistoryToken(target);
       setEnabled(true);
    }
 
@@ -61,7 +63,7 @@ public class NavLink extends Anchor
       super.setEnabled(enabled);
       if (enabled)
       {
-         registeredHandler = this.addClickHandler(handler);
+         registeredHandler = this.addClickHandler(enabledHandler);
          this.removeStyleName("disabled");
       }
       else
@@ -83,11 +85,4 @@ public class NavLink extends Anchor
       return target;
    }
 
-   /*
-    * Private methods
-    */
-   private void pushHistory()
-   {
-      History.newItem(getTargetHistoryToken());
-   }
 }

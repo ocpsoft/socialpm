@@ -8,6 +8,7 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.model.project.Project;
 
 public class ProjectList extends Composite
@@ -30,6 +31,7 @@ public class ProjectList extends Composite
    public ProjectList()
    {
       initWidget(binder.createAndBindUi(this));
+      newProject.setTargetHistoryToken(HistoryConstants.NEW_PROJECT());
    }
 
    public void setProjects(List<Project> projects)
@@ -39,5 +41,10 @@ public class ProjectList extends Composite
       for (Project project : projects) {
          list.add(new ProjectBlock(project));
       }
+   }
+   
+   public NavLink getNewProjectLink()
+   {
+      return newProject;
    }
 }

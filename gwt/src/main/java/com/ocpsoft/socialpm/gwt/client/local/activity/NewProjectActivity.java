@@ -6,12 +6,9 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.places.NewProjectPlace;
-import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
 import com.ocpsoft.socialpm.gwt.client.local.view.NewProjectView;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 
-public class NewProjectActivity extends AbstractActivity implements LoginView.Presenter
+public class NewProjectActivity extends AbstractActivity implements NewProjectView.Presenter
 {
    private final ClientFactory clientFactory;
 
@@ -40,13 +37,4 @@ public class NewProjectActivity extends AbstractActivity implements LoginView.Pr
    {
       clientFactory.getPlaceController().goTo(place);
    }
-
-   @Override
-   public void handleLogin(LoginEvent event)
-   {
-   }
-
-   @Override
-   public void handleLogout(LogoutEvent event)
-   {}
 }

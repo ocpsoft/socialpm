@@ -6,6 +6,11 @@ import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 public class HomePlace extends Place
 {
    private final String token;
+   
+   public HomePlace()
+   {
+      this(HistoryConstants.HOME());
+   }
 
    public HomePlace(String token)
    {
@@ -25,7 +30,6 @@ public class HomePlace extends Place
       {
          if ("".equals(token) || "/".equals(token) || HistoryConstants.HOME().equals(token))
          {
-            System.out.println("Homeplace [" + token + "]");
             return new HomePlace(token);
          }
          return null;

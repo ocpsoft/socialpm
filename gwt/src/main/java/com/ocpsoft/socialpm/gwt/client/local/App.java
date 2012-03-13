@@ -28,19 +28,20 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
+import com.ocpsoft.socialpm.gwt.client.local.view.presenter.AuthenticationAware;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
  * Main application entry point.
  */
 @EntryPoint
-public class App
+public class App implements AuthenticationAware
 {
    public static final String NAME = "SocialPM";
 
@@ -97,9 +98,17 @@ public class App
       loggedIn = event.getProfile();
    }
 
+   @Override
+   public void handleLogout(@Observes final LogoutEvent event)
+   {
+      System.out.println("Logged out profile: " + getLoggedInProfile());
+      loggedIn = null;
+   }
+
    public static Profile getLoggedInProfile()
    {
       return loggedIn;
    }
+
 
 }

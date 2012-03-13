@@ -20,4 +20,10 @@ public class ProfileLink extends NavLink
       setText(profile.getUsername());
       return this;
    }
+
+   public void clear()
+   {
+      setTargetHistoryToken("");
+      setText("");
+   }
 }

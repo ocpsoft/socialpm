@@ -25,7 +25,7 @@ public class NavBar extends Composite
    HTMLPanel brand;
 
    @UiField
-   HTMLPanel right;
+   UnorderedList right;
 
    @UiField
    UnorderedList list;
@@ -59,7 +59,7 @@ public class NavBar extends Composite
    public NavBar add(Widget w, boolean active)
    {
       Widget li = w;
-      if (!(w instanceof ListItem))
+      if (!"li".equals(w.getElement().getTagName()))
       {
          li = new ListItem(w);
       }

@@ -25,13 +25,19 @@ public class HistoryConstants
       return "login";
    }
 
+   public static String LOGOUT()
+   {
+      return "logout";
+   }
+
    public static final String NEW_PROJECT()
    {
-      return "projects/new";
+      return "new-project";
    }
 
    public static final String PROFILE(Profile profile)
    {
       return profile.getUsername();
    }
+
 }

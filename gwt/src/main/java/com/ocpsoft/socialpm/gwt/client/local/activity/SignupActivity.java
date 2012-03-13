@@ -7,8 +7,6 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.places.SignupPlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 
 public class SignupActivity extends AbstractActivity implements LoginView.Presenter
 {
@@ -41,11 +39,8 @@ public class SignupActivity extends AbstractActivity implements LoginView.Presen
    }
 
    @Override
-   public void handleLogin(LoginEvent event)
+   public void doLogin(String username, String password)
    {
+      
    }
-
-   @Override
-   public void handleLogout(LogoutEvent event)
-   {}
 }

@@ -18,6 +18,7 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
    private final UnorderedList projectList = new UnorderedList();
 
    private final Label email = new Label();
+   private Presenter presenter;
 
    @Override
    public void setup()
@@ -50,5 +51,17 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
       for (Project project : projects) {
          projectList.add(new ListItem(project.getName()));
       }
+   }
+
+   @Override
+   public Presenter getPresenter()
+   {
+      return presenter;
+   }
+
+   @Override
+   public void setPresenter(Presenter presenter)
+   {
+      this.presenter = presenter;
    }
 }

@@ -12,12 +12,10 @@
 				</a> 
 				
                 <g:HTMLPanel ui:field="brand"></g:HTMLPanel>
-                <g:HTMLPanel ui:field="contents" styleName="nav-collapse">
+                <t:UnorderedList ui:field="list" styleName="nav"></t:UnorderedList>
                 
-                    <t:UnorderedList ui:field="list" styleName="nav"></t:UnorderedList>
-    					
-                    <g:HTMLPanel ui:field="right" styleName="pull-right"></g:HTMLPanel>
-                
+                <g:HTMLPanel ui:field="collapse" styleName="nav-collapse">
+                	<t:UnorderedList ui:field="right" styleName="nav pull-right"></t:UnorderedList>
                 </g:HTMLPanel>
     				
 			</div>

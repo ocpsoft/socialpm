@@ -55,7 +55,6 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
 
    private void setupInputs(final HomeView homeView)
    {
-      homeView.getGreeting().getUnder().add(homeView.getMessageBox());
       homeView.getMessageBox().addKeyPressHandler(new KeyPressHandler() {
 
          @Override
@@ -69,7 +68,6 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
          }
       });
 
-      homeView.getSendMessageButton().addStyleName("btn btn-primary btn-large");
       homeView.getSendMessageButton().addClickHandler(new ClickHandler() {
          @Override
          public void onClick(ClickEvent event)
@@ -79,51 +77,11 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
             fireMessage(homeView.getMessageBox().getText());
          }
       });
-      homeView.getGreeting().addAction(homeView.getSendMessageButton());
    }
 
    private void fireMessage(String text)
    {
       clientFactory.getEventFactory().fireMessage(text);
       System.out.println("Done handling click event!");
-   }
-
-   @Override
-   public void handleLogin(LoginEvent event)
-   {
-      HomeView homeView = clientFactory.getHomeView();
-      homeView.showDashboard(event.getProfile());
-
-      loadProjects(event.getProfile());
-   }
-
-   @Override
-   public void handleLogout(LogoutEvent event)
-   {
-      HomeView homeView = clientFactory.getHomeView();
-      homeView.showSplash();
-   }
-
-   private void loadProjects(Profile profile)
-   {
-      clientFactory.getServiceFactory().getProjectService().call(new RemoteCallback<List<Project>>() {
-
-         @Override
-         public void callback(List<Project> projects)
-         {
-
-            HomeView homeView = clientFactory.getHomeView();
-            homeView.getProjectList().setProjects(projects);
-
-         }
-      }, new ErrorCallback() {
-
-         @Override
-         public boolean error(Message message, Throwable throwable)
-         {
-            System.out.println("error");
-            return false;
-         }
-      }).getByOwner(profile);
    }
 }

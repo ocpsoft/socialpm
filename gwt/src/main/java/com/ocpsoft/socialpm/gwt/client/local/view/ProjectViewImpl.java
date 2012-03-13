@@ -16,6 +16,8 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
    private final Label email = new Label();
    private Project project;
 
+   private Presenter presenter;
+
    @Override
    public void setup()
    {
@@ -47,5 +49,17 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
    public HeroPanel getGreeting()
    {
       return greeting;
+   }
+
+   @Override
+   public Presenter getPresenter()
+   {
+      return presenter;
+   }
+
+   @Override
+   public void setPresenter(Presenter presenter)
+   {
+      this.presenter = presenter;
    }
 }

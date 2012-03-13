@@ -17,7 +17,7 @@ public class SignupPlace extends Place
       @Override
       public String getToken(SignupPlace place)
       {
-         return "signup";
+         return HistoryConstants.SIGNUP();
       }
 
       @Override

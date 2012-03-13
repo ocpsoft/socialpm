@@ -14,12 +14,14 @@ import com.google.gwt.place.shared.PlaceTokenizer;
 import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.activity.HomeActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.LoginActivity;
+import com.ocpsoft.socialpm.gwt.client.local.activity.LogoutActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.NewProjectActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.ProfileActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.ProjectActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.SignupActivity;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.LogoutPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.NewProjectPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
@@ -43,14 +45,19 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
       this.clientFactory = clientFactory;
 
       /*
-       * Single segment Tokenizers
+       * Constant Tokenizers
        */
       tokenizers.add(new HomePlace.Tokenizer());
       tokenizers.add(new SignupPlace.Tokenizer());
       tokenizers.add(new LoginPlace.Tokenizer());
+      tokenizers.add(new LogoutPlace.Tokenizer());
 
-      tokenizers.add(new ProfilePlace.Tokenizer());
       tokenizers.add(new NewProjectPlace.Tokenizer());
+
+      /*
+       * Single segment Tokenizers
+       */
+      tokenizers.add(new ProfilePlace.Tokenizer());
 
       /*
        * Double segment Tokenizers
@@ -62,12 +69,22 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
    public Activity getActivity(Place place)
    {
       Activity result = null;
+      
+      /*
+       * Static Activities
+       */
       if (place instanceof HomePlace)
          result = new HomeActivity((HomePlace) place, clientFactory);
       if (place instanceof LoginPlace)
          result = new LoginActivity((LoginPlace) place, clientFactory);
+      if (place instanceof LogoutPlace)
+         result = new LogoutActivity((LogoutPlace) place, clientFactory);
       if (place instanceof SignupPlace)
          result = new SignupActivity((SignupPlace) place, clientFactory);
+      
+      /*
+       * Dynamic Activities
+       */
       if (place instanceof ProfilePlace)
          result = new ProfileActivity((ProfilePlace) place, clientFactory);
       if (place instanceof ProjectPlace)
@@ -93,7 +110,7 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
       {
          token = token.substring(contextPath.length());
       }
-
+      
       for (PlaceTokenizer<?> t : tokenizers) {
          result = t.getPlace(token);
          if (result != null)
@@ -112,6 +129,7 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
    }
 
    @Override
+   @SuppressWarnings({ "rawtypes", "unchecked" })
    public String getToken(Place place)
    {
       String result = null;

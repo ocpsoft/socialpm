@@ -17,7 +17,7 @@ public class NewProjectPlace extends Place
       @Override
       public String getToken(NewProjectPlace place)
       {
-         return "projects/new";
+         return HistoryConstants.NEW_PROJECT();
       }
 
       @Override
