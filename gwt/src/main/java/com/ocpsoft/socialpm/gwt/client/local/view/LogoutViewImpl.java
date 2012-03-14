@@ -16,7 +16,7 @@ public class LogoutViewImpl extends FixedLayoutView implements LogoutView
    private EventsFactory eventFactory;
 
    private Presenter presenter;
-   
+
    public LogoutViewImpl()
    {
       super();

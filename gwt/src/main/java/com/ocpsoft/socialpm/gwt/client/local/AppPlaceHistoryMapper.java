@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
+
+import org.jboss.errai.ioc.client.container.IOCBeanManager;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
@@ -19,6 +22,7 @@ import com.ocpsoft.socialpm.gwt.client.local.activity.NewProjectActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.ProfileActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.ProjectActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.SignupActivity;
+import com.ocpsoft.socialpm.gwt.client.local.history.CurrentHistory;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.LogoutPlace;
@@ -39,9 +43,12 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
    private final ClientFactory clientFactory;
    private final List<TypedPlaceTokenizer<?>> tokenizers = new ArrayList<TypedPlaceTokenizer<?>>();
 
+   private final IOCBeanManager manager;
+
    @Inject
-   public AppPlaceHistoryMapper(ClientFactory clientFactory)
+   public AppPlaceHistoryMapper(IOCBeanManager manager, ClientFactory clientFactory)
    {
+      this.manager = manager;
       this.clientFactory = clientFactory;
 
       /*
@@ -69,28 +76,28 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
    public Activity getActivity(Place place)
    {
       Activity result = null;
-      
+
       /*
        * Static Activities
        */
       if (place instanceof HomePlace)
-         result = new HomeActivity((HomePlace) place, clientFactory);
+         result = manager.lookupBean(HomeActivity.class).getInstance();
       if (place instanceof LoginPlace)
-         result = new LoginActivity((LoginPlace) place, clientFactory);
+         result = manager.lookupBean(LoginActivity.class).getInstance();
       if (place instanceof LogoutPlace)
-         result = new LogoutActivity((LogoutPlace) place, clientFactory);
+         result = manager.lookupBean(LogoutActivity.class).getInstance();
       if (place instanceof SignupPlace)
-         result = new SignupActivity((SignupPlace) place, clientFactory);
-      
+         result = manager.lookupBean(SignupActivity.class).getInstance();
+
       /*
        * Dynamic Activities
        */
       if (place instanceof ProfilePlace)
-         result = new ProfileActivity((ProfilePlace) place, clientFactory);
+         result = manager.lookupBean(ProfileActivity.class).getInstance();
       if (place instanceof ProjectPlace)
-         result = new ProjectActivity((ProjectPlace) place, clientFactory);
+         result = manager.lookupBean(ProjectActivity.class).getInstance();
       if (place instanceof NewProjectPlace)
-         result = new NewProjectActivity((NewProjectPlace) place, clientFactory);
+         result = manager.lookupBean(NewProjectActivity.class).getInstance();
 
       if (result == null)
       {
@@ -110,7 +117,7 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
       {
          token = token.substring(contextPath.length());
       }
-      
+
       for (PlaceTokenizer<?> t : tokenizers) {
          result = t.getPlace(token);
          if (result != null)
@@ -126,6 +133,13 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
 
       System.out.println("Mapped token [" + token + "] to place [" + result + "]");
       return result;
+   }
+
+   @Produces
+   @CurrentHistory
+   public Place getCurrentHistoryPlace()
+   {
+      return clientFactory.getPlaceController().getWhere();
    }
 
    @Override

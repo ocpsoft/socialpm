@@ -1,6 +1,5 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -11,9 +10,8 @@ import com.ocpsoft.socialpm.model.user.Profile;
 
 public interface HomeView extends FixedLayout
 {
-   public interface Presenter
+   public interface Presenter extends FixedLayout.FixedPresenter
    {
-      void goTo(Place place);
    }
 
    TextBox getMessageBox();
@@ -31,9 +29,9 @@ public interface HomeView extends FixedLayout
    void showSplash();
 
    ProjectList getProjectList();
-   
+
    Presenter getPresenter();
-   
+
    void setPresenter(Presenter presenter);
 
 }

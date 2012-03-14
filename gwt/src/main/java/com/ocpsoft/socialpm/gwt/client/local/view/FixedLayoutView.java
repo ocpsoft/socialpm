@@ -1,7 +1,6 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import com.google.gwt.core.client.GWT;
@@ -14,8 +13,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.FluidRow;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.TopNav;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -51,7 +48,7 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
 
    @Inject
    private TopNav topnav;
-   
+
    @Inject
    private ClientFactory clientFactory;
 
@@ -69,15 +66,6 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
       setup();
    }
 
-   public void handleLogin(@Observes LoginEvent event)
-   {
-   }
-   
-   @Override
-   public void handleLogout(@Observes LogoutEvent event)
-   {
-   }
-   
    @Override
    public TopNav getTopNav()
    {

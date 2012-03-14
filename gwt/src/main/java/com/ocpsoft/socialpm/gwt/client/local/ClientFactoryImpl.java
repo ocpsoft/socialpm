@@ -25,6 +25,9 @@ public class ClientFactoryImpl implements ClientFactory
    @Inject
    private ServiceFactory serviceFactory;
 
+   public ClientFactoryImpl()
+   {}
+
    @Override
    public PlaceController getPlaceController()
    {
@@ -82,7 +85,7 @@ public class ClientFactoryImpl implements ClientFactory
    {
       return loginView;
    }
-   
+
    @Override
    public LogoutView getLogoutView()
    {

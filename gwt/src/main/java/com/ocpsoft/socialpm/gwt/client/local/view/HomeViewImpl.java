@@ -1,29 +1,18 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
-import java.util.List;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import javax.inject.Inject;
-
-import org.jboss.errai.bus.client.api.ErrorCallback;
-import org.jboss.errai.bus.client.api.Message;
-import org.jboss.errai.bus.client.api.RemoteCallback;
 
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Div;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Row;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.StatusFeed;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.WelcomeBar;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
-import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 import com.ocpsoft.socialpm.gwt.client.shared.Response;
-import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 @ApplicationScoped
@@ -37,8 +26,6 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    private final ProjectList projectList = new ProjectList();
    private final StatusFeed statusFeed = new StatusFeed();
 
-   @Inject
-   private ClientFactory clientFactory;
    private Presenter presenter;
    
    public HomeViewImpl()
@@ -74,39 +61,6 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
       getGreeting().addAction(getSendMessageButton());
 
       showSplash();
-   }
-
-   @Override
-   public void handleLogin(LoginEvent event)
-   {
-      showDashboard(event.getProfile());
-      loadProjects(event.getProfile());
-   }
-
-   @Override
-   public void handleLogout(LogoutEvent event)
-   {
-      showSplash();
-   }
-
-   private void loadProjects(Profile profile)
-   {
-      clientFactory.getServiceFactory().getProjectService().call(new RemoteCallback<List<Project>>() {
-
-         @Override
-         public void callback(List<Project> projects)
-         {
-            getProjectList().setProjects(projects);
-         }
-      }, new ErrorCallback() {
-
-         @Override
-         public boolean error(Message message, Throwable throwable)
-         {
-            System.out.println("error");
-            return false;
-         }
-      }).getByOwner(profile);
    }
 
    public void response(@Observes Response event)

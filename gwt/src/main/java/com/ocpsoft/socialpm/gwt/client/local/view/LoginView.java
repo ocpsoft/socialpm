@@ -1,20 +1,17 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
-import com.google.gwt.place.shared.Place;
 
 
 public interface LoginView extends FixedLayout
 {
-   public interface Presenter 
+   public interface Presenter extends FixedLayout.FixedPresenter
    {
       void doLogin(String username, String password);
-
-      void goTo(Place place);
    }
-   
+
    void focusUsername();
-   
+
    Presenter getPresenter();
-   
+
    void setPresenter(Presenter presenter);
 }
