@@ -11,11 +11,6 @@ import org.jboss.errai.bus.client.api.Message;
 import org.jboss.errai.bus.client.api.RemoteCallback;
 
 import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -23,6 +18,7 @@ import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.HomeView;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
+import com.ocpsoft.socialpm.gwt.client.shared.Response;
 import com.ocpsoft.socialpm.model.project.Project;
 
 @Dependent
@@ -42,7 +38,6 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
       homeView.setPresenter(this);
-      setupInputs(homeView);
       containerWidget.setWidget(homeView.asWidget());
    }
 
@@ -58,36 +53,17 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
       clientFactory.getPlaceController().goTo(place);
    }
 
-   private void setupInputs(final HomeView homeView)
-   {
-      homeView.getMessageBox().addKeyPressHandler(new KeyPressHandler() {
-
-         @Override
-         public void onKeyPress(KeyPressEvent event)
-         {
-            if (KeyCodes.KEY_ENTER == event.getCharCode())
-            {
-               event.preventDefault();
-               fireMessage(homeView.getMessageBox().getText());
-            }
-         }
-      });
-
-      homeView.getSendMessageButton().addClickHandler(new ClickHandler() {
-         @Override
-         public void onClick(ClickEvent event)
-         {
-            event.preventDefault();
-
-            fireMessage(homeView.getMessageBox().getText());
-         }
-      });
-   }
-
-   private void fireMessage(String text)
+   @Override
+   public void fireMessage(String text)
    {
       clientFactory.getEventFactory().fireMessage(text);
       System.out.println("Done handling click event!");
+   }
+
+   public void response(@Observes Response event)
+   {
+      System.out.println("Observed response " + event.getMessage());
+      homeView.getGreeting().setContent("Message from server: " + event.getMessage());
    }
 
    @Override

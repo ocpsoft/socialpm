@@ -22,7 +22,7 @@ public class NavBar extends Composite
    HTMLPanel navbar;
 
    @UiField
-   HTMLPanel brand;
+   NavLink brand;
 
    @UiField
    UnorderedList right;
@@ -41,13 +41,6 @@ public class NavBar extends Composite
          navbar.addStyleName("navbar-fixed-top");
       else
          navbar.removeStyleName("navbar-fixed-stop");
-      return this;
-   }
-
-   public NavBar addBrand(Widget link)
-   {
-      link.addStyleName("brand");
-      brand.add(link);
       return this;
    }
 
@@ -80,6 +73,14 @@ public class NavBar extends Composite
    public boolean remove(Widget w)
    {
       return list.remove(w);
+   }
+
+   /*
+    * Getters & Setters
+    */
+   public NavLink getBrandLink()
+   {
+      return brand;
    }
 
 }

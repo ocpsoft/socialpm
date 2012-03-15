@@ -17,6 +17,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
@@ -92,8 +93,8 @@ public class HibernateDetachUtility
    private static final int depthAllowed;
    private static final boolean throwExceptionOnDepthLimit;
    private static final String DUMP_STACK_THRESHOLDS_SYSPROP = "rhq.server.hibernate-detach-utility.dump-stack-thresholds"; // e.g.
-                                                                                                                            // "5000:10000"
-                                                                                                                            // (millis:num-objects)
+   // "5000:10000"
+   // (millis:num-objects)
    private static final boolean dumpStackOnThresholdLimit;
    private static final long millisThresholdLimit;
    private static final int sizeThresholdLimit;
@@ -147,7 +148,7 @@ public class HibernateDetachUtility
       millisThresholdLimit = tmp_millisThresholdLimit;
       sizeThresholdLimit = tmp_sizeThresholdLimit;
    }
-   
+
    private static boolean validType(Object value)
    {
       // TODO LB3 Extract this into a configurable SPI?
@@ -207,8 +208,8 @@ public class HibernateDetachUtility
     */
    private static void nullOutUninitializedFields(Object value, Map<Integer, Object> checkedObjectMap,
             Map<Integer, List<Object>> checkedObjectCollisionMap, int depth, SerializationType serializationType)
-            throws Exception
-   {
+                     throws Exception
+                     {
       if (depth > depthAllowed) {
          String warningMessage = "Recursed too deep [" + depth + " > " + depthAllowed
                   + "], will not attempt to detach object of type ["
@@ -347,7 +348,7 @@ public class HibernateDetachUtility
          }
          collection.removeAll(itemsToBeReplaced);
          collection.addAll(replacementItems); // watch out! if this collection is a Set, HashMap$MapSet doesn't support
-                                              // addAll. See BZ 688000
+         // addAll. See BZ 688000
       }
       else if (value instanceof Map) {
          Map originalMap = (Map) value;
@@ -402,12 +403,12 @@ public class HibernateDetachUtility
          nullOutFieldsByFieldAccess(value, checkedObjectMap, checkedObjectCollisionMap, depth, serializationType);
       }
 
-   }
+                     }
 
    private static void nullOutFieldsByFieldAccess(Object object, Map<Integer, Object> checkedObjects,
             Map<Integer, List<Object>> checkedObjectCollisionMap, int depth, SerializationType serializationType)
-            throws Exception
-   {
+                     throws Exception
+                     {
 
       Class tmpClass = object.getClass();
       List<Field> fieldsToClean = new ArrayList<Field>();
@@ -425,12 +426,12 @@ public class HibernateDetachUtility
 
       nullOutFieldsByFieldAccess(object, fieldsToClean, checkedObjects, checkedObjectCollisionMap, depth,
                serializationType);
-   }
+                     }
 
    private static void nullOutFieldsByFieldAccess(Object object, List<Field> classFields,
             Map<Integer, Object> checkedObjects, Map<Integer, List<Object>> checkedObjectCollisionMap, int depth,
             SerializationType serializationType) throws Exception
-   {
+            {
 
       boolean accessModifierFlag = false;
       for (Field field : classFields) {
@@ -534,7 +535,7 @@ public class HibernateDetachUtility
                      nullOutUninitializedFields(l, checkedObjects, checkedObjectCollisionMap, depth + 1,
                               serializationType);
                      replacement = new HashSet(l); // convert it back to a Set since that's the type of the real
-                                                   // collection, see BZ 688000
+                     // collection, see BZ 688000
                      needToNullOutFields = false;
                   }
                   else if (fieldValue instanceof Collection) {
@@ -562,7 +563,7 @@ public class HibernateDetachUtility
          }
       }
 
-   }
+            }
 
    private static Object replaceObject(Object object)
    {
@@ -586,8 +587,8 @@ public class HibernateDetachUtility
 
    private static void nullOutFieldsByAccessors(Object value, Map<Integer, Object> checkedObjects,
             Map<Integer, List<Object>> checkedObjectCollisionMap, int depth, SerializationType serializationType)
-            throws Exception
-   {
+                     throws Exception
+                     {
       // Null out any collections that aren't loaded
       BeanInfo bi = Introspector.getBeanInfo(value.getClass(), Object.class);
 
@@ -631,7 +632,7 @@ public class HibernateDetachUtility
             }
          }
       }
-   }
+                     }
 
    private static void setField(Object object, String fieldName, Object newValue)
    {
@@ -667,5 +668,11 @@ public class HibernateDetachUtility
       catch (IllegalAccessException e) {
          // ignore this
       }
+   }
+
+   public static void nullOutUninitializedFields(EntityManager em, Object entity, SerializationType serialization)
+   {
+      em.detach(entity);
+      nullOutUninitializedFields(entity, serialization);
    }
 }

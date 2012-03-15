@@ -6,14 +6,17 @@ import javax.inject.Inject;
 import org.jboss.errai.bus.client.api.RemoteCallback;
 
 import com.google.gwt.activity.shared.AbstractActivity;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
+import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
-import com.ocpsoft.socialpm.gwt.client.local.view.LogoutView;
+import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
+import com.ocpsoft.socialpm.gwt.client.local.util.Redirect;
 
 @Dependent
-public class LogoutActivity extends AbstractActivity implements LogoutView.Presenter
+public class LogoutActivity extends AbstractActivity
 {
    private final ClientFactory clientFactory;
 
@@ -26,10 +29,7 @@ public class LogoutActivity extends AbstractActivity implements LogoutView.Prese
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      LogoutView logoutView = clientFactory.getLogoutView();
-      logoutView.setPresenter(this);
-
-      containerWidget.setWidget(logoutView.asWidget());
+      clientFactory.getEventFactory().fireLogoutEvent();
 
       clientFactory.getServiceFactory().getAuthService().call(new RemoteCallback<Void>() {
          @Override
@@ -38,18 +38,23 @@ public class LogoutActivity extends AbstractActivity implements LogoutView.Prese
          }
       }).logout();
 
-      clientFactory.getEventFactory().fireLogoutEvent();
+      String contextPath = HistoryStateImpl.getContextPath();
+      String homeUrl = GWT.getModuleBaseURL();
+      if (homeUrl.contains(contextPath))
+      {
+         homeUrl = homeUrl.substring(0, homeUrl.indexOf(contextPath));
+      }
+      homeUrl = homeUrl + HistoryConstants.HOME();
+      if (App.isDevelopmentMode())
+      {
+         homeUrl = homeUrl + "?gwt.codesvr=127.0.0.1:9997";
+      }
+      Redirect.to(homeUrl);
    }
 
    @Override
    public String mayStop()
    {
       return null;
-   }
-
-   @Override
-   public void goTo(Place place)
-   {
-      clientFactory.getPlaceController().goTo(place);
    }
 }

@@ -227,7 +227,7 @@
 				</executions>
 				<configuration>
 					<relativePath>../</relativePath>
-					<rootPath>$${myproject.root}</rootPath>
+					<rootPath>$${socialpm.root}</rootPath>
 				</configuration>
 			</plugin>
 			<plugin>

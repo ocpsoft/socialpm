@@ -7,11 +7,7 @@ import com.google.gwt.user.client.Window;
  */
 public class Redirect
 {
-   public static native void to(String url) /*-{
-		$wnd.location.href = url;
-   }-*/;
-
-   public static void toNative(String url)
+   public static void to(String url)
    {
       Window.Location.assign(url);
    }

@@ -4,7 +4,6 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
 
-import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
@@ -17,11 +16,9 @@ import com.ocpsoft.socialpm.model.user.Profile;
 @Dependent
 public class TopNav extends NavBar implements AuthenticationAware
 {
-
-   private final NavLink brandLink = new NavLink(App.NAME, HistoryConstants.HOME());
    private final NavLink signupLink = new NavLink("Join the party", HistoryConstants.SIGNUP());
 
-   private GravatarImage gravatar = new GravatarImage(30);
+   private final GravatarImage gravatar = new GravatarImage(30);
 
 
    private final NavDropdown status = new NavDropdown();
@@ -33,26 +30,26 @@ public class TopNav extends NavBar implements AuthenticationAware
    public TopNav()
    {
       super();
-      
+
       setFixedTop(true);
 
       /*
-       * Initialize brand and signup links  
+       * Initialize brand and signup links
        */
-      addBrand(brandLink);
+      getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
       getBrandLink().setText("SocialPM");
       getBrandLink().setEnabled(true);
 
       add(signupLink);
-      
+
       /*
        * Initialize Gravatar and Account Menu
        */
       gravatar.setVisible(true);
       gravatar.getImage().getElement()
-               .setAttribute("style", "padding: 2px; background-color: #eee; position: relative; top: 3px;");
+      .setAttribute("style", "padding: 2px; background-color: #eee; position: relative; top: 3px;");
       addRight(new ListItem(gravatar));
-      
+
       status.setVisible(false);
       status.add(profileLink);
       status.add(new NavDropdownDivider());
@@ -67,14 +64,6 @@ public class TopNav extends NavBar implements AuthenticationAware
    public void postConstruct()
    {}
 
-   /*
-    * Getters & Setters
-    */
-   public NavLink getBrandLink()
-   {
-      return brandLink;
-   }
-
    public NavLink getSignupLink()
    {
       return signupLink;
@@ -86,12 +75,13 @@ public class TopNav extends NavBar implements AuthenticationAware
       Profile profile = event.getProfile();
       gravatar.setProfile(profile);
       gravatar.setVisible(true);
-      
+
       profileLink.setProfile(profile);
       profileLink.setText("View your profile");
 
       signinLink.setVisible(false);
-      
+      signupLink.setVisible(false);
+
       status.setToggleText(profile.getUsername());
       status.setVisible(true);
    }
@@ -103,7 +93,8 @@ public class TopNav extends NavBar implements AuthenticationAware
       gravatar.setVisible(false);
       status.setVisible(false);
       signinLink.setVisible(true);
-      
+      signupLink.setVisible(true);
+
       profileLink.clear();
    }
 

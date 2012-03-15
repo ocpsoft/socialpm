@@ -24,6 +24,7 @@ import org.jboss.errai.enterprise.client.cdi.api.CDI;
 import org.jboss.errai.ioc.client.api.EntryPoint;
 
 import com.google.gwt.activity.shared.ActivityManager;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
@@ -92,6 +93,7 @@ public class App implements AuthenticationAware
       });
    }
 
+   @Override
    public void handleLogin(@Observes LoginEvent event)
    {
       System.out.println("Set logged in profile: " + event.getProfile());
@@ -110,5 +112,9 @@ public class App implements AuthenticationAware
       return loggedIn;
    }
 
+   public static boolean isDevelopmentMode()
+   {
+      return !GWT.isScript() && GWT.isClient();
+   }
 
 }

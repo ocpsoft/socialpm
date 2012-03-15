@@ -41,7 +41,15 @@ public class ProfileServiceImpl extends PersistenceUtil implements Serializable,
       TypedQuery<Profile> query = em.createQuery("SELECT p FROM Profile p WHERE p.username = :username", Profile.class);
       query.setParameter("username", username);
 
-      Profile result = query.getSingleResult();
+      Profile result = null;
+      try {
+         result = query.getSingleResult();
+         em.detach(result);
+         HibernateDetachUtility.nullOutUninitializedFields(em, result, SerializationType.SERIALIZATION);
+      }
+      catch (NoResultException e) {
+         logger.error("No user found with username [" + username + "]", e);
+      }
       return result;
    }
 
@@ -56,10 +64,10 @@ public class ProfileServiceImpl extends PersistenceUtil implements Serializable,
       try {
          result = query.getSingleResult();
          em.detach(result);
-         HibernateDetachUtility.nullOutUninitializedFields(result, SerializationType.SERIALIZATION);
+         HibernateDetachUtility.nullOutUninitializedFields(em, result, SerializationType.SERIALIZATION);
       }
       catch (NoResultException e) {
-         logger.error("No user found for identity key ["+key+"]", e);
+         logger.error("No user found for identity key [" + key + "]", e);
       }
       return result;
    }

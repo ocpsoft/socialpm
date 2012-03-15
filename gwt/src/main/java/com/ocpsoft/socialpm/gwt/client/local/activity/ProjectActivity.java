@@ -20,13 +20,15 @@ import com.ocpsoft.socialpm.model.user.Profile;
 public class ProjectActivity extends AbstractActivity implements ProjectView.Presenter
 {
    private final ClientFactory clientFactory;
+   private final ProjectView projectView;
    private final String username;
    private final String slug;
 
    @Inject
-   public ProjectActivity(@CurrentHistory Place place, ClientFactory clientFactory)
+   public ProjectActivity(ClientFactory clientFactory, ProjectView projectView, @CurrentHistory Place place)
    {
       this.clientFactory = clientFactory;
+      this.projectView = projectView;
       this.username = ((ProjectPlace) place).getUsername();
       this.slug = ((ProjectPlace) place).getSlug();
    }
@@ -34,7 +36,6 @@ public class ProjectActivity extends AbstractActivity implements ProjectView.Pre
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      final ProjectView projectView = clientFactory.getProjectView();
       projectView.setPresenter(this);
 
       projectView.getGreeting().setHeading("Loading...");

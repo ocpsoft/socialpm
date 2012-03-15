@@ -25,18 +25,19 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
 {
    private final ClientFactory clientFactory;
    private final String username;
+   private final ProfileView profileView;
 
    @Inject
-   public ProfileActivity(@CurrentHistory Place place, ClientFactory clientFactory)
+   public ProfileActivity(ClientFactory clientFactory, ProfileView profileView, @CurrentHistory Place place)
    {
       this.clientFactory = clientFactory;
+      this.profileView = profileView;
       this.username = ((ProfilePlace) place).getUsername();
    }
 
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      final ProfileView profileView = clientFactory.getProfileView();
       profileView.setPresenter(this);
 
       profileView.getGreeting().setHeading("Loading...");
@@ -65,8 +66,6 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
          @Override
          public void callback(List<Project> projects)
          {
-            ProfileView profileView = clientFactory.getProfileView();
-            System.out.println(projects);
             profileView.setProjects(projects);
          }
       }, new ErrorCallback() {

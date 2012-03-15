@@ -6,12 +6,6 @@ import javax.inject.Inject;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.place.shared.PlaceController;
-import com.ocpsoft.socialpm.gwt.client.local.view.HomeView;
-import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
-import com.ocpsoft.socialpm.gwt.client.local.view.LogoutView;
-import com.ocpsoft.socialpm.gwt.client.local.view.NewProjectView;
-import com.ocpsoft.socialpm.gwt.client.local.view.ProfileView;
-import com.ocpsoft.socialpm.gwt.client.local.view.ProjectView;
 
 @ApplicationScoped
 public class ClientFactoryImpl implements ClientFactory
@@ -50,63 +44,5 @@ public class ClientFactoryImpl implements ClientFactory
    public ServiceFactory getServiceFactory()
    {
       return serviceFactory;
-   }
-
-   /*
-    * Views
-    */
-
-   @Inject
-   private HomeView homeView;
-
-   @Inject
-   private LoginView loginView;
-
-   @Inject
-   private LogoutView logoutView;
-
-   @Inject
-   private ProfileView profileView;
-
-   @Inject
-   private ProjectView projectView;
-
-   @Inject
-   private NewProjectView newProjectView;
-
-   @Override
-   public HomeView getHomeView()
-   {
-      return homeView;
-   }
-
-   @Override
-   public LoginView getLoginView()
-   {
-      return loginView;
-   }
-
-   @Override
-   public LogoutView getLogoutView()
-   {
-      return logoutView;
-   }
-
-   @Override
-   public ProfileView getProfileView()
-   {
-      return profileView;
-   }
-
-   @Override
-   public ProjectView getProjectView()
-   {
-      return projectView;
-   }
-
-   @Override
-   public NewProjectView getNewProjectView()
-   {
-      return newProjectView;
    }
 }

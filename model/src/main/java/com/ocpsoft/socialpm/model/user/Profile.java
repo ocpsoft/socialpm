@@ -41,6 +41,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
@@ -65,7 +66,7 @@ public class Profile extends PersistentObject<Profile>
    @Column(nullable = false, length = 128, unique = true)
    private String email;
 
-   @ElementCollection
+   @ElementCollection(fetch = FetchType.EAGER)
    @CollectionTable(name = "user_profiles_keys")
    private Set<String> identityKeys = new HashSet<String>();
 

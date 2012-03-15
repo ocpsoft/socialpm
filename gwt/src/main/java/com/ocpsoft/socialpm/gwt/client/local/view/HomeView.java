@@ -12,6 +12,7 @@ public interface HomeView extends FixedLayout
 {
    public interface Presenter extends FixedLayout.FixedPresenter
    {
+      void fireMessage(String text);
    }
 
    TextBox getMessageBox();

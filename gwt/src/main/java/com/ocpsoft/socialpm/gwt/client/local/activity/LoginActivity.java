@@ -13,6 +13,7 @@ import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.LoginView;
@@ -24,24 +25,29 @@ import com.ocpsoft.socialpm.model.user.Profile;
 public class LoginActivity extends AbstractActivity implements LoginView.Presenter
 {
    private final ClientFactory clientFactory;
+   private final LoginView loginView;
 
    @Inject
-   public LoginActivity(ClientFactory clientFactory)
+   public LoginActivity(LoginView loginView, ClientFactory clientFactory)
    {
+      this.loginView = loginView;
       this.clientFactory = clientFactory;
    }
 
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      // TODO handle this redirect with Rewrite utility?
-      // Redirect.temporary(HistoryConstants.HOME());
+      if (App.getLoggedInProfile() != null)
+      {
+         goTo(new HomePlace());
+      }
+      else
+      {
+         loginView.setPresenter(this);
 
-      LoginView loginView = clientFactory.getLoginView();
-      loginView.setPresenter(this);
-
-      containerWidget.setWidget(loginView.asWidget());
-      loginView.focusUsername();
+         containerWidget.setWidget(loginView.asWidget());
+         loginView.focusUsername();
+      }
    }
 
    @Override
@@ -90,7 +96,9 @@ public class LoginActivity extends AbstractActivity implements LoginView.Present
 
    @Override
    public void handleLogin(@Observes LoginEvent event)
-   {}
+   {
+      loginView.clearForm();
+   }
 
    @Override
    public void handleLogout(@Observes LogoutEvent event)

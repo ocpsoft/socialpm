@@ -1,8 +1,12 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -12,7 +16,6 @@ import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Row;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.StatusFeed;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.WelcomeBar;
-import com.ocpsoft.socialpm.gwt.client.shared.Response;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 @ApplicationScoped
@@ -27,7 +30,7 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    private final StatusFeed statusFeed = new StatusFeed();
 
    private Presenter presenter;
-   
+
    public HomeViewImpl()
    {
       super();
@@ -54,19 +57,40 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
       getGreeting().setHeading("Wilkommen!");
       getGreeting().setContent("Type a message and click to get started.");
       getContent().add(getGreeting());
-      
+
 
       getGreeting().getUnder().add(getMessageBox());
       getSendMessageButton().addStyleName("btn btn-primary btn-large");
       getGreeting().addAction(getSendMessageButton());
 
+      setupInputs();
+
       showSplash();
    }
 
-   public void response(@Observes Response event)
+   private void setupInputs()
    {
-      System.out.println("Observed response " + event.getMessage());
-      greeting.setContent("Message from server: " + event.getMessage());
+      getMessageBox().addKeyPressHandler(new KeyPressHandler() {
+
+         @Override
+         public void onKeyPress(KeyPressEvent event)
+         {
+            if (KeyCodes.KEY_ENTER == event.getCharCode())
+            {
+               event.preventDefault();
+               presenter.fireMessage(getMessageBox().getText());
+            }
+         }
+      });
+
+      getSendMessageButton().addClickHandler(new ClickHandler() {
+         @Override
+         public void onClick(ClickEvent event)
+         {
+            event.preventDefault();
+            presenter.fireMessage(getMessageBox().getText());
+         }
+      });
    }
 
    @Override

@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
+import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 
 public class NavLink extends Anchor
 {
@@ -75,8 +76,16 @@ public class NavLink extends Anchor
 
    public NavLink setTargetHistoryToken(String token)
    {
-      this.target = token;
+      if (token != null)
+      {
+         String contextPath = HistoryStateImpl.getContextPath();
+         if (contextPath != null && !token.startsWith(contextPath))
+         {
+            token = contextPath + token;
+         }
+      }
       this.setHref(token);
+      this.target = token;
       return this;
    }
 

@@ -14,17 +14,18 @@ import com.ocpsoft.socialpm.gwt.client.local.view.NewProjectView;
 public class NewProjectActivity extends AbstractActivity implements NewProjectView.Presenter
 {
    private final ClientFactory clientFactory;
+   private final NewProjectView newProjectView;
 
    @Inject
-   public NewProjectActivity(ClientFactory clientFactory)
+   public NewProjectActivity(ClientFactory clientFactory, NewProjectView newProjectView)
    {
+      this.newProjectView = newProjectView;
       this.clientFactory = clientFactory;
    }
 
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      NewProjectView newProjectView = clientFactory.getNewProjectView();
       newProjectView.setPresenter(this);
 
       containerWidget.setWidget(newProjectView.asWidget());

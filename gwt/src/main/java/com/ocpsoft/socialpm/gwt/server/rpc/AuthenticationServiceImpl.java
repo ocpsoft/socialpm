@@ -79,10 +79,13 @@ public class AuthenticationServiceImpl extends PersistenceUtil implements Serial
       return loggedIn;
    }
 
+   @Override
    public void logout()
    {
+      String userKey = identity.getUser().getKey();
       identity.setAuthenticatorClass(IdmAuthenticator.class);
       identity.logout();
+      logger.info("User logged out [{}]", userKey);
    }
 
    public static void loginSuccess(@Observes final LoggedInEvent event) throws IOException
@@ -94,20 +97,16 @@ public class AuthenticationServiceImpl extends PersistenceUtil implements Serial
    public static void openLoginSuccess(@Observes final DeferredAuthenticationEvent event)
    {
       if (event.isSuccess())
-      {
          logger.info("User logged in with OpenID");
-      }
       else
-      {
          logger.info("User failed to login via OpenID, potentially due to cancellation");
-      }
    }
 
    public static void loginFailed(@Observes final LoginFailedEvent event, Identity identity,
             OpenIdAuthenticator openAuth)
    {
       if (!(OpenIdAuthenticator.class.equals(identity.getAuthenticatorClass())
-      && AuthenticationStatus.DEFERRED.equals(openAuth.getStatus())))
+               && AuthenticationStatus.DEFERRED.equals(openAuth.getStatus())))
       {
          Exception exception = event.getLoginException();
          if (exception != null)

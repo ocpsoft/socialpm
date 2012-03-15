@@ -17,17 +17,18 @@ import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 public class SignupActivity extends AbstractActivity implements LoginView.Presenter
 {
    private final ClientFactory clientFactory;
+   private final LoginView loginView;
 
    @Inject
-   public SignupActivity(ClientFactory clientFactory)
+   public SignupActivity(ClientFactory clientFactory, LoginView loginView)
    {
+      this.loginView = loginView;
       this.clientFactory = clientFactory;
    }
 
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      LoginView loginView = clientFactory.getLoginView();
       loginView.setPresenter(this);
 
       containerWidget.setWidget(loginView.asWidget());
