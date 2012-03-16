@@ -30,8 +30,8 @@ public class Div extends ComplexPanel
       super.add(w, getElement());
    }
    
-   public void setStyle(String style)
+   public void setInnerHTML(String html)
    {
-      getElement().setAttribute("style", style);
+      getElement().setInnerHTML(html);
    }
 }
