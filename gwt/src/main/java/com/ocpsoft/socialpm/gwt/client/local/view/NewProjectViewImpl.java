@@ -21,7 +21,7 @@ public class NewProjectViewImpl extends FixedLayoutView implements NewProjectVie
 
    final TextBox name = new TextBox();
    final TextBox slug = new TextBox();
-   private final Anchor create = new Anchor("Do it »");
+   private final Anchor create = new Anchor("Next »");
 
    private Presenter presenter;
 
@@ -33,13 +33,14 @@ public class NewProjectViewImpl extends FixedLayoutView implements NewProjectVie
    @Override
    public void setup()
    {
-      HeroPanel hero = new HeroPanel();
-      HorizontalPanel panel = new HorizontalPanel();
       name.getElement().setAttribute("placeholder", "Project name...");
-      panel.add(name);
+
+      HeroPanel hero = new HeroPanel();
       hero.setHeading("Start a new Project");
       hero.setContent("What do you call your project?");
-      
+
+      HorizontalPanel panel = new HorizontalPanel();
+      panel.add(name);
       hero.getUnder().add(panel);
 
       create.addStyleName("btn btn-primary btn-large");
