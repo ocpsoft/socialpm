@@ -1,13 +1,26 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
+import java.util.Date;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.ocpsoft.socialpm.gwt.client.local.EventsFactory;
 import com.ocpsoft.socialpm.gwt.client.local.ServiceFactory;
+import com.ocpsoft.socialpm.gwt.client.local.util.QueryableTimer;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.Div;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 
 @ApplicationScoped
@@ -23,6 +36,8 @@ public class NewProjectViewImpl extends FixedLayoutView implements NewProjectVie
    final TextBox slug = new TextBox();
    private final Anchor create = new Anchor("Next »");
 
+   Div warning = new Div();
+   
    private Presenter presenter;
 
    public NewProjectViewImpl()
@@ -35,6 +50,7 @@ public class NewProjectViewImpl extends FixedLayoutView implements NewProjectVie
    {
       name.getElement().setAttribute("placeholder", "Project name...");
 
+      FormPanel form = new FormPanel();
       HeroPanel hero = new HeroPanel();
       hero.setHeading("Start a new Project");
       hero.setContent("What do you call your project?");
@@ -45,7 +61,67 @@ public class NewProjectViewImpl extends FixedLayoutView implements NewProjectVie
 
       create.addStyleName("btn btn-primary btn-large");
       hero.addAction(create);
-      content.add(hero);
+      form.add(hero);
+      content.add(form);
+      
+      warning.setStyleName("alert");
+      warning.setVisible(false);
+      content.add(warning);
+      
+      setupInputs();
+   }
+
+   private void setupInputs()
+   {
+      final QueryableTimer t = new QueryableTimer() {
+
+         String last = null;
+
+         @Override
+         public void performTask()
+         {
+            String current = name.getText();
+            if ((last == null && current != null) || (last != null && current != null && !last.equals(current)))
+            {
+               last = current;
+               presenter.verifyProject(current);
+            }
+         }
+      };
+
+      name.addKeyUpHandler(new KeyUpHandler() {
+         @Override
+         public void onKeyUp(KeyUpEvent event)
+         {
+            if (!t.isRunning())
+            {
+               t.scheduleRepeating(1000);
+            }
+         }
+      });
+
+      name.addKeyPressHandler(new KeyPressHandler() {
+         @Override
+         public void onKeyPress(KeyPressEvent event)
+         {
+            if (KeyCodes.KEY_ENTER == event.getCharCode())
+            {
+               event.preventDefault();
+               t.cancel();
+               presenter.createProject(name.getText());
+            }
+         }
+      });
+
+      create.addClickHandler(new ClickHandler() {
+         @Override
+         public void onClick(ClickEvent event)
+         {
+            event.preventDefault();
+            t.cancel();
+            presenter.createProject(name.getText());
+         }
+      });
    }
 
    @Override
@@ -58,6 +134,19 @@ public class NewProjectViewImpl extends FixedLayoutView implements NewProjectVie
    public void setPresenter(Presenter presenter)
    {
       this.presenter = presenter;
+   }
+
+   @Override
+   public void focusProjectName()
+   {
+      name.setFocus(true);
+   }
+   
+   @Override
+   public void warn(String msg)
+   {
+      warning.setInnerHTML(msg);
+      warning.setVisible(true);
    }
 
 }

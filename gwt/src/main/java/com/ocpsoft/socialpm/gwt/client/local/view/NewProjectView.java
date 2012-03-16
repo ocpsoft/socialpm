@@ -9,9 +9,17 @@ public interface NewProjectView extends FixedLayout
    public interface Presenter
    {
       void goTo(Place place);
+
+      void createProject(String text);
+
+      void verifyProject(String text);
    }
    
    Presenter getPresenter();
    
    void setPresenter(Presenter presenter);
+
+   void focusProjectName();
+
+   void warn(String string);
 }

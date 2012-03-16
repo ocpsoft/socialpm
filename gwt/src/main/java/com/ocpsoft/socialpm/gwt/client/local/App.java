@@ -111,6 +111,11 @@ public class App implements AuthenticationAware
    {
       return loggedIn;
    }
+   
+   public static boolean isLoggedIn()
+   {
+      return getLoggedInProfile() != null;
+   }
 
    public static boolean isDevelopmentMode()
    {

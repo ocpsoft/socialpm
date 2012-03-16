@@ -13,4 +13,8 @@ public interface ProjectService
    public List<Project> getByOwner(Profile owner);
    
    public Project getByOwnerAndSlug(Profile owner, String slug);
+
+   public Project create(Profile owner, String projectName);
+
+   public boolean verifyAvailable(Profile owner, String projectName);
 }

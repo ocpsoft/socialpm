@@ -31,6 +31,8 @@ import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.SignupPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.TypedPlaceTokenizer;
+import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
+import com.ocpsoft.socialpm.gwt.client.local.view.presenter.AuthenticationAware;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -98,6 +100,11 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
          result = manager.lookupBean(ProjectActivity.class).getInstance();
       if (place instanceof NewProjectPlace)
          result = manager.lookupBean(NewProjectActivity.class).getInstance();
+
+      if (result instanceof AuthenticationAware && (App.getLoggedInProfile() != null))
+      {
+         ((AuthenticationAware) result).handleLogin(new LoginEvent(App.getLoggedInProfile()));
+      }
 
       if (result == null)
       {

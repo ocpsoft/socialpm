@@ -38,6 +38,7 @@ import java.util.List;
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
@@ -70,6 +71,24 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
    public EntityManager getEntityManager()
    {
       return em;
+   }
+
+   @Override
+   public Project create(Profile owner, String projectName)
+   {
+      Project project = new Project();
+      project.setName(projectName);
+      project.setSlug(projectName);
+      
+      em.merge(owner);
+      
+      return create(owner, project);
+   }
+
+   @Override
+   public boolean verifyAvailable(Profile owner, String projectName)
+   {
+      return null == getByOwnerAndSlug(owner, projectName);
    }
 
    @TransactionAttribute
@@ -128,10 +147,16 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
       Assert.notNull(profile, "Profile was null");
       Assert.notNull(slug, "Project slug was null");
 
-      Project result = findUniqueByNamedQuery("project.byProfileAndSlug", profile.getUsername(), slug);
+      Project result = null;
+      try{
+         result = findUniqueByNamedQuery("project.byProfileAndSlug", profile.getUsername(), slug);
+         em.detach(result);
+         HibernateDetachUtility.nullOutUninitializedFields(result, SerializationType.SERIALIZATION);
+      }
+      catch (NoResultException e) {
+         // okay
+      }
 
-      em.detach(result);
-      HibernateDetachUtility.nullOutUninitializedFields(result, SerializationType.SERIALIZATION);
       return result;
    }
 

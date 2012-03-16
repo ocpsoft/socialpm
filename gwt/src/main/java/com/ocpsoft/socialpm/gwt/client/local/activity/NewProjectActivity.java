@@ -3,12 +3,19 @@ package com.ocpsoft.socialpm.gwt.client.local.activity;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import org.jboss.errai.bus.client.api.RemoteCallback;
+import org.jboss.errai.ioc.client.api.Caller;
+
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.NewProjectView;
+import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProjectService;
+import com.ocpsoft.socialpm.model.project.Project;
 
 @Dependent
 public class NewProjectActivity extends AbstractActivity implements NewProjectView.Presenter
@@ -27,8 +34,39 @@ public class NewProjectActivity extends AbstractActivity implements NewProjectVi
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
       newProjectView.setPresenter(this);
-
       containerWidget.setWidget(newProjectView.asWidget());
+      newProjectView.focusProjectName();
+   }
+   
+   @Override
+   public void createProject(String projectName)
+   {
+      Caller<ProjectService> projectService = clientFactory.getServiceFactory().getProjectService();
+      
+      projectService.call(new RemoteCallback<Project>() {
+
+         @Override
+         public void callback(Project response)
+         {
+            
+         }}).create(App.getLoggedInProfile(), projectName);
+   }
+   
+   @Override
+   public void verifyProject(final String projectName)
+   {
+      Caller<ProjectService> projectService = clientFactory.getServiceFactory().getProjectService();
+      
+      projectService.call(new RemoteCallback<Boolean>() {
+
+         @Override
+         public void callback(Boolean response)
+         {
+            if(!response)
+            {
+               newProjectView.warn("Project name ["+projectName+"] already in use.");
+            }
+         }}).verifyAvailable(App.getLoggedInProfile(), projectName);
    }
 
    @Override

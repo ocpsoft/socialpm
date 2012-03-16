@@ -71,7 +71,7 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
 
    private void setupInputs()
    {
-      getMessageBox().addKeyPressHandler(new KeyPressHandler() {
+      messageBox.addKeyPressHandler(new KeyPressHandler() {
 
          @Override
          public void onKeyPress(KeyPressEvent event)
@@ -84,7 +84,7 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
          }
       });
 
-      getSendMessageButton().addClickHandler(new ClickHandler() {
+      sendMessageButton.addClickHandler(new ClickHandler() {
          @Override
          public void onClick(ClickEvent event)
          {
@@ -97,18 +97,17 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    @Override
    public void showDashboard(Profile profile)
    {
-      getGreeting().setVisible(false);
-      getWelcomeBar().setProfile(profile);
-      getWelcomeBar().setVisible(true);
+      greeting.setVisible(false);
+      welcomeBar.setProfile(profile);
+      welcomeBar.setVisible(true);
       dashboard.setVisible(true);
    }
 
    @Override
    public void showSplash()
    {
-      getGreeting().setVisible(true);
-      getWelcomeBar().setVisible(false);
-      getTopNav().getBrandLink().setEnabled(false);
+      greeting.setVisible(true);
+      welcomeBar.setVisible(false);
       dashboard.setVisible(false);
    }
 

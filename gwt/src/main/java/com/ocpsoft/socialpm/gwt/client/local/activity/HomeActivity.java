@@ -83,7 +83,6 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
          @Override
          public boolean error(Message message, Throwable throwable)
          {
-            System.out.println("error");
             return false;
          }
       }).getByOwner(event.getProfile());
