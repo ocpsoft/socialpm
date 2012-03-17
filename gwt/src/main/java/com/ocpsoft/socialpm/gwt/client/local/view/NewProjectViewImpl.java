@@ -1,9 +1,6 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
-import java.util.Date;
-
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,31 +9,19 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.ocpsoft.socialpm.gwt.client.local.EventsFactory;
-import com.ocpsoft.socialpm.gwt.client.local.ServiceFactory;
 import com.ocpsoft.socialpm.gwt.client.local.util.QueryableTimer;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.Div;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 
 @ApplicationScoped
 public class NewProjectViewImpl extends FixedLayoutView implements NewProjectView
 {
-   @Inject
-   private ServiceFactory serviceFactory;
-
-   @Inject
-   private EventsFactory eventFactory;
-
    final TextBox name = new TextBox();
    final TextBox slug = new TextBox();
    private final Anchor create = new Anchor("Next »");
-
-   Div warning = new Div();
    
    private Presenter presenter;
 
@@ -63,10 +48,6 @@ public class NewProjectViewImpl extends FixedLayoutView implements NewProjectVie
       hero.addAction(create);
       form.add(hero);
       content.add(form);
-      
-      warning.setStyleName("alert");
-      warning.setVisible(false);
-      content.add(warning);
       
       setupInputs();
    }
@@ -95,7 +76,7 @@ public class NewProjectViewImpl extends FixedLayoutView implements NewProjectVie
          {
             if (!t.isRunning())
             {
-               t.scheduleRepeating(1000);
+               t.scheduleRepeating(500);
             }
          }
       });
@@ -143,10 +124,15 @@ public class NewProjectViewImpl extends FixedLayoutView implements NewProjectVie
    }
    
    @Override
-   public void warn(String msg)
+   public void setSubmitEnabled(boolean enabled)
    {
-      warning.setInnerHTML(msg);
-      warning.setVisible(true);
+      create.setEnabled(enabled);
+   }
+   
+   @Override
+   public void clearInputs()
+   {
+      name.setText("");
    }
 
 }

@@ -1,5 +1,8 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
@@ -10,7 +13,7 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.Alert;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.FluidRow;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.TopNav;
 
@@ -41,6 +44,8 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
 
    @UiField
    protected HTMLPanel footer = new HTMLPanel("");
+   
+   private List<Alert> alerts = new ArrayList<Alert>();
 
    /*
     * Non-template fields
@@ -48,9 +53,6 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
 
    @Inject
    private TopNav topnav;
-
-   @Inject
-   private ClientFactory clientFactory;
 
    protected abstract void setup();
 
@@ -70,5 +72,21 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
    public TopNav getTopNav()
    {
       return topnav;
+   }
+   
+   @Override
+   public void alert(Alert alert)
+   {
+      subheader.add(alert);
+      alerts.add(alert);
+   }
+   
+   @Override
+   public void clearAlerts()
+   {
+      for (Alert alert : alerts) {
+         subheader.remove(alert);
+      }
+      alerts.clear();
    }
 }

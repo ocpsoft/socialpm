@@ -21,5 +21,7 @@ public interface NewProjectView extends FixedLayout
 
    void focusProjectName();
 
-   void warn(String string);
+   void setSubmitEnabled(boolean b);
+
+   void clearInputs();
 }

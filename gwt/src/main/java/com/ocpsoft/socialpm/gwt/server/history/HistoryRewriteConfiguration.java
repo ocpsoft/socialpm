@@ -1,7 +1,6 @@
 package com.ocpsoft.socialpm.gwt.server.history;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.Cookie;
 
 import com.ocpsoft.logging.Logger;
 import com.ocpsoft.rewrite.config.Configuration;
@@ -13,7 +12,6 @@ import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import com.ocpsoft.rewrite.servlet.config.HttpOperation;
 import com.ocpsoft.rewrite.servlet.config.Path;
 import com.ocpsoft.rewrite.servlet.config.Resource;
-import com.ocpsoft.rewrite.servlet.config.Response;
 import com.ocpsoft.rewrite.servlet.config.ServletMapping;
 import com.ocpsoft.rewrite.servlet.http.event.HttpServletRewrite;
 

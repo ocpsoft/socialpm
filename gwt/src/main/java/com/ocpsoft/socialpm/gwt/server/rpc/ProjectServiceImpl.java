@@ -74,61 +74,54 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
    }
 
    @Override
+   @TransactionAttribute
    public Project create(Profile owner, String projectName)
    {
       Project project = new Project();
       project.setName(projectName);
       project.setSlug(projectName);
       
-      em.merge(owner);
+      Assert.notNull(owner, "Profile was null");
+      Assert.notNull(project, "Project was null");
+
+      project.setOwner(findById(Profile.class, owner.getId()));
+
+      Iteration unassigned = new Iteration();
+      unassigned.setProject(project);
+      unassigned.setTitle("Backlog");
+      project.getIterations().add(unassigned);
+
+      Feature bugFixes = new Feature();
+      bugFixes.setName("Bug Fixes");
+      bugFixes.setProject(project);
+      project.getFeatures().add(bugFixes);
+      bugFixes.setProject(project);
+
+      Feature enhancements = new Feature();
+      enhancements.setName("Enhancements");
+      enhancements.setProject(project);
+      project.getFeatures().add(enhancements);
+      enhancements.setProject(project);
+
+      Feature unclassified = new Feature();
+      unclassified.setName("Unclassified");
+      unclassified.setProject(project);
+      project.getFeatures().add(unclassified);
+      unclassified.setProject(project);
+
+      super.create(project);
+
+      // p.getMemberships().add(new Membership(p, owner, MemberRole.OWNER));
+
+      super.create(new ProjectCreated(owner, project));
       
-      return create(owner, project);
+      return project;
    }
 
    @Override
    public boolean verifyAvailable(Profile owner, String projectName)
    {
       return null == getByOwnerAndSlug(owner, projectName);
-   }
-
-   @TransactionAttribute
-   public Project create(final Profile owner, final Project p)
-   {
-      Assert.notNull(owner, "Profile was null");
-      Assert.notNull(p, "Project was null");
-
-      p.setOwner(owner);
-      super.create(p);
-
-      Iteration unassigned = new Iteration();
-      unassigned.setProject(p);
-      unassigned.setTitle("Backlog");
-      p.getIterations().add(unassigned);
-
-      Feature bugFixes = new Feature();
-      bugFixes.setName("Bug Fixes");
-      bugFixes.setProject(p);
-      p.getFeatures().add(bugFixes);
-      bugFixes.setProject(p);
-
-      Feature enhancements = new Feature();
-      enhancements.setName("Enhancements");
-      enhancements.setProject(p);
-      p.getFeatures().add(enhancements);
-      enhancements.setProject(p);
-
-      Feature unclassified = new Feature();
-      unclassified.setName("Unclassified");
-      unclassified.setProject(p);
-      p.getFeatures().add(unclassified);
-      unclassified.setProject(p);
-
-      super.create(p);
-
-      // p.getMemberships().add(new Membership(p, owner, MemberRole.OWNER));
-
-      super.create(new ProjectCreated(owner, p));
-      return p;
    }
 
    public void save(final Project p)

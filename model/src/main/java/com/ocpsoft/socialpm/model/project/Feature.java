@@ -86,7 +86,7 @@ public class Feature extends PersistentObject<Feature>
    private Project project;
 
    @Fetch(FetchMode.SUBSELECT)
-   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "features", cascade = CascadeType.REFRESH)
+   @ManyToMany(fetch = FetchType.LAZY, mappedBy = "features", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE})
    private List<Story> stories;
 
    public Feature()

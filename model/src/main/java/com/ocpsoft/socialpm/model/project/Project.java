@@ -107,7 +107,7 @@ public class Project extends DeletableObject<Project>
    @Column(length = 128)
    private String vision;
 
-   @ManyToOne(optional = false)
+   @ManyToOne(optional = false, cascade={CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
    private Profile owner;
 
    private PrivacyLevel privacyLevel = PrivacyLevel.PUBLIC;

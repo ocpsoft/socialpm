@@ -62,4 +62,9 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
    {
       this.presenter = presenter;
    }
+   
+   public Project getProject()
+   {
+      return project;
+   }
 }
