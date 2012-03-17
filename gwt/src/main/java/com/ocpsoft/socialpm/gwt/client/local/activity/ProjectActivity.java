@@ -38,8 +38,6 @@ public class ProjectActivity extends AbstractActivity implements ProjectView.Pre
    {
       projectView.setPresenter(this);
 
-      projectView.getGreeting().setHeading("Loading...");
-
       clientFactory.getServiceFactory().getProjectService().call(new RemoteCallback<Project>() {
 
          @Override

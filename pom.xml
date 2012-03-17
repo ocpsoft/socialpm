@@ -24,12 +24,8 @@
 	</prerequisites>
 
 	<modules>
-		<module>services</module>
-		<module>web</module>
-		<module>tests</module>
-		<module>gwt</module>
 		<module>model</module>
-		<module>util</module>
+		<module>gwt</module>
 	</modules>
 
 	<scm>
