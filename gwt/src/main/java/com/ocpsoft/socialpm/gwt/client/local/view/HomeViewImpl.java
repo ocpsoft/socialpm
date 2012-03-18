@@ -1,6 +1,7 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -17,6 +18,7 @@ import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Row;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.StatusFeed;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.WelcomeBar;
+import com.ocpsoft.socialpm.model.feed.ProjectCreated;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 @ApplicationScoped
@@ -38,6 +40,11 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    public HomeViewImpl()
    {
       super();
+   }
+   
+   public void handleProjectCreated(@Observes ProjectCreated event)
+   {
+      System.out.println("Observed ProjectCreated event (ApplicationScoped)");
    }
 
    @Override
