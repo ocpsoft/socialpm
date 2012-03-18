@@ -37,6 +37,8 @@ import java.util.List;
 
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -66,6 +68,9 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
 
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    protected EntityManager em;
+
+   @Inject
+   private Event<ProjectCreated> projectCreated;
 
    @Override
    public EntityManager getEntityManager()
@@ -113,7 +118,9 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
 
       // p.getMemberships().add(new Membership(p, owner, MemberRole.OWNER));
 
-      super.create(new ProjectCreated(owner, project));
+      ProjectCreated createdEvent = new ProjectCreated(owner, project);
+      super.create(createdEvent);
+      projectCreated.fire(createdEvent);
       
       return project;
    }

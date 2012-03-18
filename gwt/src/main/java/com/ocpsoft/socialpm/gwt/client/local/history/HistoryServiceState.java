@@ -34,6 +34,7 @@ public class HistoryServiceState
             @Override
             public void onContextPathSet(String contextPath)
             {
+               System.out.println("HistoryServiceState voted for init.");
                ballot.voteForInit();
             }
          });

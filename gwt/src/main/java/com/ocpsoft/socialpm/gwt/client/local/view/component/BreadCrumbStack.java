@@ -61,7 +61,7 @@ public class BreadCrumbStack extends Composite
 
          result = new BreadCrumb();
          result.setActive(item.getStyleName() != null && item.getStyleName().equals(ACTIVE));
-         result.setWidget(item.getWidget(0));
+         result.setNavLink((NavLink) item.getWidget(0));
 
          if (!contents.isEmpty())
          {

@@ -1,6 +1,7 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -26,8 +27,11 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    private final TextBox messageBox = new TextBox();
    private final WelcomeBar welcomeBar = new WelcomeBar();
    private final Row dashboard = new Row();
-   private final ProjectList projectList = new ProjectList();
+   
    private final StatusFeed statusFeed = new StatusFeed();
+
+   @Inject
+   private ProjectList projectList;
 
    private Presenter presenter;
 
@@ -50,6 +54,7 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
       Div right = new Div();
       right.setStyleName("span6 cols");
       right.add(projectList);
+      
       dashboard.add(left);
       dashboard.add(right);
       getContent().add(dashboard);
@@ -97,6 +102,7 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    @Override
    public void showDashboard(Profile profile)
    {
+      projectList.setOwner(profile);
       greeting.setVisible(false);
       welcomeBar.setProfile(profile);
       welcomeBar.setVisible(true);

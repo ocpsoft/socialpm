@@ -12,7 +12,9 @@ public class HistoryConstants
 
    public static final String HOME()
    {
-      return HistoryStateImpl.getContextPath();
+      String contextPath = HistoryStateImpl.getContextPath();
+      System.out.println("HOME constant retrieved when value of contextPath was [" + contextPath + "]");
+      return contextPath;
    }
 
    public static final String SIGNUP()

@@ -15,7 +15,18 @@ public class NavLink extends Anchor
       public void onClick(ClickEvent event)
       {
          event.preventDefault();
-         History.newItem(getTargetHistoryToken());
+         String target = getTargetHistoryToken();
+         String contextPath = HistoryStateImpl.getContextPath();
+         System.out.println("Clicked nav link [" + target + "]");
+         if (target.startsWith(contextPath) && !target.equals(contextPath))
+         {
+            target = target.substring(contextPath.length() - 1);
+            if (target.startsWith("/"))
+            {
+               target = target.substring(1);
+            }
+         }
+         History.newItem(target);
       }
    };
 

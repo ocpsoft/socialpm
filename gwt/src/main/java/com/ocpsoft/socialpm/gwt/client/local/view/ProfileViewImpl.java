@@ -3,10 +3,13 @@ package com.ocpsoft.socialpm.gwt.client.local.view;
 import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import com.google.gwt.user.client.ui.Label;
+import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ListItem;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.UnorderedList;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
@@ -15,7 +18,9 @@ import com.ocpsoft.socialpm.model.user.Profile;
 public class ProfileViewImpl extends FixedLayoutView implements ProfileView
 {
    HeroPanel greeting = new HeroPanel();
-   private final UnorderedList projectList = new UnorderedList();
+   
+   @Inject
+   private ProjectList projectList;
 
    private final Label email = new Label();
    private Presenter presenter;
@@ -31,6 +36,7 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
    @Override
    public void setProfile(final Profile profile)
    {
+      projectList.setOwner(profile);
       greeting.setHeading("This is " + profile.getUsername() + "!");
       greeting.setContent(profile.getBio());
       email.setText(profile.getEmail());
@@ -48,9 +54,7 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
    @Override
    public void setProjects(List<Project> projects)
    {
-      for (Project project : projects) {
-         projectList.add(new ListItem(project.getName()));
-      }
+      projectList.setProjects(projects);
    }
 
    @Override

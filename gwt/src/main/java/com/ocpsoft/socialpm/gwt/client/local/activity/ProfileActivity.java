@@ -40,8 +40,6 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
    {
       profileView.setPresenter(this);
 
-      profileView.getGreeting().setHeading("Loading...");
-
       clientFactory.getServiceFactory().getProfileService().call(new RemoteCallback<Profile>() {
 
          @Override

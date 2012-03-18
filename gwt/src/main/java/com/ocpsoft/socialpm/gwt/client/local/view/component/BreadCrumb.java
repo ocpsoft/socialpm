@@ -1,12 +1,21 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
-import com.google.gwt.user.client.ui.Widget;
 
 public class BreadCrumb
 {
    private boolean active;
    private String text;
-   private Widget widget;
+   private NavLink nav;
+
+   public BreadCrumb()
+   {
+   }
+   
+   public BreadCrumb(NavLink link)
+   {
+      this();
+      setNavLink(link);
+   }
 
    public boolean isActive()
    {
@@ -30,14 +39,14 @@ public class BreadCrumb
       return this;
    }
 
-   public Widget getWidget()
+   public NavLink getWidget()
    {
-      return widget;
+      return nav;
    }
 
-   public BreadCrumb setWidget(Widget widget)
+   public BreadCrumb setNavLink(NavLink link)
    {
-      this.widget = widget;
+      this.nav = link;
       return this;
    }
 

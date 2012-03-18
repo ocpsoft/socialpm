@@ -4,6 +4,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
 
+import com.ocpsoft.rewrite.gwt.client.history.ContextPathListener;
+import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
@@ -20,7 +22,6 @@ public class TopNav extends NavBar implements AuthenticationAware
 
    private final GravatarImage gravatar = new GravatarImage(30);
 
-
    private final NavDropdown status = new NavDropdown();
    private final NavLink signinLink = new NavLink("Sign in", HistoryConstants.LOGIN());
    private final NavLink signoutLink = new NavLink("Sign out", HistoryConstants.LOGOUT());
@@ -36,7 +37,19 @@ public class TopNav extends NavBar implements AuthenticationAware
       /*
        * Initialize brand and signup links
        */
-      getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
+      HistoryStateImpl.addContextPathListener(new ContextPathListener() {
+         @Override
+         public void onContextPathSet(String contextPath)
+         {
+            System.out.println("Deferred Brand Link set to [" + contextPath + "]");
+            getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
+         }
+      });
+      if (getBrandLink().getTargetHistoryToken() == null && HistoryStateImpl.getContextPath() != null)
+      {
+         getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
+      }
+
       getBrandLink().setText("SocialPM");
       getBrandLink().setEnabled(true);
 
@@ -47,7 +60,7 @@ public class TopNav extends NavBar implements AuthenticationAware
        */
       gravatar.setVisible(true);
       gravatar.getImage().getElement()
-      .setAttribute("style", "padding: 2px; background-color: #eee; position: relative; top: 3px;");
+               .setAttribute("style", "padding: 2px; background-color: #eee; position: relative; top: 3px;");
       addRight(new ListItem(gravatar));
 
       status.setVisible(false);
