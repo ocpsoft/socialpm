@@ -3,11 +3,12 @@ package com.ocpsoft.socialpm.gwt.client.local.view;
 import javax.enterprise.context.ApplicationScoped;
 
 import com.ocpsoft.socialpm.gwt.client.local.view.component.BreadCrumb;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.BreadCrumbStack;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.BreadCrumbList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Div;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.NavLink;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.Heading;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProfileLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectLink;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.Span;
 import com.ocpsoft.socialpm.model.project.Project;
 
 @ApplicationScoped
@@ -26,17 +27,26 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
       Div row = new Div();
       row.setStyleName("row");
       Div left = new Div();
-      left.setStyleName("span6 cols");
+      left.setStyleName("span8 cols");
       Div right = new Div();
-      right.setStyleName("span6 cols");
+      right.setStyleName("span4 cols");
       
       row.add(left);
       row.add(right);
       
-      BreadCrumbStack breadcrumbs = new BreadCrumbStack();
+      BreadCrumbList breadcrumbs = new BreadCrumbList();
       breadcrumbs.push(new BreadCrumb(profileLink));
       breadcrumbs.push(new BreadCrumb(projectLink));
-      left.add(breadcrumbs);
+      
+      Heading heading = new Heading(1);
+      Span badge = new Span(":)");
+      badge.setStyleName("badge");
+      heading.add(new Span(" "));
+      heading.add(badge);
+      heading.add(breadcrumbs);
+      heading.addStyleName("project-title");
+      
+      left.add(heading);
       
       content.add(row);
    }

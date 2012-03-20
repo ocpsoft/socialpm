@@ -59,6 +59,11 @@ public class ProjectEvent extends UserEvent
       setProject(project);
    }
 
+   public ProjectEvent()
+   {
+      super();
+   }
+
    public Project getProject()
    {
       return project;

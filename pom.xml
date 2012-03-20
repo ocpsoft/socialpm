@@ -37,7 +37,7 @@
 	<properties>
 		<prettytime.version>1.0.7</prettytime.version>
 		<rewrite.version>1.0.0-SNAPSHOT</rewrite.version>
-		<seam.version>3.1.0.Final</seam.version>
+		<seam.version>3.2.0-SNAPSHOT</seam.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.8.1</junit.version>
 		<errai.version>2.0-SNAPSHOT</errai.version>
@@ -116,16 +116,40 @@
 
 			<!-- Seam Dependencies -->
 			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>seam-bom</artifactId>
+				<groupId>org.jboss.seam.security</groupId>
+				<artifactId>seam-security-api</artifactId>
 				<version>${seam.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
+				<scope>compile</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.jboss.seam.security</groupId>
+				<artifactId>seam-security</artifactId>
+				<version>${seam.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.seam.security</groupId>
+				<artifactId>seam-security-external</artifactId>
+				<version>${seam.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jboss.seam.transaction</groupId>
+				<artifactId>seam-transaction</artifactId>
+				<version>${seam.version}</version>
+				<scope>provided</scope>
+			</dependency>
+
 			<dependency>
 				<groupId>org.jboss.solder</groupId>
 				<artifactId>solder-impl</artifactId>
 				<version>${seam.version}</version>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>2.1</version>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>

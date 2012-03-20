@@ -45,9 +45,12 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import org.jboss.errai.bus.server.annotations.Service;
+import org.jboss.seam.security.annotations.LoggedIn;
 
 import com.ocpsoft.common.util.Assert;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProjectService;
+import com.ocpsoft.socialpm.gwt.server.security.authorization.ProfileBinding;
+import com.ocpsoft.socialpm.gwt.server.security.authorization.ProjectAdmin;
 import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility;
 import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility.SerializationType;
 import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
@@ -80,12 +83,13 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
 
    @Override
    @TransactionAttribute
-   public Project create(Profile owner, String projectName)
+   @ProjectAdmin
+   public Project create(@ProfileBinding Profile owner, String projectName)
    {
       Project project = new Project();
       project.setName(projectName);
       project.setSlug(projectName);
-      
+
       Assert.notNull(owner, "Profile was null");
       Assert.notNull(project, "Project was null");
 
@@ -121,7 +125,7 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
       ProjectCreated createdEvent = new ProjectCreated(owner, project);
       super.create(createdEvent);
       projectCreated.fire(createdEvent);
-      
+
       return project;
    }
 
@@ -148,7 +152,7 @@ public class ProjectServiceImpl extends PersistenceUtil implements ProjectServic
       Assert.notNull(slug, "Project slug was null");
 
       Project result = null;
-      try{
+      try {
          result = findUniqueByNamedQuery("project.byProfileAndSlug", profile.getUsername(), slug);
          em.detach(result);
          HibernateDetachUtility.nullOutUninitializedFields(result, SerializationType.SERIALIZATION);

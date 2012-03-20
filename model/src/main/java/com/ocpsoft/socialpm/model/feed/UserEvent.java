@@ -59,6 +59,10 @@ public class UserEvent extends FeedEvent
       this.user = user;
    }
 
+   public UserEvent()
+   {
+   }
+
    public Profile getUser()
    {
       return user;

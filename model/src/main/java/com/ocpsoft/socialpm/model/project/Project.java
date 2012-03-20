@@ -80,20 +80,20 @@ public class Project extends DeletableObject<Project>
    private List<Membership> memberships = new ArrayList<Membership>();
 
    @Fetch(FetchMode.SUBSELECT)
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL)
+   @OneToMany(fetch = FetchType.EAGER, mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL)
    private List<Feature> features = new ArrayList<Feature>();
 
    @OrderBy("priority")
    @Fetch(FetchMode.SELECT)
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL)
+   @OneToMany(fetch = FetchType.EAGER, mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL)
    private List<Story> stories = new ArrayList<Story>();
 
    @Fetch(FetchMode.SUBSELECT)
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL)
+   @OneToMany(fetch = FetchType.EAGER, mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL)
    private List<Iteration> iterations = new ArrayList<Iteration>();
 
    @Fetch(FetchMode.SUBSELECT)
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL)
+   @OneToMany(fetch = FetchType.EAGER, mappedBy = "project", orphanRemoval = true, cascade = CascadeType.ALL)
    private List<Milestone> milestones = new ArrayList<Milestone>();
 
    @Index(name = "projectNameIndex")

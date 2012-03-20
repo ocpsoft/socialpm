@@ -36,6 +36,8 @@ package com.ocpsoft.socialpm.model.feed;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.jboss.errai.common.client.api.annotations.Portable;
+
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -44,12 +46,18 @@ import com.ocpsoft.socialpm.model.user.Profile;
  * 
  */
 
+@Portable
 @Entity
 @DiscriminatorValue("PCREATED")
 public class ProjectCreated extends ProjectEvent
 {
    private static final long serialVersionUID = 3509296443900421721L;
 
+   public ProjectCreated()
+   {
+      super();
+   }
+   
    public ProjectCreated(final Profile u, final Project project)
    {
       super(u, project);

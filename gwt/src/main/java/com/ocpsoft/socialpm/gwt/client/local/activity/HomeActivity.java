@@ -79,7 +79,6 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
             homeView.getProjectList().setProjects(projects);
          }
       }, new ErrorCallback() {
-
          @Override
          public boolean error(Message message, Throwable throwable)
          {

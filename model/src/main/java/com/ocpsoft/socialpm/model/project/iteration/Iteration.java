@@ -107,7 +107,7 @@ public class Iteration extends PersistentObject<Iteration>
    @OneToMany(mappedBy = "iteration", fetch = FetchType.LAZY)
    private final Set<Story> stories = new LinkedHashSet<Story>();
 
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "iteration", cascade = { CascadeType.ALL }, orphanRemoval = true)
+   @OneToMany(fetch = FetchType.EAGER, mappedBy = "iteration", cascade = { CascadeType.ALL }, orphanRemoval = true)
    private Set<IterationStatistics> statistics = new LinkedHashSet<IterationStatistics>();
 
    public Iteration()
