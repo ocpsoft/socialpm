@@ -4,8 +4,7 @@ import org.jboss.seam.security.AuthorizationException;
 import org.jboss.solder.exception.control.CaughtException;
 import org.jboss.solder.exception.control.Handles;
 import org.jboss.solder.exception.control.HandlesExceptions;
-
-import com.ocpsoft.logging.Logger;
+import org.ocpsoft.logging.Logger;
 
 @HandlesExceptions
 public class AuthenticationExceptionHandler

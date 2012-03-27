@@ -22,6 +22,7 @@ import javax.inject.Inject;
 import org.jboss.errai.bus.client.api.RemoteCallback;
 import org.jboss.errai.enterprise.client.cdi.api.CDI;
 import org.jboss.errai.ioc.client.api.EntryPoint;
+import org.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.core.client.GWT;
@@ -31,7 +32,6 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;

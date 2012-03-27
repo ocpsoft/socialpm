@@ -35,13 +35,14 @@
 	</scm>
 
 	<properties>
-		<prettytime.version>1.0.7</prettytime.version>
+		<prettytime.version>1.0.8.Final</prettytime.version>
 		<rewrite.version>1.0.0-SNAPSHOT</rewrite.version>
 		<seam.version>3.2.0-SNAPSHOT</seam.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.8.1</junit.version>
 		<errai.version>2.0-SNAPSHOT</errai.version>
-		<version.rewrite>1.0.0-SNAPSHOT</version.rewrite>
+		<version.rewrite>1.0.2.Final</version.rewrite>
+        <version.logging>1.0.1.Final</version.logging>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -66,45 +67,45 @@
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ocpsoft</groupId>
-				<artifactId>ocpsoft-pretty-time</artifactId>
+				<groupId>org.ocpsoft.prettytime</groupId>
+				<artifactId>prettytime</artifactId>
 				<version>${prettytime.version}</version>
 			</dependency>
 
 			<dependency>
-				<groupId>com.ocpsoft.rewrite</groupId>
+				<groupId>org.ocpsoft.rewrite</groupId>
 				<artifactId>rewrite-servlet</artifactId>
 				<version>${rewrite.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ocpsoft.rewrite</groupId>
+				<groupId>org.ocpsoft.rewrite</groupId>
 				<artifactId>rewrite-impl-servlet</artifactId>
 				<version>${version.rewrite}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ocpsoft.rewrite</groupId>
+				<groupId>org.ocpsoft.rewrite</groupId>
 				<artifactId>rewrite-integration-cdi</artifactId>
 				<version>${version.rewrite}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ocpsoft.rewrite</groupId>
+				<groupId>org.ocpsoft.rewrite</groupId>
 				<artifactId>rewrite-integration-faces</artifactId>
 				<version>${version.rewrite}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ocpsoft.rewrite</groupId>
+				<groupId>org.ocpsoft.rewrite</groupId>
 				<artifactId>rewrite-integration-gwt</artifactId>
 				<version>${version.rewrite}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ocpsoft.rewrite</groupId>
-				<artifactId>rewrite-logging-jboss</artifactId>
-				<version>${version.rewrite}</version>
+				<groupId>org.ocpsoft.logging</groupId>
+				<artifactId>logging-adapter-jboss</artifactId>
+				<version>${version.logging}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.ocpsoft.rewrite</groupId>
-				<artifactId>rewrite-logging-slf4j</artifactId>
-				<version>${version.rewrite}</version>
+				<groupId>org.ocpsoft.logging</groupId>
+				<artifactId>logging-adapter-slf4j</artifactId>
+				<version>${version.logging}</version>
 			</dependency>
 
 			<!-- Errai Dependencies -->
@@ -119,38 +120,32 @@
 				<groupId>org.jboss.seam.security</groupId>
 				<artifactId>seam-security-api</artifactId>
 				<version>${seam.version}</version>
-				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.jboss.seam.security</groupId>
 				<artifactId>seam-security</artifactId>
 				<version>${seam.version}</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.jboss.seam.security</groupId>
 				<artifactId>seam-security-external</artifactId>
 				<version>${seam.version}</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.jboss.seam.transaction</groupId>
 				<artifactId>seam-transaction</artifactId>
 				<version>${seam.version}</version>
-				<scope>provided</scope>
 			</dependency>
 
 			<dependency>
 				<groupId>org.jboss.solder</groupId>
 				<artifactId>solder-impl</artifactId>
 				<version>${seam.version}</version>
-				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>joda-time</groupId>
 				<artifactId>joda-time</artifactId>
 				<version>2.1</version>
-				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.jboss.solder</groupId>

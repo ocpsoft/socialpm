@@ -4,8 +4,9 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
 
-import com.ocpsoft.rewrite.gwt.client.history.ContextPathListener;
-import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
+import org.ocpsoft.rewrite.gwt.client.history.ContextPathListener;
+import org.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
+
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;

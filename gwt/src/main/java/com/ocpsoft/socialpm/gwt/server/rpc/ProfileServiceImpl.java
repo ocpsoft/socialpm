@@ -10,8 +10,8 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import org.jboss.errai.bus.server.annotations.Service;
+import org.ocpsoft.logging.Logger;
 
-import com.ocpsoft.logging.Logger;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProfileService;
 import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility;
 import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility.SerializationType;

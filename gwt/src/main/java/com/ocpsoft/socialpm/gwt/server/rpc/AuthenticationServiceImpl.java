@@ -19,9 +19,9 @@ import org.jboss.seam.security.events.LoggedInEvent;
 import org.jboss.seam.security.events.LoginFailedEvent;
 import org.jboss.seam.security.external.openid.OpenIdAuthenticator;
 import org.jboss.seam.security.management.IdmAuthenticator;
+import org.ocpsoft.logging.Logger;
 import org.picketlink.idm.api.User;
 
-import com.ocpsoft.logging.Logger;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProfileService;
 import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;

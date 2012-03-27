@@ -4,12 +4,12 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import org.jboss.errai.bus.client.api.RemoteCallback;
+import org.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;

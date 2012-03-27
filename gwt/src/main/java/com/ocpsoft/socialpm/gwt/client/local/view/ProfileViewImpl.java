@@ -6,11 +6,8 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import com.google.gwt.user.client.ui.Label;
-import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.ListItem;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectList;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.UnorderedList;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 

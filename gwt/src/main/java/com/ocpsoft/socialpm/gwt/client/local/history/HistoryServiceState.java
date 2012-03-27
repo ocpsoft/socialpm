@@ -5,9 +5,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import org.jboss.errai.ioc.client.api.InitBallot;
-
-import com.ocpsoft.rewrite.gwt.client.history.ContextPathListener;
-import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
+import org.ocpsoft.rewrite.gwt.client.history.ContextPathListener;
+import org.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 
 /**
  * Ensure that the context path must be set before we are allowed to continue loading the application.

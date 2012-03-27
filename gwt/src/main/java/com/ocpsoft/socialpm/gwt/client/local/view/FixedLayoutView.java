@@ -13,7 +13,6 @@ import com.google.gwt.uibinder.client.UiTemplate;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Alert;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.FluidRow;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.TopNav;

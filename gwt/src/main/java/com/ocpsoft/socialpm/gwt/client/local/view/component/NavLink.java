@@ -1,11 +1,12 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
+import org.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Anchor;
-import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 
 public class NavLink extends Anchor
 {

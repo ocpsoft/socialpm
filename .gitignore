@@ -17,3 +17,4 @@
 *.gwt
 gwt-unitCache/
 rebel.xml
+*.forge_settings

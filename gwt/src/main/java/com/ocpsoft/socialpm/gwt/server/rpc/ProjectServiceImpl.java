@@ -45,9 +45,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import org.jboss.errai.bus.server.annotations.Service;
-import org.jboss.seam.security.annotations.LoggedIn;
+import org.ocpsoft.common.util.Assert;
 
-import com.ocpsoft.common.util.Assert;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProjectService;
 import com.ocpsoft.socialpm.gwt.server.security.authorization.ProfileBinding;
 import com.ocpsoft.socialpm.gwt.server.security.authorization.ProjectAdmin;

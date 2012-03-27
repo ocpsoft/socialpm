@@ -3,7 +3,7 @@
         "http://google-web-toolkit.googlecode.com/svn/releases/1.6/distro-source/core/src/gwt-module.dtd">
 <module rename-to="app">
 	<inherits name="com.ocpsoft.socialpm.Model" />
-	<inherits name="com.ocpsoft.rewrite.gwt.Rewrite" />
+	<inherits name="org.ocpsoft.rewrite.gwt.Rewrite" />
 
 	<inherits name="org.jboss.errai.common.ErraiCommon" />
 	<inherits name="org.jboss.errai.bus.ErraiBus" />

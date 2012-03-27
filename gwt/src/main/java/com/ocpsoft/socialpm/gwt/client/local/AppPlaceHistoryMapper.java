@@ -8,13 +8,13 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import org.jboss.errai.ioc.client.container.IOCBeanManager;
+import org.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.place.shared.PlaceTokenizer;
-import com.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 import com.ocpsoft.socialpm.gwt.client.local.activity.HomeActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.LoginActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.LogoutActivity;
