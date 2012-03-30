@@ -1,0 +1,22 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.view.component'>
+
+	<g:HTMLPanel>
+		<div style="margin-bottom: 8px;" class="box">
+		
+			<div class="row">
+				<div class="span5 columns"><t:ProfileLink ui:field="ownerLink" styleName="btn" /> 
+					<span style="font-size: 16px;"> / <t:ProjectLink ui:field="projectLink" /> </span>
+				</div>
+				<div class="span1 columns">
+				</div>
+			</div>
+			
+			<p>Your assignments: <t:ProjectLink ui:field="assignmentsLink"/> </p>
+			
+		</div>
+	</g:HTMLPanel>
+
+</ui:UiBinder>

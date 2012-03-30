@@ -29,9 +29,15 @@ public class Div extends ComplexPanel
    {
       super.add(w, getElement());
    }
-   
+
    public void setInnerHTML(String html)
    {
       getElement().setInnerHTML(html);
+   }
+
+   public void setInnerText(String text)
+   {
+      getElement().setInnerText(text);
+
    }
 }

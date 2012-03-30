@@ -31,28 +31,48 @@
  * Optionally, Customers may choose a Commercial License. For additional
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-
 package com.ocpsoft.socialpm.model.feed;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 import org.jboss.errai.common.client.api.annotations.Portable;
 
+import com.ocpsoft.socialpm.model.project.story.Story;
 import com.ocpsoft.socialpm.model.user.Profile;
+
+/**
+ * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
+ * 
+ */
 
 @Portable
 @Entity
-@DiscriminatorValue("USER_LOGGED_IN")
-public class UserLoggedIn extends UserEvent
+@DiscriminatorValue("STORY_EVENT")
+public class StoryEvent extends ProjectEvent
 {
-   private static final long serialVersionUID = -281646598510177402L;
+   private static final long serialVersionUID = 3509296443900421721L;
 
-   public UserLoggedIn()
+   @OneToOne
+   private Story story;
+
+   public StoryEvent()
    {}
 
-   public UserLoggedIn(final Profile u)
+   public StoryEvent(final Profile u, final Story story)
    {
-      super(u);
+      super(u, story.getProject());
+      this.story = story;
+   }
+
+   public Story getStory()
+   {
+      return story;
+   }
+
+   public void setStory(Story story)
+   {
+      this.story = story;
    }
 }

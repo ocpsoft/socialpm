@@ -40,10 +40,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
+import org.jboss.errai.common.client.api.annotations.Portable;
+
 import com.ocpsoft.socialpm.model.user.Profile;
 
+@Portable
 @Entity
-@DiscriminatorValue("UEVENT")
+@DiscriminatorValue("USER_EVENT")
 @NamedQueries({
    @NamedQuery(name = "feedEvent.byUser", query = "from FeedEvent where user = :user order by createdOn desc")
 })

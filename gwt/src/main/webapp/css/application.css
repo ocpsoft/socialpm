@@ -63,5 +63,31 @@ ul.plain {
 }
 
 .project-title {
-	font-size: 16px;	
+	font-size: 16px;
+}
+
+/* Iteration List */
+.iteration-list a {
+	color: #ffffff;
+	text-align: center;
+	font-weight: bold;
+	width: 100%;
+}
+
+.iteration-list a:hover {
+	opacity: .5;
+}
+
+.iteration-list a {
+	width: 60px;
+	display: block;
+	text-align: center;
+	height: 18px;
+	padding: 0;
+	font-size: 12px;
+	line-height: 18px;
+}
+
+.iteration-list div.percent {
+	margin-right: 2px;
 }

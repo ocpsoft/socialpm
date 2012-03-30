@@ -3,12 +3,12 @@
 	xmlns:g='urn:import:com.google.gwt.user.client.ui'
 	xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.view.component'>
 
-	<g:HTMLPanel>
+	<g:HTMLPanel> 
 		<div style="padding-top: 7px; padding-bottom: 10px;" class="well">
-			<t:NavLink ui:field="newProject" styleName="btn pull-right" text="Start a new Project" />
-			<h3 style="margin-bottom: 8px;">Your Projects (<span ui:field="projectCount">0</span>)</h3>
-			<t:UnorderedList ui:field="list" styleName="plain clear" />
+			<t:NavLink ui:field="newStory" styleName="btn pull-right" text="Add a story" />
+			<h3 style="margin-bottom: 8px;">Open Stories (<span ui:field="storyCount">0</span>)</h3>
+			<t:UnorderedList ui:field="list" styleName="plain clear story-list" />
 		</div>
-	</g:HTMLPanel>
+	</g:HTMLPanel>  
 
 </ui:UiBinder>

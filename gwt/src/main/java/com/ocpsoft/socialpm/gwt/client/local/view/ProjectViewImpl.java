@@ -2,13 +2,16 @@ package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.enterprise.context.ApplicationScoped;
 
+import com.google.inject.Inject;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.BreadCrumb;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.BreadCrumbList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Div;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Heading;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.IterationList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProfileLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Span;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.StoryList;
 import com.ocpsoft.socialpm.model.project.Project;
 
 @ApplicationScoped
@@ -20,35 +23,66 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
 
    ProjectLink projectLink = new ProjectLink();
    ProfileLink profileLink = new ProfileLink();
+   Span pulse = new Span(":)");
+
+   @Inject
+   IterationList iterationList;
+
+   @Inject
+   StoryList storyList;
 
    @Override
    public void setup()
    {
-      Div row = new Div();
-      row.setStyleName("row");
+      Div projectHeader = createProjectHeaderRow();
+      Div body = createProjectBodyRow();
+
+      content.add(projectHeader);
+      content.add(body);
+   }
+
+   private Div createProjectHeaderRow()
+   {
+      Div projectHeader = new Div();
+      projectHeader.setStyleName("row");
       Div left = new Div();
       left.setStyleName("span8 cols");
       Div right = new Div();
       right.setStyleName("span4 cols");
-      
-      row.add(left);
-      row.add(right);
-      
+
+      projectHeader.add(left);
+      projectHeader.add(right);
+
       BreadCrumbList breadcrumbs = new BreadCrumbList();
       breadcrumbs.push(new BreadCrumb(profileLink));
       breadcrumbs.push(new BreadCrumb(projectLink));
-      
+
       Heading heading = new Heading(1);
-      Span badge = new Span(":)");
-      badge.setStyleName("badge");
+      pulse.setStyleName("badge");
+      heading.add(pulse);
       heading.add(new Span(" "));
-      heading.add(badge);
       heading.add(breadcrumbs);
       heading.addStyleName("project-title");
-      
+
       left.add(heading);
-      
-      content.add(row);
+      return projectHeader;
+   }
+
+   private Div createProjectBodyRow()
+   {
+      Div projectHeader = new Div();
+      projectHeader.setStyleName("row");
+      Div left = new Div();
+      left.setStyleName("span6 cols");
+      Div right = new Div();
+      right.setStyleName("span6 cols");
+
+      projectHeader.add(left);
+      projectHeader.add(right);
+
+      right.add(iterationList);
+      left.add(storyList);
+      return projectHeader;
    }
 
    @Override
@@ -56,6 +90,11 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
    {
       this.profileLink.setProfile(project.getOwner());
       this.projectLink.setProject(project);
+      this.iterationList.setProject(project);
+      this.iterationList.setIterations(project.getIterations());
+      this.storyList.setProject(project);
+      this.storyList.setStories(project.getCurrentIteration().getStoryList());
+      pulse.setInnerText(project.getOpenStories().size() + "");
    }
 
    /*
@@ -72,7 +111,7 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
    {
       this.presenter = presenter;
    }
-   
+
    public Project getProject()
    {
       return project;

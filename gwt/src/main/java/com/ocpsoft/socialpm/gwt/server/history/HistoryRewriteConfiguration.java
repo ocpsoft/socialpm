@@ -13,6 +13,7 @@ import org.ocpsoft.rewrite.servlet.config.HttpOperation;
 import org.ocpsoft.rewrite.servlet.config.Path;
 import org.ocpsoft.rewrite.servlet.config.Resource;
 import org.ocpsoft.rewrite.servlet.config.ServletMapping;
+import org.ocpsoft.rewrite.servlet.config.rule.Join;
 import org.ocpsoft.rewrite.servlet.http.event.HttpServletRewrite;
 
 public class HistoryRewriteConfiguration extends HttpConfigurationProvider
@@ -34,16 +35,14 @@ public class HistoryRewriteConfiguration extends HttpConfigurationProvider
                   }
                })
 
-               .defineRule()
-               .when(Path.matches("/"))
-               .perform(Forward.to("/index.jsp"))
+               .addRule(Join.path("/").to("/index.jsp").withInboundCorrection())
 
                .defineRule()
                .when(DispatchType.isRequest()
                         .and(Path.matches("{path}").where("path").matches(".*"))
                         .andNot(Resource.exists("{path}"))
                         .andNot(ServletMapping.includes("{path}")))
-               .perform(Forward.to("/index.jsp"));
+                        .perform(Forward.to("/index.jsp"));
    }
 
    @Override

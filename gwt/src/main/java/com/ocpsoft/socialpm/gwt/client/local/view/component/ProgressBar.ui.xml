@@ -1,0 +1,11 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.view.component'>
+
+	<g:HTMLPanel ui:field="container" styleName="progress">
+
+			<t:Div ui:field="bar" styleName="bar"/>
+        
+	</g:HTMLPanel>
+
+</ui:UiBinder>

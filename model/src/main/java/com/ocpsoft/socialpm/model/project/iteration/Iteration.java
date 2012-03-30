@@ -129,12 +129,21 @@ public class Iteration extends PersistentObject<Iteration>
    @PrePersist
    @PreUpdate
    public void beforeCreate()
-   {
-   }
+   {}
 
    public int getTaskHoursRemain()
    {
       IterationStatistics stats = getLatestStatistics();
+      return stats.getHoursRemain();
+   }
+
+   public int getTaskHoursCommitment()
+   {
+      IterationStatistics stats = getCommitmentStatistics();
+      if (stats == null)
+      {
+         return -1;
+      }
       return stats.getHoursRemain();
    }
 
@@ -181,6 +190,24 @@ public class Iteration extends PersistentObject<Iteration>
          if (result == null || result.getDate().before(s.getDate()))
          {
             result = s;
+         }
+      }
+      return result;
+   }
+
+   /**
+    * Return the {@link IterationStatistics} from {@link #getCommittedOn()} or null if this {@link Iteration} is not
+    * committed.
+    */
+   public IterationStatistics getCommitmentStatistics()
+   {
+      IterationStatistics result = null;
+      for (IterationStatistics s : statistics)
+      {
+         if (s.isCommitmentStats())
+         {
+            result = s;
+            break;
          }
       }
       return result;

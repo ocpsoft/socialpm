@@ -1,11 +1,11 @@
 /**
- * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM) 
+ * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM)
  *
  * Copyright (c)2011 Lincoln Baxter, III <lincoln@ocpsoft.com> (OCPsoft)
  * Copyright (c)2011 OCPsoft.com (http://ocpsoft.com)
  * 
- * If you are developing and distributing open source applications under 
- * the GNU General Public License (GPL), then you are free to re-distribute SocialPM 
+ * If you are developing and distributing open source applications under
+ * the GNU General Public License (GPL), then you are free to re-distribute SocialPM
  * under the terms of the GPL, as follows:
  *
  * SocialPM is free software: you can redistribute it and/or modify
@@ -23,12 +23,12 @@
  * 
  * For individuals or entities who wish to use SocialPM privately, or
  * internally, the following terms do not apply:
- *  
- * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their 
- * products, or host their product online, OCPsoft provides flexible 
+ * 
+ * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their
+ * products, or host their product online, OCPsoft provides flexible
  * OEM commercial licenses.
  * 
- * Optionally, Customers may choose a Commercial License. For additional 
+ * Optionally, Customers may choose a Commercial License. For additional
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
@@ -40,11 +40,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
+import org.jboss.errai.common.client.api.annotations.Portable;
+
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
+@Portable
 @Entity
-@DiscriminatorValue("PCREATED")
+@DiscriminatorValue("PROJECT_EVENT")
 @NamedQueries({ @NamedQuery(name = "feedEvent.byProject", query = "from FeedEvent where project = ? order by createdOn") })
 public class ProjectEvent extends UserEvent
 {
@@ -61,7 +64,6 @@ public class ProjectEvent extends UserEvent
 
    public ProjectEvent()
    {
-      super();
    }
 
    public Project getProject()
