@@ -2,6 +2,9 @@ package com.ocpsoft.socialpm.gwt.client.local.history;
 
 import org.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 
+import com.ocpsoft.socialpm.gwt.client.local.places.NewStoryPlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
+import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 public class HistoryConstants
@@ -36,6 +39,18 @@ public class HistoryConstants
    public static final String NEW_PROJECT()
    {
       return "new-project";
+   }
+
+   public static final String PROJECT(Project project)
+   {
+      return new ProjectPlace.Tokenizer()
+      .getToken(new ProjectPlace(project.getOwner().getUsername(), project.getSlug()));
+   }
+
+   public static final String NEW_STORY(Project project)
+   {
+      return new NewStoryPlace.Tokenizer()
+               .getToken(new NewStoryPlace(project.getOwner().getUsername(), project.getSlug()));
    }
 
    public static final String PROFILE(Profile profile)
