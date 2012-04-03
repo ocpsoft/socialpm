@@ -88,7 +88,8 @@ public class IterationList extends Composite
 
       IterationLink link = new IterationLink(iter);
       link.setWidth("100%");
-      link.setStyleName("label " + iter.getStatus().name());
+      link.addStyleName("label " + iter.getStatus().name());
+      link.addStyleDependentName("clickable");
       left.add(link);
 
       ProgressBar bar = new ProgressBar();

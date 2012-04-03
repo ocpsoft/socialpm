@@ -1,24 +1,27 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
-import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Span extends HTMLPanel
+public class Fieldset extends ComplexPanel
 {
-   public Span()
+   public Fieldset()
    {
-      super("span", "");
+      setElement((Element) Document.get().createFieldSetElement().cast());
    }
 
-   public Span(String s)
-   {
-      super("span", s);
-   }
-
-   public Span(Widget w)
+   public Fieldset(String s)
    {
       this();
-      super.add(w);
+      getElement().setInnerText(s);
+   }
+
+   public Fieldset(Widget w)
+   {
+      this();
+      super.add(w, getElement());
    }
 
    @Override
@@ -35,5 +38,6 @@ public class Span extends HTMLPanel
    public void setInnerText(String text)
    {
       getElement().setInnerText(text);
+
    }
 }

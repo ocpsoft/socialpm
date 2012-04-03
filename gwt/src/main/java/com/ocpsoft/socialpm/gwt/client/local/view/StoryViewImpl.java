@@ -2,20 +2,19 @@ package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import com.google.inject.Inject;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.BreadCrumb;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.BreadCrumbList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Div;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Heading;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.IterationList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProfileLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Span;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.StoryList;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.StoryLink;
 import com.ocpsoft.socialpm.model.project.Project;
+import com.ocpsoft.socialpm.model.project.story.Story;
 
 @ApplicationScoped
-public class ProjectViewImpl extends FixedLayoutView implements ProjectView
+public class StoryViewImpl extends FixedLayoutView implements StoryView
 {
    private Project project;
 
@@ -23,13 +22,8 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
 
    ProjectLink projectLink = new ProjectLink();
    ProfileLink profileLink = new ProfileLink();
+   StoryLink storyLink = new StoryLink();
    Span pulse = new Span(":)");
-
-   @Inject
-   IterationList iterationList;
-
-   @Inject
-   StoryList storyList;
 
    @Override
    public void setup()
@@ -39,8 +33,6 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
 
       content.add(projectHeader);
       content.add(body);
-
-      storyList.setPresenter(getPresenter());
    }
 
    private Div createProjectHeaderRow()
@@ -58,6 +50,7 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
       BreadCrumbList breadcrumbs = new BreadCrumbList();
       breadcrumbs.push(new BreadCrumb(profileLink));
       breadcrumbs.push(new BreadCrumb(projectLink));
+      breadcrumbs.push(new BreadCrumb(storyLink));
 
       Heading heading = new Heading(1);
       pulse.setStyleName("badge");
@@ -82,22 +75,16 @@ public class ProjectViewImpl extends FixedLayoutView implements ProjectView
       projectHeader.add(left);
       projectHeader.add(right);
 
-      right.add(iterationList);
-      left.add(storyList);
       return projectHeader;
    }
 
    @Override
-   public void setProject(Project project)
+   public void setStory(Story story)
    {
-      this.profileLink.setProfile(project.getOwner());
-      this.projectLink.setProject(project);
-      this.iterationList.setProject(project);
-      this.iterationList.setIterations(project.getIterations());
-
-      this.storyList.setPresenter(presenter);
-      this.storyList.setProject(project);
-      this.storyList.setStories(project.getStories());
+      this.project = story.getProject();
+      this.profileLink.setProfile(story.getProject().getOwner());
+      this.projectLink.setProject(story.getProject());
+      this.storyLink.setStory(story);
 
       pulse.setInnerText(project.getOpenStories().size() + "");
    }

@@ -6,11 +6,12 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.WelcomeBar;
+import com.ocpsoft.socialpm.gwt.client.local.view.presenter.AuthenticationAware;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 public interface HomeView extends FixedLayout
 {
-   public interface Presenter extends FixedLayout.FixedPresenter
+   public interface Presenter extends FixedLayout.FixedPresenter, AuthenticationAware
    {
       void fireMessage(String text);
    }

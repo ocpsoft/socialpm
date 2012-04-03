@@ -3,19 +3,19 @@ package com.ocpsoft.socialpm.gwt.client.local.view.component;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Span extends HTMLPanel
+public class Label extends HTMLPanel
 {
-   public Span()
+   public Label()
    {
-      super("span", "");
+      super("label", "");
    }
 
-   public Span(String s)
+   public Label(String s)
    {
-      super("span", s);
+      super("label", s);
    }
 
-   public Span(Widget w)
+   public Label(Widget w)
    {
       this();
       super.add(w);
@@ -35,5 +35,10 @@ public class Span extends HTMLPanel
    public void setInnerText(String text)
    {
       getElement().setInnerText(text);
+   }
+
+   public void setFor(String forId)
+   {
+      getElement().setAttribute("for", forId);
    }
 }

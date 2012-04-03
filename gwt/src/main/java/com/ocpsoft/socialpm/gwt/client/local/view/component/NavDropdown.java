@@ -53,7 +53,7 @@ public class NavDropdown extends Composite
       {
          li = new ListItem(w);
       }
-      
+
       if (active)
          li.setStyleName("active");
 

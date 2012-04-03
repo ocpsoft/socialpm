@@ -8,6 +8,7 @@ import org.jboss.errai.ioc.client.api.Caller;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProfileService;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProjectService;
+import com.ocpsoft.socialpm.gwt.client.shared.rpc.StoryService;
 
 @ApplicationScoped
 public class ServiceFactory
@@ -20,6 +21,9 @@ public class ServiceFactory
 
    @Inject
    private Caller<ProjectService> projectService;
+
+   @Inject
+   private Caller<StoryService> storyService;
 
    public Caller<AuthenticationService> getAuthService()
    {
@@ -34,6 +38,11 @@ public class ServiceFactory
    public Caller<ProjectService> getProjectService()
    {
       return projectService;
+   }
+
+   public Caller<StoryService> getStoryService()
+   {
+      return storyService;
    }
 
 }

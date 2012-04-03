@@ -40,8 +40,17 @@ body {
 	padding: 9px;
 }
 
+.clickable .box:hover {
+	background: none repeat scroll 0 0 #FFFDF9;
+	border: 1px solid rgba(82, 168, 236, 0.6);
+}
+
 .box *:last-child {
 	margin-bottom: 0;
+}
+
+.clickable {
+	cursor: pointer;	
 }
 
 .sidebar-nav {
@@ -91,3 +100,5 @@ ul.plain {
 .iteration-list div.percent {
 	margin-right: 2px;
 }
+
+/* Story List */

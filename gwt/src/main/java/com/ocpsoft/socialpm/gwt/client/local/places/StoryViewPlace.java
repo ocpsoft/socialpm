@@ -7,47 +7,59 @@ import java.util.List;
 import com.google.gwt.place.shared.Place;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 
-public class ProjectPlace extends Place
+public class StoryViewPlace extends Place
 {
    private final String username;
    private final String slug;
+   private final int storyNumber;
 
-   public ProjectPlace(String username, String slug)
+   public StoryViewPlace(String username, String slug, int storyNumber)
    {
       this.username = username;
       this.slug = slug;
+      this.storyNumber = storyNumber;
    }
 
-   public static class Tokenizer implements TypedPlaceTokenizer<ProjectPlace>
+   public static class Tokenizer implements TypedPlaceTokenizer<StoryViewPlace>
    {
       @Override
-      public String getToken(ProjectPlace place)
+      public String getToken(StoryViewPlace place)
       {
-         return place.getUsername() + "/" + place.getSlug();
+         return place.getUsername() + "/" + place.getSlug() + "/" + place.getStoryNumber();
       }
 
       @Override
-      public ProjectPlace getPlace(String token)
+      public StoryViewPlace getPlace(String token)
       {
          String[] tokens = token.split(HistoryConstants.DELIMETER(), -1);
          List<String> list = new ArrayList<String>(Arrays.asList(tokens));
-         if (list.size() == 2)
+         if (list.size() == 3)
          {
-            return new ProjectPlace(list.get(0), list.get(1));
+            String string = list.get(2);
+            try {
+               Integer number = Integer.valueOf(string);
+               return new StoryViewPlace(list.get(0), list.get(1), number);
+            }
+            catch (NumberFormatException e) {}
          }
          return null;
       }
 
       @Override
-      public Class<ProjectPlace> getPlaceType()
+      public Class<StoryViewPlace> getPlaceType()
       {
-         return ProjectPlace.class;
+         return StoryViewPlace.class;
       }
    }
 
    public String getUsername()
    {
       return username;
+   }
+
+   public int getStoryNumber()
+   {
+      return storyNumber;
    }
 
    public String getSlug()

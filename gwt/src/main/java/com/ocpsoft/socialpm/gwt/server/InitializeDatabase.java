@@ -33,7 +33,6 @@
  */
 package com.ocpsoft.socialpm.gwt.server;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,6 +56,7 @@ import org.picketlink.idm.common.exception.IdentityException;
 
 import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
 import com.ocpsoft.socialpm.model.config.Setting;
+import com.ocpsoft.socialpm.model.project.Feature;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.project.iteration.Iteration;
 import com.ocpsoft.socialpm.model.security.IdentityObjectCredentialType;
@@ -78,7 +78,7 @@ public class InitializeDatabase extends PersistenceUtil
 
    @PersistenceContext(type = PersistenceContextType.EXTENDED)
    protected EntityManager em;
-   
+
    @Override
    public EntityManager getEntityManager()
    {
@@ -166,25 +166,34 @@ public class InitializeDatabase extends PersistenceUtil
          create(p);
 
          Project project = new Project();
-         project.setName("Social Project Management");
+         project.setName("socialpm");
          project.setSlug("socialpm");
          project.setOwner(p);
 
+         Iteration unassigned = new Iteration();
+         unassigned.setProject(project);
+         unassigned.setTitle("Backlog");
+         project.getIterations().add(unassigned);
+
+         Feature bugFixes = new Feature();
+         bugFixes.setName("Bug Fixes");
+         bugFixes.setProject(project);
+         project.getFeatures().add(bugFixes);
+         bugFixes.setProject(project);
+
+         Feature enhancements = new Feature();
+         enhancements.setName("Enhancements");
+         enhancements.setProject(project);
+         project.getFeatures().add(enhancements);
+         enhancements.setProject(project);
+
+         Feature unclassified = new Feature();
+         unclassified.setName("Unclassified");
+         unclassified.setProject(project);
+         project.getFeatures().add(unclassified);
+         unclassified.setProject(project);
+
          create(project);
-
-         Iteration i = new Iteration();
-         i.setStartDate(new Date());
-         i.setEndDate(new Date(System.currentTimeMillis() + (60 * 1000 * 60 * 24 * 2)));
-         i.setProject(project);
-         i.setTitle("Another");
-         project.getIterations().add(i);
-
-         i = new Iteration();
-         i.setStartDate(new Date(System.currentTimeMillis() + (60 * 1000 * 60 * 24 * 3)));
-         i.setEndDate(new Date(System.currentTimeMillis() + (+60 * 1000 * 60 * 24 * 10)));
-         i.setProject(project);
-         i.setTitle("Another2");
-         project.getIterations().add(i);
 
          save(project);
       }

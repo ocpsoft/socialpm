@@ -7,14 +7,12 @@
 		<div style="margin-bottom: 8px;" class="box">
 		
 			<div class="row">
-				<div class="span5 columns"><t:ProfileLink ui:field="ownerLink" styleName="btn" /> 
-					<span style="font-size: 16px;"> / <t:ProjectLink ui:field="projectLink" /> </span>
+				<div class="span5 columns">
+                     <t:Span ui:field="text"/>
 				</div>
 				<div class="span1 columns">
 				</div>
 			</div>
-			
-			<p>Your assignments: <t:ProjectLink ui:field="assignmentsLink"/> </p>
 			
 		</div>
 	</g:HTMLPanel>

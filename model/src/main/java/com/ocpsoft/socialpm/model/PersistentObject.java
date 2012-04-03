@@ -48,7 +48,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 @MappedSuperclass
-public abstract class PersistentObject<E extends PersistentObject<?>> implements Serializable
+public abstract class PersistentObject<E extends PersistentObject<E>> implements Serializable
 {
    private static final long serialVersionUID = -1272280183658745494L;
 

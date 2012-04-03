@@ -9,45 +9,47 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.CurrentHistory;
+import com.ocpsoft.socialpm.gwt.client.local.places.NewStoryPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
-import com.ocpsoft.socialpm.gwt.client.local.view.ProjectView;
+import com.ocpsoft.socialpm.gwt.client.local.view.NewStoryView;
 import com.ocpsoft.socialpm.model.project.Project;
+import com.ocpsoft.socialpm.model.project.story.Story;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 @Dependent
-public class NewStoryActivity extends AbstractActivity implements ProjectView.Presenter
+public class NewStoryActivity extends AbstractActivity implements NewStoryView.Presenter
 {
    private final ClientFactory clientFactory;
-   private final ProjectView projectView;
+   private final NewStoryView newStoryView;
    private final String username;
    private final String slug;
 
    @Inject
-   public NewStoryActivity(ClientFactory clientFactory, ProjectView projectView, @CurrentHistory Place place)
+   public NewStoryActivity(ClientFactory clientFactory, NewStoryView newStoryView, @CurrentHistory Place place)
    {
       this.clientFactory = clientFactory;
-      this.projectView = projectView;
-      this.username = ((ProjectPlace) place).getUsername();
-      this.slug = ((ProjectPlace) place).getSlug();
+      this.newStoryView = newStoryView;
+      this.username = ((NewStoryPlace) place).getUsername();
+      this.slug = ((NewStoryPlace) place).getSlug();
    }
 
    @Override
-   public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
+   public void start(final AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      projectView.setPresenter(this);
+      newStoryView.setPresenter(this);
+      containerWidget.setWidget(newStoryView.asWidget());
 
       clientFactory.getServiceFactory().getProjectService().call(new RemoteCallback<Project>() {
 
          @Override
          public void callback(Project project)
          {
-            projectView.setProject(project);
+            newStoryView.setProject(project);
          }
       }).getByOwnerAndSlug(new Profile(username), slug);
-
-      containerWidget.setWidget(projectView.asWidget());
    }
 
    @Override
@@ -61,4 +63,21 @@ public class NewStoryActivity extends AbstractActivity implements ProjectView.Pr
    {
       clientFactory.getPlaceController().goTo(place);
    }
+
+   @Override
+   public void createStory(Project project, Story story)
+   {
+      System.out.println("Clicked create story");
+
+      clientFactory.getServiceFactory().getStoryService().call(new RemoteCallback<Story>() {
+
+         @Override
+         public void callback(Story story)
+         {
+            System.out.println(story);
+            goTo(new ProjectPlace(username, slug));
+         }
+      }).create(App.getLoggedInProfile(), project, story);
+   }
+
 }

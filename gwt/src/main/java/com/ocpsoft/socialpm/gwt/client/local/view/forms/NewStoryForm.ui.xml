@@ -1,0 +1,61 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder' xmlns:g='urn:import:com.google.gwt.user.client.ui'
+   xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.view.component'>
+
+   <g:FormPanel ui:field="form" styleName="new-story-form">
+      <t:Fieldset>
+         <t:Legend>
+            <t:Span ui:field="formTitle" />
+         </t:Legend>
+
+         <t:Div styleName="control-group">
+            <t:Label styleName="control-label" for="role">As a</t:Label>
+            <t:Div styleName="controls">
+               <g:TextBox ui:field="role" styleName="input-xlarge span2 cols" maxLength="32" />
+               <t:Para styleName="help-block">
+                  <t:Span ui:field="roleMsg" />
+               </t:Para>
+            </t:Div>
+         </t:Div>
+
+
+         <t:Div styleName="control-group">
+            <t:Label styleName="control-label" for="objective">I want</t:Label>
+            <t:Div styleName="controls">
+               <g:TextArea ui:field="objective" styleName="input-xlarge span6 cols" />
+               <t:Para styleName="help-block">
+                  <t:Span ui:field="objectiveMsg" />
+               </t:Para>
+            </t:Div>
+         </t:Div>
+
+
+         <t:Div styleName="control-group">
+            <t:Label styleName="control-label" for="result">so that</t:Label>
+            <t:Div styleName="controls">
+               <g:TextArea ui:field="result" styleName="input-xlarge span6 cols" />
+               <t:Para styleName="help-block">
+                  <t:Span ui:field="resultMsg" />
+               </t:Para>
+            </t:Div>
+         </t:Div>
+
+
+         <t:Div styleName="control-group">
+            <t:Label styleName="control-label" for="iteration">Iteration</t:Label>
+            <t:Div styleName="controls">
+               <g:ValueListBox ui:field="iteration" styleName="input-xlarge" />
+               <t:Para styleName="help-block">
+                  <t:Span ui:field="iterationMsg" />
+               </t:Para>
+            </t:Div>
+         </t:Div>
+
+         <t:Para>
+            <g:Button ui:field="createButton" styleName="btn btn-primary btn-large" text="Create it! »" />
+            <g:Button ui:field="cancelButton" styleName="btn pull-right" text="Cancel" />
+         </t:Para>
+      </t:Fieldset>
+   </g:FormPanel>
+
+</ui:UiBinder>

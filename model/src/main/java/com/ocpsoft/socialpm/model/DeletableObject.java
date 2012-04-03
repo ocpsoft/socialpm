@@ -42,7 +42,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @MappedSuperclass
-public abstract class DeletableObject<E extends DeletableObject<?>> extends PersistentObject<E>
+public abstract class DeletableObject<E extends DeletableObject<E>> extends PersistentObject<E>
 {
    private static final long serialVersionUID = 49008810086044438L;
 

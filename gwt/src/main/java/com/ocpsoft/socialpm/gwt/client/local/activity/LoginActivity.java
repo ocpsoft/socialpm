@@ -94,13 +94,11 @@ public class LoginActivity extends AbstractActivity implements LoginView.Present
       clientFactory.getPlaceController().goTo(place);
    }
 
-   @Override
    public void handleLogin(@Observes LoginEvent event)
    {
       loginView.clearForm();
    }
 
-   @Override
    public void handleLogout(@Observes LogoutEvent event)
    {}
 }

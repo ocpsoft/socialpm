@@ -66,11 +66,11 @@ import com.ocpsoft.socialpm.model.user.Profile;
 @Entity
 @Table(name = "projects", uniqueConstraints = { @UniqueConstraint(columnNames = { "owner_id", "slug" }) })
 @NamedQueries({
-         @NamedQuery(name = "project.byProfileAndSlug", query = "FROM Project WHERE owner.username = ? AND slug = ?"),
-         @NamedQuery(name = "project.byProfile", query = "FROM Project WHERE owner.username = ?"),
-   @NamedQuery(name = "project.byProfileName", query = "FROM Project WHERE owner.username = ?"),
-   @NamedQuery(name = "project.count", query = "select count(*) from Project"),
-   @NamedQuery(name = "project.list", query = "from Project p order by p.slug asc") })
+         @NamedQuery(name = "Project.byProfileAndSlug", query = "FROM Project WHERE owner.username = ? AND slug = ?"),
+         @NamedQuery(name = "Project.byProfile", query = "FROM Project WHERE owner.username = ?"),
+         @NamedQuery(name = "Project.byProfileName", query = "FROM Project WHERE owner.username = ?"),
+         @NamedQuery(name = "Project.count", query = "select count(*) from Project"),
+         @NamedQuery(name = "Project.list", query = "from Project p order by p.slug asc") })
 public class Project extends DeletableObject<Project>
 {
    private static final long serialVersionUID = 719438791700341079L;
@@ -101,7 +101,7 @@ public class Project extends DeletableObject<Project>
    private String name;
 
    @Index(name = "projectSlugIndex")
-   @Column(length = 12, nullable = false)
+   @Column(length = 48, nullable = false)
    private String slug;
 
    @Column(length = 128)

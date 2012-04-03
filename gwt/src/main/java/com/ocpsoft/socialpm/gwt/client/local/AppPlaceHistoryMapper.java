@@ -19,17 +19,21 @@ import com.ocpsoft.socialpm.gwt.client.local.activity.HomeActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.LoginActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.LogoutActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.NewProjectActivity;
+import com.ocpsoft.socialpm.gwt.client.local.activity.NewStoryActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.ProfileActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.ProjectActivity;
 import com.ocpsoft.socialpm.gwt.client.local.activity.SignupActivity;
+import com.ocpsoft.socialpm.gwt.client.local.activity.StoryViewActivity;
 import com.ocpsoft.socialpm.gwt.client.local.history.CurrentHistory;
 import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.LoginPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.LogoutPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.NewProjectPlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.NewStoryPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.SignupPlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.StoryViewPlace;
 import com.ocpsoft.socialpm.gwt.client.local.places.TypedPlaceTokenizer;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.presenter.AuthenticationAware;
@@ -72,6 +76,8 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
        * Double segment Tokenizers
        */
       tokenizers.add(new ProjectPlace.Tokenizer());
+      tokenizers.add(new StoryViewPlace.Tokenizer());
+      tokenizers.add(new NewStoryPlace.Tokenizer());
    }
 
    @Override
@@ -98,6 +104,10 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
          result = manager.lookupBean(ProfileActivity.class).getInstance();
       if (place instanceof ProjectPlace)
          result = manager.lookupBean(ProjectActivity.class).getInstance();
+      if (place instanceof NewStoryPlace)
+         result = manager.lookupBean(NewStoryActivity.class).getInstance();
+      if (place instanceof StoryViewPlace)
+         result = manager.lookupBean(StoryViewActivity.class).getInstance();
       if (place instanceof NewProjectPlace)
          result = manager.lookupBean(NewProjectActivity.class).getInstance();
 
@@ -108,7 +118,7 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
 
       if (result == null)
       {
-         throw new RuntimeException("Failed to get Activity from Place [" + place + "]");
+         throw new RuntimeException("Failed to get Activity from Place [" + place.getClass().getName() + "]");
       }
       return result;
    }
@@ -135,7 +145,7 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
 
       if (result == null)
       {
-         throw new RuntimeException("Could not map token [" + token + "] to place");
+         throw new RuntimeException("Could not map token [" + token + "] to Place");
       }
 
       System.out.println("Mapped token [" + token + "] to place [" + result + "]");
@@ -164,7 +174,7 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper, ActivityMapper
 
       if (result == null)
       {
-         throw new RuntimeException("Failed to get token from Place [" + place + "]");
+         throw new RuntimeException("Failed to get token from Place [" + place.getClass() + "]");
       }
 
       return result;

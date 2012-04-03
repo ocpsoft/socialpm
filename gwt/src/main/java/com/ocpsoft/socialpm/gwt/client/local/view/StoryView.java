@@ -1,8 +1,8 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
-import com.ocpsoft.socialpm.model.project.Project;
+import com.ocpsoft.socialpm.model.project.story.Story;
 
-public interface ProjectView extends FixedLayout
+public interface StoryView extends FixedLayout
 {
    public interface Presenter extends FixedPresenter
    {
@@ -12,6 +12,6 @@ public interface ProjectView extends FixedLayout
 
    void setPresenter(Presenter presenter);
 
-   void setProject(Project project);
+   void setStory(Story story);
 
 }

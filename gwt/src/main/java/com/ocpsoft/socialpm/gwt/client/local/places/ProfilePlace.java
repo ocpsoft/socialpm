@@ -51,6 +51,6 @@ public class ProfilePlace extends Place
    @Override
    public String toString()
    {
-      return "ProfilePlace[" + username + "]";
+      return getClass().getName() + "[" + username + "]";
    }
 }

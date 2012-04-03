@@ -31,7 +31,7 @@ public class NewStoryPlace extends Place
       {
          String[] tokens = token.split(HistoryConstants.DELIMETER(), -1);
          List<String> list = new ArrayList<String>(Arrays.asList(tokens));
-         if (list.size() == 2)
+         if (list.size() == 3)
          {
             return new NewStoryPlace(list.get(0), list.get(1));
          }
@@ -58,6 +58,6 @@ public class NewStoryPlace extends Place
    @Override
    public String toString()
    {
-      return "ProjectPlace[" + username + "/" + slug + "]";
+      return getClass().getName() + "[" + username + "/" + slug + "]";
    }
 }

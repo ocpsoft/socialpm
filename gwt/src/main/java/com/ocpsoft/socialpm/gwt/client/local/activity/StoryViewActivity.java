@@ -11,43 +11,45 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.CurrentHistory;
-import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
-import com.ocpsoft.socialpm.gwt.client.local.view.ProjectView;
-import com.ocpsoft.socialpm.model.project.Project;
+import com.ocpsoft.socialpm.gwt.client.local.places.StoryViewPlace;
+import com.ocpsoft.socialpm.gwt.client.local.view.StoryView;
+import com.ocpsoft.socialpm.model.project.story.Story;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 @Dependent
-public class ProjectActivity extends AbstractActivity implements ProjectView.Presenter
+public class StoryViewActivity extends AbstractActivity implements StoryView.Presenter
 {
    private final ClientFactory clientFactory;
-   private final ProjectView projectView;
+   private final StoryView storyView;
+
    private final String username;
    private final String slug;
+   private final int storyNumber;
 
    @Inject
-   public ProjectActivity(ClientFactory clientFactory, ProjectView projectView, @CurrentHistory Place place)
+   public StoryViewActivity(ClientFactory clientFactory, StoryView storyView, @CurrentHistory Place place)
    {
       this.clientFactory = clientFactory;
-      this.projectView = projectView;
-      this.username = ((ProjectPlace) place).getUsername();
-      this.slug = ((ProjectPlace) place).getSlug();
+      this.storyView = storyView;
+      this.username = ((StoryViewPlace) place).getUsername();
+      this.slug = ((StoryViewPlace) place).getSlug();
+      this.storyNumber = ((StoryViewPlace) place).getStoryNumber();
    }
 
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      projectView.setPresenter(this);
+      storyView.setPresenter(this);
 
-      clientFactory.getServiceFactory().getProjectService().call(new RemoteCallback<Project>() {
-
+      clientFactory.getServiceFactory().getStoryService().call(new RemoteCallback<Story>() {
          @Override
-         public void callback(Project project)
+         public void callback(Story story)
          {
-            projectView.setProject(project);
+            storyView.setStory(story);
          }
-      }).getByOwnerAndSlug(new Profile(username), slug);
+      }).getByOwnerSlugAndNumber(new Profile(username), slug, storyNumber);
 
-      containerWidget.setWidget(projectView.asWidget());
+      containerWidget.setWidget(storyView.asWidget());
    }
 
    @Override

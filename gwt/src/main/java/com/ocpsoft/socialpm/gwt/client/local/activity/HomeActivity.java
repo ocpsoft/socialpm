@@ -66,7 +66,6 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
       homeView.getGreeting().setContent("Message from server: " + event.getMessage());
    }
 
-   @Override
    public void handleLogin(@Observes LoginEvent event)
    {
       homeView.showDashboard(event.getProfile());
@@ -87,7 +86,6 @@ public class HomeActivity extends AbstractActivity implements HomeView.Presenter
       }).getByOwner(event.getProfile());
    }
 
-   @Override
    public void handleLogout(@Observes LogoutEvent event)
    {
       homeView.showSplash();

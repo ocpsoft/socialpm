@@ -10,6 +10,8 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import com.ocpsoft.socialpm.model.PersistentObject;
+
 @TransactionAttribute
 public abstract class PersistenceUtil implements Serializable
 {
@@ -17,7 +19,7 @@ public abstract class PersistenceUtil implements Serializable
 
    public abstract EntityManager getEntityManager();
 
-   protected <T> long count(final Class<T> type)
+   protected <T extends PersistentObject<?>> long count(final Class<T> type)
    {
       CriteriaBuilder qb = getEntityManager().getCriteriaBuilder();
       CriteriaQuery<Long> cq = qb.createQuery(Long.class);
@@ -25,17 +27,17 @@ public abstract class PersistenceUtil implements Serializable
       return getEntityManager().createQuery(cq).getSingleResult();
    }
 
-   protected <T> void create(final T entity)
+   protected <T extends PersistentObject<?>> void create(final T entity)
    {
       getEntityManager().persist(entity);
    }
 
-   protected <T> void delete(final T entity) throws NoResultException
+   protected <T extends PersistentObject<?>> void delete(final T entity) throws NoResultException
    {
       getEntityManager().remove(entity);
    }
 
-   protected <T> T deleteById(final Class<T> type, final Long id) throws NoResultException
+   protected <T extends PersistentObject<?>> T deleteById(final Class<T> type, final Long id) throws NoResultException
    {
       T object = findById(type, id);
       delete(object);
@@ -43,7 +45,7 @@ public abstract class PersistenceUtil implements Serializable
    }
 
    @SuppressWarnings("unchecked")
-   protected <T> T findById(final Class<T> type, final Long id) throws NoResultException
+   protected <T extends PersistentObject<?>> T findById(final Class<T> type, final Long id) throws NoResultException
    {
       Class<?> clazz = getObjectClass(type);
       T result = (T) getEntityManager().find(clazz, id);
@@ -54,7 +56,7 @@ public abstract class PersistenceUtil implements Serializable
       return result;
    }
 
-   protected <T> void save(final T entity)
+   protected <T extends PersistentObject<?>> void save(final T entity)
    {
       if (getEntityManager() == null)
       {
@@ -64,9 +66,15 @@ public abstract class PersistenceUtil implements Serializable
       getEntityManager().merge(entity);
    }
 
-   protected <T> void refresh(final T entity)
+   protected <T extends PersistentObject<?>> void refresh(final T entity)
    {
       getEntityManager().refresh(entity);
+   }
+
+   @SuppressWarnings("unchecked")
+   protected <T extends PersistentObject<?>> T reload(final T entity)
+   {
+      return (T) findById(entity.getClass(), entity.getId());
    }
 
    protected Class<?> getObjectClass(final Object type) throws IllegalArgumentException
@@ -88,13 +96,14 @@ public abstract class PersistenceUtil implements Serializable
    }
 
    @SuppressWarnings("unchecked")
-   protected <T> List<T> findByNamedQuery(final String namedQueryName)
+   protected <T extends PersistentObject<?>> List<T> findByNamedQuery(final String namedQueryName)
    {
       return getEntityManager().createNamedQuery(namedQueryName).getResultList();
    }
 
    @SuppressWarnings("unchecked")
-   protected <T> List<T> findByNamedQuery(final String namedQueryName, final Object... params)
+   protected <T extends PersistentObject<?>> List<T> findByNamedQuery(final String namedQueryName,
+            final Object... params)
    {
       Query query = getEntityManager().createNamedQuery(namedQueryName);
       int i = 1;
@@ -105,7 +114,7 @@ public abstract class PersistenceUtil implements Serializable
       return query.getResultList();
    }
 
-   protected <T> List<T> findAll(final Class<T> type)
+   protected <T extends PersistentObject<?>> List<T> findAll(final Class<T> type)
    {
       CriteriaQuery<T> query = getEntityManager().getCriteriaBuilder().createQuery(type);
       query.from(type);
@@ -113,13 +122,15 @@ public abstract class PersistenceUtil implements Serializable
    }
 
    @SuppressWarnings("unchecked")
-   protected <T> T findUniqueByNamedQuery(final String namedQueryName) throws NoResultException
+   protected <T extends PersistentObject<?>> T findUniqueByNamedQuery(final String namedQueryName)
+            throws NoResultException
    {
       return (T) getEntityManager().createNamedQuery(namedQueryName).getSingleResult();
    }
 
    @SuppressWarnings("unchecked")
-   protected <T> T findUniqueByNamedQuery(final String namedQueryName, final Object... params)
+   protected <T extends PersistentObject<?>> T findUniqueByNamedQuery(final String namedQueryName,
+            final Object... params)
             throws NoResultException
             {
       Query query = getEntityManager().createNamedQuery(namedQueryName);

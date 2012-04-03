@@ -19,6 +19,9 @@ public class UnorderedList extends ComplexPanel
    @Override
    public void add(Widget w)
    {
-      super.add(w, getElement());
+      if (!((w instanceof ListItem) || w instanceof NavDropdown))
+         super.add(new ListItem(w), getElement());
+      else
+         super.add(w, getElement());
    }
 }
