@@ -10,13 +10,12 @@ import com.ocpsoft.socialpm.gwt.client.local.view.component.ProfileLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Span;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.StoryLink;
-import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.project.story.Story;
 
 @ApplicationScoped
 public class StoryViewImpl extends FixedLayoutView implements StoryView
 {
-   private Project project;
+   private Story story;
 
    private Presenter presenter;
 
@@ -24,6 +23,8 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
    ProfileLink profileLink = new ProfileLink();
    StoryLink storyLink = new StoryLink();
    Span pulse = new Span(":)");
+
+   Div storyWell = new Div();
 
    @Override
    public void setup()
@@ -65,28 +66,31 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
 
    private Div createProjectBodyRow()
    {
-      Div projectHeader = new Div();
-      projectHeader.setStyleName("row");
+      Div row = new Div();
+      row.setStyleName("row");
       Div left = new Div();
-      left.setStyleName("span6 cols");
+      left.setStyleName("span8 cols");
       Div right = new Div();
-      right.setStyleName("span6 cols");
+      right.setStyleName("span4 cols");
 
-      projectHeader.add(left);
-      projectHeader.add(right);
+      left.add(storyWell);
+      row.add(left);
+      row.add(right);
 
-      return projectHeader;
+      return row;
    }
 
    @Override
    public void setStory(Story story)
    {
-      this.project = story.getProject();
+      this.story = story;
       this.profileLink.setProfile(story.getProject().getOwner());
       this.projectLink.setProject(story.getProject());
       this.storyLink.setStory(story);
 
-      pulse.setInnerText(project.getOpenStories().size() + "");
+      pulse.setInnerText(story.getTaskCount() + "");
+      storyWell.setInnerHTML("<h3>As a " + story.getRole() + " I want " + story.getObjective() + " so that "
+               + story.getResult());
    }
 
    /*
@@ -102,10 +106,5 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
    public void setPresenter(Presenter presenter)
    {
       this.presenter = presenter;
-   }
-
-   public Project getProject()
-   {
-      return project;
    }
 }
