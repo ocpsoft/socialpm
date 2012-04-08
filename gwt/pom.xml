@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <modelVersion>4.0.0</modelVersion>
+   
    <parent>
       <artifactId>socialpm-parent</artifactId>
       <groupId>com.ocpsoft.socialpm</groupId>
       <version>1.0.0-SNAPSHOT</version>
    </parent>
+   
    <artifactId>socialpm-gwt</artifactId>
    <packaging>war</packaging>
    <name>SocialPM - GWT</name>
+   
    <distributionManagement>
       <repository>
          <id>jboss-releases-repository</id>
@@ -23,6 +25,7 @@
          <url>https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
       </snapshotRepository>
    </distributionManagement>
+   
    <properties>
       <slf4j.version>1.5.11</slf4j.version>
       <mvel.version>2.1.Beta6</mvel.version>
@@ -35,10 +38,11 @@
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <weld.version>1.1.0.Final</weld.version>
    </properties>
+   
    <dependencies>
       <dependency>
          <groupId>org.ocpsoft.rewrite</groupId>
-         <artifactId>rewrite-impl-servlet</artifactId>
+         <artifactId>rewrite-servlet</artifactId>
       </dependency>
       <dependency>
          <groupId>org.ocpsoft.rewrite</groupId>
@@ -346,8 +350,7 @@
                         <delete file="src/main/webapp/WEB-INF/web.xml" />
                         <delete dir="src/main/webapp/app" />
                         <delete dir="target" />
-                        <copy file="src/${webDescriptor}/web.xml"
-                           toDir="src/main/webapp/WEB-INF" />
+                        <copy file="src/${webDescriptor}/web.xml" toDir="src/main/webapp/WEB-INF" />
                      </tasks>
                   </configuration>
                </execution>
@@ -407,10 +410,8 @@
                         </goals>
                         <configuration>
                            <tasks>
-                              <copy file="src/jetty/web.xml"
-                                 overwrite="true" toDir="src/main/webapp/WEB-INF" />
-                              <copy file="src/jetty/jetty-env.xml"
-                                 overwrite="true" toDir="src/main/webapp/WEB-INF" />
+                              <copy file="src/jetty/web.xml" overwrite="true" toDir="src/main/webapp/WEB-INF" />
+                              <copy file="src/jetty/jetty-env.xml" overwrite="true" toDir="src/main/webapp/WEB-INF" />
                            </tasks>
                         </configuration>
                      </execution>
@@ -434,12 +435,9 @@
                         </goals>
                         <configuration>
                            <tasks>
-                              <copy file="src/jetty7+/web.xml"
-                                 overwrite="true" toDir="src/main/webapp/WEB-INF" />
-                              <delete
-                                 file="src/main/webapp/WEB-INF/classes/jetty-env.properties" />
-                              <delete
-                                 file="src/main/webapp/WEB-INF/classes/jndi.properties" />
+                              <copy file="src/jetty7+/web.xml" overwrite="true" toDir="src/main/webapp/WEB-INF" />
+                              <delete file="src/main/webapp/WEB-INF/classes/jetty-env.properties" />
+                              <delete file="src/main/webapp/WEB-INF/classes/jndi.properties" />
                            </tasks>
                         </configuration>
                      </execution>
@@ -509,14 +507,10 @@
                         </goals>
                         <configuration>
                            <tasks>
-                              <copy file="src/jboss/web.xml"
-                                 overwrite="true" toDir="src/main/webapp/WEB-INF" />
-                              <delete
-                                 file="src/main/webapp/WEB-INF/jetty-env.xml" />
-                              <delete
-                                 file="src/main/webapp/WEB-INF/classes/jndi.properties" />
-                              <delete
-                                 file="src/main/resources/jndi.properties" />
+                              <copy file="src/jboss/web.xml" overwrite="true" toDir="src/main/webapp/WEB-INF" />
+                              <delete file="src/main/webapp/WEB-INF/jetty-env.xml" />
+                              <delete file="src/main/webapp/WEB-INF/classes/jndi.properties" />
+                              <delete file="src/main/resources/jndi.properties" />
                            </tasks>
                         </configuration>
                      </execution>
@@ -686,12 +680,9 @@
                         </goals>
                         <configuration>
                            <tasks>
-                              <copy file="src/jboss/web.xml"
-                                 overwrite="true" toDir="src/main/webapp/WEB-INF" />
-                              <delete
-                                 file="src/main/webapp/WEB-INF/jetty-env.xml" />
-                              <delete
-                                 file="src/main/webapp/WEB-INF/classes/jndi.properties" />
+                              <copy file="src/jboss/web.xml" overwrite="true" toDir="src/main/webapp/WEB-INF" />
+                              <delete file="src/main/webapp/WEB-INF/jetty-env.xml" />
+                              <delete file="src/main/webapp/WEB-INF/classes/jndi.properties" />
                               <copy todir="src/main/webapp/app/">
                                  <fileset dir="src/main/webapp.cache/app/" />
                               </copy>
@@ -876,12 +867,9 @@
                         </goals>
                         <configuration>
                            <tasks>
-                              <copy file="src/jboss/web.xml"
-                                 overwrite="true" toDir="src/main/webapp/WEB-INF" />
-                              <delete
-                                 file="src/main/webapp/WEB-INF/jetty-env.xml" />
-                              <delete
-                                 file="src/main/webapp/WEB-INF/classes/jndi.properties" />
+                              <copy file="src/jboss/web.xml" overwrite="true" toDir="src/main/webapp/WEB-INF" />
+                              <delete file="src/main/webapp/WEB-INF/jetty-env.xml" />
+                              <delete file="src/main/webapp/WEB-INF/classes/jndi.properties" />
                               <copy todir="src/main/webapp.cache/app/">
                                  <fileset dir="src/main/webapp/app/" />
                               </copy>
@@ -1090,8 +1078,7 @@
                         </goals>
                         <configuration>
                            <tasks>
-                              <copy file="src/jetty/web.xml"
-                                 overwrite="true" toDir="src/main/webapp/WEB-INF" />
+                              <copy file="src/jetty/web.xml" overwrite="true" toDir="src/main/webapp/WEB-INF" />
                            </tasks>
                         </configuration>
                      </execution>

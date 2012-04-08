@@ -17,7 +17,7 @@
 	<packaging>pom</packaging>
 
 	<name>SocialPM - Parent</name>
-	<url>http://ocpsoft.com/scrumshark/</url>
+	<url>http://ocpsoft.org/socialpm/</url>
 
 	<prerequisites>
 		<maven>3.0</maven>
@@ -36,14 +36,14 @@
 
 	<properties>
 		<prettytime.version>1.0.8.Final</prettytime.version>
-		<rewrite.version>1.0.0-SNAPSHOT</rewrite.version>
+		<rewrite.version>1.0.5-SNAPSHOT</rewrite.version>
 		<seam.version>3.2.0-SNAPSHOT</seam.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.8.1</junit.version>
 		<errai.version>2.0-SNAPSHOT</errai.version>
-		<version.rewrite>1.0.2.Final</version.rewrite>
         <version.logging>1.0.1.Final</version.logging>
 	</properties>
+   
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -80,22 +80,22 @@
 			<dependency>
 				<groupId>org.ocpsoft.rewrite</groupId>
 				<artifactId>rewrite-impl-servlet</artifactId>
-				<version>${version.rewrite}</version>
+				<version>${rewrite.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ocpsoft.rewrite</groupId>
 				<artifactId>rewrite-integration-cdi</artifactId>
-				<version>${version.rewrite}</version>
+				<version>${rewrite.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ocpsoft.rewrite</groupId>
 				<artifactId>rewrite-integration-faces</artifactId>
-				<version>${version.rewrite}</version>
+				<version>${rewrite.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ocpsoft.rewrite</groupId>
 				<artifactId>rewrite-integration-gwt</artifactId>
-				<version>${version.rewrite}</version>
+				<version>${rewrite.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ocpsoft.logging</groupId>
