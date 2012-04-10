@@ -13,7 +13,7 @@ import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.CurrentHistory;
 import com.ocpsoft.socialpm.gwt.client.local.places.NewStoryPlace;
-import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
+import com.ocpsoft.socialpm.gwt.client.local.places.StoryViewPlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.NewStoryView;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.project.story.Story;
@@ -75,7 +75,7 @@ public class NewStoryActivity extends AbstractActivity implements NewStoryView.P
          public void callback(Story story)
          {
             System.out.println(story);
-            goTo(new ProjectPlace(username, slug));
+            goTo(new StoryViewPlace(username, slug, story.getNumber()));
          }
       }).create(App.getLoggedInProfile(), project, story);
    }

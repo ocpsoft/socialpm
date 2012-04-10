@@ -41,6 +41,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
+import javax.persistence.TypedQuery;
 
 import org.jboss.errai.bus.server.annotations.Service;
 import org.ocpsoft.common.util.Assert;
@@ -86,17 +87,37 @@ public class StoryServiceImpl extends PersistenceUtil implements StoryService
    @ProjectAdmin
    public Story create(@ProfileBinding Profile owner, Project project, Story story)
    {
-      story.setProject(reload(project));
-      story.setIteration(reload(story.getIteration()));
+      if (!em.contains(project))
+         project = ps.getByOwnerAndSlug(owner, project.getSlug());
+      story.setProject(project);
+
+      if (story.getIteration() != null && !em.contains(story.getIteration()))
+         story.setIteration(reload(story.getIteration()));
+      else if (story.getIteration() == null)
+         story.setIteration(project.getDefaultIteration());
+
       project.getStories().add(story);
 
       super.create(story);
+
+      story.setNumber(getNextStoryNumber(owner, project) - 1);
 
       StoryCreated createdEvent = new StoryCreated(owner, story);
       super.create(createdEvent);
       storyCreated.fire(createdEvent);
 
       return story;
+   }
+
+   private int getNextStoryNumber(Profile owner, Project project)
+   {
+      if (!em.contains(project))
+         project = ps.getByOwnerAndSlug(owner, project.getSlug());
+
+      TypedQuery<Long> query = em.createQuery("SELECT count(*) + 1 FROM Story s WHERE s.project = :project",
+               Long.class);
+      query.setParameter("project", project);
+      return query.getSingleResult().intValue();
    }
 
    @Override
