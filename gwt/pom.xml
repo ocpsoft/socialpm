@@ -30,7 +30,7 @@
       <slf4j.version>1.5.11</slf4j.version>
       <mvel.version>2.1.Beta6</mvel.version>
       <jetty.version>6.1.25</jetty.version>
-      <errai.version>2.0.Beta4</errai.version>
+      <errai.version>2.0-SNAPSHOT</errai.version>
       <gwt.version>2.4.0</gwt.version>
       <webDescriptor>jetty</webDescriptor>
       <hsqldb.version>1.8.0.7</hsqldb.version>
