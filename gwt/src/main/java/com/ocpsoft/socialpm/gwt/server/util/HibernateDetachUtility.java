@@ -22,31 +22,30 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.hibernate.Hibernate;
 import org.hibernate.collection.spi.PersistentCollection;
 import org.hibernate.proxy.HibernateProxy;
+import org.ocpsoft.logging.Logger;
 
 /**
- * 
+ *
  * RHQ Management Platform Copyright (C) 2005-2008 Red Hat, Inc. All rights reserved.
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation version 2 of the License.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with this program; if not, write to the Free
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
- * 
+ *
  * This is a single static utility that is used to process any object just prior to sending it over the wire to remote
  * clients (like GWT clients or remote web service clients).
- * 
+ *
  * Essentially this utility scrubs the object of all Hibernate proxies, cleaning it such that it can be serialized over
  * the wire successfully.
- * 
+ *
  * @author Greg Hinkle
  * @author Jay Shaughnessy
  * @author John Mazzitelli
@@ -56,7 +55,7 @@ import org.hibernate.proxy.HibernateProxy;
 public class HibernateDetachUtility
 {
 
-   private static final Log LOG = LogFactory.getLog(HibernateDetachUtility.class);
+   private static final Logger log = Logger.getLogger(HibernateDetachUtility.class);
 
    public static enum SerializationType
    {
@@ -139,7 +138,7 @@ public class HibernateDetachUtility
          }
       }
       catch (Throwable t) {
-         LOG.warn("Bad value for [" + DUMP_STACK_THRESHOLDS_SYSPROP + "]=[" + prop + "]: " + t.toString());
+         log.warn("Bad value for [" + DUMP_STACK_THRESHOLDS_SYSPROP + "]=[" + prop + "]: " + t.toString());
          tmp_dumpStackOnThresholdLimit = true; // they wanted to set it to something, so give them some defaults
          tmp_millisThresholdLimit = 5000L; // 5 seconds
          tmp_sizeThresholdLimit = 10000; // 10K objects
@@ -172,14 +171,14 @@ public class HibernateDetachUtility
          int numObjectsProcessed = checkedObjectMap.size();
          if (duration > millisThresholdLimit || numObjectsProcessed > sizeThresholdLimit) {
             String rootObjectString = (value != null) ? value.getClass().toString() : "null";
-            LOG.warn("Detached [" + numObjectsProcessed + "] objects in [" + duration + "]ms from root object ["
+            log.warn("Detached [" + numObjectsProcessed + "] objects in [" + duration + "]ms from root object ["
                      + rootObjectString + "]", new Throwable("HIBERNATE DETACH UTILITY STACK TRACE"));
          }
       }
       else {
          // 10s is really long, log SOMETHING
-         if (duration > 10000L && LOG.isDebugEnabled()) {
-            LOG.debug("Detached [" + checkedObjectMap.size() + "] objects in [" + duration + "]ms");
+         if (duration > 10000L && log.isDebugEnabled()) {
+            log.debug("Detached [" + checkedObjectMap.size() + "] objects in [" + duration + "]ms");
          }
       }
 
@@ -218,7 +217,7 @@ public class HibernateDetachUtility
                   + "You can try to work around this by setting the system property [" + DEPTH_ALLOWED_SYSPROP
                   + "] to a value higher than [" + depth + "] or you can set the system property ["
                   + THROW_EXCEPTION_ON_DEPTH_LIMIT_SYSPROP + "] to 'false'";
-         LOG.warn(warningMessage);
+         log.warn(warningMessage);
          if (throwExceptionOnDepthLimit) {
             throw new IllegalStateException(warningMessage);
          }
@@ -271,7 +270,7 @@ public class HibernateDetachUtility
             }
          }
 
-         if (LOG.isDebugEnabled()) {
+         if (log.isDebugEnabled()) {
             StringBuilder message = new StringBuilder("\n\tIDENTITY HASHCODE COLLISION [hash=");
             message.append(valueIdentity);
             message.append(", alreadyDetached=");
@@ -292,7 +291,7 @@ public class HibernateDetachUtility
                message.append(collisionObject);
             }
 
-            LOG.debug(message);
+            log.debug(message.toString());
          }
 
          // now that we've done our logging, if already detached we're done. Otherwise add to the list of collision
@@ -468,7 +467,7 @@ public class HibernateDetachUtility
                   }
                }
                catch (Exception e) {
-                  LOG.error("Unable to write replace object " + fieldValue.getClass(), e);
+                  log.error("Unable to write replace object " + fieldValue.getClass(), e);
                }
             }
 
@@ -505,7 +504,7 @@ public class HibernateDetachUtility
                   }
                   catch (Exception e) {
                      e.printStackTrace();
-                     LOG.error("No id constructor and unable to set field id for base bean " + className, e);
+                     log.error("No id constructor and unable to set field id for base bean " + className, e);
                   }
 
                   field.set(object, replacement);
@@ -578,7 +577,7 @@ public class HibernateDetachUtility
 
             }
             catch (Exception e) {
-               LOG.error("Unable to write replace object " + object.getClass(), e);
+               log.error("Unable to write replace object " + object.getClass(), e);
             }
          }
       }
@@ -599,15 +598,15 @@ public class HibernateDetachUtility
             propertyValue = pd.getReadMethod().invoke(value);
          }
          catch (Throwable lie) {
-            if (LOG.isDebugEnabled()) {
-               LOG.debug("Couldn't load: " + pd.getName() + " off of " + value.getClass().getSimpleName(), lie);
+            if (log.isDebugEnabled()) {
+               log.debug("Couldn't load: " + pd.getName() + " off of " + value.getClass().getSimpleName(), lie);
             }
          }
 
          if (!Hibernate.isInitialized(propertyValue)) {
             try {
-               if (LOG.isDebugEnabled()) {
-                  LOG.debug("Nulling out: " + pd.getName() + " off of " + value.getClass().getSimpleName());
+               if (log.isDebugEnabled()) {
+                  log.debug("Nulling out: " + pd.getName() + " off of " + value.getClass().getSimpleName());
                }
 
                Method writeMethod = pd.getWriteMethod();
@@ -619,7 +618,7 @@ public class HibernateDetachUtility
                }
             }
             catch (Exception lie) {
-               LOG.debug("Couldn't null out: " + pd.getName() + " off of " + value.getClass().getSimpleName()
+               log.debug("Couldn't null out: " + pd.getName() + " off of " + value.getClass().getSimpleName()
                         + " trying field access", lie);
                nullOutField(value, pd.getName());
             }

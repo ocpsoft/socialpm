@@ -66,10 +66,6 @@
          <artifactId>seam-security-api</artifactId>
       </dependency>
       <dependency>
-         <groupId>org.jboss.seam.security</groupId>
-         <artifactId>seam-security-external</artifactId>
-      </dependency>
-      <dependency>
          <groupId>org.jboss.seam.transaction</groupId>
          <artifactId>seam-transaction</artifactId>
       </dependency>

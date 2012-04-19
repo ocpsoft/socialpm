@@ -1,11 +1,11 @@
 /**
- * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM) 
+ * This file is part of OCPsoft SocialPM: Agile Project Management Tools (SocialPM)
  *
  * Copyright (c)2011 Lincoln Baxter, III <lincoln@ocpsoft.com> (OCPsoft)
  * Copyright (c)2011 OCPsoft.com (http://ocpsoft.com)
- * 
- * If you are developing and distributing open source applications under 
- * the GNU General Public License (GPL), then you are free to re-distribute SocialPM 
+ *
+ * If you are developing and distributing open source applications under
+ * the GNU General Public License (GPL), then you are free to re-distribute SocialPM
  * under the terms of the GPL, as follows:
  *
  * SocialPM is free software: you can redistribute it and/or modify
@@ -20,15 +20,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with SocialPM.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * For individuals or entities who wish to use SocialPM privately, or
  * internally, the following terms do not apply:
- *  
- * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their 
- * products, or host their product online, OCPsoft provides flexible 
+ *
+ * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their
+ * products, or host their product online, OCPsoft provides flexible
  * OEM commercial licenses.
- * 
- * Optionally, Customers may choose a Commercial License. For additional 
+ *
+ * Optionally, Customers may choose a Commercial License. For additional
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
 
@@ -40,7 +40,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -85,7 +84,6 @@ public class Story extends DeletableObject<Story>
 
    @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(nullable = false, updatable = false)
-   @OnDelete(action = OnDeleteAction.CASCADE)
    private Project project;
 
    @Formula("(SELECT count(st.id) + 1 FROM stories st WHERE st.project_id = project_id AND st.id < id)")
@@ -130,15 +128,18 @@ public class Story extends DeletableObject<Story>
    private StoryBurner burner = StoryBurner.FRONT;
 
    @Fetch(FetchMode.SUBSELECT)
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "story", orphanRemoval = true, cascade = CascadeType.ALL)
+   @OnDelete(action = OnDeleteAction.CASCADE)
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "story")
    private List<ValidationCriteria> validations = new ArrayList<ValidationCriteria>();
 
    @Fetch(FetchMode.SUBSELECT)
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "story", orphanRemoval = true, cascade = CascadeType.ALL)
+   @OnDelete(action = OnDeleteAction.CASCADE)
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "story")
    private List<Task> tasks = new ArrayList<Task>();
 
    @Fetch(FetchMode.SUBSELECT)
-   @OneToMany(fetch = FetchType.LAZY, mappedBy = "story", orphanRemoval = true, cascade = CascadeType.ALL)
+   @OnDelete(action = OnDeleteAction.CASCADE)
+   @OneToMany(fetch = FetchType.LAZY, mappedBy = "story")
    private List<StoryComment> comments = new ArrayList<StoryComment>();
 
    @Override

@@ -89,6 +89,7 @@ public class StoryServiceImpl extends PersistenceUtil implements StoryService
    {
       if (!em.contains(project))
          project = ps.getByOwnerAndSlug(owner, project.getSlug());
+
       story.setProject(project);
 
       if (story.getIteration() != null && !em.contains(story.getIteration()))
@@ -96,11 +97,9 @@ public class StoryServiceImpl extends PersistenceUtil implements StoryService
       else if (story.getIteration() == null)
          story.setIteration(project.getDefaultIteration());
 
-      project.getStories().add(story);
+      story.setNumber(getNextStoryNumber(owner, project));
 
       super.create(story);
-
-      story.setNumber(getNextStoryNumber(owner, project) - 1);
 
       StoryCreated createdEvent = new StoryCreated(owner, story);
       super.create(createdEvent);

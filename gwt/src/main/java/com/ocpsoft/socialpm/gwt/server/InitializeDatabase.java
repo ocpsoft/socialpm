@@ -3,7 +3,7 @@
  *
  * Copyright (c)2011 Lincoln Baxter, III <lincoln@ocpsoft.com> (OCPsoft)
  * Copyright (c)2011 OCPsoft.com (http://ocpsoft.com)
- * 
+ *
  * If you are developing and distributing open source applications under
  * the GNU General Public License (GPL), then you are free to re-distribute SocialPM
  * under the terms of the GPL, as follows:
@@ -20,14 +20,14 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with SocialPM.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * For individuals or entities who wish to use SocialPM privately, or
  * internally, the following terms do not apply:
- * 
+ *
  * For OEMs, ISVs, and VARs who wish to distribute SocialPM with their
  * products, or host their product online, OCPsoft provides flexible
  * OEM commercial licenses.
- * 
+ *
  * Optionally, Customers may choose a Commercial License. For additional
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
@@ -56,16 +56,13 @@ import org.picketlink.idm.common.exception.IdentityException;
 
 import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
 import com.ocpsoft.socialpm.model.config.Setting;
-import com.ocpsoft.socialpm.model.project.Feature;
-import com.ocpsoft.socialpm.model.project.Project;
-import com.ocpsoft.socialpm.model.project.iteration.Iteration;
 import com.ocpsoft.socialpm.model.security.IdentityObjectCredentialType;
 import com.ocpsoft.socialpm.model.security.IdentityObjectType;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
  * Validates that the database contains the minimum required entities to function
- * 
+ *
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 @Transactional(TransactionPropagation.REQUIRED)
@@ -164,38 +161,6 @@ public class InitializeDatabase extends PersistenceUtil
          p.setUsernameConfirmed(true);
          p.setShowBootcamp(true);
          create(p);
-
-         Project project = new Project();
-         project.setName("socialpm");
-         project.setSlug("socialpm");
-         project.setOwner(p);
-
-         Iteration unassigned = new Iteration();
-         unassigned.setProject(project);
-         unassigned.setTitle("Backlog");
-         project.getIterations().add(unassigned);
-
-         Feature bugFixes = new Feature();
-         bugFixes.setName("Bug Fixes");
-         bugFixes.setProject(project);
-         project.getFeatures().add(bugFixes);
-         bugFixes.setProject(project);
-
-         Feature enhancements = new Feature();
-         enhancements.setName("Enhancements");
-         enhancements.setProject(project);
-         project.getFeatures().add(enhancements);
-         enhancements.setProject(project);
-
-         Feature unclassified = new Feature();
-         unclassified.setName("Unclassified");
-         unclassified.setProject(project);
-         project.getFeatures().add(unclassified);
-         unclassified.setProject(project);
-
-         create(project);
-
-         save(project);
       }
 
       /*

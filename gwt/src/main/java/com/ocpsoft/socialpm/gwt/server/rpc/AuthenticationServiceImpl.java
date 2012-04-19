@@ -11,13 +11,11 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 
 import org.jboss.errai.bus.server.annotations.Service;
-import org.jboss.seam.security.Authenticator.AuthenticationStatus;
 import org.jboss.seam.security.CredentialsImpl;
 import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.events.DeferredAuthenticationEvent;
 import org.jboss.seam.security.events.LoggedInEvent;
 import org.jboss.seam.security.events.LoginFailedEvent;
-import org.jboss.seam.security.external.openid.OpenIdAuthenticator;
 import org.jboss.seam.security.management.IdmAuthenticator;
 import org.ocpsoft.logging.Logger;
 import org.picketlink.idm.api.User;
@@ -102,26 +100,21 @@ public class AuthenticationServiceImpl extends PersistenceUtil implements Serial
          logger.info("User failed to login via OpenID, potentially due to cancellation");
    }
 
-   public static void loginFailed(@Observes final LoginFailedEvent event, Identity identity,
-            OpenIdAuthenticator openAuth)
+   public static void loginFailed(@Observes final LoginFailedEvent event, Identity identity)
    {
-      if (!(OpenIdAuthenticator.class.equals(identity.getAuthenticatorClass())
-               && AuthenticationStatus.DEFERRED.equals(openAuth.getStatus())))
+      Exception exception = event.getLoginException();
+      if (exception != null)
       {
-         Exception exception = event.getLoginException();
-         if (exception != null)
-         {
-            logger.error(
-                     "Login failed due to exception" + identity.getAuthenticatorName() + ", "
-                              + identity.getAuthenticatorClass()
-                              + ", " + identity);
-         }
-         try {
-            Thread.sleep(500);
-         }
-         catch (InterruptedException e) {
-            throw new RuntimeException(e);
-         }
+         logger.error(
+                  "Login failed due to exception" + identity.getAuthenticatorName() + ", "
+                           + identity.getAuthenticatorClass()
+                           + ", " + identity);
+      }
+      try {
+         Thread.sleep(500);
+      }
+      catch (InterruptedException e) {
+         throw new RuntimeException(e);
       }
    }
 
@@ -133,7 +126,7 @@ public class AuthenticationServiceImpl extends PersistenceUtil implements Serial
       {
          result = loggedIn;
       }
-      else if(identity.isLoggedIn() && loggedIn == null)
+      else if (identity.isLoggedIn() && loggedIn == null)
       {
          result = profileService.getProfileByIdentityKey(identity.getUser().getKey());
       }

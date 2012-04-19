@@ -93,8 +93,9 @@ public class Task extends PersistentObject<Task>
    @Column(updatable = false, nullable = false)
    private int initialHours;
 
-   @OneToMany(fetch = FetchType.EAGER, mappedBy = "task", orphanRemoval = true)
    @Cascade({ CascadeType.ALL })
+   @OnDelete(action = OnDeleteAction.CASCADE)
+   @OneToMany(fetch = FetchType.EAGER, mappedBy = "task")
    private Set<TaskHours> hours = new HashSet<TaskHours>();
 
    public Task()
