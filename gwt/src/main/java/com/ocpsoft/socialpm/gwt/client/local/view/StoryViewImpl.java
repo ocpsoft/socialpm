@@ -1,7 +1,10 @@
 package com.ocpsoft.socialpm.gwt.client.local.view;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.BreadCrumb;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.BreadCrumbList;
@@ -11,7 +14,9 @@ import com.ocpsoft.socialpm.gwt.client.local.view.component.ProfileLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Span;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.StoryLink;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.TaskList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.UnorderedList;
+import com.ocpsoft.socialpm.gwt.client.local.view.forms.AddTaskDialog;
 import com.ocpsoft.socialpm.model.project.story.Story;
 
 @ApplicationScoped
@@ -29,17 +34,39 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
    Div storyText = new Div();
    Div detailsWell = new Div();
 
+   @Inject
+   AddTaskDialog addTaskDialog;
+
+   @Inject
+   private TaskList taskList;
+
    @Override
    public void setup()
    {
       Div projectHeader = createProjectHeaderRow();
       Div body = createProjectBodyRow();
 
+      setupInputs();
+
       storyText.addStyleName("box");
       detailsWell.addStyleName("well");
 
       content.add(projectHeader);
       content.add(body);
+
+      addTaskDialog.setVisible(false);
+      content.add(addTaskDialog);
+   }
+
+   private void setupInputs()
+   {
+      taskList.getNewTaskLink().addClickHandler(new ClickHandler() {
+         @Override
+         public void onClick(ClickEvent event)
+         {
+            addTaskDialog.display();
+         }
+      });
    }
 
    private Div createProjectHeaderRow()
@@ -80,6 +107,9 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
       right.setStyleName("span4 cols");
 
       left.add(storyText);
+
+      left.add(taskList);
+
       row.add(left);
 
       right.add(detailsWell);
@@ -95,6 +125,11 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
       this.profileLink.setProfile(story.getProject().getOwner());
       this.projectLink.setProject(story.getProject());
       this.storyLink.setStory(story);
+
+      taskList.setStory(story);
+      taskList.setTasks(story.getTasks());
+
+      addTaskDialog.setStory(story);
 
       pulse.setInnerText(story.getTaskCount() + "");
       storyText.setInnerHTML("<h3>As a " + story.getRole() + " I want " + story.getObjective() + " so that "

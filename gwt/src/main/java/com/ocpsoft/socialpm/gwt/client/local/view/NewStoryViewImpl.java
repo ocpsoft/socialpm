@@ -4,6 +4,7 @@ import javax.enterprise.context.ApplicationScoped;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 import com.ocpsoft.socialpm.gwt.client.local.view.forms.NewStoryForm;
 import com.ocpsoft.socialpm.model.project.Project;
@@ -59,6 +60,15 @@ public class NewStoryViewImpl extends FixedLayoutView implements NewStoryView
             story.setIteration(form.getIteration().getValue());
 
             presenter.createStory(project, story);
+         }
+      });
+
+      form.getCancelButton().addClickHandler(new ClickHandler() {
+
+         @Override
+         public void onClick(ClickEvent event)
+         {
+            presenter.goTo(new ProjectPlace(project.getOwner().getUsername(), project.getSlug()));
          }
       });
    }

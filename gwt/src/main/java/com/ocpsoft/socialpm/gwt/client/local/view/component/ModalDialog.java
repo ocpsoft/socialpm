@@ -38,13 +38,14 @@ public class ModalDialog extends Composite
    @UiField
    HTMLPanel footer;
 
-   private List<OnHideHandler> onHideHandlers = new ArrayList<OnHideHandler>();
+   private final List<OnHideHandler> onHideHandlers = new ArrayList<OnHideHandler>();
 
-   private List<DisplayHandler> onDisplayHandlers = new ArrayList<DisplayHandler>();
+   private final List<DisplayHandler> onDisplayHandlers = new ArrayList<DisplayHandler>();
 
    public ModalDialog()
    {
       initWidget(binder.createAndBindUi(this));
+      this.setVisible(false);
       getWidget().getElement().setId(DOM.createUniqueId());
    }
 
@@ -76,7 +77,7 @@ public class ModalDialog extends Composite
       activate(getId());
       display(getId());
    }
-   
+
    public void hide()
    {
       hide(getId());
@@ -109,28 +110,28 @@ public class ModalDialog extends Composite
          handler.handleOnHide(event);
       }
    }
-   
+
    /*
     * Native Methods
     */
    private native void display(String id) /*-{
 		$wnd.$('#' + id).modal('show')
 	}-*/;
-   
+
    private native void hide(String id) /*-{
       $wnd.$('#' + id).modal('hide')
    }-*/;
 
    private native void activate(String id) /*-{
       var modal = this;
-	      
+
       $wnd.$("#" + id).on('shown', function () {
 			modal.@com.ocpsoft.socialpm.gwt.client.local.view.component.ModalDialog::handleOnDisplay()();
       });
-	   
+
 		$wnd.$("#" + id).on('hidden', function () {
 		   modal.@com.ocpsoft.socialpm.gwt.client.local.view.component.ModalDialog::handleOnHide()();
 		});
-		
+
    }-*/;
 }
