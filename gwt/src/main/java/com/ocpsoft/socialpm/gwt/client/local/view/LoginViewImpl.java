@@ -31,8 +31,6 @@ public class LoginViewImpl extends FixedLayoutView implements LoginView
    @Override
    public void setup()
    {
-      System.out.println("Construct LoginView");
-
       HorizontalPanel login = new HorizontalPanel();
       submit.setStyleName("btn primary");
 

@@ -9,7 +9,6 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.ocpsoft.socialpm.gwt.client.local.App;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.CurrentHistory;
 import com.ocpsoft.socialpm.gwt.client.local.places.NewStoryPlace;
@@ -77,7 +76,7 @@ public class NewStoryActivity extends AbstractActivity implements NewStoryView.P
             System.out.println(story);
             goTo(new StoryViewPlace(username, slug, story.getNumber()));
          }
-      }).create(App.getLoggedInProfile(), project, story);
+      }).create(project, story);
    }
 
 }

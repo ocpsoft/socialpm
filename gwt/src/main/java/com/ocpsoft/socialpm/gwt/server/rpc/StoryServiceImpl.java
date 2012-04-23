@@ -44,25 +44,28 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 
 import org.jboss.errai.bus.server.annotations.Service;
+import org.jboss.seam.security.annotations.LoggedIn;
 import org.ocpsoft.common.util.Assert;
 
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProjectService;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.StoryService;
-import com.ocpsoft.socialpm.gwt.server.security.authorization.ProfileBinding;
-import com.ocpsoft.socialpm.gwt.server.security.authorization.ProjectAdmin;
+import com.ocpsoft.socialpm.gwt.server.security.authentication.Authenticated;
 import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility;
 import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility.SerializationType;
 import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
 import com.ocpsoft.socialpm.model.feed.StoryCreated;
+import com.ocpsoft.socialpm.model.feed.TaskCreated;
 import com.ocpsoft.socialpm.model.project.Project;
+import com.ocpsoft.socialpm.model.project.story.Status;
 import com.ocpsoft.socialpm.model.project.story.Story;
+import com.ocpsoft.socialpm.model.project.story.Task;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
-@RequestScoped
 @Service
+@RequestScoped
 public class StoryServiceImpl extends PersistenceUtil implements StoryService
 {
    private static final long serialVersionUID = -3585401813289703156L;
@@ -74,7 +77,14 @@ public class StoryServiceImpl extends PersistenceUtil implements StoryService
    private Event<StoryCreated> storyCreated;
 
    @Inject
+   private Event<TaskCreated> taskCreated;
+
+   @Inject
    private ProjectService ps;
+
+   @Inject
+   @Authenticated
+   private Profile user;
 
    @Override
    public EntityManager getEntityManager()
@@ -83,12 +93,37 @@ public class StoryServiceImpl extends PersistenceUtil implements StoryService
    }
 
    @Override
+   @LoggedIn
    @TransactionAttribute
-   @ProjectAdmin
-   public Story create(@ProfileBinding Profile owner, Project project, Story story)
+   public Task createTask(Story story, Task task)
+   {
+      if (!em.contains(story))
+         story = reload(story);
+
+      task.setStory(story);
+
+      task.setStatus(Status.NOT_STARTED);
+      if (task.getAssignee() != null && !em.contains(task.getAssignee()))
+         task.setAssignee(reload(task.getAssignee()));
+
+      super.create(task);
+
+      TaskCreated createdEvent = new TaskCreated(user, story, task);
+
+      super.create(createdEvent);
+
+      taskCreated.fire(createdEvent);
+
+      return task;
+   }
+
+   @Override
+   @LoggedIn
+   @TransactionAttribute
+   public Story create(Project project, Story story)
    {
       if (!em.contains(project))
-         project = ps.getByOwnerAndSlug(owner, project.getSlug());
+         project = reload(project);
 
       story.setProject(project);
 
@@ -97,21 +132,21 @@ public class StoryServiceImpl extends PersistenceUtil implements StoryService
       else if (story.getIteration() == null)
          story.setIteration(project.getDefaultIteration());
 
-      story.setNumber(getNextStoryNumber(owner, project));
+      story.setNumber(getNextStoryNumber(project));
 
       super.create(story);
 
-      StoryCreated createdEvent = new StoryCreated(owner, story);
+      StoryCreated createdEvent = new StoryCreated(user, story);
       super.create(createdEvent);
       storyCreated.fire(createdEvent);
 
       return story;
    }
 
-   private int getNextStoryNumber(Profile owner, Project project)
+   private int getNextStoryNumber(Project project)
    {
       if (!em.contains(project))
-         project = ps.getByOwnerAndSlug(owner, project.getSlug());
+         project = reload(project);
 
       TypedQuery<Long> query = em.createQuery("SELECT count(*) + 1 FROM Story s WHERE s.project = :project",
                Long.class);
@@ -120,16 +155,18 @@ public class StoryServiceImpl extends PersistenceUtil implements StoryService
    }
 
    @Override
-   public Story getByOwnerSlugAndNumber(Profile profile, String slug, int storyNumber)
+   @TransactionAttribute
+   public Story getByOwnerSlugAndNumber(Profile owner, String slug, int storyNumber)
    {
-      Assert.notNull(profile, "Profile was null");
+      Assert.notNull(owner, "Profile was null");
       Assert.notNull(slug, "Project slug was null");
 
-      Project project = ps.getByOwnerAndSlug(profile, slug);
+      Project project = ps.getByOwnerAndSlug(owner, slug);
 
       Story result = null;
       try {
          result = findUniqueByNamedQuery("Story.byProjectAndNumber", project, storyNumber);
+         result = reload(result);
          em.detach(result);
          HibernateDetachUtility.nullOutUninitializedFields(result, SerializationType.SERIALIZATION);
       }

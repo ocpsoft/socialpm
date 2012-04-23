@@ -128,6 +128,7 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
 
       taskList.setStory(story);
       taskList.setTasks(story.getTasks());
+      System.out.println(story.getTasks());
 
       addTaskDialog.setStory(story);
 

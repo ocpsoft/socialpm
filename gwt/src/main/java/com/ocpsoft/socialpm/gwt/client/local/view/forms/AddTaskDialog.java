@@ -3,17 +3,20 @@ package com.ocpsoft.socialpm.gwt.client.local.view.forms;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import org.jboss.errai.bus.client.api.RemoteCallback;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ValueListBox;
+import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Div;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ModalDialog;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Span;
-import com.ocpsoft.socialpm.gwt.client.shared.rpc.StoryService;
 import com.ocpsoft.socialpm.model.project.story.Story;
+import com.ocpsoft.socialpm.model.project.story.Task;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
@@ -34,7 +37,7 @@ public class AddTaskDialog extends ModalDialog
    Button cancelButton = new Button();
 
    @Inject
-   private StoryService storyService;
+   private ClientFactory clientFactory;
 
    private Story story;
 
@@ -61,11 +64,30 @@ public class AddTaskDialog extends ModalDialog
       createButton.setText("Create task");
       addFooter(createButton);
 
+      createButton.addClickHandler(new ClickHandler() {
+         @Override
+         public void onClick(ClickEvent event)
+         {
+            Task t = new Task();
+            t.setText(text.getText());
+            t.setAssignee(assignee.getValue());
+            t.setHoursRemain(Integer.parseInt(hours.getText()));
+
+            clientFactory.getServiceFactory().getStoryService().call(new RemoteCallback<Task>() {
+               @Override
+               public void callback(Task task)
+               {
+                  text.setText(null);
+                  AddTaskDialog.this.hide();
+               }
+            }).createTask(story, t);
+         }
+      });
+
       cancelButton.setText("Cancel");
       addFooter(cancelButton);
 
       cancelButton.addClickHandler(new ClickHandler() {
-
          @Override
          public void onClick(ClickEvent event)
          {

@@ -5,6 +5,7 @@ import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -22,6 +23,7 @@ import org.picketlink.idm.api.User;
 
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.AuthenticationService;
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProfileService;
+import com.ocpsoft.socialpm.gwt.server.security.authentication.Authenticated;
 import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -119,6 +121,8 @@ public class AuthenticationServiceImpl extends PersistenceUtil implements Serial
    }
 
    @Override
+   @Produces
+   @Authenticated
    public Profile getLoggedInProfile()
    {
       Profile result = null;

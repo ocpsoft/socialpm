@@ -10,6 +10,8 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import org.ocpsoft.common.util.Assert;
+
 import com.ocpsoft.socialpm.model.PersistentObject;
 
 @TransactionAttribute
@@ -74,6 +76,7 @@ public abstract class PersistenceUtil implements Serializable
    @SuppressWarnings("unchecked")
    protected <T extends PersistentObject<?>> T reload(final T entity)
    {
+      Assert.notNull(entity.getId(), "Cannot reload @Entity with null ID [" + entity + "]");
       return (T) findById(entity.getClass(), entity.getId());
    }
 
@@ -132,7 +135,7 @@ public abstract class PersistenceUtil implements Serializable
    protected <T extends PersistentObject<?>> T findUniqueByNamedQuery(final String namedQueryName,
             final Object... params)
             throws NoResultException
-            {
+   {
       Query query = getEntityManager().createNamedQuery(namedQueryName);
       int i = 1;
       for (Object p : params)
@@ -141,5 +144,5 @@ public abstract class PersistenceUtil implements Serializable
       }
 
       return (T) query.getSingleResult();
-            }
+   }
 }
