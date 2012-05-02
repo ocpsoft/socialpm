@@ -645,7 +645,7 @@
          </dependencies>
       </profile>
       <profile>
-         <id>openshift</id>
+         <id>openshift-disabled</id>
          <build>
             <plugins>
                <plugin>
@@ -823,7 +823,7 @@
          </dependencies>
       </profile>
       <profile>
-         <id>openshift-prepare</id>
+         <id>openshift-prepare-disabled</id>
          <build>
             <plugins>
                <plugin>
