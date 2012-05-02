@@ -36,7 +36,7 @@
 
 	<properties>
 		<prettytime.version>1.0.8.Final</prettytime.version>
-		<rewrite.version>1.0.5-SNAPSHOT</rewrite.version>
+		<rewrite.version>1.0.5.Final</rewrite.version>
 		<seam.version>3.2.0-SNAPSHOT</seam.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.8.1</junit.version>
@@ -189,14 +189,21 @@
 		</dependencies>
 	</dependencyManagement>
 	<repositories>
-		<repository>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<id>ocpsoft</id>
-			<name>OcpSoft Releases</name>
-			<url>http://ocpsoft.com/repository/</url>
-		</repository>
+      <repository>
+         <id>jboss-public-repository</id>
+         <name>JBoss Public Maven Repository Group</name>
+         <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+         <layout>default</layout>
+         <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+         </releases>
+         <snapshots>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+         </snapshots>
+      </repository>
+
 	</repositories>
 	<build>
 		<pluginManagement>
