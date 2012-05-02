@@ -2,8 +2,8 @@ package com.ocpsoft.socialpm.gwt.client.local.history;
 
 import org.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 
-import com.ocpsoft.socialpm.gwt.client.local.places.NewStoryPlace;
-import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
+import com.ocpsoft.socialpm.gwt.client.local.view.project.view.ProjectPlace;
+import com.ocpsoft.socialpm.gwt.client.local.view.story.create.NewStoryPlace;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 

@@ -1,6 +1,6 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
-import com.ocpsoft.socialpm.gwt.client.local.places.ProfilePlace;
+import com.ocpsoft.socialpm.gwt.client.local.view.profile.ProfilePlace;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 public class ProfileLink extends NavLink

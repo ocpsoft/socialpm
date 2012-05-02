@@ -32,9 +32,9 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.ocpsoft.socialpm.gwt.client.local.places.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
+import com.ocpsoft.socialpm.gwt.client.local.view.home.HomePlace;
 import com.ocpsoft.socialpm.gwt.client.local.view.presenter.AuthenticationAware;
 import com.ocpsoft.socialpm.model.user.Profile;
 

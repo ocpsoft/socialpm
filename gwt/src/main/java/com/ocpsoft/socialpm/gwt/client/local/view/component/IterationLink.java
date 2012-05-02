@@ -1,6 +1,6 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
-import com.ocpsoft.socialpm.gwt.client.local.places.ProjectPlace;
+import com.ocpsoft.socialpm.gwt.client.local.view.project.view.ProjectPlace;
 import com.ocpsoft.socialpm.model.project.iteration.Iteration;
 
 public class IterationLink extends NavLink
