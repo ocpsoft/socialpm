@@ -36,7 +36,7 @@
 
 	<properties>
 		<prettytime.version>1.0.8.Final</prettytime.version>
-		<rewrite.version>1.0.5.Final</rewrite.version>
+		<rewrite.version>1.0.6-SNAPSHOT</rewrite.version>
 		<seam.version>3.2.0-SNAPSHOT</seam.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit.version>4.8.1</junit.version>
