@@ -9,31 +9,22 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.ValueListBox;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Div;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ModalDialog;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.Span;
 import com.ocpsoft.socialpm.model.project.story.Story;
-import com.ocpsoft.socialpm.model.project.story.Task;
-import com.ocpsoft.socialpm.model.user.Profile;
+import com.ocpsoft.socialpm.model.project.story.ValidationCriteria;
 
 /**
  * A splash screen
  */
 @Dependent
-public class AddTaskDialog extends ModalDialog
+public class AddValidationDialog extends ModalDialog
 {
    private final TextArea text = new TextArea();
 
-   private final TextBox hours = new TextBox();
-
-   ValueListBox<Profile> assignee = new ValueListBox<Profile>(profileRenderer);
-   static ProfileRenderer profileRenderer = new ProfileRenderer();
-
    Button createButton = new Button();
-
    Button cancelButton = new Button();
 
    @Inject
@@ -41,27 +32,20 @@ public class AddTaskDialog extends ModalDialog
 
    private Story story;
 
-   public AddTaskDialog()
+   public AddValidationDialog()
    {
       super();
 
       hide();
 
-      this.addHeader(new Span("Add task"));
+      this.addHeader(new Span("Add validation criteria"));
 
       addContent(new Div("<h3>Description</h3>"));
       text.setWidth("500px");
       text.setHeight("150px");
       addContent(text);
 
-      addContent(new Div("<h3>Hours</h3>"));
-      hours.setWidth("60px");
-      addContent(hours);
-
-      addContent(new Div("<h3>Assignee</h3>"));
-      addContent(assignee);
-
-      createButton.setText("Add task");
+      createButton.setText("Add validation");
       createButton.setStyleName("btn primary");
       addFooter(createButton);
 
@@ -69,19 +53,17 @@ public class AddTaskDialog extends ModalDialog
          @Override
          public void onClick(ClickEvent event)
          {
-            Task t = new Task();
-            t.setText(text.getText());
-            t.setAssignee(assignee.getValue());
-            t.setHoursRemain(Integer.parseInt(hours.getText() == null ? "0" : hours.getText()));
+            ValidationCriteria c = new ValidationCriteria();
+            c.setText(text.getText());
 
-            clientFactory.getServiceFactory().getStoryService().call(new RemoteCallback<Task>() {
+            clientFactory.getServiceFactory().getStoryService().call(new RemoteCallback<ValidationCriteria>() {
                @Override
-               public void callback(Task task)
+               public void callback(ValidationCriteria task)
                {
                   text.setText(null);
-                  AddTaskDialog.this.hide();
+                  AddValidationDialog.this.hide();
                }
-            }).createTask(story, t);
+            }).createValidation(story, c);
          }
       });
 
@@ -93,7 +75,7 @@ public class AddTaskDialog extends ModalDialog
          @Override
          public void onClick(ClickEvent event)
          {
-            AddTaskDialog.this.hide();
+            AddValidationDialog.this.hide();
          }
       });
    }
@@ -101,6 +83,5 @@ public class AddTaskDialog extends ModalDialog
    public void setStory(Story story)
    {
       this.story = story;
-      this.assignee.setAcceptableValues(story.getProject().getActiveMembers());
    }
 }

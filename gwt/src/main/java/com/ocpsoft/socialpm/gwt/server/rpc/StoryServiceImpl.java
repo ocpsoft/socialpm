@@ -55,10 +55,12 @@ import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility.Serialization
 import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
 import com.ocpsoft.socialpm.model.feed.StoryCreated;
 import com.ocpsoft.socialpm.model.feed.TaskCreated;
+import com.ocpsoft.socialpm.model.feed.ValidationCreated;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.project.story.Status;
 import com.ocpsoft.socialpm.model.project.story.Story;
 import com.ocpsoft.socialpm.model.project.story.Task;
+import com.ocpsoft.socialpm.model.project.story.ValidationCriteria;
 import com.ocpsoft.socialpm.model.user.Profile;
 
 /**
@@ -78,6 +80,9 @@ public class StoryServiceImpl extends PersistenceUtil implements StoryService
 
    @Inject
    private Event<TaskCreated> taskCreated;
+
+   @Inject
+   private Event<ValidationCreated> validationCreated;
 
    @Inject
    private ProjectService ps;
@@ -115,6 +120,27 @@ public class StoryServiceImpl extends PersistenceUtil implements StoryService
       taskCreated.fire(createdEvent);
 
       return task;
+   }
+
+   @Override
+   @LoggedIn
+   @TransactionAttribute
+   public ValidationCriteria createValidation(Story story, ValidationCriteria criteria)
+   {
+      if (!em.contains(story))
+         story = reload(story);
+
+      criteria.setStory(story);
+
+      super.create(criteria);
+
+      ValidationCreated createdEvent = new ValidationCreated(user, story, criteria);
+
+      super.create(createdEvent);
+
+      validationCreated.fire(createdEvent);
+
+      return criteria;
    }
 
    @Override

@@ -17,7 +17,9 @@ import com.ocpsoft.socialpm.gwt.client.local.view.component.Span;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.StoryLink;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.TaskList;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.UnorderedList;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.ValidationList;
 import com.ocpsoft.socialpm.gwt.client.local.view.forms.AddTaskDialog;
+import com.ocpsoft.socialpm.gwt.client.local.view.forms.AddValidationDialog;
 import com.ocpsoft.socialpm.model.project.story.Story;
 
 @ApplicationScoped
@@ -41,6 +43,12 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
    @Inject
    private TaskList taskList;
 
+   @Inject
+   AddValidationDialog addValidationDialog;
+
+   @Inject
+   private ValidationList validationList;
+
    @Override
    public void setup()
    {
@@ -57,6 +65,9 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
 
       addTaskDialog.setVisible(false);
       content.add(addTaskDialog);
+
+      addValidationDialog.setVisible(false);
+      content.add(addValidationDialog);
    }
 
    private void setupInputs()
@@ -66,6 +77,13 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
          public void onClick(ClickEvent event)
          {
             addTaskDialog.display();
+         }
+      });
+      validationList.getNewValidationCriteriaLink().addClickHandler(new ClickHandler() {
+         @Override
+         public void onClick(ClickEvent event)
+         {
+            addValidationDialog.display();
          }
       });
    }
@@ -109,6 +127,7 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
 
       left.add(storyText);
 
+      left.add(validationList);
       left.add(taskList);
 
       row.add(left);
@@ -129,9 +148,13 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
 
       taskList.setStory(story);
       taskList.setTasks(story.getTasks());
+
+      validationList.setStory(story);
+      validationList.setValidations(story.getValidations());
       System.out.println(story.getTasks());
 
       addTaskDialog.setStory(story);
+      addValidationDialog.setStory(story);
 
       pulse.setInnerText(story.getTaskCount() + "");
       storyText.setInnerHTML("<h3>As a " + story.getRole() + " I want " + story.getObjective() + " so that "
@@ -154,6 +177,11 @@ public class StoryViewImpl extends FixedLayoutView implements StoryView
    /*
     * Getters & Setters
     */
+   public Story getStory()
+   {
+      return story;
+   }
+
    @Override
    public Presenter getPresenter()
    {

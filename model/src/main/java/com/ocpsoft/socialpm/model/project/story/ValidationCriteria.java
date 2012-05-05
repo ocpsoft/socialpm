@@ -72,8 +72,6 @@ public class ValidationCriteria extends PersistentObject<ValidationCriteria>
    @Column(length = 255)
    private String text;
 
-   private boolean accepted;
-
    @OneToOne
    private Profile acceptedBy;
 
@@ -90,14 +88,14 @@ public class ValidationCriteria extends PersistentObject<ValidationCriteria>
 
    public void accept(final Profile profile)
    {
-      setAccepted(true);
       setAcceptedBy(profile);
       setAcceptedOn(new Date());
    }
 
    public void reject()
    {
-      setAccepted(false);
+      acceptedBy = null;
+      acceptedOn = null;
    }
 
    public String getText()
@@ -112,12 +110,7 @@ public class ValidationCriteria extends PersistentObject<ValidationCriteria>
 
    public boolean isAccepted()
    {
-      return accepted;
-   }
-
-   public void setAccepted(final boolean accepted)
-   {
-      this.accepted = accepted;
+      return acceptedBy != null;
    }
 
    public Profile getAcceptedBy()

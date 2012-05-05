@@ -1,0 +1,14 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'
+	xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.view.component'>
+
+	<g:HTMLPanel> 
+		<div style="padding-top: 7px; padding-bottom: 10px;" class="well">
+			<t:NavLink ui:field="newValidation" styleName="btn pull-right" text="Add a validation criteria" />
+			<h3 style="margin-bottom: 8px;">Validation Criteria (<span ui:field="validationCount">0</span>)</h3>
+			<t:UnorderedList ui:field="list" styleName="plain clear task-list" />
+		</div>
+	</g:HTMLPanel>  
+
+</ui:UiBinder>
