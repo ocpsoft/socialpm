@@ -6,7 +6,7 @@
 
 	<parent>
 		<artifactId>socialpm-parent</artifactId>
-		<groupId>com.ocpsoft.socialpm</groupId>
+		<groupId>org.ocpsoft.socialpm</groupId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
