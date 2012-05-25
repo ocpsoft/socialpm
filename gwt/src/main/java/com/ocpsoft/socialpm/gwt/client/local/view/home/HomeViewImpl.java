@@ -67,7 +67,7 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
       dashboard.add(right);
       getContent().add(dashboard);
 
-      greeting.setHeading("Wilkommen!");
+      greeting.setHeading("Willkommen!");
       greeting.setContent("Type a message and click to get started.");
       getContent().add(greeting);
 
