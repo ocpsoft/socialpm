@@ -4,35 +4,47 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
 
+import org.jboss.errai.ui.shared.api.annotations.Replace;
+import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.ocpsoft.rewrite.gwt.client.history.ContextPathListener;
 import org.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
 
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Widget;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LoginEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.events.LogoutEvent;
 import com.ocpsoft.socialpm.gwt.client.local.view.presenter.AuthenticationAware;
 import com.ocpsoft.socialpm.model.user.Profile;
 
-/**
- * A splash screen
- */
 @Dependent
-public class TopNav extends NavBar implements AuthenticationAware
+@Templated
+public class TopNav extends Composite implements AuthenticationAware
 {
    private final NavLink signupLink = new NavLink("Join the party", HistoryConstants.SIGNUP());
-
-   private final GravatarImage gravatar = new GravatarImage(30);
 
    private final NavDropdown status = new NavDropdown();
    private final NavLink signinLink = new NavLink("Sign in", HistoryConstants.LOGIN());
    private final NavLink signoutLink = new NavLink("Sign out", HistoryConstants.LOGOUT());
 
-   private final ProfileLink profileLink = new ProfileLink();
+   @Replace
+   private NavLink brand;
 
-   public TopNav()
+   @Replace
+   private ProfileLink profileLink;
+
+   @Replace
+   private GravatarImage gravatar;
+
+   @Replace
+   private UnorderedList right;
+
+   @Replace
+   private UnorderedList list;
+
+   @PostConstruct
+   public final void init()
    {
-      super();
-
       setFixedTop(true);
 
       /*
@@ -42,7 +54,6 @@ public class TopNav extends NavBar implements AuthenticationAware
          @Override
          public void onContextPathSet(String contextPath)
          {
-            System.out.println("Deferred Brand Link set to [" + contextPath + "]");
             getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
          }
       });
@@ -51,14 +62,12 @@ public class TopNav extends NavBar implements AuthenticationAware
          getBrandLink().setTargetHistoryToken(HistoryConstants.HOME());
       }
 
-      getBrandLink().setText("SocialPM");
-      getBrandLink().setEnabled(true);
-
       add(signupLink);
 
       /*
        * Initialize Gravatar and Account Menu
        */
+      gravatar.setSize(30);
       gravatar.setVisible(true);
       gravatar.getImage().getElement()
                .setAttribute("style", "padding: 2px; background-color: #eee; position: relative; top: 3px;");
@@ -74,9 +83,53 @@ public class TopNav extends NavBar implements AuthenticationAware
       addRight(new ListItem(signinLink));
    }
 
-   @PostConstruct
-   public void postConstruct()
-   {}
+   public TopNav setFixedTop(boolean enabled)
+   {
+      if (enabled)
+         this.addStyleName("navbar-fixed-top");
+      else
+         this.removeStyleName("navbar-fixed-stop");
+      return this;
+   }
+
+   public TopNav add(Widget w)
+   {
+      return add(w, false);
+   }
+
+   public TopNav add(Widget w, boolean active)
+   {
+      Widget li = w;
+      if (!"li".equals(w.getElement().getTagName()))
+      {
+         li = new ListItem(w);
+      }
+
+      if (active)
+         li.setStyleName("active");
+
+      list.add(li);
+      return this;
+   }
+
+   public TopNav addRight(Widget w)
+   {
+      right.add(w);
+      return this;
+   }
+
+   public boolean remove(Widget w)
+   {
+      return list.remove(w);
+   }
+
+   /*
+    * Getters & Setters
+    */
+   public NavLink getBrandLink()
+   {
+      return brand;
+   }
 
    public NavLink getSignupLink()
    {

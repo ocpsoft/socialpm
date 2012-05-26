@@ -1,7 +1,0 @@
-<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
-<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
-	xmlns:g='urn:import:com.google.gwt.user.client.ui'
-	xmlns:t='urn:import:com.ocpsoft.socialpm.gwt.client.local.view.component'>
-
-	<t:Span ui:field="gravatarHolder"></t:Span>
-</ui:UiBinder>

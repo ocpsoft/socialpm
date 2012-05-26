@@ -28,9 +28,12 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    private final HeroPanel greeting = new HeroPanel();
    private final Anchor sendMessageButton = new Anchor("Send it »");
    private final TextBox messageBox = new TextBox();
-   private final WelcomeBar welcomeBar = new WelcomeBar();
+
+   @Inject
+   private WelcomeBar welcomeBar;
+
    private final Row dashboard = new Row();
-   
+
    private final StatusFeed statusFeed = new StatusFeed();
 
    @Inject
@@ -42,7 +45,7 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
    {
       super();
    }
-   
+
    public void handleProjectCreated(@Observes ProjectCreated event)
    {
       System.out.println("Observed ProjectCreated event (ApplicationScoped)");
@@ -62,7 +65,7 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
       Div right = new Div();
       right.setStyleName("span6 cols");
       right.add(projectList);
-      
+
       dashboard.add(left);
       dashboard.add(right);
       getContent().add(dashboard);
@@ -70,7 +73,6 @@ public class HomeViewImpl extends FixedLayoutView implements HomeView
       greeting.setHeading("Willkommen!");
       greeting.setContent("Type a message and click to get started.");
       getContent().add(greeting);
-
 
       greeting.getUnder().add(getMessageBox());
 

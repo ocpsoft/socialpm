@@ -1,33 +1,28 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
+import javax.annotation.PostConstruct;
+
+import org.jboss.errai.ui.shared.api.annotations.Replace;
+import org.jboss.errai.ui.shared.api.annotations.Templated;
+
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
 import com.ocpsoft.socialpm.model.user.Profile;
 
+@Templated
 public class WelcomeBar extends Composite
 {
-   interface WelcomeBarBinder extends UiBinder<Widget, WelcomeBar>
-   {
-   }
-
-   private static WelcomeBarBinder binder = GWT.create(WelcomeBarBinder.class);
-
-   @UiField
+   @Replace
    Span greeting;
 
-   @UiField
+   @Replace
    GravatarImage gravatar;
 
-   @UiField
+   @Replace
    ProfileLink profileNameLink;
 
-   
-   public WelcomeBar()
+   @PostConstruct
+   public final void init()
    {
-      initWidget(binder.createAndBindUi(this));
       gravatar.setSize(90);
       greeting.setInnerText("Everything is fine.");
    }

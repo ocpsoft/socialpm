@@ -3,45 +3,41 @@ package com.ocpsoft.socialpm.gwt.client.local.view.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
+import org.jboss.errai.ui.shared.api.annotations.Replace;
+import org.jboss.errai.ui.shared.api.annotations.Templated;
+
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.model.feed.ProjectCreated;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
+import com.google.gwt.user.client.ui.Label;
 
 @Dependent
+@Templated
 public class ProjectList extends Composite
 {
-   interface ProjectListBinder extends UiBinder<Widget, ProjectList>
-   {
-   }
-
-   private static ProjectListBinder binder = GWT.create(ProjectListBinder.class);
-
-   @UiField
+   @Replace
    UnorderedList list;
 
-   @UiField
-   SpanElement projectCount;
+   @Replace
+   Label projectCount;
 
-   @UiField
+   @Replace
    NavLink newProject;
 
    private Profile owner;
 
    private List<Project> projects;
 
-   public ProjectList()
+   @PostConstruct
+   public final void init()
    {
-      initWidget(binder.createAndBindUi(this));
+      projectCount.getElement().setAttribute("style", "display:inline;");
       newProject.setTargetHistoryToken(HistoryConstants.NEW_PROJECT());
    }
 
@@ -72,7 +68,7 @@ public class ProjectList extends Composite
    {
       projects.add(project);
       list.add(new ProjectBlock(project));
-      projectCount.setInnerText(String.valueOf(projects.size()));
+      projectCount.setText(String.valueOf(projects.size()));
    }
 
    public void setOwner(Profile owner)
