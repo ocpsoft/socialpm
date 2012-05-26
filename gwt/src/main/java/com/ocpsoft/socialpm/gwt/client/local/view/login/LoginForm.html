@@ -1,31 +1,51 @@
 <div class="row">
-	<div class="span12">
-		<table cellspacing="0" cellpadding="0">
-			<tbody>
-				<tr>
-					<td align="left" style="vertical-align: top;">
-						<table cellspacing="0" cellpadding="0">
-							<tbody>
-								<tr>
-									<td align="left" style="vertical-align: top;"><div>Username</div></td>
-								</tr>
-								<tr>
-									<td align="left" style="vertical-align: top;"><input
-										data-field="username" type="text" class="input-xlarge"></td>
-								</tr>
-								<tr>
-									<td align="left" style="vertical-align: top;"><div>Password</div></td>
-								</tr>
-								<tr>
-									<td align="left" style="vertical-align: top;"><input
-										data-field="password" type="password" class="input-xlarge"></td>
-								</tr>
-							</tbody>
-						</table>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<a data-field="submit" class="btn primary">Log in</a>
+	<div class="span6">
+		<form class="form-horizontal">
+			<fieldset>
+				<legend>Log in to your account</legend>
+				<div class="control-group">
+					<label class="control-label" for="username">Username</label>
+					<div class="controls">
+						<input data-field="username" class="input-xlarge" id="username" 
+							type="text" placeholder="Username">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="username">Password</label>
+					<div class="controls">
+						<input data-field="password" class="input-xlarge" id="password" 
+							type="password" placeholder="Password">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="remember">Remember me</label>
+					<div class="controls">
+						<label class="checkbox">
+							<input data-field="remember" type="checkbox"
+							id="remember" value="option1" disabled="">
+							Keep me logged in on this computer
+						</label>
+					</div>
+				</div>
+				<div class="form-actions">
+					<button data-field="submit" type="submit" class="btn btn-primary">Log in</button>
+					<button data-field="cancel" class="btn">Cancel</button>
+				</div>
+			</fieldset>
+		</form>
 	</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

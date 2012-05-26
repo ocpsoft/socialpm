@@ -15,7 +15,7 @@ public class LoginViewImpl extends FixedLayoutView implements LoginView
 {
    @Inject
    private LoginForm loginForm;
-
+   
    private LoginView.Presenter presenter;
 
    public LoginViewImpl()
