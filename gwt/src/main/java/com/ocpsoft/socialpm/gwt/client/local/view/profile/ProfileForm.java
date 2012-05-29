@@ -2,14 +2,12 @@ package com.ocpsoft.socialpm.gwt.client.local.view.profile;
 
 import org.jboss.errai.databinding.client.api.DataBinder;
 import org.jboss.errai.databinding.client.api.InitialState;
-import org.jboss.errai.ui.shared.TemplateUtil;
 import org.jboss.errai.ui.shared.api.annotations.Replace;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -36,13 +34,14 @@ public class ProfileForm extends Composite
    @Replace
    private Button submit;
 
+   @Replace
+   private Button cancel;
+
    private DataBinder<Profile> binder;
 
-   private Profile profile;
 
    public void setProfile(Profile profile)
    {
-      this.profile = profile;
       if (binder != null)
          binder.unbind();
 
@@ -64,68 +63,19 @@ public class ProfileForm extends Composite
    /*
     * Getters & Setters
     */
-   public TextBox getUsername()
-   {
-      return username;
-   }
-
-   public void setUsername(TextBox username)
-   {
-      this.username = username;
-   }
-
-   public TextBox getEmail()
-   {
-      return email;
-   }
-
-   public void setEmail(TextBox email)
-   {
-      this.email = email;
-   }
-
-   public TextArea getBio()
-   {
-      return bio;
-   }
-
-   public void setBio(TextArea bio)
-   {
-      this.bio = bio;
-   }
-
-   public PasswordTextBox getPassword()
-   {
-      return password;
-   }
-
-   public void setPassword(PasswordTextBox password)
-   {
-      this.password = password;
-   }
-
-   public CheckBox getEmailPrivacy()
-   {
-      return emailPrivacy;
-   }
-
-   public void setEmailPrivacy(CheckBox emailPrivacy)
-   {
-      this.emailPrivacy = emailPrivacy;
-   }
 
    public Button getSubmit()
    {
       return submit;
    }
-
-   public void setSubmit(Button submit)
+   
+   public Button getCancel()
    {
-      this.submit = submit;
+      return cancel;
    }
 
    public Profile getProfile()
    {
-      return profile; // binder.getModel();
+      return binder.getModel();
    }
 }

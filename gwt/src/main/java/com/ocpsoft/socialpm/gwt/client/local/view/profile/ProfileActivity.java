@@ -82,7 +82,6 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
          @Override
          public void callback(Profile result)
          {
-            profileView.clearAlerts();
             profileView.alert(new Alert(AlertType.SUCCESS, true).setInnerHTML("Changes successfully saved."));
             
             clientFactory.getServiceFactory().getProfileService().call(new RemoteCallback<Profile>() {

@@ -13,6 +13,8 @@ import org.jboss.errai.bus.server.annotations.Service;
 import org.ocpsoft.logging.Logger;
 
 import com.ocpsoft.socialpm.gwt.client.shared.rpc.ProfileService;
+import com.ocpsoft.socialpm.gwt.server.security.authorization.ProfileBinding;
+import com.ocpsoft.socialpm.gwt.server.security.authorization.SameProfileLoggedIn;
 import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility;
 import com.ocpsoft.socialpm.gwt.server.util.HibernateDetachUtility.SerializationType;
 import com.ocpsoft.socialpm.gwt.server.util.PersistenceUtil;
@@ -73,7 +75,8 @@ public class ProfileServiceImpl extends PersistenceUtil implements Serializable,
    }
 
    @Override
-   public Profile save(Profile profile)
+   @SameProfileLoggedIn
+   public Profile save(@ProfileBinding Profile profile)
    {
       Profile result = em.merge(profile);
       super.save(result);

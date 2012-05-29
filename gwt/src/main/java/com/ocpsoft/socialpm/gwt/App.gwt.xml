@@ -22,7 +22,8 @@
          class="com.ocpsoft.socialpm.gwt.client.local.ClientFactory" />
    </replace-with>
 
-   <set-property name="user.agent" value="safari" />
-   <!-- Testing only -->
+   <!-- Testing only
+    -->
+      <set-property name="user.agent" value="safari,gecko1_8" />
 
 </module>

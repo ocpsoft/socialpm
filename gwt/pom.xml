@@ -258,7 +258,7 @@
                <logLevel>INFO</logLevel>
                <runTarget>http://localhost:8080/socialpm-gwt</runTarget>
                <warSourceDirectory>src/main/webapp</warSourceDirectory>
-               <extraJvmArgs>-Xmx512m -Derrai.codegen.permissive=true</extraJvmArgs>
+               <extraJvmArgs>-Xmx512m -XX:MaxPermSize=128M -Derrai.codegen.permissive=true</extraJvmArgs>
                <soyc>false</soyc>
                <hostedWebapp>src/main/webapp</hostedWebapp>
                <webappDirectory>src/main/webapp</webappDirectory>
