@@ -5,9 +5,10 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.ocpsoft.socialpm.gwt.client.local.view.FixedLayoutView;
-import com.ocpsoft.socialpm.gwt.client.local.view.component.HeroPanel;
 import com.ocpsoft.socialpm.gwt.client.local.view.component.ProjectList;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
@@ -15,7 +16,8 @@ import com.ocpsoft.socialpm.model.user.Profile;
 @ApplicationScoped
 public class ProfileViewImpl extends FixedLayoutView implements ProfileView
 {
-   HeroPanel greeting = new HeroPanel();
+   @Inject
+   private ProfileForm profileForm;
    
    @Inject
    private ProjectList projectList;
@@ -26,8 +28,15 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
    @Override
    public void setup()
    {
-      content.add(greeting);
-      greeting.getUnder().add(email);
+      profileForm.getSubmit().addClickHandler(new ClickHandler() {
+         
+         @Override
+         public void onClick(ClickEvent event)
+         {
+            presenter.save(profileForm.getProfile());
+         }
+      });
+      content.add(profileForm);
       content.add(projectList);
    }
 
@@ -35,8 +44,7 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
    public void setProfile(final Profile profile)
    {
       projectList.setOwner(profile);
-      greeting.setHeading("This is " + profile.getUsername() + "!");
-      greeting.setContent(profile.getBio());
+      profileForm.setProfile(profile);
       email.setText(profile.getEmail());
    }
 
@@ -44,9 +52,9 @@ public class ProfileViewImpl extends FixedLayoutView implements ProfileView
     * Getters & Setters
     */
    @Override
-   public HeroPanel getGreeting()
+   public ProfileForm getProfileForm()
    {
-      return greeting;
+      return profileForm;
    }
 
    @Override

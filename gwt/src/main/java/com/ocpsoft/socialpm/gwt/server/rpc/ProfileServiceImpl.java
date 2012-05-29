@@ -72,4 +72,12 @@ public class ProfileServiceImpl extends PersistenceUtil implements Serializable,
       return result;
    }
 
+   @Override
+   public Profile save(Profile profile)
+   {
+      Profile result = em.merge(profile);
+      super.save(result);
+      return result;
+   }
+
 }

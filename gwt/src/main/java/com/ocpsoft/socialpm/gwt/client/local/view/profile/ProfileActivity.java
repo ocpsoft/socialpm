@@ -5,8 +5,6 @@ import java.util.List;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-import org.jboss.errai.bus.client.api.ErrorCallback;
-import org.jboss.errai.bus.client.api.Message;
 import org.jboss.errai.bus.client.api.RemoteCallback;
 
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -15,6 +13,8 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.history.CurrentHistory;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.Alert;
+import com.ocpsoft.socialpm.gwt.client.local.view.component.Alert.AlertType;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
 
@@ -38,21 +38,25 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
    {
       profileView.setPresenter(this);
 
+      /*
+       * Load the Profile entity from client-side sync'd EntityManager
+       * Tell Errai that this is a sync-able data set?
+       */
+      // CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+      // CriteriaQuery<Profile> q = builder.createQuery(Profile.class);
+      // Root<Profile> p = q.from(Profile.class);
+      // CriteriaQuery<Profile> query = q.select(p)
+      // .where(builder.equal(p.get("username"),
+      // username));
+      //
+      // SyncableDataSet<Profile> dataSet = SyncableDataSet.create(entityManager, query);
+
       clientFactory.getServiceFactory().getProfileService().call(new RemoteCallback<Profile>() {
 
          @Override
          public void callback(Profile response)
          {
             profileView.setProfile(response);
-         }
-
-      }, new ErrorCallback() {
-
-         @Override
-         public boolean error(Message message, Throwable throwable)
-         {
-            throwable.printStackTrace();
-            return false;
          }
 
       }).getProfileByUsername(username);
@@ -64,22 +68,39 @@ public class ProfileActivity extends AbstractActivity implements ProfileView.Pre
          {
             profileView.setProjects(projects);
          }
-      }, new ErrorCallback() {
-
-         @Override
-         public boolean error(Message message, Throwable throwable)
-         {
-            System.out.println("error");
-            return false;
-         }
       }).getByOwner(new Profile(username));
 
       containerWidget.setWidget(profileView.asWidget());
    }
 
    @Override
+   public void save(Profile profile)
+   {
+      // Not necessary with data-sync
+      // entityManager.flush();
+      clientFactory.getServiceFactory().getProfileService().call(new RemoteCallback<Profile>() {
+         @Override
+         public void callback(Profile result)
+         {
+            profileView.clearAlerts();
+            profileView.alert(new Alert(AlertType.SUCCESS, true).setInnerHTML("Changes successfully saved."));
+            
+            clientFactory.getServiceFactory().getProfileService().call(new RemoteCallback<Profile>() {
+               @Override
+               public void callback(Profile response)
+               {
+                  profileView.setProfile(response);
+               }
+
+            }).getProfileByUsername(username);
+         }
+      }).save(profile);
+   }
+
+   @Override
    public String mayStop()
    {
+      // entityManager.flush();
       return null;
    }
 

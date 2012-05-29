@@ -10,4 +10,6 @@ public interface ProfileService
    public Profile getProfileByUsername(String username);
 
    public Profile getProfileByIdentityKey(String key);
+
+   public Profile save(Profile profile);
 }

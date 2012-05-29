@@ -44,7 +44,7 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
 
    @UiField
    protected HTMLPanel footer = new HTMLPanel("");
-   
+
    private List<Alert> alerts = new ArrayList<Alert>();
 
    /*
@@ -73,20 +73,18 @@ public abstract class FixedLayoutView extends Composite implements FixedLayout
    {
       return topnav;
    }
-   
+
    @Override
    public void alert(Alert alert)
    {
       subheader.add(alert);
       alerts.add(alert);
    }
-   
+
    @Override
    public void clearAlerts()
    {
-      for (Alert alert : alerts) {
-         subheader.remove(alert);
-      }
+      subheader.clear();
       alerts.clear();
    }
 }

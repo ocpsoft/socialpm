@@ -46,9 +46,11 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Index;
 import org.jboss.errai.common.client.api.annotations.Portable;
+import org.jboss.errai.databinding.client.api.Bindable;
 
 import com.ocpsoft.socialpm.model.PersistentObject;
 
+@Bindable
 @Portable
 @Entity
 @Table(name = "user_profiles")

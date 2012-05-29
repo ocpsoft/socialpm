@@ -114,6 +114,16 @@
             <artifactId>errai-common</artifactId>
             <version>${errai.version}</version>
          </dependency>
+         <dependency>
+            <groupId>org.jboss.errai</groupId>
+            <artifactId>errai-ui</artifactId>
+            <version>${errai.version}</version>
+         </dependency>
+         <dependency>
+            <groupId>org.jboss.errai</groupId>
+            <artifactId>errai-data-binding</artifactId>
+            <version>${errai.version}</version>
+         </dependency>
 
          <!-- Seam Dependencies -->
          <dependency>

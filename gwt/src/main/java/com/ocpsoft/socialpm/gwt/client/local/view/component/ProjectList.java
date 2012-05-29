@@ -7,15 +7,16 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
 
+import org.jboss.errai.ioc.client.container.IOC;
 import org.jboss.errai.ui.shared.api.annotations.Replace;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.Label;
 import com.ocpsoft.socialpm.gwt.client.local.history.HistoryConstants;
 import com.ocpsoft.socialpm.model.feed.ProjectCreated;
 import com.ocpsoft.socialpm.model.project.Project;
 import com.ocpsoft.socialpm.model.user.Profile;
-import com.google.gwt.user.client.ui.Label;
 
 @Dependent
 @Templated
@@ -67,7 +68,9 @@ public class ProjectList extends Composite
    private void addProject(Project project)
    {
       projects.add(project);
-      list.add(new ProjectBlock(project));
+      ProjectBlock block = IOC.getBeanManager().lookupBean(ProjectBlock.class).getInstance();
+      block.setProject(project);
+      list.add(block);
       projectCount.setText(String.valueOf(projects.size()));
    }
 

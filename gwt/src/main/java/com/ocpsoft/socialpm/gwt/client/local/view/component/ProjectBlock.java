@@ -1,40 +1,27 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
+import javax.enterprise.context.Dependent;
+
+import org.jboss.errai.ui.shared.api.annotations.Replace;
+import org.jboss.errai.ui.shared.api.annotations.Templated;
+
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Widget;
 import com.ocpsoft.socialpm.model.project.Project;
 
+@Dependent
+@Templated
 public class ProjectBlock extends Composite
 {
-   interface ProjectBlockBinder extends UiBinder<Widget, ProjectBlock>
-   {
-   }
-
-   private static ProjectBlockBinder binder = GWT.create(ProjectBlockBinder.class);
    private Project project;
 
-   @UiField
+   @Replace
    ProfileLink ownerLink;
 
-   @UiField
+   @Replace
    ProjectLink projectLink;
    
-   @UiField
+   @Replace
    ProjectLink assignmentsLink;
-
-   public ProjectBlock()
-   {
-      initWidget(binder.createAndBindUi(this));
-   }
-
-   public ProjectBlock(Project project)
-   {
-      this();
-      setProject(project);
-   }
 
    public ProjectBlock setProject(Project project)
    {
@@ -42,7 +29,6 @@ public class ProjectBlock extends Composite
       ownerLink.setProfile(project.getOwner());
       projectLink.setProject(project);
       assignmentsLink.setProject(project);
-      assignmentsLink.setText("tasks");
       return this;
    }
 
