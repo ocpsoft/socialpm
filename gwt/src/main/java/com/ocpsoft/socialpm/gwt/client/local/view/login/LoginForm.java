@@ -1,33 +1,54 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.login;
 
-import org.jboss.errai.ui.shared.api.annotations.Replace;
+import javax.inject.Inject;
+
+import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 
 @Templated
 public class LoginForm extends Composite
 {
-   @Replace
+   @DataField
+   private Element form = DOM.createForm();
+
+   @Inject
+   @DataField
    private TextBox username;
 
-   @Replace
+   @Inject
+   @DataField
    private PasswordTextBox password;
-   
-   @Replace("remember")
+
+   @Inject
+   @DataField("remember")
    private CheckBox rememberMe;
 
-   @Replace
+   @Inject
+   @DataField
    private Button submit;
 
    public void clear()
    {
       username.setText("");
       password.setText("");
+      DOM.setEventListener(form, new EventListener() {
+         @Override
+         public void onBrowserEvent(Event event)
+         {
+            event.preventDefault();
+         }
+      });
    }
 
    public TextBox getUsername()
@@ -44,7 +65,7 @@ public class LoginForm extends Composite
    {
       return submit;
    }
-   
+
    public CheckBox getRememberMe()
    {
       return rememberMe;

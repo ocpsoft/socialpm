@@ -117,9 +117,7 @@
             <configuration>
                <logLevel>INFO</logLevel>
                <runTarget>http://localhost:8080/socialpm-gwt</runTarget>
-               <!-- 
-               <extraJvmArgs>-Xmx2048m -XCompileThreshold=7000 -X+AggressiveOpts -X+UseCompressedOops -XMaxPermSize=128M -Derrai.codegen.permissive=true</extraJvmArgs>
-                -->
+               <extraJvmArgs>-Xmx2048m -XX:CompileThreshold=7000 -XX:+AggressiveOpts -XX:+UseCompressedOops -XX:MaxPermSize=128M</extraJvmArgs>
                <soyc>false</soyc>
                <noServer>true</noServer>
             </configuration>

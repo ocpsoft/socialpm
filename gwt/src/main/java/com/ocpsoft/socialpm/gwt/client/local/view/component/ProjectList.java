@@ -6,9 +6,10 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 
 import org.jboss.errai.ioc.client.container.IOC;
-import org.jboss.errai.ui.shared.api.annotations.Replace;
+import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -22,13 +23,16 @@ import com.ocpsoft.socialpm.model.user.Profile;
 @Templated
 public class ProjectList extends Composite
 {
-   @Replace
+   @Inject
+   @DataField
    UnorderedList list;
 
-   @Replace
+   @Inject
+   @DataField
    Label projectCount;
 
-   @Replace
+   @Inject
+   @DataField
    NavLink newProject;
 
    private Profile owner;

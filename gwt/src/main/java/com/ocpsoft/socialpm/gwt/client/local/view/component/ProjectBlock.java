@@ -1,8 +1,9 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
 import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 
-import org.jboss.errai.ui.shared.api.annotations.Replace;
+import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -14,13 +15,16 @@ public class ProjectBlock extends Composite
 {
    private Project project;
 
-   @Replace
+   @Inject
+   @DataField
    ProfileLink ownerLink;
 
-   @Replace
+   @Inject
+   @DataField
    ProjectLink projectLink;
-   
-   @Replace
+
+   @Inject
+   @DataField
    ProjectLink assignmentsLink;
 
    public ProjectBlock setProject(Project project)

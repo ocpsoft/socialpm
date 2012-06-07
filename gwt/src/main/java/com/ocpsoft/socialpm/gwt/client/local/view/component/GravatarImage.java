@@ -2,8 +2,9 @@ package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
+import javax.inject.Inject;
 
-import org.jboss.errai.ui.shared.api.annotations.Replace;
+import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -15,11 +16,12 @@ import com.ocpsoft.socialpm.model.user.Profile;
 @Templated
 public class GravatarImage extends Composite
 {
-
-   @Replace
+   @Inject
+   @DataField
    ProfileLink imageLink;
 
-   @Replace
+   @Inject
+   @DataField
    Image image;
 
    private int size = 32;

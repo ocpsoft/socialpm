@@ -3,8 +3,9 @@ package com.ocpsoft.socialpm.gwt.client.local.view.component;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 
-import org.jboss.errai.ui.shared.api.annotations.Replace;
+import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 import org.ocpsoft.rewrite.gwt.client.history.ContextPathListener;
 import org.ocpsoft.rewrite.gwt.client.history.HistoryStateImpl;
@@ -27,19 +28,24 @@ public class TopNav extends Composite implements AuthenticationAware
    private final NavLink signinLink = new NavLink("Sign in", HistoryConstants.LOGIN());
    private final NavLink signoutLink = new NavLink("Sign out", HistoryConstants.LOGOUT());
 
-   @Replace
+   @Inject
+   @DataField
    private NavLink brand;
 
-   @Replace
+   @Inject
+   @DataField
    private ProfileLink profileLink;
 
-   @Replace
+   @Inject
+   @DataField
    private GravatarImage gravatar;
 
-   @Replace
+   @Inject
+   @DataField
    private UnorderedList right;
 
-   @Replace
+   @Inject
+   @DataField
    private UnorderedList list;
 
    @PostConstruct

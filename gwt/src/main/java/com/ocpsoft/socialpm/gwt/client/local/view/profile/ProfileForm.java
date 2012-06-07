@@ -1,8 +1,10 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.profile;
 
+import javax.inject.Inject;
+
 import org.jboss.errai.databinding.client.api.DataBinder;
 import org.jboss.errai.databinding.client.api.InitialState;
-import org.jboss.errai.ui.shared.api.annotations.Replace;
+import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 
 import com.google.gwt.user.client.ui.Button;
@@ -16,29 +18,36 @@ import com.ocpsoft.socialpm.model.user.Profile;
 @Templated
 public class ProfileForm extends Composite
 {
-   @Replace
+   @Inject
+   @DataField
    private TextBox username;
 
-   @Replace
+   @Inject
+   @DataField
    private TextBox email;
 
-   @Replace
+   @Inject
+   @DataField
    private TextArea bio;
 
-   @Replace
+   @Inject
+   @DataField
    private PasswordTextBox password;
 
-   @Replace("emailPrivacy")
+   @Inject
+   @DataField("emailPrivacy")
    private CheckBox emailPrivacy;
 
-   @Replace
+   @Inject
+   @DataField
    private Button submit;
 
-   @Replace
+   @Inject
+   @DataField
    private Button cancel;
 
+   @Inject
    private DataBinder<Profile> binder;
-
 
    public void setProfile(Profile profile)
    {
@@ -68,7 +77,7 @@ public class ProfileForm extends Composite
    {
       return submit;
    }
-   
+
    public Button getCancel()
    {
       return cancel;

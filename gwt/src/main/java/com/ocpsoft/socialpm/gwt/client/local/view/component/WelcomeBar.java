@@ -1,8 +1,9 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.component;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
-import org.jboss.errai.ui.shared.api.annotations.Replace;
+import org.jboss.errai.ui.shared.api.annotations.DataField;
 import org.jboss.errai.ui.shared.api.annotations.Templated;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -11,13 +12,16 @@ import com.ocpsoft.socialpm.model.user.Profile;
 @Templated
 public class WelcomeBar extends Composite
 {
-   @Replace
+   @Inject
+   @DataField
    Span greeting;
 
-   @Replace
+   @Inject
+   @DataField
    GravatarImage gravatar;
 
-   @Replace
+   @Inject
+   @DataField
    ProfileLink profileNameLink;
 
    @PostConstruct

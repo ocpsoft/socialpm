@@ -33,6 +33,7 @@ public class LoginViewImpl extends FixedLayoutView implements LoginView
          public void onKeyPress(KeyPressEvent event)
          {
             if (event.getCharCode() == KeyCodes.KEY_ENTER) {
+               event.preventDefault();
                presenter.doLogin(getUsername(), getPassword());
             }
          }
@@ -45,6 +46,7 @@ public class LoginViewImpl extends FixedLayoutView implements LoginView
          @Override
          public void onClick(ClickEvent event)
          {
+            event.preventDefault();
             presenter.doLogin(getUsername(), getPassword());
          }
       });
