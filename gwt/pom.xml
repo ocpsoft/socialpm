@@ -21,12 +21,12 @@
    </properties>
 
    <dependencies>
-   
+
       <dependency>
          <groupId>org.ocpsoft.socialpm</groupId>
          <artifactId>socialpm-model</artifactId>
       </dependency>
-      
+
       <!-- Errai -->
       <dependency>
          <groupId>com.google.gwt</groupId>
@@ -39,7 +39,7 @@
          <artifactId>errai-javaee-all</artifactId>
          <version>${errai.version}</version>
       </dependency>
-      
+
       <!-- Rewrite -->
       <dependency>
          <groupId>org.ocpsoft.rewrite</groupId>
@@ -53,7 +53,7 @@
          <groupId>org.ocpsoft.logging</groupId>
          <artifactId>logging-adapter-slf4j</artifactId>
       </dependency>
-      
+
       <!-- Security -->
       <dependency>
          <groupId>org.jboss.seam.security</groupId>
@@ -76,7 +76,7 @@
          <groupId>joda-time</groupId>
          <artifactId>joda-time</artifactId>
       </dependency>
-      
+
       <!-- Java EE -->
       <dependency>
          <groupId>org.hibernate</groupId>
@@ -115,11 +115,25 @@
                </execution>
             </executions>
             <configuration>
-               <logLevel>INFO</logLevel>
-               <runTarget>http://localhost:8080/socialpm-gwt</runTarget>
                <extraJvmArgs>-Xmx2048m -XX:CompileThreshold=7000 -XX:+AggressiveOpts -XX:+UseCompressedOops -XX:MaxPermSize=128M</extraJvmArgs>
-               <soyc>false</soyc>
+               <logLevel>INFO</logLevel>
                <noServer>true</noServer>
+               <runTarget>http://localhost:8080/socialpm-gwt</runTarget>
+               <soyc>false</soyc>
+               <webappDirectory>src/main/webapp</webappDirectory>
+            </configuration>
+         </plugin>
+         <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
+            <configuration>
+               <filesets>
+                  <fileset>
+                     <directory>src/main/webapp</directory>
+                     <includes>
+                        <include>app/**</include>
+                     </includes>
+                  </fileset>
+               </filesets>
             </configuration>
          </plugin>
          <plugin>
@@ -203,9 +217,6 @@
                </plugin>
             </plugins>
          </build>
-
-         <dependencies>
-         </dependencies>
       </profile>
    </profiles>
 </project>
