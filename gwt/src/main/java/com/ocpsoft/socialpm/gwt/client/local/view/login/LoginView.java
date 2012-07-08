@@ -1,10 +1,6 @@
 package com.ocpsoft.socialpm.gwt.client.local.view.login;
 
 import com.ocpsoft.socialpm.gwt.client.local.view.FixedLayout;
-import com.ocpsoft.socialpm.gwt.client.local.view.FixedLayout.FixedPresenter;
-
-
-
 
 public interface LoginView extends FixedLayout
 {

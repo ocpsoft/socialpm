@@ -11,24 +11,24 @@ import com.ocpsoft.socialpm.gwt.client.local.ClientFactory;
 import com.ocpsoft.socialpm.gwt.client.local.view.login.LoginView;
 
 @Dependent
-public class SignupActivity extends AbstractActivity implements LoginView.Presenter
+public class SignupActivity extends AbstractActivity implements SignupView.Presenter
 {
    private final ClientFactory clientFactory;
-   private final LoginView loginView;
+   private final SignupView signupView;
 
    @Inject
-   public SignupActivity(ClientFactory clientFactory, LoginView loginView)
+   public SignupActivity(ClientFactory clientFactory, SignupView signupView)
    {
-      this.loginView = loginView;
+      this.signupView = signupView;
       this.clientFactory = clientFactory;
    }
 
    @Override
    public void start(AcceptsOneWidget containerWidget, EventBus eventBus)
    {
-      loginView.setPresenter(this);
+      signupView.setPresenter(this);
 
-      containerWidget.setWidget(loginView.asWidget());
+      containerWidget.setWidget(signupView.asWidget());
    }
 
    @Override
@@ -41,12 +41,6 @@ public class SignupActivity extends AbstractActivity implements LoginView.Presen
    public void goTo(Place place)
    {
       clientFactory.getPlaceController().goTo(place);
-   }
-
-   @Override
-   public void doLogin(String username, String password)
-   {
-
    }
 
 }

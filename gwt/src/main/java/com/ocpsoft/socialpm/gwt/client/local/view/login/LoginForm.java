@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.FormPanel.SubmitEvent;
 
 @Templated
 public class LoginForm extends Composite
