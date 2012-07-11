@@ -6,6 +6,10 @@ System Requirements
 * JBoss AS 7 or higher
 * A positive outlook on life
 
+Development Username/Password is:
+=================================
+lincoln/password
+
 Building and deploying
 =====================
 From the root directory of SocialPM, run a complete maven build:
