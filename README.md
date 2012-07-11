@@ -6,16 +6,17 @@ System Requirements
 * JBoss AS 7 or higher
 * A positive outlook on life
 
-Development Username/Password is:
-=================================
-lincoln/password
-
 Building and deploying
 =====================
 From the root directory of SocialPM, run a complete maven build:
 * `cd socialpm/`
 * `mvn clean install`
 * Deploy `gwt/target/socialpm-gwt.war` (If developing SocialPM, you should do this from your IDE - enable automatic publishing)
+
+Test Username/Password
+======================
+lincoln/password
+more can be added in InitializeDatabase.java
 
 Developing in JBoss Tools
 =========================
