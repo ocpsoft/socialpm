@@ -15,8 +15,8 @@ From the root directory of SocialPM, run a complete maven build:
 
 Test Username/Password
 ======================
-lincoln/password
-more can be added in InitializeDatabase.java
+* lincoln/password
+* more can be added in InitializeDatabase.java
 
 Developing in JBoss Tools
 =========================
