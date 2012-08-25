@@ -54,7 +54,7 @@ public class ProfileForm extends Composite
       if (binder != null)
          binder.unbind();
 
-      binder = new DataBinder<Profile>(profile,
+      binder = DataBinder.forModel(profile,
                InitialState.FROM_MODEL);
       binder.bind(bio, "bio");
       binder.bind(username, "username");
