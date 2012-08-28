@@ -5,13 +5,7 @@
    <inherits name="com.ocpsoft.socialpm.Model" />
    <inherits name="org.ocpsoft.rewrite.gwt.Rewrite" />
 
-   <inherits name="org.jboss.errai.common.ErraiCommon" />
-   <inherits name="org.jboss.errai.bus.ErraiBus" />
-   <inherits name="org.jboss.errai.ioc.Container" />
-   <inherits name="org.jboss.errai.ui.UI" />
-   <inherits name="org.jboss.errai.databinding.DataBinding" />
-   <inherits name="org.jboss.errai.enterprise.CDI" />
-   <!-- <inherits name="org.jboss.errai.uibinder.UIBinderForIOC" /> -->
+   <inherits name="org.jboss.errai.enterprise.All" />
 
    <inherits name='com.google.gwt.activity.Activity' />
 
