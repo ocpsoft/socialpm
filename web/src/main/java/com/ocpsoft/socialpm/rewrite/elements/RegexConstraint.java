@@ -31,9 +31,8 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.rewrite;
+package com.ocpsoft.socialpm.rewrite.elements;
 
-import org.ocpsoft.common.util.Assert;
 import org.ocpsoft.rewrite.context.EvaluationContext;
 import org.ocpsoft.rewrite.event.Rewrite;
 import org.ocpsoft.rewrite.param.Constraint;
@@ -42,46 +41,18 @@ import org.ocpsoft.rewrite.param.Constraint;
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-public class IntegerConstraint implements Constraint<String>
+public class RegexConstraint implements Constraint<String>
 {
-   private final Integer min;
-   private final Integer max;
+   private final String pattern;
 
-   public IntegerConstraint(final Integer min, final Integer max)
+   public RegexConstraint(String pattern)
    {
-      Assert.assertTrue(!((min == null) && (max == null)), "Must specify either a min or max value or both.");
-      this.min = min;
-      this.max = max;
+      this.pattern = pattern;
    }
 
    @Override
-   public boolean isSatisfiedBy(final Rewrite event, final EvaluationContext context, final String value)
+   public boolean isSatisfiedBy(Rewrite event, EvaluationContext context, String value)
    {
-      if (value == null)
-      {
-         return false;
-      }
-      try
-      {
-         int integer = Integer.parseInt(value);
-         if ((min != null) && (integer >= min) && (max != null) && (integer <= max))
-         {
-            return true;
-         }
-         if ((min == null) && (max != null) && (integer <= max))
-         {
-            return true;
-         }
-         if ((min != null) && (integer >= min) && (max == null))
-         {
-            return true;
-         }
-      }
-      catch (NumberFormatException e)
-      {
-         return false;
-      }
-
-      return false;
+      return value.matches(pattern);
    }
 }

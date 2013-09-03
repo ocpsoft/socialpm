@@ -97,7 +97,7 @@ public class Authentication
          HttpInboundServletRewrite rewrite = new HttpInboundRewriteImpl(request, response, request.getServletContext());
 
          response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-         response.setHeader("Location", rewrite.getContextPath() + rewrite.getAddress().getPathAndQuery());
+         response.setHeader("Location", rewrite.getAddress().getPathAndQuery());
          response.flushBuffer();
 
          return;

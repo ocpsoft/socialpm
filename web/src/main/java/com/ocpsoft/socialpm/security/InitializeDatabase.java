@@ -61,6 +61,7 @@ import com.ocpsoft.socialpm.domain.project.iteration.Iteration;
 import com.ocpsoft.socialpm.domain.security.IdentityObjectCredentialType;
 import com.ocpsoft.socialpm.domain.security.IdentityObjectType;
 import com.ocpsoft.socialpm.domain.user.Profile;
+import com.ocpsoft.socialpm.model.project.IterationService;
 import com.ocpsoft.socialpm.model.project.ProjectService;
 
 /**
@@ -88,12 +89,14 @@ public class InitializeDatabase
    private void validateDB()
    {
       Setting singleResult = null;
-      try {
+      try
+      {
          TypedQuery<Setting> query = entityManager.createQuery("from Setting s where s.name='schemaVersion'",
                   Setting.class);
          singleResult = query.getSingleResult();
       }
-      catch (NoResultException e) {
+      catch (NoResultException e)
+      {
          singleResult = new Setting("schemaVersion", "0");
          entityManager.persist(singleResult);
          entityManager.flush();
@@ -107,7 +110,8 @@ public class InitializeDatabase
    {
       if (entityManager.createQuery("select t from IdentityObjectType t where t.name = :name")
                .setParameter("name", "USER")
-               .getResultList().size() == 0) {
+               .getResultList().size() == 0)
+      {
 
          IdentityObjectType user = new IdentityObjectType();
          user.setName("USER");
@@ -116,7 +120,8 @@ public class InitializeDatabase
 
       if (entityManager.createQuery("select t from IdentityObjectType t where t.name = :name")
                .setParameter("name", "GROUP")
-               .getResultList().size() == 0) {
+               .getResultList().size() == 0)
+      {
 
          IdentityObjectType group = new IdentityObjectType();
          group.setName("GROUP");
@@ -129,7 +134,8 @@ public class InitializeDatabase
       // Validate credential types
       if (entityManager.createQuery("select t from IdentityObjectCredentialType t where t.name = :name")
                .setParameter("name", "PASSWORD")
-               .getResultList().size() == 0) {
+               .getResultList().size() == 0)
+      {
 
          IdentityObjectCredentialType PASSWORD = new IdentityObjectCredentialType();
          PASSWORD.setName("PASSWORD");
@@ -144,7 +150,8 @@ public class InitializeDatabase
       /*
        * Create our test user (me!)
        */
-      if (session.getPersistenceManager().findUser("lincoln") == null) {
+      if (session.getPersistenceManager().findUser("lincoln") == null)
+      {
          User u = session.getPersistenceManager().createUser("lincoln");
          session.getAttributesManager().updatePassword(u, "password");
          session.getAttributesManager().addAttribute(u, "email", "lincoln@ocpsoft.com");
@@ -171,21 +178,26 @@ public class InitializeDatabase
          i.setTitle("Another");
          project.getIterations().add(i);
 
+         is.setEntityManager(entityManager);
+         is.create(project, i);
+
          i = new Iteration();
          i.setStartDate(new Date(System.currentTimeMillis() + (60 * 1000 * 60 * 24 * 3)));
          i.setEndDate(new Date(System.currentTimeMillis() + (+60 * 1000 * 60 * 24 * 10)));
          i.setProject(project);
          i.setTitle("Another2");
          project.getIterations().add(i);
-
+         is.create(project, i);
          ps.save(project);
+
          entityManager.flush();
       }
 
       /*
        * Create test user (kenfinnigan)
        */
-      if (session.getPersistenceManager().findUser("kenfinnigan") == null) {
+      if (session.getPersistenceManager().findUser("kenfinnigan") == null)
+      {
          User u = session.getPersistenceManager().createUser("kenfinnigan");
          session.getAttributesManager().updatePassword(u, "password");
          session.getAttributesManager().addAttribute(u, "email", "ken@kenfinnigan.me");
@@ -203,7 +215,8 @@ public class InitializeDatabase
       /*
        * Create test user (bleathem)
        */
-      if (session.getPersistenceManager().findUser("bleathem") == null) {
+      if (session.getPersistenceManager().findUser("bleathem") == null)
+      {
          User u = session.getPersistenceManager().createUser("bleathem");
          session.getAttributesManager().updatePassword(u, "password");
          session.getAttributesManager().addAttribute(u, "email", "bleathem@gmail.com");
@@ -222,4 +235,7 @@ public class InitializeDatabase
 
    @Inject
    private ProjectService ps;
+
+   @Inject
+   private IterationService is;
 }

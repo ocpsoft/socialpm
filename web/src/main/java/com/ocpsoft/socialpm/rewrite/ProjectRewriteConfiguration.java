@@ -39,18 +39,16 @@ import org.ocpsoft.common.services.NonEnriching;
 import org.ocpsoft.rewrite.config.Configuration;
 import org.ocpsoft.rewrite.config.ConfigurationBuilder;
 import org.ocpsoft.rewrite.config.Direction;
-import org.ocpsoft.rewrite.config.Not;
-import org.ocpsoft.rewrite.config.Operation;
-import org.ocpsoft.rewrite.context.EvaluationContext;
+import org.ocpsoft.rewrite.config.Operations.NoOp;
 import org.ocpsoft.rewrite.el.El;
-import org.ocpsoft.rewrite.event.Rewrite;
 import org.ocpsoft.rewrite.faces.config.PhaseAction;
+import org.ocpsoft.rewrite.servlet.config.DispatchType;
 import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import org.ocpsoft.rewrite.servlet.config.Path;
-import org.ocpsoft.rewrite.servlet.config.Redirect;
-import org.ocpsoft.rewrite.servlet.config.Resource;
-import org.ocpsoft.rewrite.servlet.config.ServletMapping;
 import org.ocpsoft.rewrite.servlet.config.rule.Join;
+
+import com.ocpsoft.socialpm.rewrite.elements.IntegerConstraint;
+import com.ocpsoft.socialpm.rewrite.elements.SocialPMResources;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -92,44 +90,31 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                 */
                .addRule()
                .when(Direction.isInbound()
-                        .andNot(Path.matches("{**}.xhtml"))
+                        .and(DispatchType.isRequest())
                         .and(Path.matches("/{profile}{**}")))
-               .perform(new Operation()
-               {
-                  @Override
-                  public void perform(final Rewrite event, final EvaluationContext context)
-                  {
-                  }
-               })
+               .perform(new NoOp())
                .where("profile").bindsTo(El.property("params.profileUsername"))
-               .where("**").matches("/.*")
-               /**
-                * 
-                * <p/>
-                * TODO we need a better way to figure out if a profile does not exist, then to show something else
-                * perhaps a database validation or constraint? on the above profile property injection?
-                */
+               .where("**").matches(".*")
+
                .addRule(Join.path("/{profile}").to("/pages/profile.xhtml"))
-               .when(Not.any(Resource.exists("/pages/{profile}.xhtml")))
+               .when(SocialPMResources.excluded())
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("profiles.verifyExists")))
 
                .addRule()
                .when(Direction.isInbound()
-                        .andNot(Path.matches("{**}.xhtml"))
-                        .and(Direction.isInbound())
+                        .and(DispatchType.isRequest())
                         .and(Path.matches("/{profile}/{project}{**}"))
                )
-
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("projects.loadCurrent")))
                .where("profile").matches(PROJECT)
                .where("project").matches(PROJECT).bindsTo(El.property("params.projectSlug"))
-               .where("**").matches("/.*")
+               .where("**").matches(".*")
 
                /*
                 * Project Pages
                 */
                .addRule(Join.path("/{profile}/{project}").to("/pages/project/view.xhtml"))
-               .when(SocialPMResources.excluded()).perform(null)
+               .when(SocialPMResources.excluded())
                .where("project").matches(PROJECT)
                .where("**").matches(".*")
 
@@ -141,9 +126,7 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                /*
                 * Story pages
                 */
-               .addRule(Join.path("/{profile}/{project}/stories/new")
-                        .to("/pages/story/create.xhtml")
-               )
+               .addRule(Join.path("/{profile}/{project}/stories/new").to("/pages/story/create.xhtml"))
                .when(SocialPMResources.excluded())
                .where("project").matches(PROJECT)
                .where("**").matches(".*")
@@ -152,18 +135,16 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                 * Bind story number to EL and Load current story
                 */
                .addRule()
-               .when(
-                        Direction.isInbound()
-                                 .andNot(Path.matches("{**}.xhtml"))
-                                 .and(Direction.isInbound())
-                                 .and(Path.matches("/{profile}/{project}/story/{story}{**}")
-                                 ))
+               .when(Direction.isInbound()
+                        .and(DispatchType.isRequest())
+                        .and(Path.matches("/{profile}/{project}/story/{story}{**}")
+                        ))
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("stories.loadCurrent")))
                .where("profile").matches(PROJECT)
                .where("project").matches(PROJECT)
                .where("story").matches(PROJECT)
                .bindsTo(El.property("params.storyNumber"))
-               .where("**").matches("/.*")
+               .where("**").matches(".*")
 
                .addRule(Join.path("/{profile}/{project}/story/{story}")
                         .to("/pages/story/view.xhtml")
@@ -175,13 +156,9 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                /*
                 * Iteration pages
                 */
-               /*
-                * Bind iteration number to EL and Load current story
-                */
                .addRule()
                .when(Direction.isInbound()
-                        .andNot(Path.matches("{**}.xhtml"))
-                        .and(Direction.isInbound())
+                        .and(DispatchType.isRequest())
                         .and(Path.matches("/{profile}/{project}/iteration/{iteration}{**}")
                         ))
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("iterations.loadCurrent")))
@@ -190,12 +167,9 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                .where("iteration").matches(PROJECT)
                .constrainedBy(new IntegerConstraint(1, null))
                .bindsTo(El.property("params.iterationNumber"))
-               .where("**").matches("/.*")
+               .where("**").matches(".*")
 
-               .addRule(Join.path("/{profile}/{project}/iteration/{iteration}")
-                        .to("/pages/iteration/sorter.xhtml")
-               )
-
+               .addRule(Join.path("/{profile}/{project}/iteration/{iteration}").to("/pages/iteration/sorter.xhtml"))
                .when(SocialPMResources.excluded()).withId("iteration-view")
                .where("project").matches(PROJECT)
                .where("iteration").matches("\\d+").constrainedBy(new IntegerConstraint(1, null))

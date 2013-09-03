@@ -45,6 +45,8 @@ import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
 import org.ocpsoft.rewrite.servlet.config.Resource;
 import org.ocpsoft.rewrite.servlet.config.rule.Join;
 
+import com.ocpsoft.socialpm.rewrite.elements.SocialPMResources;
+
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */

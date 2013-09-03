@@ -31,7 +31,7 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.rewrite;
+package com.ocpsoft.socialpm.rewrite.elements;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -39,6 +39,7 @@ import java.util.Set;
 
 import org.ocpsoft.rewrite.config.Condition;
 import org.ocpsoft.rewrite.config.DefaultConditionBuilder;
+import org.ocpsoft.rewrite.config.Not;
 import org.ocpsoft.rewrite.context.EvaluationContext;
 import org.ocpsoft.rewrite.event.Rewrite;
 import org.ocpsoft.rewrite.param.ParameterStore;
@@ -58,11 +59,10 @@ public abstract class SocialPMResources extends DefaultConditionBuilder implemen
          @Override
          public boolean evaluate(final Rewrite event, final EvaluationContext context)
          {
-            boolean result = Path.matches("{**}")
-                     .andNot(Path.matches("{**}javax\\.faces\\.resource{**}"))
-                     .andNot(Path.matches("/openid/{**}"))
-                     .andNot(Path.matches("/logout"))
-                     .andNot(Path.matches("/rfRes/{**}")).evaluate(event, context);
+            boolean result = Not.any(Path.matches("{**}javax\\.faces\\.resource{**}")
+                     .or(Path.matches("/openid/{**}"))
+                     .or(Path.matches("/logout"))
+                     .or(Path.matches("/rfRes/{**}"))).evaluate(event, context);
             return result;
          }
 

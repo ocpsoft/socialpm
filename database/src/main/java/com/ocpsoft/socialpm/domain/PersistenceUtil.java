@@ -43,6 +43,8 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 
+import com.ocpsoft.socialpm.util.Assert;
+
 @TransactionAttribute
 public abstract class PersistenceUtil implements Serializable
 {
@@ -52,6 +54,7 @@ public abstract class PersistenceUtil implements Serializable
 
    public EntityManager getEntityManager()
    {
+      Assert.notNull(em);
       return em;
    }
 

@@ -31,28 +31,25 @@
  * Optionally, Customers may choose a Commercial License. For additional 
  * details, contact an OCPsoft representative (sales@ocpsoft.com)
  */
-package com.ocpsoft.socialpm.rewrite;
+package com.ocpsoft.socialpm.rewrite.elements;
 
 import org.ocpsoft.rewrite.context.EvaluationContext;
 import org.ocpsoft.rewrite.event.Rewrite;
-import org.ocpsoft.rewrite.param.Constraint;
+import org.ocpsoft.rewrite.param.Transposition;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-public class RegexConstraint implements Constraint<String>
+public class ToLowerCase implements Transposition<String>
 {
-   private final String pattern;
-
-   public RegexConstraint(String pattern)
-   {
-      this.pattern = pattern;
-   }
-
    @Override
-   public boolean isSatisfiedBy(Rewrite event, EvaluationContext context, String value)
+   public String transpose(Rewrite event, EvaluationContext context, String value)
    {
-      return value.matches(pattern);
+      if (value == null)
+         return value;
+
+      return value.toString().toLowerCase();
    }
+
 }
