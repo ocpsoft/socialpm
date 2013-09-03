@@ -67,10 +67,11 @@ public class AccountVerificationInterceptor extends HttpConfigurationProvider
    public Configuration getConfiguration(final ServletContext context)
    {
       ConfigurationBuilder config = ConfigurationBuilder.begin();
-      return config.addRule()
-               .when(DispatchType.isRequest()
+      return config
+               .addRule(Join.path("/account/confirm").to("/pages/accountConfirm.xhtml"))
+               .addRule().when(DispatchType.isRequest()
                         .and(Direction.isInbound())
-                        .and(SocialPMResources.excluded())
+                        // .and(SocialPMResources.excluded())
                         .and(new HttpCondition()
                         {
                            @Override
@@ -85,8 +86,7 @@ public class AccountVerificationInterceptor extends HttpConfigurationProvider
                               return false;
                            }
                         }))
-               .perform(Forward.to("/account/confirm"))
-               .addRule(Join.path("/account/confirm").to("/pages/accountConfirm.xhtml"));
+               .perform(Forward.to("/account/confirm"));
    }
 
    @Override
