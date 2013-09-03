@@ -35,17 +35,17 @@ package com.ocpsoft.socialpm.rewrite;
 
 import javax.servlet.ServletContext;
 
-import com.ocpsoft.common.services.NonEnriching;
-import com.ocpsoft.rewrite.bind.El;
-import com.ocpsoft.rewrite.config.Configuration;
-import com.ocpsoft.rewrite.config.ConfigurationBuilder;
-import com.ocpsoft.rewrite.config.Direction;
-import com.ocpsoft.rewrite.config.Invoke;
-import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
-import com.ocpsoft.rewrite.servlet.config.Path;
-import com.ocpsoft.rewrite.servlet.config.Redirect;
-import com.ocpsoft.rewrite.servlet.config.Response;
-import com.ocpsoft.rewrite.servlet.config.rule.Join;
+import org.ocpsoft.common.services.NonEnriching;
+import org.ocpsoft.rewrite.config.Configuration;
+import org.ocpsoft.rewrite.config.ConfigurationBuilder;
+import org.ocpsoft.rewrite.config.Direction;
+import org.ocpsoft.rewrite.config.Invoke;
+import org.ocpsoft.rewrite.el.El;
+import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
+import org.ocpsoft.rewrite.servlet.config.Path;
+import org.ocpsoft.rewrite.servlet.config.Redirect;
+import org.ocpsoft.rewrite.servlet.config.SendStatus;
+import org.ocpsoft.rewrite.servlet.config.rule.Join;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -64,11 +64,11 @@ public class AccessRewriteConfiguration extends HttpConfigurationProvider implem
                .addRule(Join.path("/login").to("/pages/login.xhtml"))
 
                // 404 and Error
-               .addRule(Join.path("/404").to("/pages/404.xhtml").perform(Response.setCode(404)))
+               .addRule(Join.path("/404").to("/pages/404.xhtml")).perform(SendStatus.error(404))
                .addRule(Join.path("/error").to("/pages/error.xhtml"))
 
                // Authentication
-               .defineRule()
+               .addRule()
                .when(Direction.isInbound().and(Path.matches("/logout")))
                .perform(Invoke.binding(El.retrievalMethod("authentication.logout"))
                         .and(Redirect.temporary(context.getContextPath() + "/")))

@@ -35,14 +35,15 @@ package com.ocpsoft.socialpm.rewrite;
 
 import javax.servlet.ServletContext;
 
-import com.ocpsoft.common.services.NonEnriching;
-import com.ocpsoft.rewrite.config.Configuration;
-import com.ocpsoft.rewrite.config.ConfigurationBuilder;
-import com.ocpsoft.rewrite.config.Direction;
-import com.ocpsoft.rewrite.servlet.config.DispatchType;
-import com.ocpsoft.rewrite.servlet.config.Forward;
-import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
-import com.ocpsoft.rewrite.servlet.config.rule.Join;
+import org.ocpsoft.common.services.NonEnriching;
+import org.ocpsoft.rewrite.config.Configuration;
+import org.ocpsoft.rewrite.config.ConfigurationBuilder;
+import org.ocpsoft.rewrite.config.Direction;
+import org.ocpsoft.rewrite.servlet.config.DispatchType;
+import org.ocpsoft.rewrite.servlet.config.Forward;
+import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
+import org.ocpsoft.rewrite.servlet.config.Resource;
+import org.ocpsoft.rewrite.servlet.config.rule.Join;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -55,15 +56,16 @@ public class CatchallRewriteConfiguration extends HttpConfigurationProvider impl
       return ConfigurationBuilder.begin()
 
                .addRule(Join.path("/{page}")
-                        .to("/pages/{page}.xhtml")
-                        .when(Resource.exists("/pages/{page}.xhtml"))
-                        .where("page").matches("(?!RES_NOT_FOUND)[^/]+"))
+                        .to("/pages/{page}.xhtml"))
+               .when(Resource.exists("/pages/{page}.xhtml"))
+               .where("page").matches("(?!RES_NOT_FOUND)[^/]+")
 
                // Block direct access to XHTML files
-               .defineRule().when(DispatchType.isRequest()
+               .addRule().when(DispatchType.isRequest()
                         .and(Direction.isInbound())
                         .and(SocialPMResources.excluded()))
-               .perform(Forward.to("/404"));
+               .perform(Forward.to("/404"))
+               .where("**").matches(".*");
    }
 
    @Override

@@ -53,11 +53,10 @@ import org.jboss.seam.security.events.LoggedInEvent;
 import org.jboss.seam.security.events.LoginFailedEvent;
 import org.jboss.seam.security.external.openid.OpenIdAuthenticator;
 import org.jboss.seam.security.management.IdmAuthenticator;
+import org.ocpsoft.logging.Logger;
+import org.ocpsoft.rewrite.servlet.http.event.HttpInboundServletRewrite;
+import org.ocpsoft.rewrite.servlet.impl.HttpInboundRewriteImpl;
 import org.picketlink.idm.api.User;
-
-import com.ocpsoft.logging.Logger;
-import com.ocpsoft.rewrite.servlet.http.event.HttpInboundServletRewrite;
-import com.ocpsoft.rewrite.servlet.impl.HttpInboundRewriteImpl;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -95,15 +94,16 @@ public class Authentication
       if (!"/pages/signup.xhtml".equals(viewId))
       {
          // TODO need a better way to navigate: this doesn't work with AJAX requests
-         HttpInboundServletRewrite rewrite = new HttpInboundRewriteImpl(request, response);
+         HttpInboundServletRewrite rewrite = new HttpInboundRewriteImpl(request, response, request.getServletContext());
 
          response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-         response.setHeader("Location", rewrite.getContextPath() + rewrite.getURL());
+         response.setHeader("Location", rewrite.getContextPath() + rewrite.getAddress().getPathAndQuery());
          response.flushBuffer();
 
          return;
       }
-      else {
+      else
+      {
          String result = "/pages/home";
          navigation.handleNavigation(context, null, result + "?faces-redirect=true");
       }
@@ -152,10 +152,12 @@ public class Authentication
    public void login() throws InterruptedException
    {
       identity.setAuthenticatorClass(IdmAuthenticator.class);
-      try {
+      try
+      {
          identity.login();
       }
-      catch (Exception e) {
+      catch (Exception e)
+      {
          identity.login();
       }
    }

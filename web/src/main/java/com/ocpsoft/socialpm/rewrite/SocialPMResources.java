@@ -33,43 +33,74 @@
  */
 package com.ocpsoft.socialpm.rewrite;
 
-import com.ocpsoft.rewrite.config.Condition;
-import com.ocpsoft.rewrite.config.ConditionBuilder;
-import com.ocpsoft.rewrite.context.EvaluationContext;
-import com.ocpsoft.rewrite.event.Rewrite;
-import com.ocpsoft.rewrite.servlet.config.Path;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.ocpsoft.rewrite.config.Condition;
+import org.ocpsoft.rewrite.config.DefaultConditionBuilder;
+import org.ocpsoft.rewrite.context.EvaluationContext;
+import org.ocpsoft.rewrite.event.Rewrite;
+import org.ocpsoft.rewrite.param.ParameterStore;
+import org.ocpsoft.rewrite.param.Parameterized;
+import org.ocpsoft.rewrite.servlet.config.Path;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-public abstract class SocialPMResources extends ConditionBuilder
+public abstract class SocialPMResources extends DefaultConditionBuilder implements Parameterized
 {
    public static Condition excluded()
    {
-      return new SocialPMResources() {
+      return new SocialPMResources()
+      {
          @Override
          public boolean evaluate(final Rewrite event, final EvaluationContext context)
          {
-            return Path.matches(".*")
-                     .andNot(Path.matches(".*javax\\.faces\\.resource.*"))
-                     .andNot(Path.matches("/openid/.*"))
+            boolean result = Path.matches("{**}")
+                     .andNot(Path.matches("{**}javax\\.faces\\.resource{**}"))
+                     .andNot(Path.matches("/openid/{**}"))
                      .andNot(Path.matches("/logout"))
-                     .andNot(Path.matches("/rfRes/.*")).evaluate(event, context);
+                     .andNot(Path.matches("/rfRes/{**}")).evaluate(event, context);
+            return result;
+         }
+
+         @Override
+         public Set<String> getRequiredParameterNames()
+         {
+            return new HashSet<String>(Arrays.asList("**"));
+         }
+
+         @Override
+         public void setParameterStore(ParameterStore store)
+         {
          }
       };
    }
 
    public static Condition included()
    {
-      return new SocialPMResources() {
+      return new SocialPMResources()
+      {
          @Override
          public boolean evaluate(final Rewrite event, final EvaluationContext context)
          {
-            return Path.matches(".*javax\\.faces\\.resource.*")
-                     .or(Path.matches("/openid/.*"))
+            return Path.matches("{**}javax\\.faces\\.resource{**}")
+                     .or(Path.matches("/openid/{**}"))
                      .or(Path.matches("/logout"))
-                     .or(Path.matches("/rfRes/.*")).evaluate(event, context);
+                     .or(Path.matches("/rfRes/{**}")).evaluate(event, context);
+         }
+
+         @Override
+         public Set<String> getRequiredParameterNames()
+         {
+            return new HashSet<String>(Arrays.asList("**"));
+         }
+
+         @Override
+         public void setParameterStore(ParameterStore store)
+         {
          }
       };
    }

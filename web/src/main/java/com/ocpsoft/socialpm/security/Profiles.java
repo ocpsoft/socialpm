@@ -43,7 +43,8 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
-import com.ocpsoft.rewrite.servlet.config.Forward;
+import org.ocpsoft.rewrite.servlet.config.Forward;
+
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
@@ -84,10 +85,12 @@ public class Profiles implements Serializable
    {
       if (!current.isPersistent())
       {
-         try {
+         try
+         {
             current = ps.getProfileByUsername(params.getProfileUsername());
          }
-         catch (NoResultException e) {
+         catch (NoResultException e)
+         {
             // not an error
          }
       }

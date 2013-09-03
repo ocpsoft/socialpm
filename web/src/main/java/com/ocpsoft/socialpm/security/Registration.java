@@ -48,6 +48,7 @@ import org.jboss.seam.security.Identity;
 import org.jboss.seam.security.events.UserCreatedEvent;
 import org.jboss.seam.security.external.openid.OpenIdAuthenticator;
 import org.jboss.seam.security.management.IdmAuthenticator;
+import org.ocpsoft.logging.Logger;
 import org.picketlink.idm.api.AttributesManager;
 import org.picketlink.idm.api.IdentitySession;
 import org.picketlink.idm.api.PersistenceManager;
@@ -55,7 +56,6 @@ import org.picketlink.idm.api.User;
 import org.picketlink.idm.common.exception.IdentityException;
 import org.picketlink.idm.impl.api.PasswordCredential;
 
-import com.ocpsoft.logging.Logger;
 import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.model.ProfileService;
@@ -88,7 +88,8 @@ public class Registration
    private IdmAuthenticator idmAuth;
 
    public Registration()
-   {}
+   {
+   }
 
    @Inject
    public Registration(@LoggedIn final Profile profile, final ProfileService profileService,
@@ -127,11 +128,11 @@ public class Registration
       identity.setAuthenticatorClass(IdmAuthenticator.class);
 
       /*
-       * Try twice to work around some state bug in Seam Security
-       * TODO file issue in seam security
+       * Try twice to work around some state bug in Seam Security TODO file issue in seam security
        */
       String result = identity.login();
-      if (Identity.RESPONSE_LOGIN_EXCEPTION.equals(result)) {
+      if (Identity.RESPONSE_LOGIN_EXCEPTION.equals(result))
+      {
          result = identity.login();
       }
 
@@ -167,11 +168,11 @@ public class Registration
       identity.setAuthenticatorClass(OpenIdAuthenticator.class);
 
       /*
-       * Try twice to work around some state bug in Seam Security
-       * TODO file issue in seam security
+       * Try twice to work around some state bug in Seam Security TODO file issue in seam security
        */
       String result = identity.login();
-      if (Identity.RESPONSE_LOGIN_EXCEPTION.equals(result)) {
+      if (Identity.RESPONSE_LOGIN_EXCEPTION.equals(result))
+      {
          result = identity.login();
       }
    }

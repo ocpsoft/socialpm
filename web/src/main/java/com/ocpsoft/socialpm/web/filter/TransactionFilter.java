@@ -48,7 +48,7 @@ import javax.transaction.Status;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import com.ocpsoft.logging.Logger;
+import org.ocpsoft.logging.Logger;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -64,29 +64,32 @@ public class TransactionFilter implements Filter
 
    @Override
    public void init(final FilterConfig filterConfig) throws ServletException
-   {}
+   {
+   }
 
    @Override
    public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain)
-            throws IOException,
-            ServletException
-            {
-      try {
+            throws IOException, ServletException
+   {
+      try
+      {
          if (!(Status.STATUS_NO_TRANSACTION == tx.getStatus()))
          {
             log.warn("Transaction was still associated with request.");
             tx.rollback();
          }
       }
-      catch (SystemException e) {
+      catch (SystemException e)
+      {
          log.error("Transaction was still associated with request.", e);
       }
 
       chain.doFilter(request, response);
-            }
+   }
 
    @Override
    public void destroy()
-   {}
+   {
+   }
 
 }

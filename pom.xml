@@ -23,8 +23,10 @@
    <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <junit.version>4.8.1</junit.version>
-      <prettytime.version>1.0.7</prettytime.version>
-      <seam.version>3.1.0.Final</seam.version>
+      <prettytime.version>3.0.2.Final</prettytime.version>
+      <seam.version>3.2.0-SNAPSHOT</seam.version>
+      <seam.faces.version>3.2.0.Final</seam.faces.version>
+      <seam.solder.version>3.2.1.Final</seam.solder.version>
    </properties>
 
    <dependencyManagement>
@@ -41,23 +43,15 @@
          </dependency>
 
          <dependency>
-            <groupId>com.ocpsoft</groupId>
-            <artifactId>ocpsoft-pretty-time</artifactId>
+            <groupId>org.ocpsoft.prettytime</groupId>
+            <artifactId>prettytime</artifactId>
             <version>${prettytime.version}</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.jboss.seam</groupId>
-            <artifactId>seam-bom</artifactId>
-            <version>${seam.version}</version>
-            <type>pom</type>
-            <scope>import</scope>
          </dependency>
 
          <dependency>
             <groupId>org.jboss.solder</groupId>
             <artifactId>solder-impl</artifactId>
-            <version>${seam.version}</version>
+            <version>${seam.solder.version}</version>
             <scope>compile</scope>
          </dependency>
 
@@ -156,16 +150,16 @@
             </executions>
             <configuration>
                <relativePath>../</relativePath>
-               <!-- use a custom property for specifing root directory (note 
-                  the double $) set the property in JRebel configuration or as -Dmyproject.root=c:/projects/ -->
+               <!-- use a custom property for specifing root directory (note the double $) set the property in JRebel configuration 
+                  or as -Dmyproject.root=c:/projects/ -->
                <rootPath>$${myproject.root}</rootPath>
             </configuration>
          </plugin>
       </plugins>
       <pluginManagement>
          <plugins>
-            <!--This plugin's configuration is used to store Eclipse m2e 
-               settings only. It has no influence on the Maven build itself. -->
+            <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
+               build itself. -->
             <plugin>
                <groupId>org.eclipse.m2e</groupId>
                <artifactId>lifecycle-mapping</artifactId>

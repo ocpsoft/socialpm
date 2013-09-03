@@ -35,20 +35,22 @@ package com.ocpsoft.socialpm.rewrite;
 
 import javax.servlet.ServletContext;
 
-import com.ocpsoft.common.services.NonEnriching;
-import com.ocpsoft.rewrite.bind.El;
-import com.ocpsoft.rewrite.config.Configuration;
-import com.ocpsoft.rewrite.config.ConfigurationBuilder;
-import com.ocpsoft.rewrite.config.Direction;
-import com.ocpsoft.rewrite.config.Not;
-import com.ocpsoft.rewrite.config.Operation;
-import com.ocpsoft.rewrite.context.EvaluationContext;
-import com.ocpsoft.rewrite.event.Rewrite;
-import com.ocpsoft.rewrite.faces.config.PhaseAction;
-import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
-import com.ocpsoft.rewrite.servlet.config.Path;
-import com.ocpsoft.rewrite.servlet.config.Redirect;
-import com.ocpsoft.rewrite.servlet.config.rule.Join;
+import org.ocpsoft.common.services.NonEnriching;
+import org.ocpsoft.rewrite.config.Configuration;
+import org.ocpsoft.rewrite.config.ConfigurationBuilder;
+import org.ocpsoft.rewrite.config.Direction;
+import org.ocpsoft.rewrite.config.Not;
+import org.ocpsoft.rewrite.config.Operation;
+import org.ocpsoft.rewrite.context.EvaluationContext;
+import org.ocpsoft.rewrite.el.El;
+import org.ocpsoft.rewrite.event.Rewrite;
+import org.ocpsoft.rewrite.faces.config.PhaseAction;
+import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
+import org.ocpsoft.rewrite.servlet.config.Path;
+import org.ocpsoft.rewrite.servlet.config.Redirect;
+import org.ocpsoft.rewrite.servlet.config.Resource;
+import org.ocpsoft.rewrite.servlet.config.ServletMapping;
+import org.ocpsoft.rewrite.servlet.config.rule.Join;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -64,142 +66,140 @@ public class ProjectRewriteConfiguration extends HttpConfigurationProvider imple
                .begin()
 
                // Canonicalize project name TODO support outbound
-               .defineRule()
-               .when(Direction.isInbound().andNot(Path.matches(".*xhtml")).and(
-                        Path.matches("/{profile}/{project}")
-
-                                 .where("profile")
-                                 .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
-                                 .transformedBy(new ToLowerCase())
-                                 // TODO this creates an implicit AND operator... probably need an alternative
-                                 .where("project")
-                                 .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
-                                 .transformedBy(new ToLowerCase())))
-               .perform(Redirect.permanent(context.getContextPath() + "/{profile}/{project}"))
+               // .addRule()
+               // .when(Direction.isInbound()
+               // .and(Path.matches("/{profile}/{project}"))
+               // .andNot(ServletMapping.includes("/{profile}/{project}")))
+               //
+               // .perform(Redirect.permanent(context.getContextPath() + "/{profile}/{project}"))
+               // .where("project")
+               // .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
+               // .transposedBy(new ToLowerCase())
 
                /*
                 * Transform Profile Name and Project Slug
                 */
-               .defineRule()
-               .when(Direction.isInbound().andNot(Path.matches(".*xhtml")).and(
-                        Path.matches("/{profile}/{project}{tail}")
-                                 .where("profile")
-                                 .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
-                                 .transformedBy(new ToLowerCase())
-
-                                 .where("project")
-                                 .constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
-                                 .transformedBy(new ToLowerCase())
-                                 .where("tail").matches("/.*")))
-               .perform(Redirect.permanent(context.getContextPath() + "/{profile}/{project}{tail}"))
+               // .addRule()
+               // .when(Direction.isInbound()
+               // .and(Path.matches("/{profile}/{project}{**}"))
+               // .andNot(ServletMapping.includes("/{profile}/{project}")))
+               // .perform(Redirect.permanent(context.getContextPath() + "/{profile}/{project}{**}"))
+               // .where("profile").constrainedBy(new RegexConstraint("(?=.*[A-Z]+.*).*"))
+               // .transposedBy(new ToLowerCase())
 
                /*
-                *  Bind profile and project value to EL & Load current Project
+                * Bind profile and project value to EL & Load current Project
                 */
-               .defineRule()
+               .addRule()
                .when(Direction.isInbound()
-                        .andNot(Path.matches(".*xhtml"))
-                        .and(Path.matches("/{profile}.*").where("profile")
-                                 .bindsTo(El.property("params.profileUsername"))))
-               .perform(new Operation() {
+                        .andNot(Path.matches("{**}.xhtml"))
+                        .and(Path.matches("/{profile}{**}")))
+               .perform(new Operation()
+               {
                   @Override
                   public void perform(final Rewrite event, final EvaluationContext context)
-                  {}
+                  {
+                  }
                })
+               .where("profile").bindsTo(El.property("params.profileUsername"))
+               .where("**").matches("/.*")
                /**
+                * 
                 * <p/>
                 * TODO we need a better way to figure out if a profile does not exist, then to show something else
                 * perhaps a database validation or constraint? on the above profile property injection?
                 */
-               .addRule(Join.path("/{profile}").to("/pages/profile.xhtml")
-                        .when(Not.any(Resource.exists("/pages/{profile}.xhtml")))
-                        .perform(PhaseAction.retrieveFrom(El.retrievalMethod("profiles.verifyExists"))))
+               .addRule(Join.path("/{profile}").to("/pages/profile.xhtml"))
+               .when(Not.any(Resource.exists("/pages/{profile}.xhtml")))
+               .perform(PhaseAction.retrieveFrom(El.retrievalMethod("profiles.verifyExists")))
 
-               .defineRule()
-               .when(
-                        Direction.isInbound()
-                                 .andNot(Path.matches(".*xhtml"))
-                                 .and(Direction.isInbound())
-                                 .and(Path.matches("/{profile}/{project}.*")
-                                          .where("profile").matches(PROJECT)
-                                          .where("project").matches(PROJECT)
-                                          .bindsTo(El.property("params.projectSlug")))
+               .addRule()
+               .when(Direction.isInbound()
+                        .andNot(Path.matches("{**}.xhtml"))
+                        .and(Direction.isInbound())
+                        .and(Path.matches("/{profile}/{project}{**}"))
                )
+
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("projects.loadCurrent")))
+               .where("profile").matches(PROJECT)
+               .where("project").matches(PROJECT).bindsTo(El.property("params.projectSlug"))
+               .where("**").matches("/.*")
 
                /*
-                *  Project Pages
+                * Project Pages
                 */
-               .addRule(Join.path("/{profile}/{project}")
-                        .to("/pages/project/view.xhtml")
-                        .where("project").matches(PROJECT)
-                        .when(SocialPMResources.excluded()).perform(null)
-               )
+               .addRule(Join.path("/{profile}/{project}").to("/pages/project/view.xhtml"))
+               .when(SocialPMResources.excluded()).perform(null)
+               .where("project").matches(PROJECT)
+               .where("**").matches(".*")
 
-               .addRule(Join.path("/{profile}/{project}/issues")
-                        .to("/pages/project/backlog.xhtml")
-                        .where("project").matches(PROJECT)
-                        .when(SocialPMResources.excluded())
-               )
+               .addRule(Join.path("/{profile}/{project}/issues").to("/pages/project/backlog.xhtml"))
+               .when(SocialPMResources.excluded())
+               .where("project").matches(PROJECT)
+               .where("**").matches(".*")
 
                /*
-                *  Story pages
+                * Story pages
                 */
                .addRule(Join.path("/{profile}/{project}/stories/new")
                         .to("/pages/story/create.xhtml")
-                        .where("project").matches(PROJECT)
-                        .when(SocialPMResources.excluded())
                )
+               .when(SocialPMResources.excluded())
+               .where("project").matches(PROJECT)
+               .where("**").matches(".*")
 
                /*
                 * Bind story number to EL and Load current story
                 */
-               .defineRule()
+               .addRule()
                .when(
                         Direction.isInbound()
-                                 .andNot(Path.matches(".*xhtml"))
+                                 .andNot(Path.matches("{**}.xhtml"))
                                  .and(Direction.isInbound())
-                                 .and(Path.matches("/{profile}/{project}/story/{story}.*")
-                                          .where("profile").matches(PROJECT)
-                                          .where("project").matches(PROJECT)
-                                          .where("story").matches(PROJECT)
-                                          .bindsTo(El.property("params.storyNumber")))
-               )
+                                 .and(Path.matches("/{profile}/{project}/story/{story}{**}")
+                                 ))
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("stories.loadCurrent")))
+               .where("profile").matches(PROJECT)
+               .where("project").matches(PROJECT)
+               .where("story").matches(PROJECT)
+               .bindsTo(El.property("params.storyNumber"))
+               .where("**").matches("/.*")
 
                .addRule(Join.path("/{profile}/{project}/story/{story}")
                         .to("/pages/story/view.xhtml")
-                        .where("project").matches(PROJECT)
-                        .when(SocialPMResources.excluded())
                )
+               .when(SocialPMResources.excluded())
+               .where("project").matches(PROJECT)
+               .where("**").matches(".*")
 
                /*
-                *  Iteration pages
+                * Iteration pages
                 */
                /*
                 * Bind iteration number to EL and Load current story
                 */
-               .defineRule()
-               .when(
-                        Direction.isInbound()
-                                 .andNot(Path.matches(".*xhtml"))
-                                 .and(Direction.isInbound())
-                                 .and(Path.matches("/{profile}/{project}/iteration/{iteration}.*")
-                                          .where("profile").matches(PROJECT)
-                                          .where("project").matches(PROJECT)
-                                          .where("iteration").matches(PROJECT)
-                                          .constrainedBy(new IntegerConstraint(1, null))
-                                          .bindsTo(El.property("params.iterationNumber")))
-               )
+               .addRule()
+               .when(Direction.isInbound()
+                        .andNot(Path.matches("{**}.xhtml"))
+                        .and(Direction.isInbound())
+                        .and(Path.matches("/{profile}/{project}/iteration/{iteration}{**}")
+                        ))
                .perform(PhaseAction.retrieveFrom(El.retrievalMethod("iterations.loadCurrent")))
+               .where("profile").matches(PROJECT)
+               .where("project").matches(PROJECT)
+               .where("iteration").matches(PROJECT)
+               .constrainedBy(new IntegerConstraint(1, null))
+               .bindsTo(El.property("params.iterationNumber"))
+               .where("**").matches("/.*")
 
                .addRule(Join.path("/{profile}/{project}/iteration/{iteration}")
                         .to("/pages/iteration/sorter.xhtml")
-                        .where("project").matches(PROJECT)
-                        .where("iteration").matches("\\d+")
-                        .constrainedBy(new IntegerConstraint(1, null))
-                        .when(SocialPMResources.excluded()).withId("iteration-view")
                )
+
+               .when(SocialPMResources.excluded()).withId("iteration-view")
+               .where("project").matches(PROJECT)
+               .where("iteration").matches("\\d+").constrainedBy(new IntegerConstraint(1, null))
+               .where("**").matches(".*")
 
       ;
 

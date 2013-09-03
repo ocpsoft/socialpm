@@ -40,7 +40,7 @@ import javax.faces.event.PhaseId;
 import javax.faces.event.PhaseListener;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ocpsoft.logging.Logger;
+import org.ocpsoft.logging.Logger;
 
 public class CacheControlPhaseListener implements PhaseListener
 {
@@ -60,7 +60,8 @@ public class CacheControlPhaseListener implements PhaseListener
 
    @Override
    public void afterPhase(final PhaseEvent event)
-   {}
+   {
+   }
 
    @Override
    public void beforePhase(final PhaseEvent event)

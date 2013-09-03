@@ -39,14 +39,13 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import org.jboss.seam.international.status.Messages;
-
-import com.ocpsoft.rewrite.config.Configuration;
-import com.ocpsoft.rewrite.config.ConfigurationBuilder;
-import com.ocpsoft.rewrite.context.EvaluationContext;
-import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
-import com.ocpsoft.rewrite.servlet.config.HttpOperation;
-import com.ocpsoft.rewrite.servlet.config.QueryString;
-import com.ocpsoft.rewrite.servlet.http.event.HttpServletRewrite;
+import org.ocpsoft.rewrite.config.Configuration;
+import org.ocpsoft.rewrite.config.ConfigurationBuilder;
+import org.ocpsoft.rewrite.context.EvaluationContext;
+import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
+import org.ocpsoft.rewrite.servlet.config.HttpOperation;
+import org.ocpsoft.rewrite.servlet.config.Query;
+import org.ocpsoft.rewrite.servlet.http.event.HttpServletRewrite;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -64,17 +63,19 @@ public class MessageInterceptor extends HttpConfigurationProvider
                // TODO support empty {path} parameters
                // TODO encode and strip these messages
 
-               .defineRule()
+               .addRule()
                .when(
-                        QueryString.parameterExists("info")
-                                 .or(QueryString.parameterExists("warning"))
-                                 .or(QueryString.parameterExists("error"))
+                        Query.parameterExists("info")
+                                 .or(Query.parameterExists("warning"))
+                                 .or(Query.parameterExists("error"))
                )
-               .perform(new HttpOperation() {
+               .perform(new HttpOperation()
+               {
                   @Override
                   public void performHttp(final HttpServletRewrite event, final EvaluationContext context)
                   {
-                     for (String type : Arrays.asList("info", "warning", "error")) {
+                     for (String type : Arrays.asList("info", "warning", "error"))
+                     {
                         String error = event.getRequest().getParameter(type);
                         if (error != null)
                         {

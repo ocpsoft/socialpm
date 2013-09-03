@@ -33,10 +33,10 @@
  */
 package com.ocpsoft.socialpm.rewrite;
 
-import com.ocpsoft.common.util.Assert;
-import com.ocpsoft.rewrite.context.EvaluationContext;
-import com.ocpsoft.rewrite.event.Rewrite;
-import com.ocpsoft.rewrite.param.Constraint;
+import org.ocpsoft.common.util.Assert;
+import org.ocpsoft.rewrite.context.EvaluationContext;
+import org.ocpsoft.rewrite.event.Rewrite;
+import org.ocpsoft.rewrite.param.Constraint;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
@@ -61,7 +61,8 @@ public class IntegerConstraint implements Constraint<String>
       {
          return false;
       }
-      try {
+      try
+      {
          int integer = Integer.parseInt(value);
          if ((min != null) && (integer >= min) && (max != null) && (integer <= max))
          {

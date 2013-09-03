@@ -38,14 +38,14 @@
 
 <composite:interface>
 	<composite:attribute name="action" required="false" targets="actionForm:action" />
-	<composite:attribute name="image" required="false" type="String" default="#{resource['refresh.png']}"/>
-	<composite:attribute name="imageDisplayed" required="false" type="Boolean" default="true"/>
-	<composite:attribute name="height" required="false" type="int" />
-	<composite:attribute name="message" required="false" type="String"/>
+	<composite:attribute name="image" required="false" type="java.lang.String" default="#{resource['refresh.png']}"/>
+	<composite:attribute name="imageDisplayed" required="false" type="java.lang.Boolean" default="true"/>
+	<composite:attribute name="height" required="false" type="java.lang.Integer" />
+	<composite:attribute name="message" required="false" type="java.lang.String"/>
 	<composite:attribute name="outcome" required="false" targets="outcome"/>
-	<composite:attribute name="padding" required="false" type="int" default="15" />
-	<composite:attribute name="tooltip" required="false" type="String"/>
-	<composite:attribute name="title" required="true" type="String"/>
+	<composite:attribute name="padding" required="false" type="java.lang.Integer" default="15" />
+	<composite:attribute name="tooltip" required="false" type="java.lang.String"/>
+	<composite:attribute name="title" required="true" type="java.lang.String"/>
 	<composite:facet name="actionContent" shortDescription="Content for the optional commandLink" />
 	<composite:facet name="content" shortDescription="displayed in the box - wrap multiple component in single element" />
 </composite:interface>

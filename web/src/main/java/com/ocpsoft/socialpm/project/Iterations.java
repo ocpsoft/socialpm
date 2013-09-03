@@ -48,8 +48,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
+import org.ocpsoft.rewrite.servlet.config.Forward;
 
-import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.Project;
 import com.ocpsoft.socialpm.domain.project.Velocity;

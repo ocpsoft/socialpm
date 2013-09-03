@@ -33,9 +33,9 @@
  */
 package com.ocpsoft.socialpm.rewrite;
 
-import com.ocpsoft.rewrite.context.EvaluationContext;
-import com.ocpsoft.rewrite.event.Rewrite;
-import com.ocpsoft.rewrite.param.Constraint;
+import org.ocpsoft.rewrite.context.EvaluationContext;
+import org.ocpsoft.rewrite.event.Rewrite;
+import org.ocpsoft.rewrite.param.Constraint;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>

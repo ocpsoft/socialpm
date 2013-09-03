@@ -48,8 +48,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
 import org.jboss.seam.international.status.Messages;
+import org.ocpsoft.rewrite.servlet.config.Forward;
 
-import com.ocpsoft.rewrite.servlet.config.Forward;
 import com.ocpsoft.socialpm.cdi.Current;
 import com.ocpsoft.socialpm.cdi.Web;
 import com.ocpsoft.socialpm.domain.project.Points;
@@ -85,7 +85,8 @@ public class Stories implements Serializable
    private Profiles profiles;
 
    public Stories()
-   {}
+   {
+   }
 
    @Inject
    public Stories(final @Web EntityManager em, final Profiles profiles, final StoryService ss, final Projects projects,
@@ -121,10 +122,12 @@ public class Stories implements Serializable
       {
          if (params.getStoryNumber() != 0)
          {
-            try {
+            try
+            {
                current = ss.findByProjectAndNumber(project, params.getStoryNumber());
             }
-            catch (NoResultException e) {
+            catch (NoResultException e)
+            {
                return Forward.to("/404");
             }
          }
@@ -140,7 +143,8 @@ public class Stories implements Serializable
    public List<Task> getAssignedTasks(final Profile p, final Story s)
    {
       List<Task> result = new ArrayList<Task>();
-      for (Task t : s.getTasks()) {
+      for (Task t : s.getTasks())
+      {
          if (p.getUsername().equals(t.getAssignee().getUsername()))
             result.add(t);
       }

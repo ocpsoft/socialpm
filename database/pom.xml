@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<project
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
    <modelVersion>4.0.0</modelVersion>
    <parent>
@@ -14,29 +13,34 @@
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-entitymanager</artifactId>
-         <version>4.0.0.Alpha2</version>
+         <version>4.2.5.Final</version>
          <scope>provided</scope>
       </dependency>
-      
+
       <dependency>
          <groupId>org.jboss.seam.international</groupId>
          <artifactId>seam-international</artifactId>
+         <version>${seam.version}</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.security</groupId>
          <artifactId>seam-security</artifactId>
+         <version>${seam.version}</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.security</groupId>
          <artifactId>seam-security-api</artifactId>
+         <version>${seam.version}</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.persistence</groupId>
          <artifactId>seam-persistence</artifactId>
+         <version>${seam.version}</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.transaction</groupId>
          <artifactId>seam-transaction</artifactId>
+         <version>${seam.version}</version>
       </dependency>
 
       <dependency>
@@ -45,12 +49,12 @@
          <type>pom</type>
          <scope>provided</scope>
       </dependency>
-      
+
       <dependency>
          <groupId>commons-codec</groupId>
          <artifactId>commons-codec</artifactId>
       </dependency>
-      
+
       <!-- Test Dependencies -->
       <dependency>
          <groupId>junit</groupId>

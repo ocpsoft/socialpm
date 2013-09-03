@@ -36,17 +36,24 @@ package com.ocpsoft.socialpm.rewrite;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import com.ocpsoft.rewrite.config.Configuration;
-import com.ocpsoft.rewrite.config.ConfigurationBuilder;
-import com.ocpsoft.rewrite.config.Direction;
-import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
-import com.ocpsoft.rewrite.servlet.config.Path;
-import com.ocpsoft.rewrite.servlet.config.Redirect;
-import com.ocpsoft.rewrite.servlet.config.rule.Join;
+import org.ocpsoft.rewrite.config.Condition;
+import org.ocpsoft.rewrite.config.Configuration;
+import org.ocpsoft.rewrite.config.ConfigurationBuilder;
+import org.ocpsoft.rewrite.config.Direction;
+import org.ocpsoft.rewrite.config.Not;
+import org.ocpsoft.rewrite.context.EvaluationContext;
+import org.ocpsoft.rewrite.event.Rewrite;
+import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
+import org.ocpsoft.rewrite.servlet.config.Path;
+import org.ocpsoft.rewrite.servlet.config.Redirect;
+import org.ocpsoft.rewrite.servlet.config.rule.Join;
+
 import com.ocpsoft.socialpm.cdi.LoggedIn;
 import com.ocpsoft.socialpm.domain.user.Profile;
 
 /**
+ * If the user is not logged in, show them the guest home page instead of the dashboard.
+ * 
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  */
 public class AuthenticationStatusInterceptor extends HttpConfigurationProvider
@@ -59,20 +66,22 @@ public class AuthenticationStatusInterceptor extends HttpConfigurationProvider
    public Configuration getConfiguration(final ServletContext context)
    {
       ConfigurationBuilder config = ConfigurationBuilder.begin();
-      if (!profile.isPersistent())
+      Condition loggedIn = new Condition()
       {
-         /*
-          * If the user is not logged in, show them the guest home page instead of the dashboard.
-          */
-         return config.addRule(Join.path("/").to("/pages/loggedOffHome.xhtml"));
-      }
-      else
-      {
-         config.defineRule()
-         .when(Direction.isInbound().and(Path.matches("/(signup|login)")))
-         .perform(Redirect.temporary(context.getContextPath() + "/"));
-      }
-      return config;
+         @Override
+         public boolean evaluate(Rewrite event, EvaluationContext context)
+         {
+            return profile.isPersistent();
+         }
+      };
+
+      return config
+               .addRule(Join.path("/").to("/pages/loggedOffHome.xhtml"))
+               .when(Not.any(loggedIn))
+
+               .addRule()
+               .when(Direction.isInbound().and(Path.matches("/(signup|login)")).and(loggedIn))
+               .perform(Redirect.temporary(context.getContextPath() + "/"));
    }
 
    @Override

@@ -15,7 +15,7 @@
    <name>SocialPM - Web</name>
 
    <properties>
-      <version.rewrite>1.0.0-SNAPSHOT</version.rewrite>
+      <version.rewrite>2.0.5.Final</version.rewrite>
    </properties>
 
    <dependencies>
@@ -25,77 +25,86 @@
       </dependency>
 
       <dependency>
-         <groupId>com.ocpsoft.rewrite</groupId>
-         <artifactId>rewrite-impl-servlet</artifactId>
+         <groupId>org.ocpsoft.rewrite</groupId>
+         <artifactId>rewrite-servlet</artifactId>
          <version>${version.rewrite}</version>
       </dependency>
       <dependency>
-         <groupId>com.ocpsoft.rewrite</groupId>
+         <groupId>org.ocpsoft.rewrite</groupId>
          <artifactId>rewrite-integration-cdi</artifactId>
          <version>${version.rewrite}</version>
       </dependency>
       <dependency>
-         <groupId>com.ocpsoft.rewrite</groupId>
+         <groupId>org.ocpsoft.rewrite</groupId>
          <artifactId>rewrite-integration-faces</artifactId>
          <version>${version.rewrite}</version>
       </dependency>
-      <dependency>
-         <groupId>com.ocpsoft.rewrite</groupId>
-         <artifactId>rewrite-logging-jboss</artifactId>
-         <version>${version.rewrite}</version>
-      </dependency>
-      
+
 
       <dependency>
-         <groupId>com.ocpsoft</groupId>
-         <artifactId>ocpsoft-pretty-time</artifactId>
+         <groupId>org.ocpsoft.prettytime</groupId>
+         <artifactId>prettytime</artifactId>
       </dependency>
-      
+
       <dependency>
          <groupId>org.jboss.spec</groupId>
          <artifactId>jboss-javaee-6.0</artifactId>
          <type>pom</type>
          <scope>provided</scope>
       </dependency>
-      
+
       <dependency>
          <groupId>org.jboss.spec.javax.servlet</groupId>
          <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+         <version>1.0.2.Final</version>
          <scope>provided</scope>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces</artifactId>
+         <version>${seam.faces.version}</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.faces</groupId>
          <artifactId>seam-faces-api</artifactId>
+         <version>${seam.faces.version}</version>
       </dependency>
 
       <dependency>
          <groupId>joda-time</groupId>
          <artifactId>joda-time</artifactId>
+         <version>2.3</version>
       </dependency>
 
       <dependency>
          <groupId>org.jboss.seam.security</groupId>
          <artifactId>seam-security</artifactId>
+         <version>${seam.version}</version>
          <scope>compile</scope>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.security</groupId>
          <artifactId>seam-security-api</artifactId>
+         <version>${seam.version}</version>
       </dependency>
       <dependency>
          <groupId>org.jboss.seam.security</groupId>
          <artifactId>seam-security-external</artifactId>
+         <version>${seam.version}</version>
       </dependency>
+      <dependency>
+         <!-- Required for Seam Security External -->
+         <groupId>org.apache.santuario</groupId>
+         <artifactId>xmlsec</artifactId>
+         <version>1.4.4</version>
+      </dependency>
+
       <dependency>
          <groupId>org.jboss.solder</groupId>
          <artifactId>solder-impl</artifactId>
       </dependency>
-      
+
       <dependency>
          <groupId>org.hibernate</groupId>
          <artifactId>hibernate-entitymanager</artifactId>
@@ -111,17 +120,6 @@
       </dependency>
    </dependencies>
 
-   <repositories>
-      <repository>
-         <id>ocpsoft</id>
-         <name>OcpSoft Releases</name>
-         <url>http://ocpsoft.com/repository/</url>
-         <snapshots>
-            <enabled>true</enabled>
-         </snapshots>
-      </repository>
-   </repositories>
-
    <build>
       <finalName>socialpm</finalName>
       <plugins>
@@ -133,14 +131,6 @@
                <source>1.6</source>
                <target>1.6</target>
                <encoding>UTF-8</encoding>
-            </configuration>
-         </plugin>
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>2.1-beta-1</version>
-            <configuration>
-               <failOnMissingWebXml>false</failOnMissingWebXml>
             </configuration>
          </plugin>
       </plugins>

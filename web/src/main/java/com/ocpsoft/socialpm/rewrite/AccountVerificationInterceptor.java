@@ -38,13 +38,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletContext;
 
-import com.ocpsoft.rewrite.config.Configuration;
-import com.ocpsoft.rewrite.config.ConfigurationBuilder;
-import com.ocpsoft.rewrite.config.Direction;
-import com.ocpsoft.rewrite.servlet.config.DispatchType;
-import com.ocpsoft.rewrite.servlet.config.Forward;
-import com.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
-import com.ocpsoft.rewrite.servlet.config.rule.Join;
+import org.ocpsoft.rewrite.config.Configuration;
+import org.ocpsoft.rewrite.config.ConfigurationBuilder;
+import org.ocpsoft.rewrite.config.Direction;
+import org.ocpsoft.rewrite.context.EvaluationContext;
+import org.ocpsoft.rewrite.servlet.config.DispatchType;
+import org.ocpsoft.rewrite.servlet.config.Forward;
+import org.ocpsoft.rewrite.servlet.config.HttpCondition;
+import org.ocpsoft.rewrite.servlet.config.HttpConfigurationProvider;
+import org.ocpsoft.rewrite.servlet.config.rule.Join;
+import org.ocpsoft.rewrite.servlet.http.event.HttpServletRewrite;
+
 import com.ocpsoft.socialpm.domain.user.Profile;
 import com.ocpsoft.socialpm.security.Account;
 
@@ -63,19 +67,26 @@ public class AccountVerificationInterceptor extends HttpConfigurationProvider
    public Configuration getConfiguration(final ServletContext context)
    {
       ConfigurationBuilder config = ConfigurationBuilder.begin();
-      account.setEntityManager(em);
-      Profile current = account.getLoggedIn();
-      if (current.isPersistent() && !current.isUsernameConfirmed())
-      {
-         return config.defineRule()
-                  .when(DispatchType.isRequest()
-                           .and(Direction.isInbound())
-                           .and(SocialPMResources.excluded()))
-                  .perform(Forward.to("/account/confirm"))
-
-                  .addRule(Join.path("/account/confirm").to("/pages/accountConfirm.xhtml"));
-      }
-      return config;
+      return config.addRule()
+               .when(DispatchType.isRequest()
+                        .and(Direction.isInbound())
+                        .and(SocialPMResources.excluded())
+                        .and(new HttpCondition()
+                        {
+                           @Override
+                           public boolean evaluateHttp(HttpServletRewrite event, EvaluationContext context)
+                           {
+                              account.setEntityManager(em);
+                              Profile current = account.getLoggedIn();
+                              if (current.isPersistent() && !current.isUsernameConfirmed())
+                              {
+                                 return true;
+                              }
+                              return false;
+                           }
+                        }))
+               .perform(Forward.to("/account/confirm"))
+               .addRule(Join.path("/account/confirm").to("/pages/accountConfirm.xhtml"));
    }
 
    @Override

@@ -36,14 +36,14 @@
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
-	<composite:attribute name="delayIn" required="false" type="int" default="0" />
-	<composite:attribute name="delayOut" required="false" type="int" default="0" />
-	<composite:attribute name="focus" required="false" type="boolean" default="false" />
-	<composite:attribute name="forId" required="true" type="String" />
-	<composite:attribute name="offset" required="false" type="String" default="10" />
-	<composite:attribute name="placement" required="true" type="String" />
-	<composite:attribute name="title" required="true" type="String"/>
-	<composite:attribute name="trigger" required="false" type="String" default="hover" />
+	<composite:attribute name="delayIn" required="false" type="java.lang.Integer" default="0" />
+	<composite:attribute name="delayOut" required="false" type="java.lang.Integer" default="0" />
+	<composite:attribute name="focus" required="false" type="java.lang.Boolean" default="false" />
+	<composite:attribute name="forId" required="true" type="java.lang.String" />
+	<composite:attribute name="offset" required="false" type="java.lang.String" default="10" />
+	<composite:attribute name="placement" required="true" type="java.lang.String" />
+	<composite:attribute name="title" required="true" type="java.lang.String"/>
+	<composite:attribute name="trigger" required="false" type="java.lang.String" default="hover" />
 </composite:interface>
 
 <composite:implementation> 

@@ -33,18 +33,18 @@
  */
 package com.ocpsoft.socialpm.rewrite;
 
-import com.ocpsoft.rewrite.context.EvaluationContext;
-import com.ocpsoft.rewrite.event.Rewrite;
-import com.ocpsoft.rewrite.param.Transform;
+import org.ocpsoft.rewrite.context.EvaluationContext;
+import org.ocpsoft.rewrite.event.Rewrite;
+import org.ocpsoft.rewrite.param.Transposition;
 
 /**
  * @author <a href="mailto:lincolnbaxter@gmail.com">Lincoln Baxter, III</a>
  * 
  */
-public class ToLowerCase implements Transform<String>
+public class ToLowerCase implements Transposition<String>
 {
    @Override
-   public String transform(Rewrite event, EvaluationContext context, String value)
+   public String transpose(Rewrite event, EvaluationContext context, String value)
    {
       if (value == null)
          return value;

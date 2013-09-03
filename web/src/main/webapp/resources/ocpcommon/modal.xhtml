@@ -37,12 +37,12 @@
 	xmlns:composite="http://java.sun.com/jsf/composite">
 
 <composite:interface>
-	<composite:attribute name="focusId" required="false" type="String" />
-	<composite:attribute name="forceId" required="false" type="String" />
-	<composite:attribute name="closeable" required="false" type="Boolean" default="true"/>
-	<composite:attribute name="hidden" required="false" type="Boolean" default="true"/>
-	<composite:attribute name="fade" required="false" type="Boolean" default="true"/>
-	<composite:attribute name="title" required="true" type="String"/>
+	<composite:attribute name="focusId" required="false" type="java.lang.String" />
+	<composite:attribute name="forceId" required="false" type="java.lang.String" />
+	<composite:attribute name="closeable" required="false" type="java.lang.Boolean" default="true"/>
+	<composite:attribute name="hidden" required="false" type="java.lang.Boolean" default="true"/>
+	<composite:attribute name="fade" required="false" type="java.lang.Boolean" default="true"/>
+	<composite:attribute name="title" required="true" type="java.lang.String"/>
 </composite:interface>
 
 <composite:implementation> 
@@ -50,7 +50,7 @@
 	<!-- Modal -->
 	<div id="#{cc.attrs.forceId == null ? cc.clientId : cc.attrs.forceId}" class="modal #{cc.attrs.hidden ? 'hide' : '' } #{cc.attrs.fade ? 'fade' : '' }">
 		<div class="modal-header">
-			<h3>${cc.attrs.title} <h:panelGroup styleClass="fr" rendered="${cc.attrs.closeable}"><a href="#" class="close">×</a></h:panelGroup></h3>
+			<h3>${cc.attrs.title} <h:panelGroup styleClass="fr" rendered="${cc.attrs.closeable}"><a href="#" class="close">��</a></h:panelGroup></h3>
 		</div>
 		<div class="modal-body">
 			<composite:insertChildren />			
